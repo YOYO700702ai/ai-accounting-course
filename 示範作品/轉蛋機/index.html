@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🎰 任務完成・轉蛋機</title>
+<style>
+  :root{
+    --bg:#1a1208;
+    --fg:#fef9e7;
+    --muted:#b8a47e;
+    --accent:#f59e0b;
+    --accent2:#fb923c;
+    --card:#2d1f0e;
+    --soft:#3d2810;
+    /* Rarity */
+    --r-normal:#cbd5e1;
+    --r-rare:#84cc16;
+    --r-srare:#60a5fa;
+    --r-epic:#a78bfa;
+    --r-legend:#fbbf24;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--fg);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:
+    radial-gradient(ellipse at top,rgba(251,146,60,.12),transparent 50%),
+    radial-gradient(ellipse at bottom,rgba(245,158,11,.1),transparent 55%),
+    var(--bg);min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:20px}
+
+  .container{max-width:560px;width:100%;text-align:center}
+
+  /* Header */
+  .header{margin-bottom:1.5em}
+  .badge{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));
+    color:#1a1208;padding:.4em 1.2em;border-radius:999px;font-weight:800;
+    font-size:.9em;letter-spacing:.1em;box-shadow:0 4px 14px rgba(245,158,11,.4);
+    }
+  h1{font-size:clamp(24px,5vw,34px);margin:.5em 0 .2em;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sub{color:var(--muted);font-size:.95em}
+
+  /* Machine */
+  .machine{margin:0 auto;width:100%;max-width:400px;position:relative}
+
+  /* Dome */
+  .dome{position:relative;width:100%;aspect-ratio:1.1/1;
+    background:
+      radial-gradient(circle at 30% 25%,rgba(255,255,255,.15),transparent 40%),
+      linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    border:3px solid rgba(255,255,255,.15);
+    border-bottom:none;
+    border-radius:50% 50% 12px 12px / 65% 65% 12px 12px;
+    overflow:hidden;
+    box-shadow:
+      inset 0 4px 30px rgba(255,255,255,.08),
+      inset 0 -10px 30px rgba(0,0,0,.3),
+      0 8px 24px rgba(0,0,0,.4);
+    backdrop-filter:blur(4px)}
+  .dome::before{content:'';position:absolute;top:8%;left:20%;width:30%;height:25%;
+    background:radial-gradient(ellipse,rgba(255,255,255,.25),transparent 70%);
+    border-radius:50%;pointer-events:none}
+
+  .balls{position:absolute;inset:0;display:flex;flex-wrap:wrap;
+    align-items:flex-end;justify-content:center;padding:30% 8% 8% 8%;
+    gap:6px}
+  .ball{width:34px;height:34px;border-radius:50%;
+    display:inline-block;flex-shrink:0;position:relative;
+    box-shadow:inset -3px -4px 6px rgba(0,0,0,.25),inset 3px 4px 6px rgba(255,255,255,.4),
+      0 3px 6px rgba(0,0,0,.3)}
+  .ball::after{content:'';position:absolute;top:4px;left:8px;width:10px;height:8px;
+    background:rgba(255,255,255,.6);border-radius:50%;filter:blur(1px)}
+  .ball.c1{background:linear-gradient(135deg,#fb7185,#e11d48)}
+  .ball.c2{background:linear-gradient(135deg,#fde047,#f59e0b)}
+  .ball.c3{background:linear-gradient(135deg,#86efac,#16a34a)}
+  .ball.c4{background:linear-gradient(135deg,#7dd3fc,#0284c7)}
+  .ball.c5{background:linear-gradient(135deg,#c4b5fd,#7c3aed)}
+  .ball.c6{background:linear-gradient(135deg,#fbcfe8,#db2777)}
+
+  /* Machine body */
+  .body{background:linear-gradient(180deg,var(--card),#1f1408);
+    border:3px solid rgba(255,255,255,.08);
+    border-top:none;
+    padding:1.2em 1.4em;
+    border-radius:0 0 18px 18px;
+    box-shadow:0 8px 24px rgba(0,0,0,.4)}
+
+  .slot{background:#0a0703;
+    border-radius:12px;padding:.6em;
+    height:90px;display:flex;align-items:center;justify-content:center;
+    border:2px inset rgba(0,0,0,.5);
+    box-shadow:inset 0 4px 12px rgba(0,0,0,.6)}
+  .slot .placeholder{color:#444;font-size:.85em;letter-spacing:.1em}
+
+  .coin-btn{margin-top:1em;width:100%;
+    background:linear-gradient(180deg,var(--accent),var(--accent2));
+    color:#1a1208;border:none;padding:.9em 1em;
+    font-size:1.2em;font-weight:900;letter-spacing:.05em;
+    border-radius:14px;cursor:pointer;
+    box-shadow:0 6px 0 #92400e,0 10px 20px rgba(245,158,11,.35);
+    transition:all .1s;font-family:inherit}
+  .coin-btn:hover{transform:translateY(2px);box-shadow:0 4px 0 #92400e,0 8px 16px rgba(245,158,11,.35)}
+  .coin-btn:active{transform:translateY(6px);box-shadow:0 0 0 #92400e,0 4px 10px rgba(245,158,11,.3)}
+  .coin-btn:disabled{opacity:.5;cursor:not-allowed}
+
+  /* Dropping ball */
+  .drop-ball{position:absolute;width:48px;height:48px;border-radius:50%;
+    left:50%;top:55%;transform:translate(-50%,-50%);z-index:10;
+    box-shadow:inset -4px -5px 8px rgba(0,0,0,.3),
+      inset 4px 5px 8px rgba(255,255,255,.45),
+      0 4px 12px rgba(0,0,0,.4);
+    pointer-events:none;display:none}
+  .drop-ball::after{content:'';position:absolute;top:6px;left:10px;
+    width:14px;height:10px;background:rgba(255,255,255,.65);border-radius:50%;filter:blur(1px)}
+  .drop-ball.dropping{display:block;animation:drop 1.2s cubic-bezier(.45,1.4,.4,1) forwards}
+  @keyframes drop{
+    0%{top:55%;transform:translate(-50%,-50%) rotate(0deg)}
+    60%{top:88%;transform:translate(-50%,-50%) rotate(360deg)}
+    75%{top:80%;transform:translate(-50%,-50%) rotate(450deg)}
+    90%{top:88%;transform:translate(-50%,-50%) rotate(520deg)}
+    100%{top:85%;transform:translate(-50%,-50%) rotate(540deg)}
+  }
+
+  /* Modal */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);
+    display:none;align-items:center;justify-content:center;z-index:100;
+    backdrop-filter:blur(8px);animation:fadeIn .3s}
+  .modal.show{display:flex}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  .modal-content{background:linear-gradient(180deg,var(--card),#1f1408);
+    border-radius:24px;padding:2em 1.6em;max-width:380px;width:90%;
+    text-align:center;position:relative;
+    border:3px solid var(--rarity-color,var(--accent));
+    box-shadow:0 0 60px var(--rarity-glow,rgba(245,158,11,.5)),
+      0 20px 40px rgba(0,0,0,.5);
+    animation:popUp .5s cubic-bezier(.34,1.56,.64,1)}
+  @keyframes popUp{
+    from{transform:scale(.5) rotate(-10deg);opacity:0}
+    to{transform:scale(1) rotate(0);opacity:1}
+  }
+
+  .rarity-band{display:inline-block;
+    padding:.3em 1.2em;border-radius:999px;
+    font-weight:900;letter-spacing:.2em;font-size:.85em;
+    background:var(--rarity-color,var(--accent));
+    color:#1a1208;margin-bottom:.5em;
+    box-shadow:0 4px 12px var(--rarity-glow,rgba(245,158,11,.4))}
+
+  .prize-emoji{font-size:5em;margin:.2em 0;
+    filter:drop-shadow(0 8px 20px var(--rarity-glow,rgba(245,158,11,.4)))}
+
+  .prize-name{font-size:1.5em;font-weight:800;margin:.3em 0;color:var(--fg)}
+  .prize-desc{color:var(--muted);font-size:.95em;line-height:1.6;margin:.5em 0 1em}
+
+  .again-btn{background:linear-gradient(180deg,var(--accent),var(--accent2));
+    color:#1a1208;border:none;padding:.7em 1.4em;
+    font-size:1em;font-weight:800;border-radius:12px;cursor:pointer;
+    box-shadow:0 4px 0 #92400e,0 6px 14px rgba(245,158,11,.3);
+    transition:all .1s;font-family:inherit;letter-spacing:.05em}
+  .again-btn:hover{transform:translateY(1px);box-shadow:0 3px 0 #92400e,0 5px 12px rgba(245,158,11,.3)}
+
+  /* Sparkles for legend */
+  .sparkles{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:24px}
+  .sparkle{position:absolute;font-size:1.2em;opacity:.8}
+
+  /* Stats */
+  .stats{margin-top:1.5em;display:flex;justify-content:center;gap:.6em;flex-wrap:wrap}
+  .stat{background:rgba(0,0,0,.3);border:1px solid var(--soft);
+    padding:.4em .8em;border-radius:8px;font-size:.85em;color:var(--muted)}
+  .stat b{color:var(--fg)}
+
+  .footer{margin-top:1em;color:var(--muted);font-size:.78em;line-height:1.6}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="badge">✨ 任務完成 ✨</div>
+    <h1>恭喜！抽個轉蛋慶祝吧 🎰</h1>
+    <p class="sub">每位完成任務的客戶都有一次機會</p>
+  </div>
+
+  <div class="machine">
+    <!-- 圓頂 -->
+    <div class="dome">
+      <div class="balls" id="balls"></div>
+      <div class="drop-ball" id="dropBall"></div>
+    </div>
+    <!-- 機身 -->
+    <div class="body">
+      <div class="slot">
+        <span class="placeholder" id="placeholder">— 等待中 —</span>
+      </div>
+      <button class="coin-btn" id="coin">🪙 投幣抽獎</button>
+    </div>
+  </div>
+
+  <!-- 統計 -->
+  <div class="stats" id="stats">
+    <div class="stat">總抽 <b id="s-total">0</b></div>
+    <div class="stat" style="color:var(--r-normal)">普通 <b id="s-n">0</b></div>
+    <div class="stat" style="color:var(--r-rare)">不錯 <b id="s-r">0</b></div>
+    <div class="stat" style="color:var(--r-srare)">稀有 <b id="s-s">0</b></div>
+    <div class="stat" style="color:var(--r-epic)">史詩 <b id="s-e">0</b></div>
+    <div class="stat" style="color:var(--r-legend)">傳說 <b id="s-l">0</b></div>
+  </div>
+
+  <p class="footer">這是給「會計師客戶」用的轉蛋示範。<br>
+  獎品都是<b>會計師親手準備</b>的小驚喜——不貴，但有溫度 💛</p>
+</div>
+
+<!-- 中獎彈窗 -->
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent">
+    <div class="sparkles" id="sparkles"></div>
+    <div class="rarity-band" id="rarity"></div>
+    <div class="prize-emoji" id="prizeEmoji">🎁</div>
+    <div class="prize-name" id="prizeName"></div>
+    <div class="prize-desc" id="prizeDesc"></div>
+    <button class="again-btn" id="again">關閉</button>
+  </div>
+</div>
+
+<script>
+  // 獎品池
+  const PRIZES = [
+    // 普通 60%
+    {rarity:'normal',weight:60,emoji:'📇',name:'稅務小卡 · 電子發票',desc:'「電子發票需要列印嗎？」答案小卡'},
+    {rarity:'normal',weight:60,emoji:'📋',name:'稅務小卡 · 統編辨識',desc:'「統編怎麼看真假？」答案小卡'},
+    {rarity:'normal',weight:60,emoji:'💰',name:'稅務小卡 · 5% 速算',desc:'營業稅 5% 速算對照表'},
+    {rarity:'normal',weight:60,emoji:'📊',name:'稅務小卡 · 折舊年數',desc:'各類資產折舊年限速查表'},
+    {rarity:'normal',weight:60,emoji:'📅',name:'稅務小卡 · 報稅期限',desc:'年度報稅期限速查'},
+    // 不錯 25%
+    {rarity:'rare',weight:25,emoji:'🎟',name:'5% 服務折扣券',desc:'下次服務 95 折優惠（可用 1 次）'},
+    {rarity:'rare',weight:25,emoji:'📦',name:'客戶專屬桌曆',desc:'限量造型桌曆 · 含當年度稅務行事曆'},
+    {rarity:'rare',weight:25,emoji:'🍵',name:'限量造型茶包',desc:'事務所特製茶包 · 上班充電必備'},
+    // 稀有 10%
+    {rarity:'srare',weight:10,emoji:'⏰',name:'30 分鐘諮詢時段',desc:'免費 30 分鐘 1 對 1 諮詢券'},
+    {rarity:'srare',weight:10,emoji:'📘',name:'年度報稅懶人包',desc:'客戶獨享 PDF · 含節稅技巧'},
+    {rarity:'srare',weight:10,emoji:'📞',name:'急件優先處理權',desc:'下次有急件可優先排程'},
+    // 史詩 4%
+    {rarity:'epic',weight:4,emoji:'📚',name:'年度稅務 E-book',desc:'客戶獨享 80 頁完整版 · 含案例'},
+    {rarity:'epic',weight:4,emoji:'🎫',name:'季度健檢服務 1 次',desc:'免費 1 次帳務季度健檢（市值 3000 元）'},
+    // 傳說 1%
+    {rarity:'legend',weight:1,emoji:'🏆',name:'1 對 1 專屬諮詢 90 分鐘',desc:'稀有！會計師親自規劃 · 限本季'}
+  ];
+
+  // Rarity 設定
+  const RARITY = {
+    normal:{label:'N · 普通',color:'#cbd5e1',glow:'rgba(203,213,225,.4)'},
+    rare:  {label:'R · 不錯',color:'#84cc16',glow:'rgba(132,204,22,.5)'},
+    srare: {label:'SR · 稀有',color:'#60a5fa',glow:'rgba(96,165,250,.5)'},
+    epic:  {label:'SSR · 史詩',color:'#a78bfa',glow:'rgba(167,139,250,.6)'},
+    legend:{label:'UR · 傳說',color:'#fbbf24',glow:'rgba(251,191,36,.7)'}
+  };
+
+  const BALL_COLORS = ['c1','c2','c3','c4','c5','c6'];
+
+  // 渲染球
+  const ballsEl = document.getElementById('balls');
+  for(let i=0;i<22;i++){
+    const b=document.createElement('div');
+    b.className='ball '+BALL_COLORS[i%BALL_COLORS.length];
+    ballsEl.appendChild(b);
+  }
+
+  // 統計
+  const stats={total:0,normal:0,rare:0,srare:0,epic:0,legend:0};
+  const statIds={total:'s-total',normal:'s-n',rare:'s-r',srare:'s-s',epic:'s-e',legend:'s-l'};
+  function updateStats(){
+    for(const k in statIds) document.getElementById(statIds[k]).textContent=stats[k];
+  }
+
+  // 加權隨機
+  function pickPrize(){
+    const totalW = PRIZES.reduce((s,p)=>s+p.weight,0);
+    let r = Math.random()*totalW;
+    for(const p of PRIZES){
+      r -= p.weight;
+      if(r<=0) return p;
+    }
+    return PRIZES[0];
+  }
+
+  // 抽獎流程
+  const coinBtn=document.getElementById('coin');
+  const dropBall=document.getElementById('dropBall');
+  const placeholder=document.getElementById('placeholder');
+  const modal=document.getElementById('modal');
+  const modalContent=document.getElementById('modalContent');
+  const sparkles=document.getElementById('sparkles');
+
+  function draw(){
+    coinBtn.disabled=true;
+    placeholder.textContent='抽獎中...';
+
+    // 隨機選個球顏色
+    const colorClass = BALL_COLORS[Math.floor(Math.random()*BALL_COLORS.length)];
+    dropBall.className='drop-ball '+colorClass+' dropping';
+    // 隨機 ball gradient
+    const balls=ballsEl.querySelectorAll('.ball');
+    balls.forEach(b=>{b.style.animationDuration=(1.5+Math.random()*1.5)+'s'});
+
+    setTimeout(()=>{
+      dropBall.className='drop-ball '+colorClass;
+      const prize=pickPrize();
+      showResult(prize);
+      coinBtn.disabled=false;
+      placeholder.textContent='— 等待中 —';
+    },1300);
+  }
+
+  function showResult(prize){
+    const r=RARITY[prize.rarity];
+    modalContent.style.setProperty('--rarity-color',r.color);
+    modalContent.style.setProperty('--rarity-glow',r.glow);
+    document.getElementById('rarity').textContent=r.label;
+    document.getElementById('rarity').style.background=r.color;
+    document.getElementById('rarity').style.boxShadow=`0 4px 12px ${r.glow}`;
+    document.getElementById('prizeEmoji').textContent=prize.emoji;
+    document.getElementById('prizeName').textContent=prize.name;
+    document.getElementById('prizeDesc').textContent=prize.desc;
+
+    // sparkles for legend
+    sparkles.innerHTML='';
+    if(prize.rarity==='legend' || prize.rarity==='epic'){
+      const count = prize.rarity==='legend' ? 12 : 6;
+      for(let i=0;i<count;i++){
+        const s=document.createElement('span');
+        s.className='sparkle';
+        s.textContent=prize.rarity==='legend' ? '✨' : '⭐';
+        s.style.left=(Math.random()*90+5)+'%';
+        s.style.top=(Math.random()*90+5)+'%';
+        s.style.animationDelay=(Math.random()*1)+'s';
+        s.style.animationDuration=(1+Math.random()*1.5)+'s';
+        sparkles.appendChild(s);
+      }
+    }
+
+    // 更新統計
+    stats.total++;
+    stats[prize.rarity]++;
+    updateStats();
+
+    setTimeout(()=>modal.classList.add('show'),200);
+  }
+
+  coinBtn.addEventListener('click',draw);
+  document.getElementById('again').addEventListener('click',()=>{
+    modal.classList.remove('show');
+  });
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+
+  updateStats();
+</script>
+
+</body>
+</html>

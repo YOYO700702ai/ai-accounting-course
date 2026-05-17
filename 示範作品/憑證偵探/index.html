@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>憑證偵探 — 統一發票找錯遊戲</title>
+<meta name="description" content="會計事務所新進助理互動教學：訓練你的發票審查眼力！">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f172a;--card:#1e293b;--accent:#f59e0b;--green:#22c55e;--red:#ef4444;--invoice-bg:#fef9e7;--invoice-border:#c0392b;--text-dark:#1a1a1a;--text-light:#e2e8f0}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text-light);min-height:100vh;overflow-x:hidden}
+/* Header */
+#header{background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);border-bottom:2px solid rgba(245,158,11,0.3);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+#header h1{font-size:1.6rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#header h1 span{font-size:1.2rem;margin-right:8px}
+.stats{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.stat-box{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:8px 18px;text-align:center;min-width:100px}
+.stat-box .label{font-size:.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:1px}
+.stat-box .value{font-size:1.4rem;font-weight:700;color:var(--accent)}
+.stat-box .value.score-val{color:var(--green)}
+.stat-box .value.timer-val{color:#38bdf8;font-variant-numeric:tabular-nums}
+/* Main layout */
+#main{display:flex;gap:24px;padding:24px 32px;max-width:1400px;margin:0 auto;align-items:flex-start}
+/* Invoice */
+#invoice-wrap{flex:1;min-width:0;display:flex;justify-content:center}
+#invoice{background:var(--invoice-bg);border:3px solid var(--invoice-border);border-radius:4px;padding:0;width:100%;max-width:680px;color:var(--text-dark);position:relative;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 0 1px rgba(192,57,43,0.2);font-family:'Noto Serif TC','Noto Sans TC',serif}
+#invoice::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 28px,rgba(0,0,0,0.02) 28px,rgba(0,0,0,0.02) 29px);pointer-events:none;border-radius:4px}
+.inv-header{background:linear-gradient(180deg,#fff5f5,#fef9e7);border-bottom:2px solid var(--invoice-border);padding:16px 24px;text-align:center;position:relative}
+.inv-title{font-size:1.5rem;font-weight:700;color:var(--invoice-border);letter-spacing:8px;margin-bottom:4px}
+.inv-subtitle{font-size:.75rem;color:#666;margin-bottom:8px}
+.inv-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px}
+.inv-field{font-size:.85rem;color:#333}
+.inv-field b{color:#111}
+/* Clickable areas */
+.clickable{cursor:pointer;padding:2px 6px;border-radius:4px;transition:all .2s;position:relative;display:inline-block;border:2px solid transparent}
+.clickable:hover{background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4)}
+.clickable.found{background:rgba(34,197,94,0.2)!important;border-color:var(--green)!important;cursor:default}
+.clickable.found::after{content:'✓';position:absolute;top:-8px;right:-8px;background:var(--green);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700}
+.clickable.wrong{animation:flashRed .5s}
+.clickable.safe-click{animation:flashSafe .4s}
+@keyframes flashRed{0%,100%{background:transparent}25%,75%{background:rgba(239,68,68,0.35);border-color:var(--red)}}
+@keyframes flashSafe{0%,100%{background:transparent}50%{background:rgba(239,68,68,0.15)}}
+/* Invoice body */
+.inv-body{padding:16px 24px}
+.buyer-section{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px dashed #ccc}
+.field-group{font-size:.85rem;color:#333}
+.field-group .f-label{color:#888;font-size:.75rem;display:block;margin-bottom:2px}
+/* Items table */
+.inv-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:.82rem}
+.inv-table th{background:#c0392b;color:#fff;padding:6px 8px;font-weight:500;text-align:center;font-size:.75rem}
+.inv-table td{border:1px solid #ddd;padding:6px 8px;text-align:center}
+.inv-table td.left{text-align:left}
+/* Totals */
+.totals{display:flex;flex-direction:column;align-items:flex-end;gap:4px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px dashed #ccc;font-size:.85rem}
+.total-row{display:flex;gap:24px;align-items:center}
+.total-row .t-label{color:#666;min-width:80px;text-align:right}
+.total-row .t-value{font-weight:700;min-width:100px;text-align:right}
+.total-row.grand .t-value{font-size:1.1rem;color:var(--invoice-border)}
+/* Seller */
+.seller-section{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;padding-top:12px;border-top:2px solid var(--invoice-border);font-size:.82rem}
+.seller-section .f-label{color:#888;font-size:.72rem;display:block;margin-bottom:1px}
+/* Sidebar */
+#sidebar{width:340px;flex-shrink:0;display:flex;flex-direction:column;gap:16px;position:sticky;top:24px}
+.panel{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.panel h2{font-size:1rem;font-weight:700;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.panel h2 span{font-size:1.2rem}
+.hint-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.hint-item{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 12px;font-size:.8rem;color:#94a3b8;display:flex;gap:8px;align-items:flex-start;opacity:0;transform:translateX(20px);transition:all .4s}
+.hint-item.show{opacity:1;transform:translateX(0)}
+.hint-item .hint-icon{font-size:1.1rem;flex-shrink:0}
+.hint-item .hint-text b{color:var(--green);display:block;margin-bottom:2px;font-size:.82rem}
+.hint-item .hint-text span{color:#cbd5e1;font-size:.78rem}
+/* Win overlay */
+#win-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.92);z-index:100;justify-content:center;align-items:center;flex-direction:column;gap:20px;backdrop-filter:blur(8px)}
+#win-overlay.show{display:flex}
+#win-overlay h2{font-size:2.5rem;font-weight:900;background:linear-gradient(90deg,#f59e0b,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+#win-overlay p{font-size:1.1rem;color:#94a3b8}
+#win-overlay .final-score{font-size:3rem;font-weight:900;color:var(--green)}
+#replay-btn{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;border:none;padding:14px 40px;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s}
+#replay-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,0.4)}
+/* Tooltip */
+.tooltip{position:fixed;background:#1e293b;border:1px solid var(--green);color:#e2e8f0;padding:12px 16px;border-radius:10px;font-size:.82rem;max-width:280px;z-index:50;pointer-events:none;opacity:0;transform:translateY(8px);transition:all .3s;box-shadow:0 8px 32px rgba(0,0,0,0.5)}
+.tooltip.show{opacity:1;transform:translateY(0)}
+.tooltip::before{content:'✅';margin-right:6px}
+/* Instructions */
+.instructions{text-align:center;font-size:.8rem;color:#64748b;padding:8px;background:rgba(255,255,255,0.02);border-radius:8px}
+.instructions span{color:var(--accent);font-weight:600}
+@media(max-width:900px){#main{flex-direction:column;padding:16px}#sidebar{width:100%;position:static;order:-1}}
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1><span>🔍</span>憑證偵探<small style="font-size:.7rem;margin-left:8px;-webkit-text-fill-color:#94a3b8">統一發票審查訓練</small></h1>
+  <div class="stats">
+    <div class="stat-box"><div class="label">找到錯誤</div><div class="value" id="found-count">0 / 5</div></div>
+    <div class="stat-box"><div class="label">分數</div><div class="value score-val" id="score-val">100</div></div>
+    <div class="stat-box"><div class="label">計時</div><div class="value timer-val" id="timer-val">00:00</div></div>
+  </div>
+</div>
+
+<div id="main">
+  <div id="invoice-wrap">
+    <div id="invoice">
+      <div class="inv-header">
+        <div class="inv-title">統 一 發 票</div>
+        <div class="inv-subtitle">三聯式 ─ 第二聯（扣抵聯）</div>
+        <div class="inv-row">
+          <span class="inv-field clickable" id="err-period" data-error="4">期別：<b>113年09-10月</b></span>
+          <span class="inv-field">字軌號碼：<b>AK-83927461</b></span>
+        </div>
+        <div class="inv-row" style="margin-top:4px">
+          <span class="inv-field clickable" id="err-date" data-error="4">開立日期：<b>113/08/30</b></span>
+        </div>
+      </div>
+
+      <div class="inv-body">
+        <div class="buyer-section">
+          <div class="field-group"><span class="f-label">買受人</span><span class="clickable" data-error="0">大方科技股份有限公司</span></div>
+          <div class="field-group"><span class="f-label">統一編號</span><span class="clickable" id="err-taxid" data-error="1">1234567</span></div>
+        </div>
+
+        <table class="inv-table">
+          <thead><tr><th style="width:40%">品名</th><th>數量</th><th>單價</th><th>小計</th></tr></thead>
+          <tbody>
+            <tr>
+              <td class="left"><span class="clickable" id="err-product" data-error="3">商品一批</span></td>
+              <td>1</td><td class="clickable" data-error="0">10,000</td><td>10,000</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="totals">
+          <div class="total-row"><span class="t-label">銷售額</span><span class="t-value clickable" data-error="0">$10,000</span></div>
+          <div class="total-row"><span class="t-label">營業稅額</span><span class="t-value clickable" id="err-tax" data-error="2">$600</span></div>
+          <div class="total-row grand"><span class="t-label">總　計</span><span class="t-value clickable" id="err-total" data-error="2">$10,600</span></div>
+        </div>
+
+        <div class="seller-section">
+          <div class="field-group"><span class="f-label">賣方名稱</span><span class="clickable" data-error="0">宏達文具有限公司</span></div>
+          <div class="field-group"><span class="f-label">賣方統一編號</span><span class="clickable" id="err-seller-tax" data-error="5" style="min-width:80px;display:inline-block">&nbsp;</span></div>
+          <div class="field-group"><span class="f-label">賣方地址</span><span class="clickable" data-error="0">台北市中山區南京東路二段100號3樓</span></div>
+          <div class="field-group"><span class="f-label">賣方電話</span><span>(02)2567-8900</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="panel instructions">
+      <p>🖱️ 點擊發票上<span>你認為有錯誤的欄位</span></p>
+      <p style="margin-top:4px">找出全部 5 個錯誤即可過關！</p>
+    </div>
+    <div class="panel">
+      <h2><span>📋</span>會計師小提醒</h2>
+      <ul class="hint-list" id="hint-list">
+        <li class="hint-item" id="hint-1"><span class="hint-icon">🔢</span><div class="hint-text"><b>統編位數錯誤</b><span>統編必須是 8 碼純數字</span></div></li>
+        <li class="hint-item" id="hint-2"><span class="hint-icon">💰</span><div class="hint-text"><b>稅額計算錯誤</b><span>5% 應為 500 元，總計應為 10,500</span></div></li>
+        <li class="hint-item" id="hint-3"><span class="hint-icon">📝</span><div class="hint-text"><b>品名不夠具體</b><span>品名必須具體，國稅局可能不認列</span></div></li>
+        <li class="hint-item" id="hint-4"><span class="hint-icon">📅</span><div class="hint-text"><b>日期跨期</b><span>日期應在 9/1～10/31 之間</span></div></li>
+        <li class="hint-item" id="hint-5"><span class="hint-icon">🏢</span><div class="hint-text"><b>賣方統編空白</b><span>賣方統編是必填欄位</span></div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="win-overlay">
+  <h2>🎉 恭喜過關！</h2>
+  <p>你已成功找出所有 5 個發票錯誤</p>
+  <div class="final-score" id="final-score">100</div>
+  <p style="font-size:.85rem">最終分數</p>
+  <p id="final-time" style="color:#38bdf8"></p>
+  <button id="replay-btn" onclick="location.reload()">🔄 再挑戰一次</button>
+</div>
+
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+(function(){
+  const errors = {
+    1:{hint:'hint-1',msg:'統編必須是 8 碼純數字'},
+    2:{hint:'hint-2',msg:'5% 稅額應為 500 元，總計應為 10,500'},
+    3:{hint:'hint-3',msg:'品名必須具體，國稅局可能不認列'},
+    4:{hint:'hint-4',msg:'開立日期 113/08/30 不在期別 09-10 月範圍內'},
+    5:{hint:'hint-5',msg:'賣方統編是必填欄位'}
+  };
+
+  let found = new Set();
+  let score = 100;
+  let startTime = Date.now();
+  let timerInterval;
+
+  // Timer
+  function updateTimer(){
+    const s = Math.floor((Date.now()-startTime)/1000);
+    const mm = String(Math.floor(s/60)).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    document.getElementById('timer-val').textContent = mm+':'+ss;
+  }
+  timerInterval = setInterval(updateTimer, 500);
+
+  // Tooltip
+  const tooltip = document.getElementById('tooltip');
+  function showTooltip(el, msg){
+    const r = el.getBoundingClientRect();
+    tooltip.textContent = '';
+    tooltip.innerHTML = '✅ ' + msg;
+    tooltip.style.left = Math.min(r.left, window.innerWidth - 300) + 'px';
+    tooltip.style.top = (r.bottom + 10) + 'px';
+    tooltip.classList.add('show');
+    setTimeout(()=>tooltip.classList.remove('show'), 3000);
+  }
+
+  // Click handler
+  document.querySelectorAll('.clickable').forEach(el=>{
+    el.addEventListener('click', function(e){
+      e.stopPropagation();
+      const errId = parseInt(this.dataset.error);
+
+      // Already found
+      if(this.classList.contains('found')) return;
+
+      // Error 4: period + date are linked
+      if(errId >= 1 && errId <= 5 && !found.has(errId)){
+        found.add(errId);
+        // Mark all elements with same error
+        document.querySelectorAll('[data-error="'+errId+'"]').forEach(x=>x.classList.add('found'));
+        document.getElementById(errors[errId].hint).classList.add('show');
+        showTooltip(this, errors[errId].msg);
+        document.getElementById('found-count').textContent = found.size + ' / 5';
+
+        if(found.size === 5){
+          clearInterval(timerInterval);
+          updateTimer();
+          setTimeout(()=>{
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-time').textContent = '用時 ' + document.getElementById('timer-val').textContent;
+            document.getElementById('win-overlay').classList.add('show');
+          }, 800);
+        }
+      } else if(errId === 0){
+        // Wrong click
+        this.classList.add('wrong');
+        setTimeout(()=>this.classList.remove('wrong'), 500);
+        score = Math.max(0, score - 10);
+        document.getElementById('score-val').textContent = score;
+        document.getElementById('score-val').style.transform = 'scale(1.3)';
+        setTimeout(()=>document.getElementById('score-val').style.transform = '', 200);
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>

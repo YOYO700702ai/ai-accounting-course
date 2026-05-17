@@ -1,0 +1,17 @@
+# Mac
+.DS_Store
+# Windows
+Thumbs.db
+desktop.ini
+# Editor
+.vscode/
+.idea/
+*.swp
+# Browser profile / temp
+.browser-profile/
+.tmp/
+# Original backups (備份不上傳)
+**/_original/
+# 預覽截圖
+*_預覽/
+*-preview/

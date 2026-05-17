@@ -1,0 +1,2409 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>一百分 AI 程式課程 · 課程內容</title>
+<style>
+  :root{
+    /* 深森林綠底 */
+    --bg:#1f3a2b;
+    --bg-deep:#16291f;
+    --bg-2:#27483a;
+
+    /* 米白卡片 */
+    --card:#f7f1de;
+    --card-2:#ede5cc;
+    --card-deep:#e2d5b3;
+    --card-border:#c9b889;
+    --card-shadow:rgba(0,0,0,.28);
+
+    /* 文字 */
+    --fg:#f5edd6;             /* 深底上的奶白 */
+    --fg-card:#3b3424;        /* 淺卡上的深棕 */
+    --muted:#a8b2a0;          /* 深底上的霧灰綠 */
+    --muted-card:#7a6e4f;     /* 淺卡上的暖灰棕 */
+    --soft:#3a5645;           /* 深底邊線 */
+
+    /* 主色 - 暖金、墨綠、棕 */
+    --accent:#d4a04a;         /* 暖金 */
+    --accent2:#e8b863;        /* 亮金 */
+    --accent3:#f3d68b;        /* 淺金 */
+    --green:#7a9966;          /* 草綠 */
+    --green-2:#5d7e4d;        /* 中綠 */
+    --green-deep:#3f5e34;     /* 深綠 */
+    --brown:#8b6f47;          /* 暖棕 */
+    --cream:#f3e6c0;
+
+    /* 狀態色 */
+    --ok:#6b8c4f;
+    --bad:#b9544d;
+    --warn:#c4843d;
+    --info:#5d7da0;
+    --pink:#b87482;
+    --teal:#5e9b8e;
+    --purple:#8a72ac;
+
+    /* 變化卡背景（淺色） */
+    --c-good:#e8efd6;
+    --c-bad:#f5dcd9;
+    --c-warn:#f4e3c4;
+    --c-info:#dbe3ec;
+    --c-accent:#f4e3b8;
+    --c-pink:#efd6dc;
+    --c-purple:#e1d8eb;
+    --c-teal:#d6e6e3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100vh;width:100vw;overflow:hidden;
+    background:var(--bg);color:var(--fg);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  body{background:
+    radial-gradient(ellipse at top left,rgba(122,153,102,.18),transparent 55%),
+    radial-gradient(ellipse at bottom right,rgba(212,160,74,.13),transparent 55%),
+    var(--bg)}
+  /* 葉子裝飾（4 角） */
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='%237a9966' opacity='0.18'><path d='M30,180 Q20,90 100,40 Q130,80 110,140 Q90,180 30,180 Z'/><path d='M50,170 Q45,110 95,80' stroke='%237a9966' stroke-width='1.5' fill='none' opacity='0.6'/></g></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='%237a9966' opacity='0.18'><path d='M190,40 Q200,130 120,180 Q90,140 110,80 Q130,40 190,40 Z'/><path d='M170,50 Q175,110 125,140' stroke='%237a9966' stroke-width='1.5' fill='none' opacity='0.6'/></g></svg>");
+    background-position:top left,bottom right;
+    background-size:240px 240px,240px 240px;
+    background-repeat:no-repeat}
+  /* 細微紙質紋 */
+  body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+    background-image:radial-gradient(circle at 1px 1px,rgba(245,237,214,.025) 1px,transparent 0);
+    background-size:18px 18px;opacity:.5}
+  .deck{height:100vh;width:100vw;overflow:hidden;position:relative;z-index:2}
+  .slide{position:absolute;inset:0;padding:4vh 5.5vw 5vh;display:none;
+    flex-direction:column;justify-content:flex-start;
+    animation:none;overflow:hidden}
+  .slide.active{display:flex}
+  .slide.center-v{justify-content:center}
+  .slide.top{justify-content:flex-start;padding-top:5vh}
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(12px) scale(.99)}
+    to{opacity:1;transform:none}
+  }
+  h1{font-size:clamp(30px,3.8vw,52px);margin:0 0 .25em;line-height:1.16;font-weight:900;letter-spacing:-.015em;color:var(--cream)}
+  h2{font-size:clamp(22px,2.7vw,36px);margin:0 0 .5em;
+    line-height:1.2;font-weight:900;letter-spacing:-.01em;
+    color:var(--cream)}
+  h3{font-size:clamp(16px,1.7vw,21px);margin:.35em 0 .25em;color:var(--accent);font-weight:800;letter-spacing:-.005em}
+  p,li{font-size:clamp(14px,1.35vw,19px);line-height:1.65;color:var(--fg);margin:.3em 0}
+  ul,ol{padding-left:1.4em;margin:.4em 0}
+  ul li,ol li{margin:.4em 0}
+  .muted{color:var(--muted)}
+  .center{text-align:center}
+  .small{font-size:clamp(13px,1.2vw,17px)}
+
+  .tag{display:inline-flex;align-items:center;gap:.4em;padding:.3em 1em;
+    border-radius:999px;background:rgba(245,237,214,.92);
+    color:var(--green-deep);font-size:.78em;margin-bottom:.7em;letter-spacing:.04em;
+    align-self:flex-start;font-weight:800;border:1px solid var(--card-border);
+    box-shadow:0 3px 10px rgba(0,0,0,.2)}
+  .tag.warn{background:rgba(245,220,217,.96);color:#7a342e;border-color:#c25656}
+
+  /* 卡片：米白底 + 暖棕字 */
+  .card{background:var(--card);color:var(--fg-card);
+    border:1px solid var(--card-border);
+    border-radius:14px;padding:.85em 1.3em;margin:.45em 0;
+    box-shadow:0 3px 12px var(--card-shadow),inset 0 1px 0 rgba(255,255,255,.6);
+    position:relative;transition:transform .2s}
+  .card p,.card li{color:var(--fg-card)}
+  .card b{color:var(--fg-card)}
+  .card .muted{color:var(--muted-card)}
+  .card h3{color:var(--green-deep)}
+  .card code{background:rgba(63,94,52,.1);color:var(--green-deep);
+    border:1px solid rgba(63,94,52,.2)}
+
+  .card.good{background:var(--c-good);border-color:var(--ok)}
+  .card.good h3{color:var(--ok)}
+  .card.bad{background:var(--c-bad);border-color:var(--bad)}
+  .card.bad h3{color:var(--bad)}
+  .card.warn{background:var(--c-warn);border-color:var(--warn)}
+  .card.warn h3{color:var(--warn)}
+  .card.accent{background:var(--c-accent);border-color:var(--accent)}
+  .card.accent h3{color:var(--brown)}
+  .card.info{background:var(--c-info);border-color:var(--info)}
+  .card.info h3{color:var(--info)}
+  .card.pink{background:var(--c-pink);border-color:var(--pink)}
+  .card.pink h3{color:var(--pink)}
+  .card.teal{background:var(--c-teal);border-color:var(--teal)}
+  .card.teal h3{color:var(--teal)}
+  .card.purple{background:var(--c-purple);border-color:var(--purple)}
+  .card.purple h3{color:var(--purple)}
+
+  /* 卡片變化 */
+  .card.stripe{border-left-width:6px;border-radius:8px 16px 16px 8px}
+  .card.stripe.good{border-left-color:var(--ok)}
+  .card.stripe.bad{border-left-color:var(--bad)}
+  .card.stripe.accent{border-left-color:var(--accent)}
+  .card.stripe.info{border-left-color:var(--info)}
+  .card.stripe.pink{border-left-color:var(--pink)}
+  .card.stripe.purple{border-left-color:var(--purple)}
+  .card.outlined{background:rgba(247,241,222,.08);
+    border:2px dashed var(--accent);color:var(--fg)}
+  .card.outlined p,.card.outlined li,.card.outlined b{color:var(--fg)}
+  .card.outlined .muted{color:var(--muted)}
+  .card.deep{background:var(--bg-deep);color:var(--fg);
+    border-color:var(--soft);box-shadow:inset 0 2px 8px rgba(0,0,0,.5)}
+  .card.deep p,.card.deep li,.card.deep b{color:var(--fg)}
+  .card.deep .muted{color:var(--muted)}
+  .card.glow{box-shadow:0 4px 28px rgba(212,160,74,.3),0 4px 14px rgba(0,0,0,.25)}
+
+  /* 角標 */
+  .card[data-ribbon]::after{content:attr(data-ribbon);position:absolute;
+    top:-10px;right:18px;background:var(--accent);color:#fff;
+    padding:.3em .9em;border-radius:6px;font-size:.7em;font-weight:800;
+    letter-spacing:.05em;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+
+  code{background:rgba(245,237,214,.18);color:var(--accent3);padding:3px 9px;
+    border-radius:6px;font-family:ui-monospace,Menlo,monospace;font-size:.88em;
+    border:1px solid var(--soft);font-weight:600}
+
+  /* Prompt 框：保持深色（給 code 看起來舒服） */
+  .promptbox{background:linear-gradient(180deg,#1c2b21,#13201a);
+    border:2px solid var(--green-2);
+    border-radius:14px;padding:1.1em 1.4em;margin:.5em 0;position:relative;
+    font-family:ui-monospace,Menlo,monospace;font-size:clamp(12px,1.05vw,15px);
+    color:var(--accent3);line-height:1.7;white-space:pre-wrap;
+    word-break:break-word;max-height:58vh;overflow-y:auto;
+    box-shadow:inset 0 2px 10px rgba(0,0,0,.5),0 4px 14px rgba(0,0,0,.3)}
+  .promptbox::-webkit-scrollbar{width:8px}
+  .promptbox::-webkit-scrollbar-track{background:transparent}
+  .promptbox::-webkit-scrollbar-thumb{background:var(--green-2);border-radius:4px}
+  .copybtn{position:absolute;top:10px;right:10px;
+    background:linear-gradient(135deg,var(--accent),var(--brown));color:#fff;border:none;
+    border-radius:10px;padding:.45em 1em;cursor:pointer;
+    font-size:12px;font-weight:800;font-family:inherit;
+    transition:all .15s;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+  .copybtn:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(0,0,0,.4)}
+  .copybtn.copied{background:linear-gradient(135deg,var(--ok),var(--green-2))}
+
+  /* 表格：米白卡片風 */
+  table{width:100%;border-collapse:separate;border-spacing:0;margin:.6em 0;
+    font-size:clamp(14px,1.32vw,19px);border-radius:14px;overflow:hidden;
+    background:var(--card);color:var(--fg-card);
+    box-shadow:0 4px 14px var(--card-shadow);
+    border:1px solid var(--card-border)}
+  th,td{padding:.55em .95em;border-bottom:1px solid var(--card-border);text-align:left;vertical-align:top;line-height:1.5;color:var(--fg-card)}
+  th{background:var(--green-deep);color:var(--cream);font-weight:800;
+    border-bottom:2px solid var(--green);letter-spacing:.02em}
+  tr:last-child td{border-bottom:none}
+  tr:nth-child(even) td{background:rgba(63,94,52,.05)}
+  tr:hover td{background:rgba(212,160,74,.1)}
+
+  .big{font-size:clamp(26px,3.4vw,46px);font-weight:900;
+    text-align:center;margin:.5em 0;color:var(--accent2);
+    text-shadow:0 2px 12px rgba(0,0,0,.3)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:.85em;margin:.4em 0}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8em;margin:.4em 0}
+  .grid4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:.7em;margin:.4em 0}
+
+  .check{color:var(--ok);font-weight:800}
+  .cross{color:var(--bad);font-weight:800}
+  .label{display:inline-flex;align-items:center;padding:.25em .8em;border-radius:8px;
+    font-size:.85em;font-weight:800;margin-right:.5em;letter-spacing:.02em}
+  .label.bad{background:var(--c-bad);color:var(--bad);border:1px solid var(--bad)}
+  .label.good{background:var(--c-good);color:var(--ok);border:1px solid var(--ok)}
+  .label.think{background:rgba(245,237,214,.95);color:var(--muted-card);border:1px solid var(--card-border)}
+
+  .chapter-cover{justify-content:center!important;align-items:center;text-align:center;
+    background:radial-gradient(ellipse at center,rgba(122,153,102,.18),transparent 65%)}
+  .chapter-cover .chno{font-size:clamp(18px,2vw,26px);color:var(--accent2);
+    font-weight:800;letter-spacing:.35em;margin:0 0 1em;
+    display:inline-block;padding:.5em 1.4em;border:2px solid var(--accent);
+    border-radius:999px;background:rgba(212,160,74,.12)}
+  .chapter-cover h1{font-size:clamp(56px,8.5vw,120px);color:var(--cream);
+    line-height:1.05;text-shadow:0 4px 24px rgba(0,0,0,.5)}
+  .chapter-cover p{font-size:clamp(17px,2vw,26px);color:var(--muted);max-width:80%;margin-top:1.2em}
+
+  kbd{background:var(--card);color:var(--green-deep);border-radius:6px;
+    padding:3px 8px;font-size:.85em;border:1px solid var(--card-border);
+    box-shadow:inset 0 -2px 0 var(--card-border);font-family:inherit;font-weight:700}
+
+  .counter{position:fixed;top:18px;right:24px;color:var(--cream);
+    font-size:13px;letter-spacing:.15em;z-index:10;
+    background:rgba(22,41,31,.85);
+    padding:.5em 1.1em;border-radius:999px;
+    border:1px solid var(--accent);font-weight:700;
+    backdrop-filter:blur(6px);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+  .counter b{color:var(--accent2)}
+
+  .keyhint{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);
+    color:var(--muted);font-size:12px;z-index:10;opacity:.7;
+    background:rgba(22,41,31,.7);padding:.3em .9em;border-radius:999px;
+    border:1px solid var(--soft)}
+
+  .tabs{display:flex;gap:.5em;margin:.4em 0 .7em;flex-wrap:wrap}
+  .tab{background:rgba(245,237,214,.9);color:var(--green-deep);
+    border:2px solid var(--card-border);border-radius:12px;
+    padding:.55em 1.3em;cursor:pointer;font-size:clamp(14px,1.25vw,17px);
+    font-weight:800;font-family:inherit;transition:all .18s;
+    display:inline-flex;align-items:center;gap:.4em}
+  .tab:hover{border-color:var(--accent);transform:translateY(-1px)}
+  .tab.active{background:var(--accent);color:#fff;border-color:var(--accent);
+    box-shadow:0 4px 12px rgba(212,160,74,.4);transform:translateY(-1px)}
+  .tabpane{display:none;animation:fadeIn .3s ease}
+  .tabpane.active{display:block}
+
+  .pill{display:inline-block;padding:.22em .8em;border-radius:999px;
+    background:var(--c-accent);
+    color:var(--brown);font-size:.82em;font-weight:700;margin-left:.4em;
+    border:1px solid var(--accent)}
+
+  .demolinks{display:flex;gap:.9em;flex-wrap:wrap;margin:.5em 0}
+  .demolinks a{display:inline-flex;align-items:center;gap:.5em;
+    background:var(--accent);
+    color:#fff;padding:.7em 1.3em;
+    border:2px solid var(--accent);border-radius:12px;text-decoration:none;
+    font-weight:800;font-size:.95em;transition:all .18s;
+    box-shadow:0 4px 12px rgba(212,160,74,.35)}
+  .demolinks a:hover{background:var(--accent2);
+    transform:translateY(-3px);box-shadow:0 6px 16px rgba(212,160,74,.5)}
+
+  .iconcard{display:flex;align-items:flex-start;gap:.9em}
+  .iconcard .ic{font-size:2em;line-height:1;flex-shrink:0;
+    background:rgba(212,160,74,.18);
+    border-radius:12px;padding:.3em;min-width:1.6em;text-align:center;
+    border:1px solid var(--accent)}
+  .iconcard .body{flex:1}
+  .iconcard .body b{font-size:1.05em;color:var(--fg-card)}
+  .card.deep .iconcard .body b{color:var(--fg)}
+  .card.outlined .iconcard .body b{color:var(--fg)}
+
+  /* 終端機輸出框 */
+  .termout{background:var(--bg-deep);border:1px solid var(--soft);border-radius:10px;
+    padding:.8em 1.1em;font-family:ui-monospace,Menlo,monospace;
+    font-size:clamp(12px,1.1vw,15px);line-height:1.75;margin:.5em 0;color:var(--muted)}
+  .termout .ok{color:var(--green);font-weight:700}
+  .termout .em{color:var(--cream);font-weight:700}
+
+  /* 大型數字徽章 */
+  .numbadge{display:inline-flex;align-items:center;justify-content:center;
+    width:2.4em;height:2.4em;border-radius:50%;font-size:1.4em;font-weight:900;
+    background:var(--accent);color:#fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.3);flex-shrink:0;
+    border:2px solid var(--accent2)}
+
+  /* 分隔線裝飾 */
+  .divider{display:flex;align-items:center;gap:1em;margin:1em 0;
+    color:var(--muted);font-size:.85em;text-align:center}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;
+    background:linear-gradient(90deg,transparent,var(--soft),transparent)}
+
+  /* 重點高亮（金色螢光筆） */
+  .hl{background:linear-gradient(180deg,transparent 55%,rgba(212,160,74,.4) 55%);
+    padding:0 .15em;font-weight:800}
+
+  /* 鋪滿卡片網格 */
+  .stretch{flex:1;display:flex;flex-direction:column;justify-content:center}
+
+  /* 課程素材圖 */
+  .hero-img{width:100%;max-width:560px;display:block;margin:0 auto;
+    border-radius:16px;box-shadow:0 8px 28px rgba(0,0,0,.35)}
+  .icon-tile{display:inline-block;width:clamp(56px,7vw,90px);height:clamp(56px,7vw,90px);
+    object-fit:contain;vertical-align:middle;border-radius:12px}
+  .icon-card{display:flex;align-items:center;gap:1em;
+    background:var(--card);border:1px solid var(--card-border);
+    border-radius:14px;padding:.7em .9em;margin:.4em 0;
+    box-shadow:0 3px 12px var(--card-shadow);color:var(--fg-card)}
+  .icon-card .ic-img{width:60px;height:60px;flex-shrink:0;object-fit:contain;border-radius:10px}
+  .icon-card .body{flex:1}
+  .icon-card .body b{color:var(--fg-card);font-size:1.05em}
+  .icon-card .body p{color:var(--muted-card);margin:.1em 0;font-size:.92em}
+
+  /* 章節封面用素材背景 */
+  .chapter-cover.hero-bg{position:relative;overflow:hidden;
+    background-image:url('assets/course-art/warm-board-bg.png');
+    background-size:cover;background-position:center}
+  .chapter-cover.hero-bg::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(22,41,31,.5),rgba(22,41,31,.78));
+    z-index:1}
+  .chapter-cover.hero-bg > *{position:relative;z-index:2}
+
+  /* Generated visual layer: background only, no extra floating picture */
+  .deck::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+    background:
+      linear-gradient(90deg,rgba(22,41,31,.88),rgba(31,58,43,.58) 52%,rgba(22,41,31,.9)),
+      url('assets/course-art/warm-board-bg.png') center/cover no-repeat;
+    opacity:.34}
+  .slide{isolation:isolate;z-index:1}
+  .slide.active{z-index:2}
+  .slide::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;
+    background:
+      radial-gradient(circle at 18% 18%,rgba(245,214,139,.12),transparent 32%),
+      linear-gradient(180deg,rgba(22,41,31,.10),rgba(22,41,31,.54));
+    opacity:.92}
+  .slide.chapter-cover::before{background:
+      linear-gradient(90deg,rgba(22,41,31,.92),rgba(31,58,43,.62),rgba(22,41,31,.9)),
+      url('assets/course-art/warm-board-bg.png') center/cover no-repeat;
+    opacity:1}
+  .slide > *{position:relative;z-index:2}
+  .slide-art{display:none!important}
+
+  /* Generated icons: individual cropped files, not sprite background offsets */
+  .genicon{display:inline-block;width:1.35em;height:1.35em;vertical-align:-.28em;
+    border-radius:.32em;background-position:center;background-size:contain;background-repeat:no-repeat;
+    box-shadow:0 2px 8px rgba(0,0,0,.16)}
+  .genicon.brain{background-image:url('assets/course-art/icons/brain.png')}
+  .genicon.hand{background-image:url('assets/course-art/icons/hand.png')}
+  .genicon.eye{background-image:url('assets/course-art/icons/eye.png')}
+  .genicon.chat{background-image:url('assets/course-art/icons/chat.png')}
+  .genicon.folder{background-image:url('assets/course-art/icons/folder.png')}
+  .genicon.terminal{background-image:url('assets/course-art/icons/terminal.png')}
+  .genicon.doc{background-image:url('assets/course-art/icons/doc.png')}
+  .genicon.puzzle{background-image:url('assets/course-art/icons/puzzle.png')}
+  .genicon.target{background-image:url('assets/course-art/icons/target.png')}
+  .genicon.rocket{background-image:url('assets/course-art/icons/rocket.png')}
+  .genicon.shield{background-image:url('assets/course-art/icons/shield.png')}
+  .genicon.web{background-image:url('assets/course-art/icons/web.png')}
+  .iconcard .ic{font-size:1em;width:3.15em;height:3.15em;display:flex;align-items:center;
+    justify-content:center;padding:.22em;background:var(--card-2)}
+  .iconcard .ic .genicon{width:2.35em;height:2.35em;border-radius:.45em}
+  .tag .genicon,.label .genicon{width:1.2em;height:1.2em;margin-right:.25em}
+  h1 .genicon,h2 .genicon,.big .genicon{width:1.05em;height:1.05em}
+
+  /* Contrast fixes for generated backgrounds */
+  h1,h2,.big{color:var(--cream);text-shadow:0 3px 18px rgba(0,0,0,.52)}
+  p,li{color:#fff6df;text-shadow:0 1px 8px rgba(0,0,0,.25)}
+  .muted{color:#d3dac6}
+  .card,.tag,table,.promptbox,.termout{position:relative;z-index:3}
+  .card p,.card li,.card b,.card td,.card th,.card .muted,
+  table p,table li,table b,table td{text-shadow:none}
+  .card{box-shadow:0 8px 22px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.72)}
+  .card.outlined p,.card.outlined li,.card.outlined b,
+  .card.deep p,.card.deep li,.card.deep b{color:#fff6df}
+  .card.outlined .muted,.card.deep .muted{color:#d3dac6}
+  .label.bad,.label.good,.label.think,.tag{text-shadow:none}
+  .keyhint{color:#e6dcc4;opacity:.95}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- 封面 -->
+<section class="slide active chapter-cover hero-bg">
+  <p class="chno">🌟 課程簡報</p>
+  <h1>一百分<br>AI 程式課程</h1>
+  <p style="margin-top:1.5em">給會計師的 AI 程式入門 · 4 小時</p>
+  <p class="muted" style="margin-top:2.5em;font-size:.85em">按 <kbd>→</kbd> 或 <kbd>空白</kbd> 開始</p>
+</section>
+
+<!-- 章節 1 封面 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 1</p>
+  <h1>LLM 是大腦<br>IDE 是手腳 🧠✋</h1>
+</section>
+
+<section class="slide">
+  <span class="tag">🤔 章節 1 · 開場問題</span>
+  <h2>為什麼 ChatGPT 講了一堆<br>最後動手的還是我？</h2>
+  <div class="grid3" style="margin-top:1.2em">
+    <div class="card stripe accent">
+      <div style="font-size:2.2em">💬</div>
+      <p><b>它回了一坨程式碼</b></p>
+      <p class="muted small">但你完全不知道下一步要幹嘛</p>
+    </div>
+    <div class="card stripe accent">
+      <div style="font-size:2.2em">📋</div>
+      <p><b>它寫好內容了</b></p>
+      <p class="muted small">但你還要自己複製貼到 Word、存檔、命名</p>
+    </div>
+    <div class="card stripe accent">
+      <div style="font-size:2.2em">🤷</div>
+      <p><b>它教你步驟</b></p>
+      <p class="muted small">但你還是要自己照著做一遍</p>
+    </div>
+  </div>
+  <div class="card glow accent" style="margin-top:1em">
+    <p class="big" style="font-size:clamp(20px,2.3vw,32px);margin:.2em 0">明明 AI 那麼聰明——<br>為什麼最後動手的還是<span class="hl">我們自己</span>？</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🧠 章節 1 · 1-2</span>
+  <h2>LLM 只是「大腦」</h2>
+  <div style="display:flex;align-items:center;gap:1.5em;margin:.4em 0">
+    <img src="assets/course-art/icons/brain.png" style="width:110px;height:110px;flex-shrink:0;border-radius:14px">
+    <div class="card deep" style="flex:1;margin:0">
+      <p class="center" style="font-size:1.05em;margin:.2em 0">
+        <b>LLM</b> = <b style="color:var(--accent)">L</b>arge <b style="color:var(--accent)">L</b>anguage <b style="color:var(--accent)">M</b>odel（大型語言模型）
+      </p>
+      <p class="center muted" style="margin:.2em 0">Claude · GPT · Gemini · 都是</p>
+    </div>
+  </div>
+  <div class="grid2" style="margin-top:1em">
+    <div class="card good glow">
+      <h3 style="color:var(--ok)">✅ 它會做的事</h3>
+      <div class="grid3" style="margin-top:.4em;gap:.5em">
+        <div style="text-align:center"><div style="font-size:2em">💭</div><b>會想</b></div>
+        <div style="text-align:center"><div style="font-size:2em">💬</div><b>會講</b></div>
+        <div style="text-align:center"><div style="font-size:2em">✍️</div><b>會寫</b></div>
+      </div>
+    </div>
+    <div class="card bad">
+      <h3 style="color:var(--bad)">❌ 它不會做的事</h3>
+      <div class="grid3" style="margin-top:.4em;gap:.5em">
+        <div style="text-align:center"><div style="font-size:2em;opacity:.5">📁</div><b>開檔</b></div>
+        <div style="text-align:center"><div style="font-size:2em;opacity:.5">💾</div><b>存檔</b></div>
+        <div style="text-align:center"><div style="font-size:2em;opacity:.5">▶️</div><b>執行</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="card outlined" style="margin-top:.8em">
+    <p class="center" style="margin:.2em 0">就像一個<b>沒有手的顧問</b>——<br>可以教你怎麼做，但<b style="color:var(--accent)">摸不到你的滑鼠</b> 🖱</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">✋ 章節 1 · 1-3</span>
+  <h2>IDE 就是給大腦的「手腳」</h2>
+  <p class="big" style="margin:.3em 0;font-size:clamp(20px,2.4vw,32px)">IDE = 給 AI 大腦的一副身體</p>
+  <div class="grid4" style="margin-top:.6em">
+    <div class="icon-card" style="flex-direction:column;text-align:center;padding:.7em .5em">
+      <img src="assets/course-art/icons/hand.png" class="ic-img" style="width:72px;height:72px">
+      <div class="body" style="margin-top:.4em"><b>手</b><p>開檔 · 改檔 · 存檔</p></div>
+    </div>
+    <div class="icon-card" style="flex-direction:column;text-align:center;padding:.7em .5em">
+      <img src="assets/course-art/icons/terminal.png" class="ic-img" style="width:72px;height:72px">
+      <div class="body" style="margin-top:.4em"><b>腳</b><p>執行程式 · 跑指令</p></div>
+    </div>
+    <div class="icon-card" style="flex-direction:column;text-align:center;padding:.7em .5em">
+      <img src="assets/course-art/icons/eye.png" class="ic-img" style="width:72px;height:72px">
+      <div class="body" style="margin-top:.4em"><b>眼睛</b><p>讀檔案 · 看截圖</p></div>
+    </div>
+    <div class="icon-card" style="flex-direction:column;text-align:center;padding:.7em .5em">
+      <img src="assets/course-art/icons/chat.png" class="ic-img" style="width:72px;height:72px">
+      <div class="body" style="margin-top:.4em"><b>嘴巴</b><p>邊做邊回報進度</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">⚖️ 章節 1 · 1-4</span>
+  <h2>同一句話，差別在有沒有手腳</h2>
+  <table>
+    <tr><th>情境</th><th>只有大腦 🧠</th><th>有手腳 🤖</th></tr>
+    <tr>
+      <td><b>做營業稅試算頁</b></td>
+      <td>給你一坨程式碼<br>你自己貼、存、開</td>
+      <td>建檔、寫好<br><b>打開瀏覽器</b></td>
+    </tr>
+    <tr>
+      <td><b>整理 30 張發票</b></td>
+      <td>教你 Python 語法<br>你還是不會弄</td>
+      <td>讀檔<br><b>重新命名 + 分類</b></td>
+    </tr>
+    <tr>
+      <td><b>讀 CSV 找異常</b></td>
+      <td>要你<br><b>把 1000 筆貼到對話框</b></td>
+      <td>自動分析<br><b>寫一份報告檔給你</b></td>
+    </tr>
+  </table>
+</section>
+
+<section class="slide chapter-cover">
+  <p class="chno">章節 1 · 結論</p>
+  <h1 style="font-size:clamp(36px,5vw,68px);line-height:1.4">LLM（大腦）＋ IDE（手腳）<br>＝ AI 真的幫你做完事 ✨</h1>
+</section>
+
+<!-- 章節 2 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 2</p>
+  <h1>IDE 跟終端機<br>差在哪？ 🤔</h1>
+</section>
+
+<section class="slide">
+  <span class="tag">⬛ 章節 2 · 2-1</span>
+  <h2>兩個都是黑色畫面<br>為什麼不一樣？</h2>
+  <div class="grid2" style="margin-top:1.2em">
+    <div class="card deep" style="text-align:center">
+      <div style="font-size:3em;margin:.1em 0">⬛</div>
+      <h3>終端機</h3>
+      <p class="muted">純文字 · 一個輸入框</p>
+    </div>
+    <div class="card deep" style="text-align:center">
+      <div style="font-size:3em;margin:.1em 0">🖥</div>
+      <h3>IDE</h3>
+      <p class="muted">多窗格 · 看得到檔案</p>
+    </div>
+  </div>
+  <div class="card glow accent" style="margin-top:1em">
+    <p class="big" style="margin:.2em 0;font-size:clamp(22px,2.6vw,36px)">差別不在「<span style="opacity:.5">能做什麼</span>」<br>而在「<span class="hl">你看到什麼</span>」 👁</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">👄 章節 2 · 2-2</span>
+  <h2>終端機 = 一張嘴 👄</h2>
+  <div class="card">
+    <p>一個輸入框 · 一條歷史紀錄 · <b>就這樣</b></p>
+    <p>跟它溝通只有一種方式：<b>打字下指令</b></p>
+  </div>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card good">
+      <h3>✅ 優點</h3>
+      <p>最強 · 最快 · 最自由</p>
+      <p class="muted">一個指令處理千個檔案</p>
+    </div>
+    <div class="card bad">
+      <h3>❌ 缺點</h3>
+      <p>新手會嚇到</p>
+      <p class="muted">不知道發生了什麼</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">😊 章節 2 · 2-3</span>
+  <h2>IDE = 一張完整的臉 😊</h2>
+  <p class="muted">IDE 不是「比終端機強」，是「<b style="color:var(--accent)">比終端機完整</b>」</p>
+  <div class="grid4" style="margin-top:.6em">
+    <div class="card"><div class="iconcard"><div class="ic">👁</div><div class="body"><b>左：檔案樹</b><p class="muted">你的「桌面」</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">✋</div><div class="body"><b>中：編輯器</b><p class="muted">AI 改一行看一行</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">💬</div><div class="body"><b>右：AI 聊天框</b><p class="muted">跟 AI 對話</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">🦶</div><div class="body"><b>下：終端機</b><p class="muted">內建在 IDE 裡</p></div></div></div>
+  </div>
+  <div class="card accent" style="margin-top:.6em">
+    <p class="center"><b>終端機是 IDE 的一部分，不是對立的東西。</b></p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📊 章節 2 · 2-4</span>
+  <h2>能力對比</h2>
+  <table>
+    <tr><th>能力</th><th>終端機 CLI</th><th>IDE 🌟</th></tr>
+    <tr><td>動本機檔案</td><td>✅</td><td>✅</td></tr>
+    <tr><td>跑指令</td><td>✅</td><td>✅</td></tr>
+    <tr><td><b>看到 AI 改了什麼</b></td><td><span class="cross">❌</span></td><td><span class="check">✅</span></td></tr>
+    <tr><td><b>隨時插手修改</b></td><td><span class="cross">❌</span></td><td><span class="check">✅</span></td></tr>
+    <tr><td>新手友善</td><td><span class="cross">❌</span></td><td>⭕</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <span class="tag">🍳 章節 2 · 2-5</span>
+  <h2>把 AI 當廚師</h2>
+  <div class="grid3" style="margin-top:.6em">
+    <div class="card">
+      <div class="big" style="font-size:2.5em;margin:.1em 0">🥡</div>
+      <h3 class="center">網頁 AI</h3>
+      <p class="center"><b>= 外送</b></p>
+      <p class="muted center">給你結果<br>過程看不到</p>
+    </div>
+    <div class="card">
+      <div class="big" style="font-size:2.5em;margin:.1em 0">🌑</div>
+      <h3 class="center">終端機</h3>
+      <p class="center"><b>= 黑暗料理</b></p>
+      <p class="muted center">超快<br>看不到怎麼做</p>
+    </div>
+    <div class="card accent">
+      <div class="big" style="font-size:2.5em;margin:.1em 0">🍳</div>
+      <h3 class="center">IDE</h3>
+      <p class="center"><b>= 開放廚房</b></p>
+      <p class="muted center">並肩做菜<br>可以接手</p>
+    </div>
+  </div>
+</section>
+
+<!-- 章節 3 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 3</p>
+  <h1>Antigravity 介面導覽<br>+ Claude 串接 📺</h1>
+  <p style="margin-top:1em">現場示範環節</p>
+</section>
+
+<section class="slide">
+  <span class="tag">📺 章節 3 · 過場</span>
+  <h2>接下來看老師操作</h2>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card accent glow">
+      <div style="font-size:2.5em;text-align:center">👀</div>
+      <h3 class="center">第一輪：看</h3>
+      <p class="center">老師現場操作給你看</p>
+      <p class="muted center small">把 Claude 串進 Antigravity</p>
+    </div>
+    <div class="card good">
+      <div style="font-size:2.5em;text-align:center">✋</div>
+      <h3 class="center">第二輪：做</h3>
+      <p class="center">你跟著做一次</p>
+      <p class="muted center small">每個人都要操作過</p>
+    </div>
+  </div>
+  <div class="card warn glow" style="margin-top:1em">
+    <p style="font-size:1.05em;text-align:center;margin:.2em 0">⚠️ 哪一步跟不上、跟我畫面不一樣 → <b class="hl">舉手</b>，我們等你 🙋</p>
+  </div>
+</section>
+
+<!-- 章節 4 封面 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 4</p>
+  <h1>第一次動手 🛠</h1>
+  <p>先讓 AI 動你的電腦<br>再來做小遊戲</p>
+</section>
+
+<!-- Part A 封面 -->
+<section class="slide chapter-cover">
+  <p class="chno">Part A · 暖身</p>
+  <h1 style="color:var(--accent2)">先讓 AI<br>動你的電腦 ✨</h1>
+  <p>兩個小練習</p>
+</section>
+
+<!-- 暖身 1 -->
+<section class="slide">
+  <span class="tag">📁 章節 4 · 暖身 ① · 整理發票</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/folder.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">讓 AI 幫你整理客戶發票</h2>
+  </div>
+  <div class="card accent">
+    <p><b>📁 先做這 3 件事</b>：</p>
+    <p>1. 把所有發票檔案放進一個資料夾（例：桌面/<code>客戶A_發票</code>）</p>
+    <p>2. 在 Antigravity 左側檔案區，<b>開啟那個資料夾</b></p>
+    <p>3. 把下面 prompt 貼到 AI panel</p>
+  </div>
+  <div class="promptbox" id="p-warm2">請幫我把這個資料夾裡的所有發票檔案整理成一張表格。
+
+要求：
+1. 讀取每個檔案的內容（PDF 抽文字、圖片用 OCR）
+2. 整理出欄位：日期、廠商名稱、品名、未稅金額、稅額、總計
+3. 輸出 invoices.csv（Excel 可開）
+4. 同時做一個 index.html 可在網頁瀏覽（含搜尋、依日期/金額排序）
+5. 完成後用本地瀏覽器打開 index.html 給我看<button class="copybtn">📋 複製</button></div>
+</section>
+
+<!-- 暖身 2 -->
+<section class="slide">
+  <span class="tag">🤖 章節 4 · 暖身 ② · AI 自我介紹</span>
+  <h2>讓 AI 介紹他自己</h2>
+  <p class="muted">讓 AI <b style="color:var(--accent)">親自告訴你它能做什麼</b>。</p>
+  <div class="promptbox" id="p-warm3">請在桌面建一個叫「AI 能做什麼」的資料夾，
+裡面做一個 index.html，是你（Claude + Antigravity）的自我介紹。
+
+內容包含：
+1. 你是誰、結合 Antigravity 後能做什麼
+2. 列出你能做的所有事，每項至少一個會計師日常工作的例子
+3. 推薦會計師最該裝的 Antigravity 插件 / 擴充功能（含說明為什麼）
+4. 我要怎麼跟你說話，才能得到最好的回答（給 3~5 個 do / don't）
+
+風格：友善、清楚、有條理，深色背景配溫暖重點色。
+完成後用本地瀏覽器打開給我看。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<!-- Part B 封面 -->
+<section class="slide chapter-cover">
+  <p class="chno">Part B · 動手做</p>
+  <h1 style="color:var(--accent2)">小遊戲 🎮</h1>
+  <p>三選一</p>
+</section>
+
+<!-- 4-1 選遊戲 -->
+<section class="slide">
+  <span class="tag">🎮 章節 4 · 4-1</span>
+  <h2>你要選哪個遊戲？</h2>
+  <div class="grid3" style="margin-top:.6em">
+    <div class="card">
+      <div class="big" style="font-size:3em;margin:.1em 0">🐍</div>
+      <h3 class="center">貪吃蛇</h3>
+      <p class="center muted">動畫 + 即時控制<br>想看 AI 做動的東西</p>
+    </div>
+    <div class="card">
+      <div class="big" style="font-size:3em;margin:.1em 0">💣</div>
+      <h3 class="center">踩地雷</h3>
+      <p class="center muted">邏輯 + 隱藏資訊<br>喜歡解謎</p>
+    </div>
+    <div class="card">
+      <div class="big" style="font-size:3em;margin:.1em 0">🔨</div>
+      <h3 class="center">打地鼠</h3>
+      <p class="center muted">反應 + 計時<br>最快有成就感</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4-3 三個遊戲 prompt (tabs) -->
+<section class="slide">
+  <span class="tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</span>
+  <h2>遊戲基礎 Prompt</h2>
+  <div class="tabs" data-tabgroup="games">
+    <button class="tab active" data-tab="snake">🐍 貪吃蛇</button>
+    <button class="tab" data-tab="mine">💣 踩地雷</button>
+    <button class="tab" data-tab="mole">🔨 打地鼠</button>
+  </div>
+  <div class="tabpane active" data-pane="snake">
+    <div class="promptbox" id="p-snake">幫我在桌面建立一個叫「貪吃蛇」的資料夾，裡面做一個 index.html，是經典貪吃蛇遊戲。
+
+需求：
+- 鍵盤方向鍵控制蛇移動
+- 吃到食物 → 蛇變長 + 加 10 分
+- 撞到牆壁或自己 → 遊戲結束
+- 深色背景、蛇是亮綠色、食物是紅色
+- 右上角即時顯示分數
+- 結束時跳出「Game Over」彈窗，附「重新開始」按鈕
+- 介面簡潔、有圓角、像現代手機遊戲
+
+完成後請用本地瀏覽器幫我打開。<button class="copybtn">📋 複製</button></div>
+  </div>
+  <div class="tabpane" data-pane="mine">
+    <div class="promptbox" id="p-mine">幫我在桌面建立一個叫「踩地雷」的資料夾，裡面做一個 index.html，是經典踩地雷遊戲。
+
+需求：
+- 9×9 格的盤面，隨機放 10 顆地雷
+- 滑鼠左鍵翻開格子：
+  - 空格 → 顯示周圍地雷數量（1~8，每個數字用不同顏色）
+  - 地雷 → 顯示💥，遊戲結束
+- 滑鼠右鍵插旗子 🚩 標記可疑格子
+- 翻完所有「非地雷格」= 過關
+- 上方顯示：剩餘地雷數、計時器、重新開始按鈕
+- 介面要乾淨好看、深色主題
+
+完成後請用本地瀏覽器幫我打開。<button class="copybtn">📋 複製</button></div>
+  </div>
+  <div class="tabpane" data-pane="mole">
+    <div class="promptbox" id="p-mole">幫我在桌面建立一個叫「打地鼠」的資料夾，裡面做一個 index.html，是經典打地鼠遊戲。
+
+需求：
+- 3×3 共 9 個洞，地鼠隨機從某個洞冒出來 1.5 秒後自動縮回
+- 點到地鼠 → 加 10 分 + 地鼠立刻消失
+- 沒點到的地鼠縮回去不扣分，但點到「空洞」要扣 5 分
+- 遊戲時長 30 秒，倒數計時
+- 時間到 → 跳出最終分數 + 重新開始按鈕
+- 地鼠用 🐹，洞用咖啡色圓形
+- 卡通可愛風格、有冒出/縮回動畫
+
+完成後請用本地瀏覽器幫我打開。<button class="copybtn">📋 複製</button></div>
+  </div>
+</section>
+
+<!-- 4-4 prompt 結構 -->
+<section class="slide">
+  <span class="tag">🧩 章節 4 · 4-4</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/puzzle.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">Prompt 的固定結構</h2>
+  </div>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card accent">
+      <h3>1️⃣ 在哪裡做</h3>
+      <p class="muted">桌面 · 哪個資料夾 · 什麼檔名</p>
+    </div>
+    <div class="card accent">
+      <h3>2️⃣ 做什麼</h3>
+      <p class="muted">一句總結（例：經典貪吃蛇遊戲）</p>
+    </div>
+    <div class="card accent">
+      <h3>3️⃣ 需求清單</h3>
+      <p class="muted">規則 · 視覺 · 互動 · 結束條件</p>
+    </div>
+    <div class="card accent">
+      <h3>4️⃣ 收尾動作</h3>
+      <p class="muted">用本地瀏覽器打開</p>
+    </div>
+  </div>
+  <p class="center" style="margin-top:.6em"><b>這個結構你以後做任何東西都能套用 ✨</b></p>
+</section>
+
+<!-- 4-5 美術升級觀念 -->
+<section class="slide">
+  <span class="tag">🎨 章節 4 · 4-5</span>
+  <h2>美術升級：迭代的工作流</h2>
+  <p class="muted center">遊戲能玩，但有點醜——這是正常的</p>
+  <div class="grid3" style="margin-top:1em">
+    <div class="card good">
+      <div class="big" style="font-size:2em">🔄</div>
+      <p class="center"><b>不用重做</b></p>
+      <p class="muted center">AI 在原本檔案上繼續修改</p>
+    </div>
+    <div class="card good">
+      <div class="big" style="font-size:2em">👀</div>
+      <p class="center"><b>看著它變漂亮</b></p>
+      <p class="muted center">改一行看一行</p>
+    </div>
+    <div class="card good">
+      <div class="big" style="font-size:2em">⭐</div>
+      <p class="center"><b>這叫「迭代」</b></p>
+      <p class="muted center">一次比一次好</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4-6 美術升級萬用框架 -->
+<section class="slide">
+  <span class="tag">📦 章節 4 · 4-6</span>
+  <h2>美術升級萬用框架</h2>
+  <div class="promptbox" id="p-art-frame">請幫我升級剛剛做的[作品名]，加入以下美化：
+
+1. 主題：[挑一個風格]
+   選項：賽博龐克霓虹 / 馬卡龍可愛 / 日式溫暖手繪 /
+         簡約現代 Material / 復古像素 / 森林自然 / 太空科幻
+
+2. 配色：[主色 + 輔色]，例如「深藍底 + 金色重點」
+
+3. 動畫：按鈕 hover 抬升 / 操作彈跳 / 過場 fade / 得分跳大
+
+4. 粒子效果：成功撒星星 / 失敗破碎震動
+
+5. 音效（Web Audio API 合成）：操作聲、得分聲、結束聲
+
+6. 字體：Google Fonts
+   選項：'Noto Sans TC' / 'Orbitron' / 'Press Start 2P' / 'Kosugi Maru'
+
+7. 遊戲感（Game Feel）：震動 / COMBO / 慢動作淡出
+
+請保持玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<!-- 4-7 三個美術 prompt (tabs) -->
+<section class="slide">
+  <span class="tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</span>
+  <h2>遊戲美術升級 Prompt</h2>
+  <div class="tabs" data-tabgroup="art">
+    <button class="tab active" data-tab="snake-a">🐍 貪吃蛇</button>
+    <button class="tab" data-tab="mine-a">💣 踩地雷</button>
+    <button class="tab" data-tab="mole-a">🔨 打地鼠</button>
+  </div>
+  <div class="tabpane active" data-pane="snake-a">
+    <div class="promptbox" id="p-snake-a">請幫我升級剛剛做的貪吃蛇，加入以下美化：
+
+1. 主題：賽博龐克霓虹風（黑底 + 粉紅 + 藍 + 綠霓虹光）
+2. 蛇的每一節用漸層色，移動時拖一條光尾
+3. 食物會脈動發光（呼吸效果）
+4. 吃到食物時：分數跳大放大 0.2 秒 / 蛇暫時整個發光 / 撒幾顆星星粒子
+5. Game Over 時：螢幕震動 0.3 秒 + 慢動作淡出
+6. 字體：用 Google Fonts 載入 'Orbitron'
+7. 按鍵聲、吃食物聲、結束聲（用 Web Audio API 合成）
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+  </div>
+  <div class="tabpane" data-pane="mine-a">
+    <div class="promptbox" id="p-mine-a">請幫我升級剛剛做的踩地雷，加入以下美化：
+
+1. 主題：簡約現代 Material 風（淺色乾淨 + 一個重點色）
+2. 翻開格子時加 3D 翻轉動畫（X 軸翻 180 度）
+3. 數字 1~8 各用不同馬卡龍色
+4. 插旗時旗子有小幅彈跳
+5. 點到地雷時：整個盤面瞬間翻紅 + 震動 0.5 秒
+6. 過關時：星星粒子撒落 + 簡單烟火動畫
+7. 字體：用 Google Fonts 載入 'Inter'
+8. 翻開音效、插旗音效、地雷爆炸音效、過關音效
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+  </div>
+  <div class="tabpane" data-pane="mole-a">
+    <div class="promptbox" id="p-mole-a">請幫我升級剛剛做的打地鼠，加入以下美化：
+
+1. 主題：日式溫暖手繪風（米黃底 + 木紋洞口）
+2. 地鼠冒出時：「啵」音效 + 從洞裡彈跳出來
+3. 打中地鼠時：地鼠頭旋轉飛出 + 顯示「+10」彈出數字 / 撒可愛粒子 / 「碰」打擊音效
+4. 打到空洞時：「哎呀」音效 + 螢幕輕微抖動 + 顯示「-5」
+5. 連續打中 3 次以上 → 顯示「COMBO ×N!」+ 額外特效
+6. 倒數計時最後 5 秒會閃紅 + 滴答音效
+7. 字體：用 Google Fonts 載入 'Kosugi Maru'
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+  </div>
+</section>
+
+<!-- 4-8 復盤 -->
+<section class="slide">
+  <span class="tag">🎯 章節 4 · 4-8 · 復盤</span>
+  <h2>你學到的三件事</h2>
+  <div class="card stripe accent">
+    <div class="iconcard">
+      <div class="numbadge">1</div>
+      <div class="body">
+        <b style="font-size:1.15em">Prompt 固定結構</b>
+        <p class="muted">在哪做 → 做什麼 → 需求清單 → 收尾</p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe accent">
+    <div class="iconcard">
+      <div class="numbadge">2</div>
+      <div class="body">
+        <b style="font-size:1.15em">迭代工作流</b>
+        <p class="muted">先做基礎版 → 再升級美術，<span class="hl">不要一次想做完美</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe accent">
+    <div class="iconcard">
+      <div class="numbadge">3</div>
+      <div class="body">
+        <b style="font-size:1.15em">AI 不會主動給「漂亮」</b>
+        <p class="muted">你要<span class="hl">明確要</span>，它才會給</p>
+      </div>
+    </div>
+  </div>
+  <div class="card outlined" style="margin-top:.6em">
+    <p class="center"><b>這三件事 = 你之後做所有客戶頁面的核心邏輯</b> ✨</p>
+  </div>
+</section>
+
+<!-- 章節 5 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 5</p>
+  <h1>怎麼跟 AI 溝通</h1>
+  <img src="assets/course-art/ai-tutor.png" style="max-width:480px;width:70%;margin:1em auto 0;display:block;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.4)">
+  <p style="margin-top:1em">不要下命令，要給脈絡</p>
+</section>
+
+<section class="slide">
+  <span class="tag">👥 章節 5 · 5-1</span>
+  <h2>AI 是新同事，不是部下</h2>
+  <div class="card bad">
+    <p><b>❌ 常見短指令</b></p>
+    <p style="font-size:1.1em">「幫我做試算表」 · 「寫個郵件」 · 「改一下」</p>
+  </div>
+  <div class="card good">
+    <p><b>✅ 你會對新同事說的話</b></p>
+    <p>「這是客戶資料表，欄位是 A、B、C，我要算 D。<b>因為</b>老闆下週要看，<b>目的</b>是檢查哪些客戶該續約。」</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🤔 章節 5 · 5-2</span>
+  <h2>短指令失敗：AI 在猜你心裡想的</h2>
+  <div class="card accent">
+    <p style="font-size:1.1em;margin:.1em 0"><b>👤 你說：</b>「幫我做個算稅的網頁」</p>
+  </div>
+  <div class="card deep">
+    <p><span class="label think">🤔 AI 內心 OS</span></p>
+    <p>「算什麼稅？綜所稅？營業稅？營所稅？」</p>
+    <p>「給誰用？會計師？客戶？外行人？」</p>
+    <p>「要多複雜？單一公式還是含扣除額、扶養親屬？」</p>
+    <p>「介面要什麼風格？正式報表？卡通互動？」</p>
+    <p>「不知道...那我猜一個吧。」</p>
+    <p style="margin-top:.7em;color:#ff8a7a;font-weight:800;font-size:1.05em">↓ 產出：跟你心裡想的差 80%</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🔑 章節 5 · 5-3</span>
+  <h2>給脈絡的 4 個關鍵元素</h2>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card accent">
+      <h3>1️⃣ 我是誰？</h3>
+      <p>角色 / 身分</p>
+      <p class="muted">AI 用對應專業度的語言</p>
+    </div>
+    <div class="card accent">
+      <h3>2️⃣ 給誰用？</h3>
+      <p>觀眾 / 客戶</p>
+      <p class="muted">介面要簡單還是專業</p>
+    </div>
+    <div class="card accent">
+      <h3>3️⃣ 解決什麼問題？</h3>
+      <p>痛點</p>
+      <p class="muted">判斷哪些功能優先</p>
+    </div>
+    <div class="card accent">
+      <h3>4️⃣ 長什麼樣才算成功？</h3>
+      <p>成品想像</p>
+      <p class="muted">做完的標準</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5-4 四組對比 (tabs) -->
+<section class="slide">
+  <span class="tag">⚖️ 章節 5 · 5-4 · 4 組正反對比</span>
+  <h2>命令式 vs 給脈絡式</h2>
+  <div class="tabs" data-tabgroup="compare">
+    <button class="tab active" data-tab="c1">① 做試算工具</button>
+    <button class="tab" data-tab="c2">② 解釋觀念</button>
+    <button class="tab" data-tab="c3">③ 修改作品</button>
+    <button class="tab" data-tab="c4">④ 客戶互動</button>
+  </div>
+
+  <div class="tabpane active" data-pane="c1">
+    <div class="card bad"><p><span class="label bad">❌ 命令式</span> 「幫我做一個算所得稅的網頁」</p></div>
+    <div class="card good">
+      <p><span class="label good">✅ 給脈絡式</span></p>
+      <p><b>我是會計師</b>，常被<b>客戶問綜所稅怎麼算</b>。請做試算頁面<b>給不懂稅務名詞的客戶用</b>。</p>
+      <p>需求：輸入年收入、扶養人數 / 自動套用累進稅率 / 超大字級顯示應繳稅額 / 介面像 App 一樣簡單</p>
+    </div>
+  </div>
+
+  <div class="tabpane" data-pane="c2">
+    <div class="card bad"><p><span class="label bad">❌ 命令式</span> 「解釋一下營業稅」</p></div>
+    <div class="card good">
+      <p><span class="label good">✅ 給脈絡式</span></p>
+      <p><b>我是會計師</b>，要做給<b>小吃店老闆看</b>的營業稅說明頁。<b>老闆完全沒概念</b>。</p>
+      <p>請用「<b>買一個便當的金額怎麼分</b>」當例子說明：5% 跑去哪 / 為什麼客人不用另外掏錢 / 跟收入有什麼關係</p>
+      <p>視覺要像漫畫，配色溫暖。</p>
+    </div>
+  </div>
+
+  <div class="tabpane" data-pane="c3">
+    <div class="card bad"><p><span class="label bad">❌ 命令式</span> 「改一下」/「再好看一點」</p></div>
+    <div class="card good">
+      <p><span class="label good">✅ 給脈絡式</span></p>
+      <p>剛才那個頁面<b>客戶反映看不清楚</b>，他們<b>多半 60 歲以上</b>。</p>
+      <p>請修改：<b>主要數字放大到 48px</b> / 改成<b>黃底黑字</b>（高對比） / 按鈕放大、間距拉開</p>
+      <p>玩法不變，只改視覺。</p>
+    </div>
+  </div>
+
+  <div class="tabpane" data-pane="c4">
+    <div class="card bad"><p><span class="label bad">❌ 命令式</span> 「做個讓客戶記住折舊的東西」</p></div>
+    <div class="card good">
+      <p><span class="label good">✅ 給脈絡式</span></p>
+      <p><b>我是會計師</b>。客戶<b>聽完當下說懂，回去就忘「折舊」</b>。</p>
+      <p>請做<b>讓客戶手動拖動</b>的網頁：上方滑桿「使用年數」/ 下方滑桿「設備價值」/ 中間即時顯示每年折舊 + 殘值 / 介面溫暖不要像 Excel</p>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📋 章節 5 · 5-5</span>
+  <h2>萬用 Prompt 模板</h2>
+  <div class="promptbox" id="p-template">我是 [你的角色 / 身分]，
+我有一個 [痛點 / 問題 / 任務]，
+請幫我做一個 [作品類型]，
+給 [觀眾 / 使用情境] 用。
+
+需求：
+- [功能 1]
+- [功能 2]
+- [視覺 / 風格 / 互動]
+
+完成後請在桌面建 [資料夾名] 資料夾，用本地瀏覽器打開。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">🚫 章節 5 · 5-6 · 復盤</span>
+  <h2>以後不要再說的話</h2>
+  <table>
+    <tr><th>以前你會說</th><th>之後請改成</th></tr>
+    <tr><td>「幫我做個 XX」</td><td>我是 ___，要做 XX 給 ___ 用，因為 ___</td></tr>
+    <tr><td>「再好看一點」</td><td>請改 ___，因為 ___，改成 ___</td></tr>
+    <tr><td>「重做一次」</td><td>保留 ___，但 ___ 改成 ___</td></tr>
+    <tr><td>「不對啦」</td><td>問題在 ___，預期 ___，實際 ___</td></tr>
+  </table>
+</section>
+
+<!-- 章節 6 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 6</p>
+  <h1>互動示範作品集 🎁</h1>
+  <p>三個現場示範 · Prompt → 作品</p>
+</section>
+
+<section class="slide">
+  <span class="tag">💣 章節 6 · 示範 1 · 找錯誤遊戲</span>
+  <h2>憑證偵探</h2>
+  <p class="muted">痛點：助理 / 客戶看發票常漏掉錯誤，導致報稅退件。</p>
+  <div class="demolinks">
+    <a href="示範作品_憑證偵探/index.html" target="_blank">🔗 開啟示範作品</a>
+  </div>
+  <div class="promptbox" id="p-d1">我是會計師，要做一份「憑證偵探」互動教學頁，給事務所新進助理用。
+痛點：他們看發票常常漏掉錯誤的地方，導致報稅出問題。
+
+═══ 正確發票規格（請嚴格遵守）═══
+【三聯式統一發票必要欄位】
+- 字軌號碼：2 個英文字母 + 「-」+ 8 個數字（例：AB-12345678）
+- 開立日期：民國年/月/日，必須落在「期別」範圍內
+- 買受人統編：8 碼純數字
+- 品名：必須具體（不可寫「商品一批」「貨款」）
+- 銷售額（未稅）= Σ 小計
+- 營業稅額 = 銷售額 × 5%
+- 總計 = 銷售額 + 營業稅額
+- 賣方統編 / 名稱 / 地址：不可空白
+
+═══ 遊戲規則 ═══
+- 畫面中央用 HTML/CSS 畫一張「擬真三聯式統一發票」
+- 故意塞入下面 5 個錯誤
+- 玩家點擊「他覺得有錯的地方」
+- 點對 → 變綠 + 跳出解說
+- 點錯 → 閃紅 + 扣 10 分
+- 找齊 5 個 → 過關 + 重新出題按鈕
+
+═══ 5 個錯誤 ═══
+1. 買受人統編「1234567」（少 1 碼）
+2. 銷售額 1000、營業稅寫 60、總計 1060（應為 50）
+3. 品名寫「商品一批」
+4. 期別 113年09-10月，但日期 113/08/30（跨期）
+5. 賣方統編欄位空白
+
+【視覺】整頁深色，發票本身亮色，右側「會計師小提醒」面板。
+
+在桌面建「憑證偵探」資料夾，完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎴 章節 6 · 示範 2 · 拖拉配對</span>
+  <h2>公司 vs 行號</h2>
+  <p class="muted">痛點：客戶常搞不清楚要登記公司還是行號。</p>
+  <div class="demolinks">
+    <a href="示範作品_公司vs行號/index.html" target="_blank">🔗 基礎版</a>
+    <a href="示範作品_公司vs行號設計版/index.html" target="_blank">🎨 設計版</a>
+  </div>
+  <div class="promptbox" id="p-d2">我是會計師，要做一份「公司 vs 行號」互動教學頁，給想創業的客戶用。
+痛點：客戶常搞不清楚要登記公司還是行號，每次解釋都聽不懂、回去就忘。
+
+═══ 正確知識（請嚴格遵守）═══
+【公司】法人 / 有限責任 / 公司法 / 營業稅+營所稅+股東股利 /
+        設立較複雜 / 公司名義簽約 / 股份公司可發股票 /
+        適合中大型、要對外募資、想做品牌
+
+【行號】非法人 / 無限責任 / 商業登記法 / 營業稅+個人綜所稅 /
+        設立簡單便宜 / 負責人個人簽約 / 不可發股票 /
+        適合小規模、單純做生意
+
+═══ 遊戲設計 ═══
+- 上方：10 張卡片橫向排列（可拖動）
+- 下方：兩個格子並列（🏢 公司 / 🏪 行號）
+
+【10 張卡片內容】
+特性類（6 張）：
+1. 「股東只賠出資的錢」→ 公司
+2. 「老闆要拿個人財產扛」→ 行號
+3. 「課營所稅」→ 公司
+4. 「收入直接併入個人綜所稅」→ 行號
+5. 「可以發行股票」→ 公司
+6. 「設立程序最簡單便宜」→ 行號
+情境類（4 張）：
+7. 「夜市賣鹹酥雞，一個人做」→ 行號
+8. 「想拿創投投資 5000 萬」→ 公司
+9. 「跟朋友合資開咖啡廳，怕負債連累家人」→ 公司
+10. 「家庭主婦兼職賣手工餅乾」→ 行號
+
+【規則】拖對 → 變綠 + 解說；拖錯 → 震動彈回 + 提示。
+【教學元素】右側「會計師小提醒」累積成可下載筆記。
+
+在桌面建「公司 vs 行號」資料夾，完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎚 章節 6 · 示範 3 · 滑桿試算</span>
+  <h2>營業稅試算</h2>
+  <p class="muted">痛點：客戶問「我這個月要繳多少稅？」要解釋半天還聽不懂。</p>
+  <div class="demolinks">
+    <a href="示範作品_營業稅試算/index.html" target="_blank">🔗 開啟示範作品</a>
+  </div>
+  <div class="promptbox" id="p-d3">我是會計師，要做一份「營業稅秒懂試算」互動教學頁，給小公司老闆用。
+痛點：客戶每次問「我這月要繳多少營業稅？」要解釋半天還聽不懂。
+
+═══ 正確知識（請嚴格遵守）═══
+【一般稅率：5%】
+- 銷項稅額 = 銷售額（未稅） × 5%
+- 進項稅額 = 進項額（未稅） × 5%
+- 應納稅額 = 銷項稅額 - 進項稅額
+  · 正數 → 這期要繳
+  · 負數 → 留抵稅額（下期扣抵）
+
+═══ 介面設計 ═══
+【上方：兩個滑桿】
+- 「📈 本期銷售額（未稅）」 0~500 萬，預設 100 萬
+- 「📉 本期進項額（未稅）」 0~500 萬，預設 80 萬
+
+【中間：3 個並列大卡片】
+- 卡片 1：銷項稅額（藍色大字）
+- 卡片 2：進項稅額（綠色大字）
+- 卡片 3：應納稅額（金色大字，負數變紫色「留抵」）
+
+【下方：視覺化長條圖】
+- 並列兩條長條（銷項藍、進項綠）
+- 高度差用金色標出 = 應納稅額
+
+【教學模式按鈕】3 個情境快捷：
+- 「📦 一般中小企業」銷售 200萬、進項 150萬
+- 「🍱 餐飲業」銷售 80萬、進項 30萬
+- 「💸 大量採購期」銷售 50萬、進項 200萬
+
+【視覺】深色背景、滑桿金色、現代金融 App 風格。
+
+在桌面建「營業稅試算」資料夾，完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<!-- 章節 7 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 7</p>
+  <h1>遊戲化原理 🎯</h1>
+  <p>不是讓客戶玩<br>是讓客戶記住</p>
+</section>
+
+<section class="slide chapter-cover">
+  <p class="chno">Part A · 心法</p>
+  <h1 style="color:var(--accent2)">先想清楚<br>「為什麼」 💭</h1>
+</section>
+
+<section class="slide">
+  <span class="tag">💡 章節 7 · 7-1</span>
+  <h2>遊戲化 ≠ 玩遊戲</h2>
+  <p class="center muted">借用遊戲的「機制」，不是借用「形式」：</p>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card"><div class="iconcard"><div class="ic">🎯</div><div class="body"><b>進度感</b><p class="muted">客戶知道走到哪</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">⚡</div><div class="body"><b>即時回饋</b><p class="muted">點下去就有反應</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">🎁</div><div class="body"><b>意外驚喜</b><p class="muted">想分享給朋友</p></div></div></div>
+    <div class="card"><div class="iconcard"><div class="ic">🏆</div><div class="body"><b>過關成就</b><p class="muted">完成段落的滿足感</p></div></div></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">⚠️ 章節 7 · 7-2</span>
+  <h2>客戶帶著目的而來</h2>
+  <div class="card bad">
+    <p><b>❌ 過度遊戲化的災難</b></p>
+    <p>· 動畫太多 → 忘記重點</p>
+    <p>· 彩蛋太密 → 抓不到主訊息</p>
+    <p>· 視覺太花 → 感覺不專業</p>
+  </div>
+  <div class="card accent">
+    <p class="center" style="font-size:1.1em">服務客戶是<b>主菜</b> 🍱<br>遊戲化是<b>調味料</b> 🧂</p>
+    <p class="center muted">胡椒鹽撒多會苦，撒對才香。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎯 章節 7 · 7-3</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/target.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">達成目的才是最重要的</h2>
+  </div>
+  <p class="center muted">互動頁的「成功」標準不是好看，不是有趣——</p>
+  <div class="grid3" style="margin-top:.5em">
+    <div class="card good">
+      <div style="font-size:2.2em;text-align:center">💡</div>
+      <p class="center"><b>真的懂了</b></p>
+      <p class="muted center small">客戶看完當下就會</p>
+    </div>
+    <div class="card good">
+      <div style="font-size:2.2em;text-align:center">🔁</div>
+      <p class="center"><b>不用重新解釋</b></p>
+      <p class="muted center small">下次來不用再講</p>
+    </div>
+    <div class="card good">
+      <div style="font-size:2.2em;text-align:center">📨</div>
+      <p class="center"><b>會轉給朋友</b></p>
+      <p class="muted center small">客戶主動分享</p>
+    </div>
+  </div>
+  <div class="card glow accent" style="margin-top:1em">
+    <p class="big" style="margin:.2em 0;font-size:clamp(20px,2.4vw,32px)">「這個互動<br>讓客戶<span class="hl">離答案更近、還是更遠</span>？」</p>
+  </div>
+</section>
+
+<section class="slide chapter-cover">
+  <p class="chno">Part B · 解法</p>
+  <h1 style="color:var(--accent2)">三個你<br>必懂的招式 ✨</h1>
+</section>
+
+<section class="slide">
+  <span class="tag">🎬 章節 7 · 7-4</span>
+  <h2>客戶聽不懂？→ 圖 + 文 + 動態</h2>
+  <table>
+    <tr><th>給客戶的</th><th>客戶反應</th></tr>
+    <tr><td>純文字</td><td>30 秒就放棄</td></tr>
+    <tr><td>純圖</td><td>看不懂專業術語</td></tr>
+    <tr><td><b>圖 + 文 + 動態</b></td><td><b>跟著節奏理解</b> 🎯</td></tr>
+  </table>
+  <div class="card accent" style="margin-top:.6em">
+    <p>人腦處理視覺<b>比文字快 60,000 倍</b>。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎨 章節 7 · 7-4 配套示範</span>
+  <h2>實際示範：三種解說方式的差別</h2>
+  <p class="muted">同一個概念「進項抵銷項」，三種呈現方式，客戶記住的比例完全不同。</p>
+  <div class="demolinks">
+    <a href="示範作品_圖文動態三段對比/index.html" target="_blank">🔗 開啟示範作品</a>
+  </div>
+  <div class="promptbox" id="p-d4">我要做一個「圖+文+動態三種解說對比」的教學頁，給會計師客戶用。
+目的：讓他們秒懂「為什麼動態互動比純文字更有效」。
+
+═══ 主題：以「進項抵銷項」為例 ═══
+
+═══ 頁面結構 ═══
+上方 3 顆切換按鈕：
+1. 純文字（標籤「客戶記住 5%」）
+2. 圖 + 文 靜態（標籤「客戶記住 30%」）
+3. 圖 + 文 + 動態（標籤「客戶記住 75%」）
+
+點按鈕切換下方面板。
+
+═══ 三個面板內容 ═══
+【1. 純文字版】密密麻麻 5 段稅法條文。底部「客戶反應」：😴 看到第二段就想吃什麼。
+【2. 圖 + 文版（靜態）】靜態長條圖。底部「客戶反應」：🙂「喔～原來這樣」但下次自己換算就忘了。
+【3. 圖 + 文 + 動態版】兩個滑桿、長條圖即時跟拖動變化、結果卡片即時更新（含留抵稅額切換）、4 個情境快捷鈕。底部「客戶反應」：😊「啊我懂了！」
+
+【視覺】深色背景、卡片圓角、動畫平滑。
+
+在桌面建「圖文動態三段對比」資料夾，完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">✋ 章節 7 · 7-5</span>
+  <h2>客戶記不住？→ 互動 + 動手</h2>
+  <h3>學習金字塔（一週後記住的比例）</h3>
+  <table>
+    <tr><th>學習方式</th><th>記住</th></tr>
+    <tr><td>只聽</td><td>5%</td></tr>
+    <tr><td>只看</td><td>20%</td></tr>
+    <tr><td>看 + 聽</td><td>50%</td></tr>
+    <tr><td><b>動手做</b> ✨</td><td><b>75%</b></td></tr>
+    <tr><td><b>教別人</b> 🏆</td><td><b>90%</b></td></tr>
+  </table>
+  <p class="big" style="margin:.6em 0;font-size:clamp(18px,2vw,26px)">設計甜蜜點：<br>「3 秒上手，10 秒玩明白」</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🎁 章節 7 · 7-6</span>
+  <h2>一點點驚喜 — 多巴胺記憶</h2>
+  <div class="card accent">
+    <p><b>科學原理</b>：大腦對「預期之外的好事」會<b>分泌多巴胺</b>。</p>
+    <p>多巴胺 = 「想再做一次」+「會記住這次經驗」</p>
+  </div>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card"><b>🎉 過關動畫</b><p class="muted">撒花、發光、震動</p></div>
+    <div class="card"><b>🎁 小轉蛋</b><p class="muted">完成跳折扣 / 知識卡</p></div>
+    <div class="card"><b>🥚 隱藏彩蛋</b><p class="muted">按 5 次跳秘密</p></div>
+    <div class="card"><b>💕 個人化稱讚</b><p class="muted">「[名字]，你答對了！」</p></div>
+  </div>
+  <div class="card bad" style="margin-top:.4em">
+    <p>⚠️ <b>一個頁面 = 一個主要驚喜</b>。少少給才珍貴。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎰 章節 7 · 7-6 ⓑ · 轉蛋小撇步</span>
+  <h2>客戶完成任務 → 給他抽轉蛋 🎰</h2>
+  <p class="center muted">就像 ATM 結束後跳出來的轉蛋——客戶只玩了 1 分鐘，也會<b style="color:var(--accent)">印象深刻</b> ✨</p>
+  <div class="grid3" style="margin-top:.6em">
+    <div class="card stripe pink">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--pink),#ec4899)">1</div>
+        <div class="body">
+          <b>禮物不用貴重</b>
+          <p class="muted small">小禮物只是「<b>驚喜</b>」<br>重點是意料之外</p>
+        </div>
+      </div>
+    </div>
+    <div class="card stripe purple">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--purple),#8b5cf6)">2</div>
+        <div class="body">
+          <b>等級 = 稀有，不是貴</b>
+          <p class="muted small">傳說禮物可以只是<br>「親手寫的祝福卡」</p>
+        </div>
+      </div>
+    </div>
+    <div class="card stripe accent glow">
+      <div class="iconcard">
+        <div class="numbadge">3</div>
+        <div class="body">
+          <b>感覺勝過實物</b>
+          <p class="muted small">大多數人要的是<br><span class="hl">「抽到稀有」</span>的感覺</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card accent glow" style="text-align:center;margin-top:.6em">
+    <p style="margin:.2em 0">點下方按鈕，體驗一個「客戶任務完成」的轉蛋示範 👇</p>
+    <div class="demolinks" style="justify-content:center;margin-top:.4em">
+      <a href="示範作品_轉蛋機/index.html" target="_blank">🎰 開啟轉蛋機示範</a>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎨 章節 7 · 7-6 ⓒ · 想做更好看的？</span>
+  <h2>想做美術升級版？4 步驟法 🎨</h2>
+  <p class="muted center">基礎版用 emoji 已經能玩，但想做<b>能商業使用、客戶會 wow</b>的——照這 4 步走。</p>
+  <div class="grid4" style="margin-top:.7em">
+    <div class="card stripe info">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">1</div>
+      <b>請 AI 給提示詞</b>
+      <p class="muted small">不用自己想 prompt</p>
+    </div>
+    <div class="card stripe info">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">2</div>
+      <b>複製去 AI 生圖</b>
+      <p class="muted small">用 GPT / Midjourney</p>
+    </div>
+    <div class="card stripe info">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">3</div>
+      <b>圖丟回資料夾</b>
+      <p class="muted small">告訴 AI 用這些素材</p>
+    </div>
+    <div class="card stripe accent glow">
+      <div class="numbadge">4</div>
+      <b>完成版上線</b>
+      <p class="muted small">AI 自動換掉</p>
+    </div>
+  </div>
+  <p class="center muted">接下來 4 頁，一步一步看怎麼做 👉</p>
+</section>
+
+<section class="slide">
+  <span class="tag">📝 章節 7 · 7-6 ⓓ · Step 1</span>
+  <h2>Step 1：請 AI 給轉蛋機圖的提示詞</h2>
+  <p class="muted center">告訴 AI 你要什麼，讓它幫你寫專業的圖像 prompt。</p>
+  <div class="promptbox" id="p-gacha-step1">我要做一個給會計師客戶用的「任務完成轉蛋機」網頁。
+請幫我寫 GPT / Midjourney / DALL-E 可以用的圖像生成 prompt，
+我需要以下 8 張圖：
+
+1. 一台「復古橘色轉蛋機」主視覺
+   - 透明圓頂裝滿彩色扭蛋
+   - 木質暖橘色機台 + 金屬把手 + 投幣孔
+   - 正面視角、去背 PNG、扁平向量插畫、暖色調
+
+2. 6 顆彩色扭蛋膠囊橫排（紅橘黃綠藍紫）
+   - 透明上半 + 彩色下半，金屬光澤
+   - 去背 PNG、6:1 橫向
+
+3-7. 5 個稀有度的禮物盒（同款不同顏色）
+   - N（普通）：白色 + 米色蝴蝶結
+   - R（不錯）：綠色 + 金色蝴蝶結
+   - SR（稀有）：藍色 + 金色蝴蝶結 + 寶石
+   - SSR（史詩）：紫色 + 金色蝴蝶結 + 閃爍星星
+   - UR（傳說）：金色 + 桂冠 + 王冠 + 大量金光
+   - 每個盒身上有對應的稀有度英文字
+   - 去背 PNG、Q 版可愛風
+
+8. 慶祝特效素材
+   - 金色彩帶 + 星星 + 爆炸光芒
+   - 透明背景 PNG、用於史詩 / 傳說中獎時
+
+風格：扁平向量、暖色調、Q 版可愛、商業級品質
+比例：每張獨立 PNG，背景透明<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">📤 章節 7 · 7-6 ⓔ · Step 2</span>
+  <h2>Step 2：複製提示詞去 AI 生圖工具</h2>
+  <div class="grid3" style="margin-top:.6em">
+    <div class="card accent">
+      <h3>🎨 GPT (推薦)</h3>
+      <p>· 中文理解最好</p>
+      <p>· 一次能畫多張</p>
+      <p>· 風格穩定</p>
+      <p class="muted small">適合會計師</p>
+    </div>
+    <div class="card info">
+      <h3>🌈 Midjourney</h3>
+      <p>· 美感最強</p>
+      <p>· 風格獨特</p>
+      <p>· 需要 Discord</p>
+      <p class="muted small">適合追求美感</p>
+    </div>
+    <div class="card teal">
+      <h3>🌟 Gemini / 其他</h3>
+      <p>· Google 帳號就能用</p>
+      <p>· 免費</p>
+      <p>· 速度快</p>
+      <p class="muted small">適合入門</p>
+    </div>
+  </div>
+  <div class="card good glow" style="margin-top:.6em">
+    <p><b>💡 操作小撇步</b></p>
+    <p>· <b>一次貼一段</b>（不要 8 張一起要，AI 會懶得每張都認真畫）</p>
+    <p>· <b>不滿意就重畫</b>（同一個 prompt 多畫幾次選最好的）</p>
+    <p>· <b>記得寫「去背 PNG / 透明背景」</b>（不然會有白底很難用）</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📁 章節 7 · 7-6 ⓕ · Step 3</span>
+  <h2>Step 3：把圖丟回資料夾給 AI</h2>
+  <p class="muted center">畫好的 8 張圖長這樣 👇 把它們放進專案資料夾，然後告訴 AI「用這些素材」</p>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6em;margin:.5em 0;background:rgba(247,241,222,.95);padding:1em;border-radius:14px;border:1px solid var(--card-border)">
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/machine.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>機台</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/capsules.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>6 色膠囊</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/sparkle.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>慶祝特效</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/prize-n.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>N 普通</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/prize-r.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>R 不錯</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/prize-sr.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SR 稀有</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/prize-ssr.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SSR 史詩</b></p></div>
+    <div style="text-align:center"><img src="示範作品_轉蛋機_完成版/images/prize-ur.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>UR 傳說</b></p></div>
+  </div>
+  <div class="promptbox" id="p-gacha-step3">我把畫好的 8 張圖放在 images/ 資料夾，請幫我升級剛剛的轉蛋機網頁：
+
+- machine.png → 機台主視覺
+- capsules.png → 6 顆扭蛋（橫排 sprite，可切割使用）
+- prize-n.png ~ prize-ur.png → 5 種稀有度的禮物盒
+- sparkle.png → SSR / UR 中獎時的慶祝特效
+
+請把這些圖替換掉原本的 emoji + CSS，動畫和遊戲邏輯都保留。
+完成後打開瀏覽器給我看。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">✨ 章節 7 · 7-6 ⓖ · Step 4</span>
+  <h2>Step 4：完成版 — 兩個版本對比</h2>
+  <p class="muted center">同一個轉蛋機，加了素材後質感完全不一樣 ✨</p>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card">
+      <h3>📦 基礎版（emoji + CSS）</h3>
+      <p class="muted small">· 純 CSS 動畫<br>· emoji 當禮物<br>· 完全不需要素材<br>· 適合：快速 demo</p>
+      <div class="demolinks" style="margin-top:.5em">
+        <a href="示範作品_轉蛋機/index.html" target="_blank">🎰 基礎版</a>
+      </div>
+    </div>
+    <div class="card accent glow">
+      <h3>🎨 完成版（AI 生圖）</h3>
+      <p class="muted small">· 真實插畫機台<br>· 精美禮物盒<br>· 金色慶祝特效<br>· 適合：客戶交付</p>
+      <div class="demolinks" style="margin-top:.5em">
+        <a href="示範作品_轉蛋機_完成版/index.html" target="_blank">✨ 完成版</a>
+      </div>
+    </div>
+  </div>
+  <div class="card good" style="margin-top:.5em">
+    <p class="center"><b>📌 流程總結</b>：請 AI 給 prompt → 去 GPT 生圖 → 圖放資料夾 → 告訴 AI 用這些素材 → <b>完成 ✨</b></p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🗺 章節 7 · 收尾 · 選擇依據</span>
+  <h2>什麼時候該用遊戲化？</h2>
+  <table>
+    <tr><th>客戶情境</th><th>遊戲化程度</th></tr>
+    <tr><td>客戶要做<b>嚴肅決定</b></td><td>🟢 <b>低</b> — 重視專業感</td></tr>
+    <tr><td>客戶要<b>學新觀念</b></td><td>🟡 <b>中</b> — 互動引導</td></tr>
+    <tr><td>客戶要<b>記住複雜概念</b></td><td>🔴 <b>高</b> — 拖拉、即時試算</td></tr>
+    <tr><td>客戶在<b>等待 / 打發時間</b></td><td>🔴 <b>高</b> — 趣味為主</td></tr>
+  </table>
+  <div class="card accent">
+    <p><b>加遊戲元素前，問自己：</b></p>
+    <p>1. 客戶離目的更近還是更遠？</p>
+    <p>2. 拿掉這元素，客戶會錯過什麼？</p>
+    <p>3. 客戶第一次看到，被吸引還是嚇到？</p>
+  </div>
+</section>
+
+<!-- 章節 8 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 8</p>
+  <h1>從零開始<br>做一個網頁</h1>
+  <img src="assets/course-art/workflow-idea-ai-web.png" style="max-width:550px;width:75%;margin:1em auto 0;display:block;border-radius:16px;box-shadow:0 12px 32px rgba(0,0,0,.4)">
+  <p style="margin-top:1em">5 步驟法</p>
+</section>
+
+<section class="slide">
+  <span class="tag">😶 章節 8 · 8-1</span>
+  <h2>「沒想法」是最常見的卡點</h2>
+  <div class="card deep" style="text-align:center;padding:1.8em">
+    <div style="font-size:3em">😶</div>
+    <p style="font-size:1.2em;margin:.3em 0">老師說：「現在打開 Antigravity，做你自己的東西吧」</p>
+    <p class="big" style="margin:.3em 0;font-size:clamp(26px,3vw,40px)">→ 腦袋一片空白</p>
+  </div>
+  <div class="card glow accent" style="margin-top:1em;text-align:center">
+    <p style="font-size:1.15em;margin:.3em 0">別擔心，有一個 <b style="color:var(--accent)">5 步驟法</b> 👇</p>
+    <p class="big" style="margin:.3em 0">從空白到初稿，只要 <span class="hl">10 分鐘</span> ⏱</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🗺 章節 8 · 8-2 總覽</span>
+  <h2>5 步驟法</h2>
+  <div class="card stripe info">
+    <div class="iconcard">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">1</div>
+      <div class="body">
+        <b style="font-size:1.1em">說你是什麼「角色」</b> 👤
+        <p class="muted small">角色 / 身分 / 專業背景</p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe info">
+    <div class="iconcard">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">2</div>
+      <div class="body">
+        <b style="font-size:1.1em">說網頁的「目的」+「客群」</b> 🎯
+        <p class="muted small">解決什麼問題 / 給誰用</p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe info">
+    <div class="iconcard">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">3</div>
+      <div class="body">
+        <b style="font-size:1.1em">寫下希望網頁包含的「內容」</b> 📝
+        <p class="muted small">核心元素 + 留發揮空間</p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe info">
+    <div class="iconcard">
+      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">4</div>
+      <div class="body">
+        <b style="font-size:1.1em">給 AI 各種「資料」</b> 📚 <span class="pill">可後補</span>
+        <p class="muted small">服務清單 / 收費表 / 案例</p>
+      </div>
+    </div>
+  </div>
+  <div class="card stripe accent glow" data-ribbon="最關鍵">
+    <div class="iconcard">
+      <div class="numbadge">5</div>
+      <div class="body">
+        <b style="font-size:1.15em">截圖你喜歡的「網頁風格」</b> 📷 ⭐
+        <p class="muted small">給 AI 看圖，比講話強 10 倍</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">👤 章節 8 · 8-3 · Step 1</span>
+  <h2>說你是什麼角色</h2>
+  <table>
+    <tr><th>寫法</th><th>AI 以為的你</th></tr>
+    <tr><td>「我要做網頁」</td><td>學生？工程師？老闆？😵</td></tr>
+    <tr><td>「我是會計師」</td><td>會用會計專業語言 ✓</td></tr>
+    <tr><td>「我是執業 8 年的稅務顧問，主要服務中小企業」</td><td>知道深度、規模、客戶層 ✓✓✓</td></tr>
+  </table>
+  <p class="big" style="margin:.4em 0;font-size:clamp(22px,2.4vw,32px)">越具體越好 🎯</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🎯 章節 8 · 8-4 · Step 2</span>
+  <h2>說網頁的目的 + 客群</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>🎯 目的</h3>
+      <p class="muted">決定功能優先順序</p>
+      <p>· 讓客戶搞懂折舊</p>
+      <p>· 客戶申報前對帳</p>
+      <p>· 自我介紹頁</p>
+    </div>
+    <div class="card">
+      <h3>👥 客群</h3>
+      <p class="muted">決定介面複雜度、字級、互動</p>
+      <p>· 年齡層</p>
+      <p>· 職業背景</p>
+      <p>· 手機 or 電腦</p>
+    </div>
+  </div>
+  <div class="card accent">
+    <p><b>範例</b>：目的是讓我的客戶（<b>50 歲以上小吃店老闆、不會用電腦、用手機操作</b>）搞懂他每月要繳多少營業稅。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📝 章節 8 · 8-5 · Step 3</span>
+  <h2>寫下希望網頁包含的內容</h2>
+  <table>
+    <tr><th>寫多少</th><th>結果</th></tr>
+    <tr><td><b>不寫</b></td><td>AI <b>自己猜</b>，可能歪</td></tr>
+    <tr><td><b>寫了</b></td><td>AI <b>精準產出</b> ✓</td></tr>
+    <tr><td><b>寫太多</b></td><td>AI <b>沒空間發揮</b></td></tr>
+  </table>
+  <div class="card good">
+    <p><b>✅ 剛剛好（核心 + 留空間）</b></p>
+    <p>「希望包含：輸入銷售額/進項額、即時顯示應納稅額、視覺要簡單。<b>其他你覺得對的元素都可以加</b>」</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📚 章節 8 · 8-6 · Step 4</span>
+  <h2>給 AI 各種資料（可後補）</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>📦 你可以給的</h3>
+      <p>· 服務項目清單</p>
+      <p>· 收費表 / 報價單</p>
+      <p>· 案例 / 客戶見證</p>
+      <p>· 法規條文 / 公式</p>
+      <p>· 寫過的文案</p>
+    </div>
+    <div class="card good">
+      <h3>✨ 給了之後</h3>
+      <p>AI 用<b>你的真實資料</b></p>
+      <p>你只要校對</p>
+      <p class="muted">資料給 AI，文案它寫；你的工作是校對。</p>
+    </div>
+  </div>
+  <div class="card accent">
+    <p><b>一開始不放沒關係</b>：先做空殼，看 AI 怎麼設計，再補資料進去。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📷 章節 8 · 8-7 · Step 5 ⭐</span>
+  <h2>截圖你喜歡的網頁風格</h2>
+  <table>
+    <tr><th>你說</th><th>AI 理解</th></tr>
+    <tr><td>「現代簡約風」</td><td>太抽象</td></tr>
+    <tr><td>「溫暖一點」</td><td>多溫暖？</td></tr>
+    <tr><td><b>截一張圖給 AI 看</b></td><td><b>直接複製版面、配色、字體</b> ✓</td></tr>
+  </table>
+  <div class="grid2" style="margin-top:.4em">
+    <div class="card">
+      <h3>📷 怎麼找</h3>
+      <p class="muted">看到好看就截圖 / IG / Pinterest / Dribbble</p>
+    </div>
+    <div class="card">
+      <h3>📤 怎麼給</h3>
+      <p class="muted">拖進 AI panel + 加一句「請參考這張圖的視覺風格」</p>
+    </div>
+  </div>
+  <p class="center"><b>先模仿，再變成自己的 🪞</b></p>
+</section>
+
+<section class="slide">
+  <span class="tag">📋 章節 8 · 8-8 · 組合範例</span>
+  <h2>把 5 步驟組起來</h2>
+  <div class="promptbox" id="p-fivestep">【Step 1 角色】
+我是執業 8 年的會計師，主要服務台中地區的中小企業。
+
+【Step 2 目的 + 客群】
+我想做一個網頁，用來自我介紹 + 帶到我的服務項目。
+給未來想找會計師的中小企業老闆看（35~55 歲、用手機看居多、
+時間有限、不耐長文）。
+
+【Step 3 希望包含的內容】
+- 我的專業背景（一段話帶過就好）
+- 3 項主要服務（記帳、報稅、公司設立諮詢）
+- 客戶見證（2~3 句即可）
+- 預約諮詢按鈕（連到 LINE）
+- 其他你覺得會讓老闆願意聯絡的元素都可以加
+
+【Step 4 資料】
+（這次先不給，你先做出空殼，我看完再補上）
+
+【Step 5 風格】
+（附上一張我喜歡的網頁截圖）
+請參考這張圖的視覺風格——簡約現代、有溫度。
+
+在桌面建「我的會計師名片頁」資料夾，做一個 index.html，
+完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
+</section>
+
+<section class="slide">
+  <span class="tag">🛠 章節 8 · 8-9 · 實作環節</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/rocket.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">現在換你做</h2>
+  </div>
+  <div class="card accent">
+    <h3>1. 📷 截圖你喜歡的網頁</h3>
+    <p class="muted">瀏覽器、IG、Pinterest 找一個截下來</p>
+  </div>
+  <div class="card accent">
+    <h3>2. ✍️ 照 5 步驟給 AI 指令</h3>
+    <p class="muted">Step 1 角色 → Step 2 目的+客群 → Step 3 內容 → Step 4 資料 → Step 5 截圖</p>
+  </div>
+  <div class="card accent">
+    <h3>3. 🚀 做出你自己的網頁初稿</h3>
+    <p class="muted">整段 prompt 貼進 Antigravity → 等它跑完 → 開出來 → 跟同學分享</p>
+  </div>
+</section>
+
+<!-- 章節 8 美編 -->
+<section class="slide chapter-cover">
+  <p class="chno">章節 8 · 進階</p>
+  <h1 style="color:var(--accent2)">美工美編 🎨</h1>
+  <p>網頁有了<br>圖怎麼放進去？</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🖼 章節 8 · 美編 · 圖怎麼進網頁</span>
+  <h2>本課不主教做圖，但要會放進去</h2>
+  <div class="card warn">
+    <p>⚠️ 作圖一般用 AI 繪圖工具。目前美感最強：<b>GPT 繪圖（gpt-image 系列）</b>。</p>
+    <p class="muted">AI 變化快，重點學「流程」。</p>
+  </div>
+  <h3>標準流程</h3>
+  <div class="grid2">
+    <div class="card"><b>1️⃣ 畫好圖</b><p class="muted">用 GPT 或其他 AI 工具</p></div>
+    <div class="card"><b>2️⃣ 放進專案資料夾</b><p class="muted">例：images/</p></div>
+    <div class="card"><b>3️⃣ 取英文檔名</b><p class="muted">logo.png · hero-banner.jpg</p></div>
+    <div class="card good"><b>4️⃣ 告訴 AI「放進網站」</b><p class="muted">AI 自動放 + 打包推 GitHub</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🧠 章節 8 · 美編 · 換大腦</span>
+  <h2>Antigravity 可以換大腦</h2>
+  <div class="card accent">
+    <p>📌 回想章節 1：Antigravity 只是<b>手腳</b>，<b>大腦</b>可以自己選。</p>
+  </div>
+  <h3>訂閱 GPT 的人，建議：</h3>
+  <div class="grid2">
+    <div class="card"><b>1.</b> 左邊找「Extensions」</div>
+    <div class="card"><b>2.</b> 搜尋 <b>Codex</b></div>
+    <div class="card"><b>3.</b> 安裝 + 登入 GPT 帳號</div>
+    <div class="card good"><b>4.</b> 用 GPT 大腦 ✨</div>
+  </div>
+  <div class="card good">
+    <p><b>✅ GPT 大腦的優勢</b></p>
+    <p>· 內建繪圖（不用切換工具）· 畫完自動存檔 · 設計能力 + 美感比 Claude 強</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🆚 章節 8 · 美編 · 實例對比</span>
+  <h2>前後對比：同個遊戲，兩種長相</h2>
+  <p class="muted">用「公司 vs 行號配對遊戲」當示範。基礎版用 Claude 寫，再叫 GPT 升級美術。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>📦 基礎版（Claude）</h3>
+      <p class="muted">純文字 · 純色塊 · 功能完整<br>客戶看了不會 wow</p>
+      <div class="demolinks" style="margin-top:.5em"><a href="示範作品_公司vs行號/index.html" target="_blank">🔗 開啟基礎版</a></div>
+    </div>
+    <div class="card accent">
+      <h3>🎨 設計版（GPT 升級）</h3>
+      <p>插畫圖卡 · 角色 + 場景 · 品牌感<br><b>客戶看了會主動分享</b></p>
+      <div class="demolinks" style="margin-top:.5em"><a href="示範作品_公司vs行號設計版/index.html" target="_blank">🎨 開啟設計版</a></div>
+    </div>
+  </div>
+  <div class="card">
+    <p><b>💡 升級流程</b></p>
+    <p>1. GPT 畫 10 張卡片插畫 → 2. 放進 assets/cards/ → 3. 告訴 AI「換掉純文字卡片」→ 4. 刷新就變漂亮</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🤝 章節 8 · 美編 · 三大模型</span>
+  <h2>三大模型 — 各有專長</h2>
+  <div class="grid3">
+    <div class="card">
+      <div class="big" style="font-size:2em;margin:.1em 0">🧑‍💻</div>
+      <h3 class="center">Claude</h3>
+      <p class="center"><b>嚴謹工程師</b></p>
+      <p class="muted center">最會寫程式<br>理解能力最佳</p>
+    </div>
+    <div class="card accent">
+      <div class="big" style="font-size:2em;margin:.1em 0">🎨</div>
+      <h3 class="center">GPT</h3>
+      <p class="center"><b>美術藝術家</b></p>
+      <p class="muted center">圖畫最好<br>美感最佳</p>
+    </div>
+    <div class="card">
+      <div class="big" style="font-size:2em;margin:.1em 0">🔗</div>
+      <h3 class="center">Gemini</h3>
+      <p class="center"><b>整合系統</b></p>
+      <p class="muted center">Google 整合最方便<br>最便宜</p>
+    </div>
+  </div>
+  <table>
+    <tr><th>能力</th><th>排序</th></tr>
+    <tr><td><b>美術 / 設計</b></td><td>GPT &nbsp;>>>&nbsp; Gemini &nbsp;>&nbsp; Claude</td></tr>
+    <tr><td><b>程式 / 邏輯</b></td><td>Claude &nbsp;>&nbsp; GPT &nbsp;>>>&nbsp; Gemini</td></tr>
+    <tr><td><b>串聯生態系</b></td><td>Gemini &nbsp;>&nbsp; Claude &nbsp;=&nbsp; GPT</td></tr>
+  </table>
+</section>
+
+<!-- 章節 8 GitHub -->
+<section class="slide">
+  <span class="tag">🚀 章節 8 · 8-10</span>
+  <h2>把網頁推上 GitHub</h2>
+  <div class="grid3">
+    <div class="card good"><div class="big" style="font-size:2em;margin:.1em 0">📲</div><p class="center"><b>LINE 點一下就能看</b></p></div>
+    <div class="card good"><div class="big" style="font-size:2em;margin:.1em 0">🔄</div><p class="center"><b>修改即時更新</b></p></div>
+    <div class="card good"><div class="big" style="font-size:2em;margin:.1em 0">💰</div><p class="center"><b>完全免費</b></p></div>
+  </div>
+  <h3>三步驟（AI 全自動）</h3>
+  <div class="card"><b>1.</b> 告訴 AI「已創建好 GitHub 並裝好權限」</div>
+  <div class="card"><b>2.</b> 請 AI 建立新倉庫（設公開）、推上去</div>
+  <div class="card"><b>3.</b> 請 AI 給你網站連結</div>
+</section>
+
+<section class="slide">
+  <span class="tag">📋 章節 8 · 8-11 · GitHub Prompt</span>
+  <h2>推上 GitHub 的萬用 Prompt</h2>
+  <div class="promptbox" id="p-github">我的 GitHub 帳號已經登入好了（gh auth status 確認過）。
+
+請幫我做以下事情：
+1. 在 GitHub 建立一個新的【公開】倉庫，名稱叫：[請改成你想要的名字]
+2. 把目前這個資料夾的所有檔案推上去
+3. 開啟 GitHub Pages（用 main 分支根目錄）
+4. 把網站的公開連結給我，我要分享給客戶看
+
+如果中間有任何選擇要做，請依照「最簡單、最常用」的方式處理。
+做完直接給我連結就好。<button class="copybtn">📋 複製</button></div>
+  <div class="card accent">
+    <p><b>📝 提醒</b>：倉庫名英文小寫+連字號（例 <code>tax-calc</code>） · 等 1~2 分鐘佈署完成</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag warn">⚠️ 章節 8 · 8-12</span>
+  <h2>GitHub Pages 的限制</h2>
+  <table>
+    <tr><th>限制</th><th>怎麼辦</th></tr>
+    <tr><td>⚠️ 倉庫公開</td><td><b>不要放</b>客戶資料、密碼、API key</td></tr>
+    <tr><td>⚠️ 只能靜態網頁</td><td>表單存資料、帳密登入做不到</td></tr>
+    <tr><td>⚠️ 網址不專業</td><td>商業正式用<b>自己買網域</b></td></tr>
+    <tr><td>⚠️ 更新有延遲</td><td>等 1~2 分鐘</td></tr>
+  </table>
+  <div class="grid2">
+    <div class="card good"><b>✅ 適合放</b><p class="muted">教學頁、試算工具、自我介紹</p></div>
+    <div class="card bad"><b>❌ 不適合</b><p class="muted">帳密登入、表單存資料、含個資</p></div>
+  </div>
+</section>
+
+<!-- 8 進階 -->
+<section class="slide chapter-cover">
+  <p class="chno">章節 8 · 進階</p>
+  <h1 style="color:var(--accent2)">上架平台 +<br>資料庫 🛠</h1>
+</section>
+
+<section class="slide">
+  <span class="tag">🌐 章節 8 · 8-13 · 上架平台</span>
+  <h2>除了 GitHub Pages，還有什麼？</h2>
+  <table>
+    <tr><th>平台</th><th>後端</th><th>特色</th></tr>
+    <tr><td><b>GitHub Pages</b></td><td>❌</td><td>最簡單、最熟悉</td></tr>
+    <tr><td><b>Vercel</b> ⭐</td><td>✅</td><td>免費額度大、最受歡迎</td></tr>
+    <tr><td><b>Netlify</b></td><td>✅</td><td>老牌穩定、表單內建</td></tr>
+    <tr><td><b>Cloudflare Pages</b></td><td>✅</td><td>全球 CDN 最快</td></tr>
+    <tr><td><b>Firebase Hosting</b></td><td>✅✅</td><td>Google 全套服務</td></tr>
+  </table>
+  <div class="card accent">
+    <p>· 純展示頁 → <b>GitHub Pages</b> · 加表單收資料 → <b>Vercel</b> · 全套服務 → <b>Firebase</b></p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">💾 章節 8 · 8-14 · 資料庫</span>
+  <h2>什麼時候需要資料庫？</h2>
+  <div class="card accent">
+    <p><b>用 Excel 比喻</b>：</p>
+    <p>· Excel = 一個檔案，開啟、編輯、關閉</p>
+    <p>· 資料庫 = <b>「永遠開著」的 Excel</b>，多人同時看同時改</p>
+  </div>
+  <table>
+    <tr><th>你想做的事</th><th>要資料庫？</th></tr>
+    <tr><td>純試算工具</td><td>❌</td></tr>
+    <tr><td>純展示頁</td><td>❌</td></tr>
+    <tr><td><b>客戶填表單，你之後要回看</b></td><td>✅</td></tr>
+    <tr><td><b>客戶登入查自己的資料</b></td><td>✅</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <span class="tag">📊 章節 8 · 8-15</span>
+  <h2>新手該用哪個資料庫？</h2>
+  <table>
+    <tr><th>工具</th><th>像什麼</th><th>難度</th></tr>
+    <tr><td><b>Google Sheets</b></td><td>試算表當資料庫</td><td>🟢 最低</td></tr>
+    <tr><td><b>Airtable</b></td><td>升級版試算表</td><td>🟡 中</td></tr>
+    <tr><td><b>Supabase</b></td><td>真資料庫 + 認證</td><td>🟠 中高</td></tr>
+    <tr><td><b>Firebase Firestore</b></td><td>Google 全套後端</td><td>🟠 中高</td></tr>
+  </table>
+  <div class="card accent">
+    <p><b>學習順序</b>：Google Sheets → Airtable → Supabase</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎯 章節 8 · 8-16 · 決策表</span>
+  <h2>看一眼就知道怎麼選</h2>
+  <table>
+    <tr><th>想做的事</th><th>平台</th><th>資料庫</th></tr>
+    <tr><td>純展示</td><td>GitHub Pages</td><td>不用</td></tr>
+    <tr><td>給客戶玩的試算</td><td>GitHub Pages</td><td>不用</td></tr>
+    <tr><td><b>客戶填表單，我收到</b></td><td>Vercel</td><td>Google Sheets</td></tr>
+    <tr><td><b>客戶填表單，客戶回查</b></td><td>Vercel</td><td>Airtable</td></tr>
+    <tr><td><b>客戶登入查財報</b></td><td>Vercel</td><td>Supabase</td></tr>
+  </table>
+</section>
+
+<!-- 章節 8 資料安全 -->
+<section class="slide chapter-cover">
+  <p class="chno">章節 8 · 必看</p>
+  <h1 style="color:var(--bad)">⚠️ 資料安全</h1>
+  <p>會計師用 AI 做客戶資料 App 前<br>先看這節</p>
+</section>
+
+<section class="slide">
+  <span class="tag warn">⚠️ 章節 8 · 8-17 · 警告</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/shield.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">為什麼會計師特別危險？</h2>
+  </div>
+  <div class="card bad glow">
+    <p style="font-size:1.1em"><b>🔐 你處理的是「高敏感資料」</b></p>
+    <div class="grid4" style="margin-top:.4em">
+      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">🆔<br><b class="small">身分證</b></div>
+      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">💳<br><b class="small">銀行帳號</b></div>
+      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">📊<br><b class="small">財報</b></div>
+      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">📝<br><b class="small">稅務 / 健保</b></div>
+    </div>
+  </div>
+  <div class="card bad" style="text-align:center;background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(239,68,68,.05))">
+    <p class="big" style="color:var(--bad);margin:.2em 0;font-size:clamp(22px,2.7vw,36px);-webkit-text-fill-color:var(--bad);background:none;filter:none">出事 = <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">法律</span> + <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">信譽</span> + <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">賠錢</span> 💸</p>
+  </div>
+  <div class="card warn">
+    <p style="font-size:1.05em">⚠️ 最危險的——不是你不會的事，是<br><b style="color:var(--warn);font-size:1.1em">「你不知道你不會的事」</b></p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag warn">💀 章節 8 · 8-18 · 5 個雷</span>
+  <h2>新手最常踩的 5 個雷</h2>
+  <table>
+    <tr><th>#</th><th>災難</th><th>會發生</th></tr>
+    <tr><td>1</td><td><b>API Key 外洩</b></td><td>推上 GitHub → 被偷用 → 帳單爆表</td></tr>
+    <tr><td>2</td><td><b>資料庫權限沒設</b></td><td>全世界看得到客戶資料</td></tr>
+    <tr><td>3</td><td><b>敏感檔推 GitHub</b></td><td>Google 搜得到 .env、客戶 Excel</td></tr>
+    <tr><td>4</td><td><b>XSS 攻擊</b></td><td>客戶輸入被當程式執行</td></tr>
+    <tr><td>5</td><td><b>沒備份</b></td><td>客戶資料永遠不見</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <span class="tag">🛡 章節 8 · 8-19 · 保命四鐵則</span>
+  <h2>最嚴格的「保命四鐵則」</h2>
+  <div class="grid2">
+    <div class="card good stripe glow">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">1</div>
+        <div class="body">
+          <b style="font-size:1.05em">真敏感資料 → 不要自己做</b>
+          <p class="muted small">身分證 / 銀行帳號 / 健保<br>→ 找專業工程師</p>
+        </div>
+      </div>
+    </div>
+    <div class="card good stripe glow">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">2</div>
+        <div class="body">
+          <b style="font-size:1.05em">倉庫一律設 Private</b>
+          <p class="muted small">含客戶資料的專案<br>絕對不能 Public</p>
+        </div>
+      </div>
+    </div>
+    <div class="card good stripe glow">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">3</div>
+        <div class="body">
+          <b style="font-size:1.05em">開發中用「假資料」</b>
+          <p class="muted small">真實資料等正式上線後<br>才進去</p>
+        </div>
+      </div>
+    </div>
+    <div class="card good stripe glow">
+      <div class="iconcard">
+        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">4</div>
+        <div class="body">
+          <b style="font-size:1.05em">API Key 放「環境變數」</b>
+          <p class="muted small">告訴 AI：用 <code>.env</code><br>加進 <code>.gitignore</code></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">✅ 章節 8 · 8-20 · 決策表</span>
+  <h2>該不該自己動手？</h2>
+  <table>
+    <tr><th>想做的事</th><th>該不該</th></tr>
+    <tr><td>給客戶看的純展示頁、教學頁</td><td>✅ 可以</td></tr>
+    <tr><td>給客戶玩的試算工具（不存資料）</td><td>✅ 可以</td></tr>
+    <tr><td>內部客戶名單 + 連絡資訊</td><td>⚠️ Private + Airtable</td></tr>
+    <tr><td>客戶填表單寄給你</td><td>⚠️ Vercel + Google Sheets</td></tr>
+    <tr><td><b>客戶帳密登入查財報</b></td><td>🔴 找工程師</td></tr>
+    <tr><td><b>客戶上傳身分證</b></td><td>🔴 找工程師</td></tr>
+  </table>
+</section>
+
+<!-- 章節 9 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 9</p>
+  <h1>跟 AI 長期協作<br>的 3 件事 🤝</h1>
+  <p>從「會用」到「用得久、用得好」</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🤝 章節 9 · 9-1</span>
+  <h2>① 信任建立在熟悉之上</h2>
+  <p class="muted">你跟 AI 是工作夥伴。事情交給 AI 沒問題——但你必須知道 AI <b style="color:var(--accent)">怎麼工作</b>的。</p>
+  <div class="card bad">
+    <p><b>⚠️ AI 常見的「歪掉」三種狀況</b></p>
+    <p>· <b>繞路</b>：做了你沒要他做的事</p>
+    <p>· <b>不夠了解而做錯</b>：以為你要 A 結果做了 B</p>
+    <p>· <b>用複雜解法忽略簡單做法</b>：一個 if 能解決的事，他寫 50 行</p>
+  </div>
+  <div class="card good">
+    <p>你的工作：<b>看著它做</b> · 不對勁就<b>出手干預</b> · 慢慢知道什麼要管什麼不用</p>
+  </div>
+  <p class="center"><b>信任 ≠ 放任。信任 = 知道對方在做什麼 🔍</b></p>
+</section>
+
+<section class="slide">
+  <span class="tag">👶 章節 9 · 9-2</span>
+  <h2>② 當「巨嬰」— 凡事先問 AI</h2>
+  <p class="muted">把「要自己動手」的事情<b style="color:var(--accent)">習慣性丟給 AI</b>。</p>
+  <div class="card accent">
+    <p><b>🎯 只要 AI 要你做，先問這三句</b></p>
+    <p>1. 「你能幫我做嗎？」</p>
+    <p>2. 「需要什麼權限？」</p>
+    <p>3. 「為什麼你不行？」</p>
+  </div>
+  <div class="card good">
+    <p>💡 設定過一次，<b>以後完全不用你動手</b>。</p>
+    <p class="muted">例：第一次設好 Google Sheets API → 之後叫 AI 一句話就搞定。</p>
+  </div>
+  <p class="big" style="margin:.4em 0;font-size:clamp(18px,2vw,26px)">現在的麻煩 = 為了以後更順暢 ⚙️</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🎓 章節 9 · 9-3 · SKILL</span>
+  <h2>③ 把重複工作做成「SKILL」</h2>
+  <div class="card bad">
+    <p><b>❌ 沒 SKILL 的痛苦</b></p>
+    <p class="muted">每個月都要打：「請整理發票成表格，欄位要有日期、廠商...」<br>越打越懶，最後乾脆不用 😩</p>
+  </div>
+  <div class="card accent glow">
+    <p><b>💡 SKILL = 把工作流程「存起來」</b></p>
+    <div class="grid2" style="margin-top:.5em">
+      <div>
+        <p class="muted small" style="margin:.2em 0">📌 <b>第一次做完，告訴 AI：</b></p>
+        <p style="padding:.6em 1em;background:#0a0703;border-radius:8px;font-family:ui-monospace,Menlo,monospace;color:var(--accent3);font-size:.9em;border:1px dashed rgba(245,158,11,.3)">「請幫我把這份工作流程<br>做成 SKILL」</p>
+      </div>
+      <div>
+        <p class="muted small" style="margin:.2em 0">⚡ <b>下次只要說：</b></p>
+        <p style="padding:.6em 1em;background:#0a0703;border-radius:8px;font-family:ui-monospace,Menlo,monospace;color:var(--accent3);font-size:.9em;border:1px dashed rgba(245,158,11,.3)">「幫我整理客戶發票」</p>
+      </div>
+    </div>
+    <p style="margin-top:.5em;text-align:center">AI 按上次流程處理，<b class="hl">連你踩過的雷也會記得</b> 🎯</p>
+  </div>
+  <div class="card outlined" style="text-align:center;margin-top:.6em">
+    <p class="big" style="margin:.2em 0;font-size:clamp(22px,2.5vw,34px)">教 AI 一次，省一輩子 ✨</p>
+  </div>
+</section>
+
+<!-- 章節 10 結業 -->
+<section class="slide chapter-cover">
+  <p class="chno">CHAPTER 10</p>
+  <h1>結業 🎓</h1>
+  <p>你已經會了<br>接下來去做。</p>
+</section>
+
+<section class="slide">
+  <span class="tag">💛 章節 10 · 結語</span>
+  <h2>給你的最後兩段話</h2>
+  <div class="card accent">
+    <p style="font-size:clamp(15px,1.5vw,21px);line-height:1.9">
+      與 AI 工作是一件<b>需要長期習慣</b>的事情。
+    </p>
+    <p style="font-size:clamp(15px,1.5vw,21px);line-height:1.9">
+      剛開始時你可能要花很多時間跟 AI 溝通、彼此熟悉，
+      你會覺得 AI 難用、做得比你想的差——
+      但很多時候，<b>改變一下溝通方式就會差很多</b>。
+    </p>
+  </div>
+  <div class="card glow" style="border-width:2px;border-color:var(--accent);background:linear-gradient(135deg,#fef0d0,#f7e3a8)">
+    <p style="font-size:clamp(17px,2vw,26px);line-height:2;text-align:center;color:#5a3a0e;font-weight:700">
+      <b style="color:#8b5a14">AI 時代</b>，<br>
+      <b style="color:#8b5a14">知識</b>不再是阻礙你前進的原因，<br>
+      <b style="color:#8b5a14">耐心</b>與<b style="color:#8b5a14">如何跨出舒適圈</b>，才是。
+    </p>
+  </div>
+</section>
+
+<!-- 章節 11 · AI 小知識補充 -->
+<section class="slide chapter-cover center-v">
+  <p class="chno">CHAPTER 11 · 補充</p>
+  <h1>📚 AI 小知識</h1>
+  <p style="margin-top:1em">未來做進階 App 時會碰到的概念</p>
+</section>
+
+<section class="slide">
+  <span class="tag">🔑 章節 11 · 補充 ① · API Key</span>
+  <h2>什麼是 API Key？</h2>
+  <div class="card accent glow">
+    <p style="font-size:1.15em"><b>🔑 直接想成「鑰匙」</b></p>
+    <p style="font-size:1.05em">你跟服務商註冊後，他給你<b>一把鑰匙</b>。<br>你的程式拿著這把鑰匙，<b>才能進去使用服務</b>。</p>
+  </div>
+  <div class="card bad" style="margin-top:1em">
+    <p style="font-size:1.05em">⚠️ <b>鑰匙不見了</b> = 別人能用你的身分進去<span class="hl">花你的錢</span>。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🔑 章節 11 · 補充 ① · 常見的鑰匙</span>
+  <h2>常見的鑰匙有哪些？</h2>
+  <table>
+    <tr><th>服務類型</th><th>什麼時候需要</th></tr>
+    <tr><td>🤖 <b>第三方 AI</b></td><td>讓 App 自己呼叫 AI（OpenAI / Anthropic）</td></tr>
+    <tr><td>💾 <b>雲端資料庫</b></td><td>程式要讀寫資料（Supabase / Firebase）</td></tr>
+    <tr><td>🗺️ <b>地圖服務</b></td><td>網頁顯示地圖（Google Maps）</td></tr>
+    <tr><td>💳 <b>金流服務</b></td><td>網頁要收錢（LINE Pay / Stripe）</td></tr>
+    <tr><td>📨 <b>通訊服務</b></td><td>自動發 LINE / Email</td></tr>
+  </table>
+</section>
+
+<section class="slide">
+  <span class="tag">🤖 章節 11 · 補充 ② · 第三方 AI 詳解</span>
+  <h2>為什麼要另外申請 GPT/Claude API？</h2>
+  <div class="card accent">
+    <p><b>Antigravity 內建 AI 是「給你用」</b>，幫你寫程式、改檔案。</p>
+    <p>如果要做 App <b>讓客戶自己跟 AI 對話</b>（例：稅務問答機器人），就要申請 API Key。</p>
+  </div>
+  <h3>實際應用</h3>
+  <div class="grid2">
+    <div class="card"><b>🤖 客服機器人</b><p class="muted">自動回稅務問題</p></div>
+    <div class="card"><b>📝 自動審稿</b><p class="muted">給文件找錯字</p></div>
+    <div class="card"><b>📨 分類訊息</b><p class="muted">客戶 email / LINE</p></div>
+    <div class="card"><b>✍️ 產文案</b><p class="muted">報告、報價單草稿</p></div>
+  </div>
+  <div class="card warn">
+    <p>💰 <b>按使用量計費</b>。用得多付得多——所以鑰匙被偷 = 別人花你的錢。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🤖 章節 11 · 補充 ③ · 客服機器人</span>
+  <h2>客服機器人的三種類型</h2>
+  <table>
+    <tr><th></th><th>程式機器人</th><th>AI 機器人</th><th>混合型 ⭐</th></tr>
+    <tr><td><b>怎麼做</b></td><td>預寫答案 + 關鍵字</td><td>LLM 自由生成</td><td>AI 判斷 → 程式答</td></tr>
+    <tr><td><b>✅ 優點</b></td><td>可控 · 便宜 · 不會錯</td><td>聰明 · 自然</td><td>穩定 + 聰明 + 便宜</td></tr>
+    <tr><td><b>❌ 缺點</b></td><td>很笨 · 冷漠</td><td><b>會幻覺</b>· 貴</td><td>開發較複雜</td></tr>
+  </table>
+  <div class="card accent">
+    <p><b>⭐ 給會計師：選混合型</b></p>
+    <p>· AI 負責「聽懂」客戶問什麼 · 程式負責「答對」標準答案 · 不確定 → 轉接給人類</p>
+  </div>
+  <div class="card bad">
+    <p>⚠️ 純 AI 風險：客戶問「我這月稅多少」，AI 可能<b>編一個假數字</b>。會計師絕對不能允許。</p>
+  </div>
+</section>
+
+<section class="slide chapter-cover center-v">
+  <h1 style="font-size:clamp(60px,9vw,120px)">課堂見 👋</h1>
+  <p style="font-size:clamp(20px,2.4vw,30px);margin-top:1em;color:var(--accent2)">去做吧，回來分享你的作品。</p>
+</section>
+
+</div>
+
+<div class="counter"><b id="cur">1</b> / <span id="total">1</span></div>
+<div class="keyhint">← → 翻頁</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  document.getElementById('total').textContent=slides.length;
+
+  function show(n){
+    slides[i].classList.remove('active');
+    i=(n+slides.length)%slides.length;
+    slides[i].classList.add('active');
+    document.getElementById('cur').textContent=i+1;
+  }
+  function go(d){show(i+d)}
+
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1)}
+    if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
+    if(e.key==='Home')show(0);
+    if(e.key==='End')show(slides.length-1);
+  });
+
+  // Tabs
+  document.querySelectorAll('.tabs').forEach(tabs=>{
+    const group=tabs.dataset.tabgroup;
+    const slide=tabs.closest('.slide');
+    tabs.querySelectorAll('.tab').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        tabs.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        slide.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+        slide.querySelector(`.tabpane[data-pane="${btn.dataset.tab}"]`).classList.add('active');
+      });
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copybtn').forEach(btn=>{
+    btn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      const box=btn.parentElement;
+      const txt=Array.from(box.childNodes)
+        .filter(n=>n.nodeType===3 || (n.nodeType===1 && n.tagName!=='BUTTON'))
+        .map(n=>n.textContent).join('').trim();
+      navigator.clipboard.writeText(txt).then(()=>{
+        btn.textContent='✓ 已複製';
+        btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent='📋 複製';btn.classList.remove('copied')},1500);
+      }).catch(()=>{
+        btn.textContent='✗ 失敗';
+        setTimeout(()=>btn.textContent='📋 複製',1500);
+      });
+    });
+  });
+
+  // Generated icon decoration. Source text and slide count stay unchanged.
+  (function decorateGeneratedIcons(){
+    const iconMap=[
+      ['🧠','brain'],['🤔','brain'],['💭','brain'],['💡','brain'],['🤖','brain'],['😶','brain'],['👶','brain'],['😩','brain'],
+      ['✋','hand'],['🖐️','hand'],['🖐','hand'],['🖱️','hand'],['🖱','hand'],['🦾','hand'],['🦶','hand'],['👋','hand'],
+      ['👁️','eye'],['👁','eye'],['👀','eye'],
+      ['💬','chat'],['👄','chat'],['😊','chat'],['👥','chat'],['👤','chat'],['🤝','chat'],
+      ['📁','folder'],['💾','folder'],['📦','folder'],['🥡','folder'],
+      ['▶️','terminal'],['▶','terminal'],['🛠️','terminal'],['🛠','terminal'],['⚙️','terminal'],['⚙','terminal'],['⬛','terminal'],['🌑','terminal'],
+      ['🖥️','web'],['🖥','web'],['💻','web'],['📺','web'],['📊','web'],['🌐','web'],['🧑‍💻','web'],['📲','web'],['🖼','web'],
+      ['📝','doc'],['✍️','doc'],['✍','doc'],['📋','doc'],['📄','doc'],['📚','doc'],['📷','doc'],
+      ['🧩','puzzle'],['🎮','puzzle'],['🎰','puzzle'],['🎁','puzzle'],['🥚','puzzle'],['🐍','puzzle'],
+      ['🎯','target'],['✨','target'],['⭐','target'],['🏆','target'],['🎉','target'],['⚡','target'],['💕','target'],['🌟','target'],['🎨','target'],['🌈','target'],['🍳','target'],['⚖️','target'],['⚖','target'],['🆚','target'],['💛','target'],['🔄','target'],
+      ['🚀','rocket'],
+      ['🔒','shield'],['🔑','shield'],['⚠️','shield'],['⚠','shield'],['🛡️','shield'],['🛡','shield'],['💣','shield'],['🚫','shield'],['🔐','shield'],['💀','shield']
+    ].sort((a,b)=>b[0].length-a[0].length);
+    function iconKind(text){
+      const hit=iconMap.find(([symbol])=>text.includes(symbol));
+      return hit ? hit[1] : 'target';
+    }
+    function makeIcon(kind,label){
+      const s=document.createElement('span');
+      s.className='genicon '+kind;
+      s.setAttribute('role','img');
+      s.setAttribute('aria-label',label||kind);
+      return s;
+    }
+    document.querySelectorAll('.iconcard .ic').forEach(el=>{
+      const raw=el.textContent.trim();
+      const kind=iconKind(raw);
+      el.textContent='';
+      el.append(makeIcon(kind,raw));
+    });
+    const skipSelectors='script,style,code,pre,kbd,.promptbox,.termout,.genicon,.copybtn';
+    const walker=document.createTreeWalker(document.querySelector('.deck'),NodeFilter.SHOW_TEXT,{
+      acceptNode(node){
+        const parent=node.parentElement;
+        if(!parent || parent.closest(skipSelectors)) return NodeFilter.FILTER_REJECT;
+        return iconMap.some(([symbol])=>node.nodeValue.includes(symbol))
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
+      }
+    });
+    const nodes=[];
+    while(walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach(node=>{
+      const text=node.nodeValue;
+      const frag=document.createDocumentFragment();
+      let pos=0;
+      while(pos<text.length){
+        const hit=iconMap.find(([symbol])=>text.startsWith(symbol,pos));
+        if(hit){
+          frag.append(makeIcon(hit[1],hit[0]));
+          pos += hit[0].length;
+        }else{
+          let next=pos+1;
+          while(next<text.length && !iconMap.some(([symbol])=>text.startsWith(symbol,next))) next++;
+          frag.append(document.createTextNode(text.slice(pos,next)));
+          pos=next;
+        }
+      }
+      node.parentNode.replaceChild(frag,node);
+    });
+  })();
+
+  (function enableDirectSlideLinks(){
+    const raw=new URLSearchParams(location.search).get('slide') || location.hash.match(/slide-(\d+)/)?.[1];
+    if(!raw) return;
+    const target=parseInt(raw,10);
+    if(Number.isFinite(target) && target>=1 && target<=slides.length) show(target-1);
+  })();
+</script>
+</body>
+</html>

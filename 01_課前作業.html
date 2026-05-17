@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>課前作業｜一百分 AI 程式課程</title>
+<style>
+  :root{
+    --bg:#0f172a; --fg:#f8fafc; --muted:#94a3b8;
+    --accent:#fbbf24; --accent2:#38bdf8; --card:#1e293b;
+    --ok:#22c55e; --win:#60a5fa; --mac:#f472b6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .deck{height:100vh;overflow:hidden;position:relative}
+  .slide{position:absolute;inset:0;padding:5vh 8vw 13vh 8vw;display:none;
+    flex-direction:column;justify-content:flex-start;animation:fade .4s ease;
+    overflow-y:auto}
+  .slide.active{display:flex}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  h1{font-size:clamp(32px,5vw,64px);margin:0 0 .3em;line-height:1.15}
+  h2{font-size:clamp(24px,3.4vw,40px);margin:0 0 .6em;color:var(--accent)}
+  p,li{font-size:clamp(16px,1.6vw,22px);line-height:1.7;color:#e2e8f0}
+  .muted{color:var(--muted)}
+  .tag{display:inline-block;padding:.3em .9em;border-radius:999px;
+    background:rgba(56,189,248,.15);color:var(--accent2);font-size:.85em;
+    margin-bottom:1.2em;letter-spacing:.1em}
+  .card{background:var(--card);border:1px solid #334155;border-radius:16px;
+    padding:1.4em 1.8em;margin:.6em 0}
+  .url{display:inline-flex;align-items:center;gap:.5em;
+    background:#0b1220;border:1px dashed #475569;padding:.5em 1em;
+    border-radius:10px;color:var(--accent);font-family:ui-monospace,Menlo,monospace;
+    word-break:break-all;text-decoration:none;font-size:.95em}
+  .url:hover{border-color:var(--accent);background:#111827}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2em}
+  .step{display:flex;gap:1em;align-items:flex-start;margin:.5em 0}
+  .num{flex:0 0 38px;height:38px;border-radius:50%;background:var(--accent);
+    color:#0f172a;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .nav{position:fixed;bottom:24px;left:0;right:0;display:flex;justify-content:center;
+    gap:12px;z-index:10}
+  .nav button{background:#1e293b;color:var(--fg);border:1px solid #334155;
+    border-radius:10px;padding:.5em 1em;cursor:pointer;font-size:14px}
+  .nav button:hover{border-color:var(--accent)}
+  .counter{position:fixed;top:20px;right:28px;color:var(--muted);font-size:14px;letter-spacing:.1em}
+  .check{color:var(--ok);font-weight:700}
+  ul{padding-left:1.2em}
+  ul li{margin:.35em 0}
+  .hero{font-size:clamp(18px,2vw,26px);color:var(--muted);max-width:780px}
+  .pill{display:inline-block;padding:.15em .6em;border-radius:6px;
+    background:rgba(251,191,36,.15);color:var(--accent);font-size:.8em;margin-left:.5em}
+  kbd{background:#334155;border-radius:4px;padding:2px 6px;font-size:.85em;border:1px solid #475569}
+  .cmd{display:block;background:#0b1220;border:1px dashed #475569;
+    padding:.6em 70px .6em .9em;border-radius:8px;color:var(--accent);
+    font-family:ui-monospace,Menlo,monospace;font-size:.92em;
+    word-break:break-all;margin:.4em 0;position:relative}
+  .copy-btn{position:absolute;top:50%;right:8px;transform:translateY(-50%);
+    background:#1e293b;color:var(--fg);border:1px solid #475569;
+    border-radius:6px;padding:.25em .6em;cursor:pointer;font-size:.8em;
+    font-family:inherit;transition:all .15s ease;line-height:1.2}
+  .copy-btn:hover{border-color:var(--accent);background:#334155}
+  .copy-btn.copied{background:var(--ok);border-color:var(--ok);color:#0f172a;font-weight:700}
+  .pathbtns{display:grid;grid-template-columns:1fr 1fr;gap:1em;margin-top:.4em}
+  .pathbtn{display:flex;flex-direction:column;align-items:flex-start;gap:.3em;
+    padding:1em 1.2em;border-radius:12px;background:#0b1220;
+    border:2px solid #475569;color:var(--fg);text-decoration:none;
+    font-size:1.05em;transition:all .15s ease;cursor:pointer}
+  .pathbtn:hover{border-color:var(--accent);background:#111827;
+    transform:translateY(-2px);box-shadow:0 6px 20px rgba(251,191,36,.15)}
+  .pathbtn b{font-size:1.1em}
+  .pathbtn .muted{font-size:.85em}
+  @media (max-width:640px){.pathbtns{grid-template-columns:1fr}}
+  .jumpbtn{display:inline-block;margin-left:.4em;padding:.2em .7em;
+    border-radius:6px;background:rgba(251,191,36,.15);color:var(--accent);
+    border:1px solid var(--accent);text-decoration:none;font-size:.85em;
+    cursor:pointer;transition:all .15s ease}
+  .jumpbtn:hover{background:var(--accent);color:#0f172a}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:1em;margin-top:.5em}
+  @media (max-width:640px){.two{grid-template-columns:1fr}}
+  .os{border:1px solid #334155;border-radius:12px;padding:1em 1.2em;background:var(--card)}
+  .os.win{border-top:4px solid var(--win)}
+  .os.mac{border-top:4px solid var(--mac)}
+  .os h3{margin:0 0 .5em;font-size:1.1em}
+  .os.win h3{color:var(--win)}
+  .os.mac h3{color:var(--mac)}
+  .mock{background:#2a2a2a;border:1px solid #444;border-radius:8px;padding:.7em .9em;
+    margin:.5em 0;font-family:Georgia,serif;font-size:.85em;line-height:1.5;color:#ddd}
+  .mock .tabs{display:flex;gap:.6em;border-bottom:1px solid #555;padding-bottom:.3em;margin-bottom:.5em}
+  .mock .tab{padding:.1em .4em;color:#aaa}
+  .mock .tab.on{color:#fff;border-bottom:2px solid #fff}
+  .mock .target{display:inline-block;color:#f97316;font-weight:700;
+    padding:.15em .4em;border:2px solid #ef4444;border-radius:6px;
+    background:rgba(239,68,68,.1);animation:pulse 1.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+  .mock .ignore{color:#666;text-decoration:line-through}
+  .arrow{display:inline-block;color:#ef4444;font-weight:700;margin-left:.3em}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 1 封面 -->
+  <section class="slide active">
+    <span class="tag">一百分 AI 程式課程 · 課前作業</span>
+    <h1>開課前，請先完成 4 件事</h1>
+    <p class="hero">為了讓上課當天可以直接動手做，麻煩在開課前先把下面四項準備好。預計 <b>20–30 分鐘</b> 就能搞定。</p>
+    <div class="card" style="margin-top:1.4em">
+      <p style="margin:.2em 0"><span class="check">①</span> 下載並安裝 <b>Google Antigravity</b></p>
+      <p style="margin:.2em 0"><span class="check">②</span> 申請一組 <b>GitHub</b> 帳號</p>
+      <p style="margin:.2em 0"><span class="check">③</span> 安裝 <b>Git</b>（程式碼版本管理工具）</p>
+      <p style="margin:.2em 0"><span class="check">④</span> 讓電腦「登入」你的 <b>GitHub</b>（裝 <code>gh</code>）</p>
+    </div>
+    <p class="muted" style="margin-top:1.4em">使用 <kbd>→</kbd> 或 <kbd>空白鍵</kbd> 切換下一頁</p>
+  </section>
+
+  <!-- 2 任務一 介紹 -->
+  <section class="slide">
+    <span class="tag">任務 ①</span>
+    <h2>下載 Google Antigravity</h2>
+    <p>Google Antigravity 是 Google 推出的 <b>AI 程式開發環境</b>，課程中會用它來示範如何讓 AI 幫我們把日常工作自動化、做出實用小工具。</p>
+    <div class="card">
+      <p style="margin:0 0 .4em"><b>官方下載網址</b></p>
+      <a class="url" href="https://antigravity.google/" target="_blank" rel="noopener">https://antigravity.google/</a>
+    </div>
+    <p class="muted">下載完直接安裝即可，登入用你平常的 Google 帳號（Gmail）就行，<b>不用另外註冊</b>。</p>
+  </section>
+
+  <!-- 3 任務一 步驟 -->
+  <section class="slide">
+    <span class="tag">任務 ① · 步驟</span>
+    <h2>怎麼裝？跟著做就好</h2>
+    <div class="step"><div class="num">1</div><p>打開上一頁的網址 <a class="url" href="https://antigravity.google/" target="_blank" rel="noopener">antigravity.google</a></p></div>
+    <div class="step"><div class="num">2</div><p>點 <b>Download</b>，選你電腦對應的版本（Windows / macOS）</p></div>
+    <div class="step"><div class="num">3</div><p>下載完，<b>雙擊安裝檔</b>，一路下一步</p></div>
+    <div class="step"><div class="num">4</div><p>開啟後用 <b>Google 帳號登入</b>，看到主畫面就完成了 <span class="check">✓</span></p></div>
+    <p class="muted" style="margin-top:1em">⚠️ 如果出現「無法驗證開發者」之類的提示，是正常的，照系統指示允許開啟即可。</p>
+  </section>
+
+  <!-- 4 任務二 介紹 -->
+  <section class="slide">
+    <span class="tag">任務 ②</span>
+    <h2>申請 GitHub 帳號</h2>
+    <p>GitHub 是全世界工程師存放程式碼的地方，課程中我們會用它來<b>備份、分享、版本管理</b>你做出來的東西。免費。</p>
+    <div class="card">
+      <p style="margin:0 0 .4em"><b>申請網址</b></p>
+      <a class="url" href="https://github.com/signup" target="_blank" rel="noopener">https://github.com/signup</a>
+    </div>
+    <p class="muted">已經有帳號的同學可以跳過這一步 🎉</p>
+  </section>
+
+  <!-- 5 任務二 步驟 -->
+  <section class="slide">
+    <span class="tag">任務 ② · 步驟</span>
+    <h2>怎麼申請？</h2>
+    <div class="step"><div class="num">1</div><p>打開 <a class="url" href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></p></div>
+    <div class="step"><div class="num">2</div><p>輸入 <b>Email</b>（建議用常用的）、設定 <b>密碼</b> 和 <b>使用者名稱（username）</b></p></div>
+    <div class="step"><div class="num">3</div><p>完成驗證（拼圖小遊戲）→ 收信點驗證連結</p></div>
+    <div class="step"><div class="num">4</div><p>登入後看到自己的首頁就完成了 <span class="check">✓</span></p></div>
+    <div class="card" style="margin-top:1em">
+      <p style="margin:0"><b>💡 小提醒</b>：username 之後不容易改，建議用<b>英文 + 好記</b>的名字（例如 <code>abby-cpa</code>、<code>victor-acct</code>）。</p>
+    </div>
+  </section>
+
+  <!-- 6 任務三 Git 介紹 -->
+  <section class="slide">
+    <span class="tag">任務 ③</span>
+    <h2>安裝 Git</h2>
+    <p>Git 是<b>程式碼版本管理</b>的工具，可以想成「程式碼的存檔系統」。Antigravity 和 GitHub 都靠它才能正常運作，<b>沒裝 Git 後面所有步驟都會卡關</b>。</p>
+    <div class="card">
+      <p style="margin:.2em 0"><b>下載網址（Windows 用）</b></p>
+      <a class="url" href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a>
+      <p class="muted" style="margin:.4em 0 0">🍎 Mac 不用下載，用終端機指令觸發系統安裝即可（下一頁說明）。</p>
+    </div>
+    <p class="muted">下一頁是 Windows 和 Mac 的安裝方式，看自己用的系統就好 👇</p>
+  </section>
+
+  <!-- 7 任務三 Git Mac/Win 並列步驟 -->
+  <section class="slide">
+    <span class="tag">任務 ③ · 安裝步驟</span>
+    <h2>依你的系統選一邊</h2>
+    <div class="two">
+      <div class="os win">
+        <h3>🪟 Windows</h3>
+        <div class="step"><div class="num">1</div><p>打開 <a class="url" href="https://git-scm.com/download/win" target="_blank" rel="noopener">git-scm.com/download/win</a></p></div>
+        <div class="step"><div class="num">2</div><div>
+          <p style="margin:0">頁面打開後，<b>只點下圖紅框那行</b>，其他通通無視 🙈</p>
+          <div class="mock">
+            <div class="tabs"><span class="tab on">Windows</span><span class="tab">macOS</span><span class="tab">Linux</span></div>
+            <div><span class="target">Click here to download</span><span class="arrow">← 點這個！</span></div>
+            <div style="margin-top:.4em" class="ignore">Other Git for Windows downloads</div>
+            <div class="ignore">Standalone Installer · Portable · winget...</div>
+          </div>
+        </div></div>
+        <div class="step"><div class="num">3</div><p>雙擊下載好的安裝檔，<b>一路下一步</b>到底</p></div>
+        <div class="step"><div class="num">4</div><div>
+          <p style="margin:0"><b>打開 PowerShell 驗證</b>：按 <kbd>Win</kbd>+<kbd>X</kbd> → 選「<b>Windows PowerShell</b>」或「<b>終端機</b>」（或開始選單搜尋 <code>PowerShell</code>）</p>
+          <p style="margin:.4em 0 .15em">輸入：</p>
+          <code class="cmd">git --version</code>
+          <p class="muted" style="margin:.2em 0">看到 <code>git version 2.x.x</code> = 完成 <span class="check">✓</span></p>
+        </div></div>
+        <p class="muted" style="margin:.4em 0 0">⚠️ Windows 安裝精靈選項看起來嚇人，<b>真的一路下一步就好</b>，不會出事。</p>
+      </div>
+      <div class="os mac">
+        <h3>🍎 Mac</h3>
+        <div class="step"><div class="num">1</div><p>打開「<b>終端機</b>」（按 <kbd>⌘</kbd>+<kbd>空白鍵</kbd> 搜 <code>終端機</code>）</p></div>
+        <div class="step"><div class="num">2</div><div>
+          <p style="margin:0">輸入：</p>
+          <code class="cmd">git --version</code>
+        </div></div>
+        <div class="step"><div class="num">3</div><p>跳出「需要安裝命令列開發者工具」視窗 → 按「<b>安裝</b>」→ 等 3–5 分鐘</p></div>
+        <div class="step"><div class="num">4</div><div>
+          <p style="margin:0">再輸入一次：</p>
+          <code class="cmd">git --version</code>
+          <p class="muted" style="margin:.2em 0">看到類似 <code>git version 2.39.x</code> 就成功 <span class="check">✓</span></p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 任務四 介紹 -->
+  <section class="slide">
+    <span class="tag">任務 ④</span>
+    <h2>讓電腦「登入」你的 GitHub</h2>
+    <p>申請完帳號 <b>還不夠</b>。要讓 Antigravity 之後能<b>直接幫你建 repo、上傳程式碼</b>，必須先讓電腦也認識你的 GitHub 帳號。</p>
+    <div class="card">
+      <p style="margin:.2em 0"><b>做法</b>：裝一個叫 <code>gh</code>（GitHub CLI）的工具，再用它登入一次。</p>
+      <p style="margin:.4em 0 0" class="muted">這步做完，<b>之後永遠不用再做</b>。</p>
+    </div>
+    <div class="card" style="margin-top:1em;border-color:var(--accent)">
+      <p style="margin:0 0 .6em"><b>👇 接下來請依照你的電腦選一條路走（點選下方按鈕直接跳轉）</b></p>
+      <div class="pathbtns">
+        <a class="pathbtn" href="#" onclick="show(8);return false;">🍎 <b>我是 Mac 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
+        <a class="pathbtn" href="#" onclick="show(12);return false;">🪟 <b>我是 Windows 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7a Mac · Step 1 + 2 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🍎 Mac · Step 1~2</span>
+    <h2>打開終端機 + 確認 Homebrew</h2>
+    <div class="step"><div class="num">1</div><div>
+      <p style="margin:0"><b>打開終端機</b></p>
+      <p class="muted" style="margin:.2em 0">按 <kbd>⌘</kbd>+<kbd>空白鍵</kbd> → 輸入「終端機」→ Enter<br>（或：應用程式 → 工具程式 → 終端機）</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div>
+      <p style="margin:0"><b>確認有沒有 Homebrew</b>，輸入：</p>
+      <code class="cmd">brew --version</code>
+      <p style="margin:.4em 0 .2em">✅ 看到 <code>Homebrew 4.x.x</code> → 翻下一頁（Step 3）</p>
+      <p style="margin:.2em 0">❌ 看到 <code>command not found</code> → 先裝 Homebrew，整段貼進去按 Enter：</p>
+      <code class="cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
+      <div class="card" style="margin:.4em 0;padding:.7em 1em;background:#0b1220">
+        <p style="margin:0 0 .3em"><b>⌛ 安裝過程中會發生這些事，照著做就好：</b></p>
+        <p style="margin:.2em 0">1️⃣ 螢幕問你密碼 → 輸入 <b>Mac 開機密碼</b> 按 Enter（<b>打字不會顯示是正常的</b>，安心打）</p>
+        <p style="margin:.2em 0">2️⃣ 跑完最後會看到 <code>==&gt; Next steps:</code>，下面列出 <b>2~3 行指令</b>。直接把下面這組整段貼進終端機按 Enter 即可（先記下你的<b>使用者名稱</b>，登入畫面顯示的那個英文名）：</p>
+        <p style="margin:.4em 0 .15em">🍎 <b>Apple Silicon Mac（M1 / M2 / M3 / M4，2020 年後幾乎都是）</b></p>
+        <code class="cmd">echo &gt;&gt; ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' &gt;&gt; ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</code>
+        <p style="margin:.4em 0 .15em">💻 <b>Intel Mac（2019 年以前的舊款）</b></p>
+        <code class="cmd">echo &gt;&gt; ~/.zprofile
+echo 'eval "$(/usr/local/bin/brew shellenv)"' &gt;&gt; ~/.zprofile
+eval "$(/usr/local/bin/brew shellenv)"</code>
+        <p class="muted" style="margin:.2em 0">不確定自己是哪種？左上角 蘋果圖示 → 關於這台 Mac，看「晶片」那行：寫 <b>Apple M…</b> 是 Apple Silicon；寫 <b>Intel</b> 就是 Intel。</p>
+        <p style="margin:.4em 0 .2em">3️⃣ <b>把終端機關掉，重新打開一個新的</b>，再跑一次 <code>brew --version</code> 確認看到版本號。</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 7b Mac · Step 3 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🍎 Mac · Step 3</span>
+    <h2>安裝 GitHub CLI</h2>
+    <div class="step"><div class="num">3</div><div>
+      <p style="margin:0">在終端機輸入：</p>
+      <code class="cmd">brew install gh</code>
+      <p class="muted" style="margin:.2em 0">會跑一段時間（下載 + 安裝），等它跑完出現提示符號就好。</p>
+      <p style="margin:.6em 0 .2em">✅ <b>裝完驗證</b>：</p>
+      <code class="cmd">gh --version</code>
+      <p class="muted" style="margin:.2em 0">看到 <code>gh version 2.x.x</code> = 安裝成功 ✅ → 翻下一頁開始登入。</p>
+    </div></div>
+  </section>
+
+  <!-- 7c Mac · Step 4 登入 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🍎 Mac · Step 4</span>
+    <h2>登入 GitHub（最關鍵的一步）</h2>
+    <div class="step"><div class="num">4</div><div>
+      <p style="margin:0">在終端機輸入：</p>
+      <code class="cmd">gh auth login</code>
+      <p style="margin:.4em 0 .2em">接著它會問幾個問題，用<b>方向鍵 + Enter</b> 照下面選：</p>
+      <div class="card" style="margin:.4em 0;padding:.8em 1em">
+        <p style="margin:.15em 0">❓ <b>Where do you use GitHub?</b> → 選 <code>GitHub.com</code></p>
+        <p style="margin:.15em 0">❓ <b>What is your preferred protocol?</b> → 選 <code>HTTPS</code></p>
+        <p style="margin:.15em 0">❓ <b>Authenticate Git with your GitHub credentials?</b> → 選 <code>Yes</code></p>
+        <p style="margin:.15em 0">❓ <b>How would you like to authenticate?</b> → 選 <code>Login with a web browser</code></p>
+      </div>
+      <p style="margin:.2em 0">終端機會顯示 <b>8 碼驗證碼</b>（例：<code>AB12-CD34</code>），並提示 <i>Press Enter to open github.com in your browser</i>。</p>
+      <p style="margin:.2em 0">⚠️ 按 Enter 後做兩件事：</p>
+      <p style="margin:.1em 0 .1em 1.2em">1. 瀏覽器跳出 → <b>貼上 8 碼</b> → 點 <b>Continue</b></p>
+      <p style="margin:.1em 0 .1em 1.2em">2. 點 <b>Authorize</b>（授權）</p>
+      <p class="muted" style="margin:.2em 0">完成後瀏覽器會顯示「Congratulations, you're all set!」，回終端機會看到 ✓ Logged in as 你的帳號。</p>
+    </div></div>
+  </section>
+
+  <!-- 7d Mac · Step 5 + 常見坑 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🍎 Mac · Step 5</span>
+    <h2>驗證 + 常見坑</h2>
+    <div class="step"><div class="num">5</div><div>
+      <p style="margin:0">🧪 <b>最終驗證</b>，輸入：</p>
+      <code class="cmd">gh auth status</code>
+      <p style="margin:.4em 0 .2em">畫面長這樣 = 大功告成 🎉（重點看<b>第一行的綠色 ✓</b>）：</p>
+      <div class="card" style="margin:.3em 0;padding:.7em 1em;background:#0b1220">
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#e2e8f0">github.com</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:var(--ok)">　✓ Logged in to github.com account 你的帳號</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Active account: true</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Git operations protocol: https</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Token: gho_***</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Token scopes: 'gist', 'read:org', 'repo', 'workflow'</p>
+      </div>
+      <p class="muted" style="margin:.2em 0">⚠️ 只有第一行是綠色 ✓，其他 <code>-</code> 開頭的灰色文字是正常資訊，<b>不是錯誤</b>。</p>
+    </div></div>
+    <div class="card" style="border-color:#ef4444;background:#1a0e0e">
+      <p style="margin:0 0 .3em"><b>💡 常見坑</b></p>
+      <p style="margin:.2em 0">🔴 <b>brew 跑了沒反應</b> → 關終端機重新打開</p>
+      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(10);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去</p>
+      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(10);return false;">↩ 回 Step 4 重做</a></p>
+    </div>
+  </section>
+
+  <!-- 8a Windows · Step 1 + 2 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🪟 Windows · Step 1~2</span>
+    <h2>打開 PowerShell + 確認 winget</h2>
+    <div class="step"><div class="num">1</div><div>
+      <p style="margin:0"><b>打開 PowerShell（終端機）</b></p>
+      <p class="muted" style="margin:.2em 0">按 <kbd>Win</kbd>+<kbd>X</kbd> → 選「<b>Windows PowerShell</b>」或「<b>終端機</b>」<br>（或：開始選單搜尋「PowerShell」→ Enter）</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div>
+      <p style="margin:0"><b>確認有沒有 winget</b>（Windows 內建套件管理工具），輸入：</p>
+      <code class="cmd">winget --version</code>
+      <p style="margin:.4em 0 .2em">✅ 看到 <code>v1.x.x</code> 之類的版本號 → 翻下一頁（Step 3）</p>
+      <p style="margin:.2em 0">❌ 看到 <code>無法辨識 'winget'</code> → 你的是 <b>Windows 10 舊版</b>，兩種解法：</p>
+      <p style="margin:.1em 0 .1em 1.2em">A. 開 Microsoft Store 搜尋「<b>App Installer</b>」更新（最簡單）</p>
+      <p style="margin:.1em 0 .1em 1.2em">B. 直接到 <a class="url" href="https://cli.github.com" target="_blank" rel="noopener">cli.github.com</a> 下載 <code>.msi</code> 安裝檔，裝完跳到 Step 3 後段驗證</p>
+    </div></div>
+  </section>
+
+  <!-- 8b Windows · Step 3 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🪟 Windows · Step 3</span>
+    <h2>安裝 GitHub CLI</h2>
+    <div class="step"><div class="num">3</div><div>
+      <p style="margin:0">在 PowerShell 輸入：</p>
+      <code class="cmd">winget install --id GitHub.cli -e</code>
+      <p class="muted" style="margin:.2em 0">第一次跑會問「是否同意來源條款？」→ 輸入 <b>Y</b> 按 Enter。會跑一段時間，等它跑完出現提示符號。</p>
+      <p style="margin:.6em 0 .2em">⚠️ <b>關鍵動作</b>：</p>
+      <div class="card" style="margin:.3em 0;padding:.7em 1em;border-color:var(--accent)">
+        <p style="margin:0"><b>把 PowerShell 整個關掉，重新打開一個新的</b><br>
+        <span class="muted">不重開的話，新裝的 <code>gh</code> 不會被認到，會一直「找不到指令」。</span></p>
+      </div>
+      <p style="margin:.6em 0 .2em">✅ <b>裝完驗證</b>（在新開的 PowerShell）：</p>
+      <code class="cmd">gh --version</code>
+      <p class="muted" style="margin:.2em 0">看到 <code>gh version 2.x.x</code> = 安裝成功 ✅ → 翻下一頁開始登入。</p>
+    </div></div>
+  </section>
+
+  <!-- 8c Windows · Step 4 登入 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🪟 Windows · Step 4</span>
+    <h2>登入 GitHub（最關鍵的一步）</h2>
+    <div class="step"><div class="num">4</div><div>
+      <p style="margin:0">在 PowerShell 輸入：</p>
+      <code class="cmd">gh auth login</code>
+      <p style="margin:.4em 0 .2em">接著它會問幾個問題，用<b>方向鍵 + Enter</b> 照下面選：</p>
+      <div class="card" style="margin:.4em 0;padding:.8em 1em">
+        <p style="margin:.15em 0">❓ <b>Where do you use GitHub?</b> → 選 <code>GitHub.com</code></p>
+        <p style="margin:.15em 0">❓ <b>What is your preferred protocol?</b> → 選 <code>HTTPS</code></p>
+        <p style="margin:.15em 0">❓ <b>Authenticate Git with your GitHub credentials?</b> → 選 <code>Yes</code></p>
+        <p style="margin:.15em 0">❓ <b>How would you like to authenticate?</b> → 選 <code>Login with a web browser</code></p>
+      </div>
+      <p style="margin:.2em 0">PowerShell 會顯示 <b>8 碼驗證碼</b>（例：<code>AB12-CD34</code>），並提示 <i>Press Enter to open github.com in your browser</i>。</p>
+      <p style="margin:.2em 0">⚠️ 按 Enter 後做兩件事：</p>
+      <p style="margin:.1em 0 .1em 1.2em">1. 預設瀏覽器跳出 → <b>貼上 8 碼</b> → 點 <b>Continue</b></p>
+      <p style="margin:.1em 0 .1em 1.2em">2. 點 <b>Authorize</b>（授權）</p>
+      <p class="muted" style="margin:.2em 0">完成後瀏覽器顯示「Congratulations, you're all set!」，回 PowerShell 會看到 ✓ Logged in as 你的帳號。</p>
+    </div></div>
+  </section>
+
+  <!-- 8d Windows · Step 5 + 常見坑 -->
+  <section class="slide">
+    <span class="tag">任務 ④ · 🪟 Windows · Step 5</span>
+    <h2>驗證 + 常見坑</h2>
+    <div class="step"><div class="num">5</div><div>
+      <p style="margin:0">🧪 <b>最終驗證</b>，輸入：</p>
+      <code class="cmd">gh auth status</code>
+      <p style="margin:.4em 0 .2em">畫面長這樣 = 大功告成 🎉（重點看<b>第一行的綠色 ✓</b>）：</p>
+      <div class="card" style="margin:.3em 0;padding:.7em 1em;background:#0b1220">
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#e2e8f0">github.com</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:var(--ok)">　✓ Logged in to github.com account 你的帳號</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Active account: true</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Git operations protocol: https</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Token: gho_***</p>
+        <p style="margin:.1em 0;font-family:ui-monospace,Menlo,monospace;font-size:.9em;color:#94a3b8">　- Token scopes: 'gist', 'read:org', 'repo', 'workflow'</p>
+      </div>
+      <p class="muted" style="margin:.2em 0">⚠️ 只有第一行是綠色 ✓，其他 <code>-</code> 開頭的灰色文字是正常資訊，<b>不是錯誤</b>。</p>
+    </div></div>
+    <div class="card" style="border-color:#ef4444;background:#1a0e0e">
+      <p style="margin:0 0 .3em"><b>💡 常見坑</b></p>
+      <p style="margin:.2em 0">🔴 <b>裝完輸入 gh 找不到指令</b> → PowerShell <b>沒重開</b>。整個視窗關掉再打開一個新的。</p>
+      <p style="margin:.2em 0">🔴 <b>winget 一直失敗</b> → 直接到 <a class="url" href="https://cli.github.com" target="_blank" rel="noopener">cli.github.com</a> 下載 <code>.msi</code> 雙擊安裝，再回來跑 <code>gh --version</code>。</p>
+      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(14);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去。</p>
+      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(14);return false;">↩ 回 Step 4 重做</a>。</p>
+    </div>
+  </section>
+
+  <!-- 10 檢核 -->
+  <section class="slide">
+    <span class="tag">課前自我檢核</span>
+    <h2>上課前，請確認以下都 ✓</h2>
+    <div class="grid">
+      <div class="card">
+        <p><b>① Antigravity</b></p>
+        <p><span class="check">☐</span> 電腦能打開 <b>Google Antigravity</b></p>
+        <p><span class="check">☐</span> 已用 Google 帳號登入</p>
+      </div>
+      <div class="card">
+        <p><b>② GitHub 帳號</b></p>
+        <p><span class="check">☐</span> 擁有可登入的 <b>GitHub 帳號</b></p>
+        <p><span class="check">☐</span> 記得自己的 username</p>
+      </div>
+      <div class="card">
+        <p><b>③ Git</b></p>
+        <p><span class="check">☐</span> 終端機輸入 <code>git --version</code> 有版本號</p>
+      </div>
+      <div class="card">
+        <p><b>④ 電腦登入 GitHub</b></p>
+        <p><span class="check">☐</span> 終端機輸入 <code>gh --version</code> 有版本號</p>
+        <p><span class="check">☐</span> <code>gh auth status</code> 看到 ✓ Logged in</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.2em;border-color:var(--accent2)">
+      <p style="margin:0 0 .3em"><b>📸 遇到卡關不用緊張</b></p>
+      <p style="margin:.2em 0">把錯誤畫面<b>截圖</b>，到<b>課程群組</b>提問，我們會一起處理 💪</p>
+      <p class="muted" style="margin:.2em 0">提問時附上：① 你在哪一步 ② 螢幕截圖 ③ 你的作業系統（Mac / Windows）</p>
+    </div>
+  </section>
+
+  <!-- 11 結尾 -->
+  <section class="slide">
+    <h1>準備好了，課堂見 👋</h1>
+    <p class="hero">四個重要網址再給你一次，存著備用：</p>
+    <div class="card"><a class="url" href="https://antigravity.google/" target="_blank" rel="noopener">https://antigravity.google/</a>　<span class="muted">（Antigravity）</span></div>
+    <div class="card"><a class="url" href="https://github.com/signup" target="_blank" rel="noopener">https://github.com/signup</a>　<span class="muted">（GitHub 帳號）</span></div>
+    <div class="card"><a class="url" href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a>　<span class="muted">（Git，Windows 用）</span></div>
+    <div class="card"><a class="url" href="https://cli.github.com" target="_blank" rel="noopener">https://cli.github.com</a>　<span class="muted">（GitHub CLI 備案）</span></div>
+  </section>
+
+</div>
+
+<div class="counter"><span id="cur">1</span> / <span id="total">7</span></div>
+<div class="nav">
+  <button onclick="go(-1)">← 上一頁</button>
+  <button onclick="go(1)">下一頁 →</button>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  document.getElementById('total').textContent=slides.length;
+  function show(n){
+    slides[i].classList.remove('active');
+    i=(n+slides.length)%slides.length;
+    slides[i].classList.add('active');
+    document.getElementById('cur').textContent=i+1;
+  }
+  const nextMap={11:16};
+  const prevMap={12:7};
+  function go(d){
+    if(d===1&&nextMap[i]!=null)return show(nextMap[i]);
+    if(d===-1&&prevMap[i]!=null)return show(prevMap[i]);
+    show(i+d);
+  }
+  document.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')go(1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')go(-1);
+    if(e.key==='Home')show(0);
+    if(e.key==='End')show(slides.length-1);
+  });
+  document.querySelectorAll('.cmd').forEach(cmd=>{
+    const btn=document.createElement('button');
+    btn.className='copy-btn';
+    btn.type='button';
+    btn.textContent='複製';
+    btn.onclick=(e)=>{
+      e.stopPropagation();
+      const text=cmd.childNodes[0]?.nodeType===3
+        ? Array.from(cmd.childNodes).filter(n=>n.nodeType===3||(n.nodeType===1&&n.tagName!=='BUTTON')).map(n=>n.textContent).join('').trim()
+        : cmd.textContent.replace('複製','').replace('✓ 已複製','').trim();
+      navigator.clipboard.writeText(text).then(()=>{
+        btn.textContent='✓ 已複製';
+        btn.classList.add('copied');
+        setTimeout(()=>{btn.textContent='複製';btn.classList.remove('copied');},1500);
+      }).catch(()=>{btn.textContent='✗ 失敗';setTimeout(()=>btn.textContent='複製',1500);});
+    };
+    cmd.appendChild(btn);
+  });
+</script>
+</body>
+</html>

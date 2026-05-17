@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🎰 任務完成・轉蛋機（完成版）</title>
+<style>
+  :root{
+    --bg:#1f3a2b;
+    --bg-deep:#16291f;
+    --fg:#f5edd6;
+    --cream:#f3e6c0;
+    --muted:#a8b2a0;
+    --accent:#d4a04a;
+    --accent2:#e8b863;
+    --card:#f7f1de;
+    --card-border:#c9b889;
+    --green:#7a9966;
+    /* rarity colors */
+    --r-n:#cbd5e1;
+    --r-r:#7a9966;
+    --r-sr:#5d7da0;
+    --r-ssr:#8a72ac;
+    --r-ur:#d4a04a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--fg);
+    font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body{background:
+    radial-gradient(ellipse at top,rgba(122,153,102,.18),transparent 55%),
+    radial-gradient(ellipse at bottom,rgba(212,160,74,.13),transparent 55%),
+    var(--bg);min-height:100vh;
+    display:flex;align-items:center;justify-content:center;padding:20px}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='%237a9966' opacity='0.18'><path d='M30,180 Q20,90 100,40 Q130,80 110,140 Q90,180 30,180 Z'/></g></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'><g fill='%237a9966' opacity='0.18'><path d='M190,40 Q200,130 120,180 Q90,140 110,80 Q130,40 190,40 Z'/></g></svg>");
+    background-position:top left,bottom right;
+    background-size:240px 240px;background-repeat:no-repeat}
+
+  .container{max-width:560px;width:100%;text-align:center;position:relative;z-index:2}
+
+  .header{margin-bottom:1.5em}
+  .badge{display:inline-block;background:var(--accent);
+    color:#fff;padding:.45em 1.4em;border-radius:999px;font-weight:800;
+    font-size:.9em;letter-spacing:.1em;border:2px solid var(--accent2);
+    box-shadow:0 4px 14px rgba(0,0,0,.3)}
+  h1{font-size:clamp(26px,5.5vw,38px);margin:.5em 0 .2em;color:var(--cream);
+    text-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .sub{color:var(--muted);font-size:.95em}
+
+  /* 機台 */
+  .machine-wrap{position:relative;width:100%;max-width:340px;margin:0 auto;padding-bottom:60px}
+  .machine-img{width:100%;display:block;
+    filter:drop-shadow(0 12px 24px rgba(0,0,0,.4));
+    transition:transform .15s}
+  .machine-img.shake{animation:shake .6s ease-in-out}
+  @keyframes shake{
+    0%,100%{transform:rotate(0) translateY(0)}
+    20%{transform:rotate(-2deg) translateY(-2px)}
+    40%{transform:rotate(1.5deg) translateY(1px)}
+    60%{transform:rotate(-1deg) translateY(-1px)}
+    80%{transform:rotate(2deg) translateY(0)}
+  }
+
+  /* 掉球 */
+  .drop-ball{position:absolute;width:64px;height:64px;
+    bottom:60px;left:50%;transform:translateX(-50%);
+    background-image:url('images/capsules.png');
+    background-size:600% 100%;
+    background-position:0% 0%;
+    background-repeat:no-repeat;
+    display:none;border-radius:50%;
+    filter:drop-shadow(0 6px 12px rgba(0,0,0,.5));z-index:5}
+  .drop-ball.show{display:block;animation:dropOut 1.3s cubic-bezier(.45,1.3,.5,1) forwards}
+  @keyframes dropOut{
+    0%{bottom:80px;opacity:0;transform:translateX(-50%) scale(.4)}
+    15%{bottom:50px;opacity:1;transform:translateX(-50%) scale(1)}
+    65%{bottom:-20px;transform:translateX(-50%) scale(1) rotate(360deg)}
+    80%{bottom:0;transform:translateX(-50%) scale(1) rotate(450deg)}
+    100%{bottom:-10px;transform:translateX(-50%) scale(1) rotate(540deg)}
+  }
+
+  /* 投幣按鈕 */
+  .coin-btn{margin-top:1em;width:100%;
+    background:linear-gradient(180deg,var(--accent),#a8741f);
+    color:#fff;border:none;padding:1em;
+    font-size:1.2em;font-weight:900;letter-spacing:.05em;
+    border-radius:14px;cursor:pointer;font-family:inherit;
+    border:2px solid var(--accent2);
+    box-shadow:0 6px 0 #6b4a14,0 10px 22px rgba(0,0,0,.3);
+    transition:all .1s}
+  .coin-btn:hover{transform:translateY(2px);box-shadow:0 4px 0 #6b4a14,0 8px 18px rgba(0,0,0,.3)}
+  .coin-btn:active{transform:translateY(6px);box-shadow:0 0 0 #6b4a14,0 4px 10px rgba(0,0,0,.3)}
+  .coin-btn:disabled{opacity:.5;cursor:not-allowed}
+
+  /* 中獎彈窗 */
+  .modal{position:fixed;inset:0;background:rgba(22,41,31,.92);
+    display:none;align-items:center;justify-content:center;z-index:100;
+    backdrop-filter:blur(10px);animation:fadeIn .3s}
+  .modal.show{display:flex}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+  .modal-content{position:relative;
+    border-radius:24px;padding:1.8em 1.6em;max-width:400px;width:92%;
+    text-align:center;
+    background:linear-gradient(180deg,var(--card),#ede5cc);
+    border:3px solid var(--rarity-color,var(--accent));
+    box-shadow:0 0 80px var(--rarity-glow,rgba(212,160,74,.5)),
+      0 20px 40px rgba(0,0,0,.5);
+    animation:popUp .55s cubic-bezier(.34,1.56,.64,1);
+    color:#3b3424}
+  @keyframes popUp{
+    from{transform:scale(.5) rotate(-8deg);opacity:0}
+    to{transform:scale(1) rotate(0);opacity:1}
+  }
+
+  /* Sparkle 背景特效（SSR/UR 才顯示） */
+  .modal-content .sparkle-bg{position:absolute;inset:0;border-radius:24px;
+    background-image:url('images/sparkle.png');
+    background-size:cover;background-position:center;
+    opacity:0;pointer-events:none;mix-blend-mode:screen}
+  .modal-content.epic .sparkle-bg,
+  .modal-content.legend .sparkle-bg{opacity:.55}
+
+  .rarity-band{display:inline-block;
+    padding:.35em 1.3em;border-radius:999px;
+    font-weight:900;letter-spacing:.2em;font-size:.85em;
+    background:var(--rarity-color,var(--accent));
+    color:#fff;margin-bottom:.5em;position:relative;z-index:1;
+    box-shadow:0 4px 12px var(--rarity-glow,rgba(212,160,74,.4));
+    border:2px solid rgba(255,255,255,.4)}
+
+  .prize-img{width:60%;max-width:200px;margin:.2em auto;display:block;
+    filter:drop-shadow(0 8px 20px var(--rarity-glow,rgba(212,160,74,.4)));
+    position:relative;z-index:1}
+
+  .prize-name{font-size:1.4em;font-weight:800;margin:.3em 0;color:#3b3424;position:relative;z-index:1}
+  .prize-desc{color:#7a6e4f;font-size:.95em;line-height:1.6;margin:.5em 0 1em;position:relative;z-index:1}
+
+  .again-btn{position:relative;z-index:1;
+    background:var(--accent);color:#fff;border:none;padding:.75em 1.5em;
+    font-size:1em;font-weight:800;border-radius:12px;cursor:pointer;
+    border:2px solid var(--accent2);
+    box-shadow:0 4px 0 #6b4a14,0 6px 14px rgba(0,0,0,.3);
+    transition:all .1s;font-family:inherit;letter-spacing:.05em}
+  .again-btn:hover{transform:translateY(1px);box-shadow:0 3px 0 #6b4a14,0 5px 12px rgba(0,0,0,.3)}
+
+  /* 統計 */
+  .stats{margin-top:1.5em;display:flex;justify-content:center;gap:.5em;flex-wrap:wrap}
+  .stat{background:rgba(247,241,222,.92);border:1px solid var(--card-border);
+    padding:.4em .8em;border-radius:10px;font-size:.85em;color:#3b3424;
+    font-weight:600}
+  .stat b{color:var(--accent)}
+
+  .footer{margin-top:1em;color:var(--muted);font-size:.78em;line-height:1.7}
+  .footer b{color:var(--accent2)}
+
+  .version-tag{position:fixed;top:14px;left:14px;
+    background:var(--accent);color:#fff;padding:.4em .9em;
+    border-radius:999px;font-size:.75em;font-weight:800;
+    letter-spacing:.1em;box-shadow:0 3px 8px rgba(0,0,0,.3);z-index:10}
+</style>
+</head>
+<body>
+
+<div class="version-tag">✨ 完成版</div>
+
+<div class="container">
+  <div class="header">
+    <div class="badge">✨ 任務完成 ✨</div>
+    <h1>恭喜！抽個轉蛋慶祝吧 🎰</h1>
+    <p class="sub">每位完成任務的客戶都有一次機會</p>
+  </div>
+
+  <div class="machine-wrap">
+    <img src="images/machine.png" alt="轉蛋機" class="machine-img" id="machine">
+    <div class="drop-ball" id="dropBall"></div>
+  </div>
+
+  <button class="coin-btn" id="coin">🪙 投幣抽獎</button>
+
+  <div class="stats" id="stats">
+    <div class="stat">總抽 <b id="s-total">0</b></div>
+    <div class="stat" style="color:var(--r-n)">N <b id="s-n">0</b></div>
+    <div class="stat" style="color:var(--r-r)">R <b id="s-r">0</b></div>
+    <div class="stat" style="color:var(--r-sr)">SR <b id="s-s">0</b></div>
+    <div class="stat" style="color:var(--r-ssr)">SSR <b id="s-e">0</b></div>
+    <div class="stat" style="color:var(--r-ur)">UR <b id="s-l">0</b></div>
+  </div>
+
+  <p class="footer">給「會計師客戶」完成任務後的小驚喜 🎁<br>
+  不貴重，但有溫度——<b>抽到稀有的感覺勝過物品本身</b></p>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-content" id="modalContent">
+    <div class="sparkle-bg"></div>
+    <div class="rarity-band" id="rarity"></div>
+    <img class="prize-img" id="prizeImg" src="images/prize-n.png" alt="禮物">
+    <div class="prize-name" id="prizeName"></div>
+    <div class="prize-desc" id="prizeDesc"></div>
+    <button class="again-btn" id="again">關閉</button>
+  </div>
+</div>
+
+<script>
+  const PRIZES = [
+    // N · 普通 60%
+    {rarity:'normal',img:'prize-n.png',weight:60,name:'稅務小卡 · 電子發票',desc:'「電子發票需要列印嗎？」答案小卡'},
+    {rarity:'normal',img:'prize-n.png',weight:60,name:'稅務小卡 · 統編辨識',desc:'「統編怎麼看真假？」答案小卡'},
+    {rarity:'normal',img:'prize-n.png',weight:60,name:'稅務小卡 · 5% 速算',desc:'營業稅 5% 速算對照表'},
+    {rarity:'normal',img:'prize-n.png',weight:60,name:'稅務小卡 · 折舊年數',desc:'各類資產折舊年限速查表'},
+    {rarity:'normal',img:'prize-n.png',weight:60,name:'稅務小卡 · 報稅期限',desc:'年度報稅期限速查'},
+    // R · 不錯 25%
+    {rarity:'rare',img:'prize-r.png',weight:25,name:'5% 服務折扣券',desc:'下次服務 95 折優惠（可用 1 次）'},
+    {rarity:'rare',img:'prize-r.png',weight:25,name:'客戶專屬桌曆',desc:'限量造型桌曆 · 含當年度稅務行事曆'},
+    {rarity:'rare',img:'prize-r.png',weight:25,name:'限量造型茶包',desc:'事務所特製茶包 · 上班充電必備'},
+    // SR · 稀有 10%
+    {rarity:'srare',img:'prize-sr.png',weight:10,name:'30 分鐘諮詢時段',desc:'免費 30 分鐘 1 對 1 諮詢券'},
+    {rarity:'srare',img:'prize-sr.png',weight:10,name:'年度報稅懶人包',desc:'客戶獨享 PDF · 含節稅技巧'},
+    {rarity:'srare',img:'prize-sr.png',weight:10,name:'急件優先處理權',desc:'下次有急件可優先排程'},
+    // SSR · 史詩 4%
+    {rarity:'epic',img:'prize-ssr.png',weight:4,name:'年度稅務 E-book',desc:'客戶獨享 80 頁完整版 · 含案例'},
+    {rarity:'epic',img:'prize-ssr.png',weight:4,name:'季度健檢服務 1 次',desc:'免費 1 次帳務季度健檢（市值 3000 元）'},
+    // UR · 傳說 1%
+    {rarity:'legend',img:'prize-ur.png',weight:1,name:'1 對 1 專屬諮詢 90 分鐘',desc:'稀有！會計師親自規劃 · 限本季'}
+  ];
+
+  const RARITY = {
+    normal:{label:'N · 普通',color:'#cbd5e1',glow:'rgba(203,213,225,.4)',cls:''},
+    rare:  {label:'R · 不錯',color:'#7a9966',glow:'rgba(122,153,102,.5)',cls:''},
+    srare: {label:'SR · 稀有',color:'#5d7da0',glow:'rgba(93,125,160,.5)',cls:''},
+    epic:  {label:'SSR · 史詩',color:'#8a72ac',glow:'rgba(138,114,172,.6)',cls:'epic'},
+    legend:{label:'UR · 傳說',color:'#d4a04a',glow:'rgba(212,160,74,.7)',cls:'legend'}
+  };
+
+  const CAPSULE_POS = [0,20,40,60,80,100]; // 6 顆膠囊位置
+
+  const stats={total:0,normal:0,rare:0,srare:0,epic:0,legend:0};
+  const statIds={total:'s-total',normal:'s-n',rare:'s-r',srare:'s-s',epic:'s-e',legend:'s-l'};
+  function updateStats(){
+    for(const k in statIds) document.getElementById(statIds[k]).textContent=stats[k];
+  }
+
+  function pickPrize(){
+    const totalW = PRIZES.reduce((s,p)=>s+p.weight,0);
+    let r = Math.random()*totalW;
+    for(const p of PRIZES){
+      r -= p.weight;
+      if(r<=0) return p;
+    }
+    return PRIZES[0];
+  }
+
+  const coinBtn=document.getElementById('coin');
+  const machine=document.getElementById('machine');
+  const dropBall=document.getElementById('dropBall');
+  const modal=document.getElementById('modal');
+  const modalContent=document.getElementById('modalContent');
+
+  function draw(){
+    coinBtn.disabled=true;
+    machine.classList.add('shake');
+    setTimeout(()=>machine.classList.remove('shake'),600);
+
+    const pos = CAPSULE_POS[Math.floor(Math.random()*6)];
+    dropBall.style.backgroundPosition = pos+'% 0%';
+    dropBall.classList.remove('show');
+    void dropBall.offsetWidth; // reflow
+    dropBall.classList.add('show');
+
+    setTimeout(()=>{
+      const prize=pickPrize();
+      showResult(prize);
+      coinBtn.disabled=false;
+    },1400);
+  }
+
+  function showResult(prize){
+    const r=RARITY[prize.rarity];
+    modalContent.style.setProperty('--rarity-color',r.color);
+    modalContent.style.setProperty('--rarity-glow',r.glow);
+    modalContent.className='modal-content '+(r.cls||'');
+
+    const rb=document.getElementById('rarity');
+    rb.textContent=r.label;
+    rb.style.background=r.color;
+    rb.style.boxShadow=`0 4px 12px ${r.glow}`;
+
+    document.getElementById('prizeImg').src='images/'+prize.img;
+    document.getElementById('prizeName').textContent=prize.name;
+    document.getElementById('prizeDesc').textContent=prize.desc;
+
+    stats.total++;
+    stats[prize.rarity]++;
+    updateStats();
+
+    setTimeout(()=>modal.classList.add('show'),250);
+  }
+
+  coinBtn.addEventListener('click',draw);
+  document.getElementById('again').addEventListener('click',()=>{
+    modal.classList.remove('show');
+  });
+  modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('show')});
+
+  updateStats();
+</script>
+
+</body>
+</html>

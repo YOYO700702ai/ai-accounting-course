@@ -2183,9 +2183,46 @@
   </table>
 </section>
 
-<!-- 補充 ② AI 自動化流程 -->
 <section class="slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ② · AI 自動化流程</span>
+  <span class="tag">🤖 章節 11 · 補充 ② · 第三方 AI 詳解</span>
+  <h2>為什麼要另外申請 GPT/Claude API？</h2>
+  <div class="card accent">
+    <p><b>Antigravity 內建 AI 是「給你用」</b>，幫你寫程式、改檔案。</p>
+    <p>如果要做 App <b>讓客戶自己跟 AI 對話</b>（例：稅務問答機器人），就要申請 API Key。</p>
+  </div>
+  <h3>實際應用</h3>
+  <div class="grid2">
+    <div class="card"><b>🤖 客服機器人</b><p class="muted">自動回稅務問題</p></div>
+    <div class="card"><b>📝 自動審稿</b><p class="muted">給文件找錯字</p></div>
+    <div class="card"><b>📨 分類訊息</b><p class="muted">客戶 email / LINE</p></div>
+    <div class="card"><b>✍️ 產文案</b><p class="muted">報告、報價單草稿</p></div>
+  </div>
+  <div class="card warn">
+    <p>💰 <b>按使用量計費</b>。用得多付得多——所以鑰匙被偷 = 別人花你的錢。</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🤖 章節 11 · 補充 ③ · 客服機器人</span>
+  <h2>客服機器人的三種類型</h2>
+  <table>
+    <tr><th></th><th>程式機器人</th><th>AI 機器人</th><th>混合型 ⭐</th></tr>
+    <tr><td><b>怎麼做</b></td><td>預寫答案 + 關鍵字</td><td>LLM 自由生成</td><td>AI 判斷 → 程式答</td></tr>
+    <tr><td><b>✅ 優點</b></td><td>可控 · 便宜 · 不會錯</td><td>聰明 · 自然</td><td>穩定 + 聰明 + 便宜</td></tr>
+    <tr><td><b>❌ 缺點</b></td><td>很笨 · 冷漠</td><td><b>會幻覺</b>· 貴</td><td>開發較複雜</td></tr>
+  </table>
+  <div class="card accent">
+    <p><b>⭐ 給會計師：選混合型</b></p>
+    <p>· AI 負責「聽懂」客戶問什麼 · 程式負責「答對」標準答案 · 不確定 → 轉接給人類</p>
+  </div>
+  <div class="card bad">
+    <p>⚠️ 純 AI 風險：客戶問「我這月稅多少」，AI 可能<b>編一個假數字</b>。會計師絕對不能允許。</p>
+  </div>
+</section>
+
+<!-- 補充 ④ AI 自動化流程（最後）-->
+<section class="slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · AI 自動化流程</span>
   <div style="display:flex;align-items:center;gap:1em">
     <img src="assets/course-art/icons/rocket.png" style="width:72px;height:72px;border-radius:12px">
     <h2 style="margin:0">當你不下指令，AI 也能工作 🤖</h2>
@@ -2212,7 +2249,7 @@
 </section>
 
 <section class="slide">
-  <span class="tag">⏰ 章節 11 · 補充 ② · 定時觸發型</span>
+  <span class="tag">⏰ 章節 11 · 補充 ④ · 定時觸發型</span>
   <div style="display:flex;align-items:center;gap:1em">
     <img src="assets/course-art/icons/target.png" style="width:72px;height:72px;border-radius:12px">
     <h2 style="margin:0">定時觸發型 — AI 鬧鐘 ⏰</h2>
@@ -2238,7 +2275,7 @@
 </section>
 
 <section class="slide">
-  <span class="tag">📁 章節 11 · 補充 ② · 任務觸發型</span>
+  <span class="tag">📁 章節 11 · 補充 ④ · 任務觸發型</span>
   <div style="display:flex;align-items:center;gap:1em">
     <img src="assets/course-art/icons/folder.png" style="width:72px;height:72px;border-radius:12px">
     <h2 style="margin:0">任務觸發型 — 改變狀態 📁</h2>
@@ -2263,7 +2300,7 @@
 </section>
 
 <section class="slide">
-  <span class="tag">🎯 章節 11 · 補充 ② · 兩種觸發對比</span>
+  <span class="tag">🎯 章節 11 · 補充 ④ · 兩種觸發對比</span>
   <h2>兩種觸發型，怎麼選？</h2>
   <table>
     <tr><th></th><th>⏰ 定時觸發型</th><th>📁 任務觸發型</th></tr>
@@ -2277,42 +2314,6 @@
   </div>
 </section>
 
-<section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ③ · 第三方 AI 詳解</span>
-  <h2>為什麼要另外申請 GPT/Claude API？</h2>
-  <div class="card accent">
-    <p><b>Antigravity 內建 AI 是「給你用」</b>，幫你寫程式、改檔案。</p>
-    <p>如果要做 App <b>讓客戶自己跟 AI 對話</b>（例：稅務問答機器人），就要申請 API Key。</p>
-  </div>
-  <h3>實際應用</h3>
-  <div class="grid2">
-    <div class="card"><b>🤖 客服機器人</b><p class="muted">自動回稅務問題</p></div>
-    <div class="card"><b>📝 自動審稿</b><p class="muted">給文件找錯字</p></div>
-    <div class="card"><b>📨 分類訊息</b><p class="muted">客戶 email / LINE</p></div>
-    <div class="card"><b>✍️ 產文案</b><p class="muted">報告、報價單草稿</p></div>
-  </div>
-  <div class="card warn">
-    <p>💰 <b>按使用量計費</b>。用得多付得多——所以鑰匙被偷 = 別人花你的錢。</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ④ · 客服機器人</span>
-  <h2>客服機器人的三種類型</h2>
-  <table>
-    <tr><th></th><th>程式機器人</th><th>AI 機器人</th><th>混合型 ⭐</th></tr>
-    <tr><td><b>怎麼做</b></td><td>預寫答案 + 關鍵字</td><td>LLM 自由生成</td><td>AI 判斷 → 程式答</td></tr>
-    <tr><td><b>✅ 優點</b></td><td>可控 · 便宜 · 不會錯</td><td>聰明 · 自然</td><td>穩定 + 聰明 + 便宜</td></tr>
-    <tr><td><b>❌ 缺點</b></td><td>很笨 · 冷漠</td><td><b>會幻覺</b>· 貴</td><td>開發較複雜</td></tr>
-  </table>
-  <div class="card accent">
-    <p><b>⭐ 給會計師：選混合型</b></p>
-    <p>· AI 負責「聽懂」客戶問什麼 · 程式負責「答對」標準答案 · 不確定 → 轉接給人類</p>
-  </div>
-  <div class="card bad">
-    <p>⚠️ 純 AI 風險：客戶問「我這月稅多少」，AI 可能<b>編一個假數字</b>。會計師絕對不能允許。</p>
-  </div>
-</section>
 
 <section class="slide chapter-cover center-v">
   <h1 style="font-size:clamp(60px,9vw,120px)">課堂見 👋</h1>

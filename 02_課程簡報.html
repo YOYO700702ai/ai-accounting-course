@@ -380,6 +380,131 @@
   .card.outlined .muted,.card.deep .muted{color:#d3dac6}
   .label.bad,.label.good,.label.think,.tag{text-shadow:none}
   .keyhint{color:#e6dcc4;opacity:.95}
+
+  /* === AI 自動化流程（補充 ④）— GPT 節奏版專屬樣式 === */
+  .auto-flow{
+    --af-paper:#f8efd7; --af-paper2:#efe0bb; --af-ink:#30291d;
+    --af-gold:#dda347; --af-gold2:#f3d48a;
+    --af-teal:#54a999; --af-blue:#6389b9; --af-rose:#c76d73;
+    --af-shadow:rgba(0,0,0,.32);
+    width:100%;height:100%;display:flex;
+  }
+  .auto-flow .af-frame{width:min(1180px,100%);height:100%;margin:0 auto;
+    display:grid;grid-template-rows:auto 1fr;gap:3vh}
+  .auto-flow .af-center{width:min(1120px,100%);height:100%;margin:0 auto;
+    display:grid;place-items:center;text-align:center}
+  .auto-flow .af-split{width:min(1180px,100%);height:100%;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:min(6vw,72px)}
+  .auto-flow h1{font-size:clamp(48px,7.4vw,104px);line-height:1.05;color:#fff7df;
+    text-shadow:0 10px 28px rgba(0,0,0,.36);margin:0}
+  .auto-flow h2{font-size:clamp(40px,5.4vw,78px);line-height:1.12;color:#fff7df;
+    text-shadow:0 9px 24px rgba(0,0,0,.34);margin:0}
+  .auto-flow .kicker{display:inline-flex;width:max-content;max-width:100%;margin-bottom:1rem;
+    border-radius:999px;padding:.38em .9em;background:rgba(248,239,215,.94);
+    color:#31523f;font-size:clamp(14px,1.1vw,17px);font-weight:900}
+  .auto-flow .lead{margin-top:1.2rem;font-size:clamp(22px,2.4vw,34px);line-height:1.55;
+    color:#f9e9bd;font-weight:800}
+  .auto-flow .af-small{margin-top:1rem;color:#d9dccd;
+    font-size:clamp(17px,1.55vw,23px);line-height:1.65}
+  .auto-flow .gold{color:var(--af-gold2)}
+
+  .auto-flow .formula{display:grid;grid-template-columns:1fr 92px 1fr;align-items:center;gap:20px;width:100%}
+  .auto-flow .big-card{min-height:245px;display:grid;place-items:center;border-radius:8px;
+    padding:30px;color:var(--af-ink);
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));
+    box-shadow:0 18px 38px var(--af-shadow),inset 0 1px 0 rgba(255,255,255,.72);
+    text-align:center}
+  .auto-flow .big-card img{width:92px;height:92px;object-fit:contain;margin-bottom:18px}
+  .auto-flow .big-card b{display:block;font-size:clamp(30px,3.4vw,52px);line-height:1.12;color:#2d4738}
+  .auto-flow .big-card span{display:block;margin-top:12px;color:#6b5a3a;
+    font-size:clamp(16px,1.3vw,20px);line-height:1.45}
+  .auto-flow .arrow{height:4px;background:var(--af-gold2);position:relative;
+    box-shadow:0 0 18px rgba(243,212,138,.56)}
+  .auto-flow .arrow::after{content:"";position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+    border-left:18px solid var(--af-gold2);
+    border-top:12px solid transparent;border-bottom:12px solid transparent}
+
+  .auto-flow .question{font-size:clamp(34px,5.2vw,76px);line-height:1.28;font-weight:900;
+    color:#fff7df;text-shadow:0 10px 28px rgba(0,0,0,.36)}
+  .auto-flow .pause-line{margin-top:2.4rem;height:2px;width:min(560px,80vw);
+    background:linear-gradient(90deg,transparent,var(--af-gold2),transparent);margin-left:auto;margin-right:auto}
+
+  .auto-flow .one-word{font-size:clamp(76px,12vw,180px);line-height:1;font-weight:900;
+    color:#fff7df;text-shadow:0 16px 36px rgba(0,0,0,.38)}
+  .auto-flow .subline{margin-top:1.2rem;font-size:clamp(24px,2.6vw,38px);line-height:1.45;
+    color:#f9e9bd;font-weight:800}
+
+  .auto-flow .heart{width:min(42vw,470px);aspect-ratio:1;border-radius:50%;
+    display:grid;place-items:center;
+    background:radial-gradient(circle at center,rgba(248,239,215,.97) 0 31%,rgba(221,163,71,.88) 32% 43%,rgba(84,169,153,.76) 44% 58%,rgba(31,62,49,.12) 59% 100%);
+    box-shadow:0 28px 70px rgba(0,0,0,.35),inset 0 0 0 1px rgba(255,255,255,.48);
+    position:relative;justify-self:center}
+  .auto-flow .heart img{width:32%;height:32%;object-fit:contain}
+  .auto-flow .heart::after{content:"";position:absolute;inset:12%;border-radius:50%;
+    border:2px solid rgba(255,255,255,.60);animation:af-pulse 1.7s ease-in-out infinite}
+  @keyframes af-pulse{0%,100%{transform:scale(.96);opacity:.55}50%{transform:scale(1.04);opacity:1}}
+
+  .auto-flow .clock{width:min(40vw,430px);aspect-ratio:1;border-radius:50%;
+    display:grid;place-items:center;
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));color:#2d4738;
+    box-shadow:0 24px 56px rgba(0,0,0,.32),inset 0 0 0 12px rgba(221,163,71,.55);
+    position:relative;justify-self:center}
+  .auto-flow .clock::before,.auto-flow .clock::after{content:"";position:absolute;left:50%;top:50%;
+    transform-origin:left center;height:8px;border-radius:999px;background:#2d4738}
+  .auto-flow .clock::before{width:31%;transform:rotate(-90deg)}
+  .auto-flow .clock::after{width:24%;transform:rotate(24deg)}
+  .auto-flow .clock b{position:absolute;bottom:22%;font-size:clamp(24px,2.4vw,36px)}
+
+  .auto-flow .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+  .auto-flow .time-card{min-height:275px;border-radius:8px;padding:24px 22px;
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));color:var(--af-ink);
+    box-shadow:0 16px 34px var(--af-shadow),inset 0 1px 0 rgba(255,255,255,.72);
+    display:grid;grid-template-rows:auto 1fr auto;gap:18px;
+    border-top:8px solid var(--af-accent,var(--af-gold))}
+  .auto-flow .time-card .time{font-size:clamp(28px,2.7vw,42px);font-weight:900;color:#2d4738}
+  .auto-flow .time-card b{display:block;font-size:clamp(25px,2.3vw,36px);color:#2d4738;line-height:1.2}
+  .auto-flow .time-card p{color:#6b5a3a;font-size:clamp(16px,1.28vw,20px);line-height:1.5;text-shadow:none;margin:0}
+
+  .auto-flow .prompt-line{width:100%;border-radius:8px;background:rgba(12,27,21,.74);
+    border:1px solid rgba(248,239,215,.18);border-left:7px solid var(--af-gold);
+    padding:26px 30px;color:#fff3cf;font-size:clamp(28px,3.1vw,46px);line-height:1.38;
+    font-weight:900;box-shadow:0 18px 38px rgba(0,0,0,.25)}
+  .auto-flow .four-keys{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:18px}
+  .auto-flow .key{min-height:150px;border-radius:8px;
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));color:#2d4738;
+    display:grid;place-items:center;text-align:center;padding:18px;
+    box-shadow:0 14px 30px rgba(0,0,0,.25);
+    font-size:clamp(22px,2vw,31px);line-height:1.2;font-weight:900}
+
+  .auto-flow .folder-flow{display:grid;grid-template-columns:1fr 84px 1fr;align-items:center;gap:0;width:100%}
+  .auto-flow .folder{height:270px;border-radius:8px;
+    background:linear-gradient(180deg,#f5c76a,#df9a30);color:#3f2c14;
+    box-shadow:0 18px 38px rgba(0,0,0,.26);position:relative;padding:78px 30px 28px}
+  .auto-flow .folder::before{content:"";position:absolute;left:30px;top:-30px;
+    width:150px;height:54px;border-radius:8px 8px 0 0;background:#f3bd58}
+  .auto-flow .folder b,.auto-flow .ai-box b{display:block;font-size:clamp(30px,3vw,48px);line-height:1.16}
+  .auto-flow .folder span,.auto-flow .ai-box span{display:block;margin-top:16px;
+    font-size:clamp(18px,1.6vw,24px);line-height:1.45}
+  .auto-flow .file{position:absolute;right:10%;top:8%;width:92px;height:116px;border-radius:8px;
+    background:#fff8e6;color:#31523f;display:grid;place-items:center;font-weight:900;
+    box-shadow:0 14px 28px rgba(0,0,0,.25);animation:af-drop 2.2s ease-in-out infinite}
+  @keyframes af-drop{0%,100%{transform:translateY(-10px)}48%{transform:translateY(14px)}}
+  .auto-flow .ai-box{min-height:270px;border-radius:8px;
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));color:#2d4738;
+    box-shadow:0 16px 34px var(--af-shadow),inset 0 1px 0 rgba(255,255,255,.72);
+    padding:32px;display:grid;place-items:center;text-align:center}
+  .auto-flow .ai-box img{width:92px;height:92px;object-fit:contain;margin-bottom:16px}
+
+  .auto-flow .summary{display:grid;grid-template-columns:1fr 72px 1fr 72px 1fr;align-items:center;width:100%}
+  .auto-flow .summary-card{min-height:210px;border-radius:8px;
+    background:linear-gradient(180deg,var(--af-paper),var(--af-paper2));color:#2d4738;
+    box-shadow:0 16px 34px var(--af-shadow),inset 0 1px 0 rgba(255,255,255,.72);
+    display:grid;place-items:center;text-align:center;padding:24px;
+    font-size:clamp(27px,2.7vw,42px);line-height:1.22;font-weight:900}
+
+  .auto-flow p{text-shadow:none}
+  .slide.auto-slide{padding:5vh 6vw 7vh}
+  .slide.auto-slide .tag{position:absolute;top:18px;left:24px;margin:0;z-index:5}
 </style>
 </head>
 <body>
@@ -2220,116 +2345,187 @@
   </div>
 </section>
 
-<!-- 補充 ④ AI 自動化流程（最後）-->
-<section class="slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④</span>
-  <div style="display:flex;align-items:center;gap:1em">
-    <img src="assets/course-art/icons/rocket.png" style="width:80px;height:80px;border-radius:12px">
-    <h2 style="margin:0">AI 自動化流程 🚀</h2>
-  </div>
-  <p class="muted" style="margin-top:.6em">當你學會讓 AI 代替你在電腦上工作時，<br>是不是會想——他跟現實裡的人類助理<b>差在哪裡</b>？</p>
-  <div class="card deep">
-    <p class="center"><b>🚧 目前的限制</b></p>
-    <p class="center" style="font-size:1.2em;margin:.5em 0">
-      🧑 <b>你</b> <span style="color:var(--accent);font-size:1.4em">→</span>
-      ⚡ <b>指令</b> <span style="color:var(--accent);font-size:1.4em">→</span>
-      🤖 <b>AI</b> <span style="color:var(--accent);font-size:1.4em">→</span>
-      ⚙️ <b>動作</b>
-    </p>
-    <p class="center muted">大多時候 AI 還是要你發指令才會動</p>
-  </div>
-  <div class="card accent glow" style="margin-top:1em">
-    <p class="big" style="margin:.4em 0;font-size:clamp(20px,2.5vw,32px)">
-      💭 那……<br>怎麼讓 AI <span class="hl">不用你發指令</span>就會工作？
-    </p>
-  </div>
+<!-- 補充 ④ AI 自動化流程（GPT 節奏版 · 12 張）-->
+<section class="slide auto-slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · AI 自動化流程</span>
+  <div class="auto-flow"><div class="af-split">
+    <div>
+      <span class="kicker">API Key 後面的下一個課程</span>
+      <h1>AI 自動化流程</h1>
+      <p class="lead">讓 AI 不只是回你，而是到了時候就自己開工。</p>
+    </div>
+    <div class="heart" aria-hidden="true">
+      <img src="assets/course-art/icons/brain.png" alt="">
+      <svg viewBox="0 0 420 100" style="position:absolute;left:12%;right:12%;bottom:22%;width:76%;height:18%">
+        <polyline points="0,55 82,55 112,18 144,82 176,42 210,55 420,55" fill="none" stroke="#fff7df" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div></div>
 </section>
 
-<section class="slide">
-  <span class="tag">💡 章節 11 · 補充 ④ · 兩種解法</span>
-  <h2>有兩種方法可以做到</h2>
-  <p class="muted center" style="margin-bottom:.6em">與 AI 協作就是不停的腦力激盪，才能做出最好的搭配。</p>
-  <div class="grid2" style="margin-top:1em">
-    <div class="card accent glow">
-      <div style="font-size:3em;text-align:center;margin:.1em 0">⏰</div>
-      <h3 class="center" style="font-size:1.3em">定時觸發型</h3>
-      <p class="center"><b>時間到就工作</b></p>
-      <p class="muted center small">設一個 AI 鬧鐘<br>每天固定時間動起來</p>
+<section class="slide auto-slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · 現況</span>
+  <div class="auto-flow"><div class="af-frame">
+    <div>
+      <span class="kicker">先從大家熟悉的狀態開始</span>
+      <h2>現在大多是這樣</h2>
     </div>
-    <div class="card accent glow">
-      <div style="font-size:3em;text-align:center;margin:.1em 0">📁</div>
-      <h3 class="center" style="font-size:1.3em">任務觸發型</h3>
-      <p class="center"><b>狀態變了就工作</b></p>
-      <p class="muted center small">某個東西被改了<br>程式就通知 AI 開工</p>
+    <div class="formula">
+      <div class="big-card"><div>
+        <img src="assets/course-art/icons/chat.png" alt=""><b>你發指令</b>
+      </div></div>
+      <div class="arrow"></div>
+      <div class="big-card"><div>
+        <img src="assets/course-art/icons/terminal.png" alt=""><b>AI 動作</b>
+      </div></div>
     </div>
-  </div>
-  <p class="center muted" style="margin-top:.8em">下面兩頁分別講 👉</p>
+  </div></div>
 </section>
 
-<section class="slide">
+<section class="slide auto-slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · 思考題</span>
+  <div class="auto-flow"><div class="af-center"><div>
+    <div class="question">來腦力激盪一下，<br>怎麼樣才可以你不發指令，<br>就讓 AI 工作呢？</div>
+    <div class="pause-line"></div>
+  </div></div></div>
+</section>
+
+<section class="slide auto-slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · 關鍵字</span>
+  <div class="auto-flow"><div class="af-center"><div>
+    <div class="one-word">觸發</div>
+    <p class="subline">不是你去叫 AI。<br>是讓程式在對的時候去叫 AI。</p>
+  </div></div></div>
+</section>
+
+<section class="slide auto-slide">
+  <span class="tag">⚙️ 章節 11 · 補充 ④ · 心臟</span>
+  <div class="auto-flow"><div class="af-split">
+    <div>
+      <span class="kicker">先給它一顆心臟</span>
+      <h2>觸發器，就是 AI 的心臟</h2>
+      <p class="lead">心臟會規律跳動。<br>觸發器會規律把任務送出去。</p>
+    </div>
+    <div class="heart" aria-hidden="true">
+      <img src="assets/course-art/icons/target.png" alt="">
+      <svg viewBox="0 0 420 100" style="position:absolute;left:12%;right:12%;bottom:22%;width:76%;height:18%">
+        <polyline points="0,55 82,55 112,18 144,82 176,42 210,55 420,55" fill="none" stroke="#fff7df" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div></div>
+</section>
+
+<section class="slide auto-slide">
   <span class="tag">⏰ 章節 11 · 補充 ④ · 定時觸發型</span>
-  <div style="display:flex;align-items:center;gap:1em">
-    <img src="assets/course-art/icons/target.png" style="width:72px;height:72px;border-radius:12px">
-    <h2 style="margin:0">定時觸發型 — AI 鬧鐘 ⏰</h2>
-  </div>
-  <p class="muted">設定一個程式，<b>定時代替你去發指令</b>叫 AI 工作。</p>
-  <div class="card accent">
-    <p><b>🗓 範例：我設定一個「AI 鬧鐘排程」</b></p>
-    <div class="grid2" style="margin-top:.4em;gap:.6em">
-      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">🌅</span> <b>09:00</b> 收信</div>
-      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">📰</span> <b>11:00</b> 匯報今日新聞</div>
-      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">📝</span> <b>13:00</b> 整理今日會議內容</div>
-      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">✅</span> <b>17:00</b> 整理今日任務並回報</div>
+  <div class="auto-flow"><div class="af-split">
+    <div>
+      <span class="kicker">第一種</span>
+      <h2>定時觸發型</h2>
+      <p class="lead">把固定要做的事，做成一個 AI 鬧鐘。</p>
     </div>
-  </div>
-  <div class="card good">
-    <p><b>💡 重點</b>：AI <b>有思考能力</b>，可以派<b>需要思考的任務</b>給他。</p>
-    <p class="muted">例：每天想<b>一件能優化你工作的流程</b>並提案</p>
-  </div>
-  <div class="card glow accent" style="text-align:center">
-    <p style="font-size:1.15em;margin:.2em 0">從此 AI 就像<b class="hl">活了</b>——</p>
-    <p class="big" style="font-size:clamp(20px,2.3vw,30px);margin:.2em 0">這個鬧鐘就是 AI 的「<b>心臟</b>」❤️</p>
-  </div>
+    <div class="clock" aria-hidden="true"><b>AI 鬧鐘</b></div>
+  </div></div>
 </section>
 
-<section class="slide">
+<section class="slide auto-slide">
+  <span class="tag">⏰ 章節 11 · 補充 ④ · 時間表</span>
+  <div class="auto-flow"><div class="af-frame">
+    <div>
+      <span class="kicker">範例：一天四次被叫醒</span>
+      <h2>時間到，任務就開始</h2>
+    </div>
+    <div class="timeline">
+      <div class="time-card" style="--af-accent:#6389b9">
+        <div class="time">09:00</div><b>收信</b><p>挑出急件與待回覆。</p>
+      </div>
+      <div class="time-card" style="--af-accent:#dda347">
+        <div class="time">11:00</div><b>新聞</b><p>整理今日重點。</p>
+      </div>
+      <div class="time-card" style="--af-accent:#54a999">
+        <div class="time">13:00</div><b>會議</b><p>整理決議與待辦。</p>
+      </div>
+      <div class="time-card" style="--af-accent:#c76d73">
+        <div class="time">17:00</div><b>回報</b><p>彙整今天完成什麼。</p>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="slide auto-slide">
+  <span class="tag">⏰ 章節 11 · 補充 ④ · 設定四要素</span>
+  <div class="auto-flow"><div class="af-frame">
+    <div>
+      <span class="kicker">重點不是鬧鐘，是任務說得夠不夠清楚</span>
+      <h2>你設定越詳細，它越像助理</h2>
+    </div>
+    <div>
+      <div class="prompt-line">每天 17:00，整理今天完成的任務，分成「已完成、卡住、明天優先」。</div>
+      <div class="four-keys">
+        <div class="key">何時啟動</div>
+        <div class="key">看哪裡</div>
+        <div class="key">怎麼判斷</div>
+        <div class="key">回報到哪</div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="slide auto-slide">
+  <span class="tag">⏰ 章節 11 · 補充 ④ · 思考任務</span>
+  <div class="auto-flow"><div class="af-center"><div>
+    <span class="kicker">不要忘記：AI 有思考能力</span>
+    <h2>你可以派給它<br><span class="gold">需要思考</span>的任務</h2>
+    <p class="lead">例如：每天想一件能優化工作的流程。</p>
+  </div></div></div>
+</section>
+
+<section class="slide auto-slide">
+  <span class="tag">📁 章節 11 · 補充 ④ · 狀態改變</span>
+  <div class="auto-flow"><div class="af-center"><div>
+    <span class="kicker">第二種</span>
+    <div class="one-word">狀態改變</div>
+    <p class="subline">不是時間到了。<br>是某件事情發生了。</p>
+  </div></div></div>
+</section>
+
+<section class="slide auto-slide">
   <span class="tag">📁 章節 11 · 補充 ④ · 任務觸發型</span>
-  <div style="display:flex;align-items:center;gap:1em">
-    <img src="assets/course-art/icons/folder.png" style="width:72px;height:72px;border-radius:12px">
-    <h2 style="margin:0">任務觸發型 — 改變狀態 📁</h2>
-  </div>
-  <p class="muted">不靠鬧鐘定時，靠<b style="color:var(--accent)">某個狀態被改變</b>來觸發 AI 工作。</p>
-  <div class="card deep">
-    <p class="center"><b>🔄 運作流程</b></p>
-    <p class="center" style="font-size:1.1em;margin:.5em 0;line-height:2">
-      📁 <b>某個地方狀態改變</b><br>
-      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
-      📡 <b>程式偵測到，通知 AI</b><br>
-      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
-      🤖 <b>AI 開始工作</b>
-    </p>
-  </div>
-  <div class="card accent">
-    <p><b>📦 範例：監測雲端資料夾</b></p>
-    <p>把程式裝在監測某個 Google Drive 資料夾——</p>
-    <p>從此只要那個資料夾<b>有新檔案進來</b>，程式就會通知 AI：「<b>該工作囉！</b>」</p>
-    <p class="muted">→ 例：客戶把月結發票丟進資料夾 → AI 自動整理 → email 摘要給你</p>
-  </div>
+  <div class="auto-flow"><div class="af-frame">
+    <div>
+      <span class="kicker">任務觸發型</span>
+      <h2>雲端資料夾一有新資料，AI 就被叫醒</h2>
+    </div>
+    <div class="folder-flow">
+      <div class="folder">
+        <div class="file">新資料</div>
+        <b>雲端資料夾</b>
+        <span>客戶上傳檔案、發票、合約、錄音</span>
+      </div>
+      <div class="arrow"></div>
+      <div class="ai-box"><div>
+        <img src="assets/course-art/icons/brain.png" alt="">
+        <b>AI：該工作囉</b>
+        <span>分類、摘要、檢查缺件、回報下一步</span>
+      </div></div>
+    </div>
+  </div></div>
 </section>
 
-<section class="slide">
-  <span class="tag">🎯 章節 11 · 補充 ④ · 兩種觸發對比</span>
-  <h2>兩種觸發型，怎麼選？</h2>
-  <table>
-    <tr><th></th><th>⏰ 定時觸發型</th><th>📁 任務觸發型</th></tr>
-    <tr><td><b>機制</b></td><td>時間到就做</td><td>狀態改變才做</td></tr>
-    <tr><td><b>適合</b></td><td>例行性日常工作<br>每天每週都會做的事</td><td>不定期但有規律事件<br>客戶送資料、收信、有人預約</td></tr>
-    <tr><td><b>會計師例子</b></td><td>每月 5 號自動整理上月發票<br>每週一彙整客戶 LINE 問題</td><td>客戶上傳憑證 → 自動分類<br>email 來新詢價 → 自動草擬回信</td></tr>
-  </table>
-  <div class="card good glow">
-    <p class="center"><b>💡 兩種其實可以同時用</b></p>
-    <p class="center">⏰ 定時掃描 + 📁 即時觸發 = 真正的 <b class="hl">AI 助理系統</b></p>
-  </div>
+<section class="slide auto-slide">
+  <span class="tag">🎯 章節 11 · 補充 ④ · 三件事</span>
+  <div class="auto-flow"><div class="af-frame">
+    <div>
+      <span class="kicker">最後收斂成一張圖</span>
+      <h2>你真正設計的是這三件事</h2>
+    </div>
+    <div class="summary">
+      <div class="summary-card">觸發條件</div>
+      <div class="arrow"></div>
+      <div class="summary-card">AI 任務</div>
+      <div class="arrow"></div>
+      <div class="summary-card">回報方式</div>
+    </div>
+  </div></div>
 </section>
 
 

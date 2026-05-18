@@ -2560,7 +2560,7 @@
 </div>
 
 <div class="counter"><b id="cur">1</b> / <span id="total">1</span></div>
-<div class="keyhint">← → 翻頁</div>
+<div class="keyhint">← → 翻頁 ｜ F 全螢幕</div>
 
 <script>
   const slides=[...document.querySelectorAll('.slide')];
@@ -2580,6 +2580,11 @@
     if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
     if(e.key==='Home')show(0);
     if(e.key==='End')show(slides.length-1);
+    if(e.key==='f'||e.key==='F'){
+      e.preventDefault();
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen()}
+      else{document.exitFullscreen()}
+    }
   });
 
   // Tabs

@@ -2183,8 +2183,102 @@
   </table>
 </section>
 
+<!-- 補充 ② AI 自動化流程 -->
 <section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ② · 第三方 AI 詳解</span>
+  <span class="tag">⚙️ 章節 11 · 補充 ② · AI 自動化流程</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/rocket.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">當你不下指令，AI 也能工作 🤖</h2>
+  </div>
+  <p class="muted">當你學會讓 AI 代替你在電腦上工作時，是不是會想——他跟現實裡的人類助理差在哪裡？</p>
+  <div class="card deep">
+    <p class="center"><b>🚧 目前的限制</b></p>
+    <p class="center" style="font-size:1.15em;margin:.4em 0">
+      🧑 <b>你</b> <span style="color:var(--accent);font-size:1.3em">→</span>
+      ⚡ <b>指令</b> <span style="color:var(--accent);font-size:1.3em">→</span>
+      🤖 <b>AI</b> <span style="color:var(--accent);font-size:1.3em">→</span>
+      ⚙️ <b>動作</b>
+    </p>
+    <p class="center muted">大多時候 AI 還是要你發指令才會動</p>
+  </div>
+  <div class="card accent glow">
+    <p class="center" style="font-size:1.1em"><b>💭 那要怎麼讓 AI <span class="hl">不用你發指令</span>也能工作？</b></p>
+    <p class="center muted">與 AI 協作就是不停的腦力激盪——下面兩種方法</p>
+  </div>
+  <div class="grid2" style="margin-top:.5em">
+    <div class="card stripe accent" style="text-align:center"><b>⏰ 定時觸發型</b><p class="muted small">時間到就工作</p></div>
+    <div class="card stripe accent" style="text-align:center"><b>📁 任務觸發型</b><p class="muted small">狀態變了就工作</p></div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">⏰ 章節 11 · 補充 ② · 定時觸發型</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/target.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">定時觸發型 — AI 鬧鐘 ⏰</h2>
+  </div>
+  <p class="muted">設定一個程式，<b>定時代替你去發指令</b>叫 AI 工作。</p>
+  <div class="card accent">
+    <p><b>🗓 範例：我設定一個「AI 鬧鐘排程」</b></p>
+    <div class="grid2" style="margin-top:.4em;gap:.6em">
+      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">🌅</span> <b>09:00</b> 收信</div>
+      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">📰</span> <b>11:00</b> 匯報今日新聞</div>
+      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">📝</span> <b>13:00</b> 整理今日會議內容</div>
+      <div style="display:flex;gap:.6em;align-items:center"><span style="font-size:1.3em">✅</span> <b>17:00</b> 整理今日任務並回報</div>
+    </div>
+  </div>
+  <div class="card good">
+    <p><b>💡 重點</b>：AI <b>有思考能力</b>，可以派<b>需要思考的任務</b>給他。</p>
+    <p class="muted">例：每天想<b>一件能優化你工作的流程</b>並提案</p>
+  </div>
+  <div class="card glow accent" style="text-align:center">
+    <p style="font-size:1.15em;margin:.2em 0">從此 AI 就像<b class="hl">活了</b>——</p>
+    <p class="big" style="font-size:clamp(20px,2.3vw,30px);margin:.2em 0">這個鬧鐘就是 AI 的「<b>心臟</b>」❤️</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📁 章節 11 · 補充 ② · 任務觸發型</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/folder.png" style="width:72px;height:72px;border-radius:12px">
+    <h2 style="margin:0">任務觸發型 — 改變狀態 📁</h2>
+  </div>
+  <p class="muted">不靠鬧鐘定時，靠<b style="color:var(--accent)">某個狀態被改變</b>來觸發 AI 工作。</p>
+  <div class="card deep">
+    <p class="center"><b>🔄 運作流程</b></p>
+    <p class="center" style="font-size:1.1em;margin:.5em 0;line-height:2">
+      📁 <b>某個地方狀態改變</b><br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      📡 <b>程式偵測到，通知 AI</b><br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      🤖 <b>AI 開始工作</b>
+    </p>
+  </div>
+  <div class="card accent">
+    <p><b>📦 範例：監測雲端資料夾</b></p>
+    <p>把程式裝在監測某個 Google Drive 資料夾——</p>
+    <p>從此只要那個資料夾<b>有新檔案進來</b>，程式就會通知 AI：「<b>該工作囉！</b>」</p>
+    <p class="muted">→ 例：客戶把月結發票丟進資料夾 → AI 自動整理 → email 摘要給你</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🎯 章節 11 · 補充 ② · 兩種觸發對比</span>
+  <h2>兩種觸發型，怎麼選？</h2>
+  <table>
+    <tr><th></th><th>⏰ 定時觸發型</th><th>📁 任務觸發型</th></tr>
+    <tr><td><b>機制</b></td><td>時間到就做</td><td>狀態改變才做</td></tr>
+    <tr><td><b>適合</b></td><td>例行性日常工作<br>每天每週都會做的事</td><td>不定期但有規律事件<br>客戶送資料、收信、有人預約</td></tr>
+    <tr><td><b>會計師例子</b></td><td>每月 5 號自動整理上月發票<br>每週一彙整客戶 LINE 問題</td><td>客戶上傳憑證 → 自動分類<br>email 來新詢價 → 自動草擬回信</td></tr>
+  </table>
+  <div class="card good glow">
+    <p class="center"><b>💡 兩種其實可以同時用</b></p>
+    <p class="center">⏰ 定時掃描 + 📁 即時觸發 = 真正的 <b class="hl">AI 助理系統</b></p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">🤖 章節 11 · 補充 ③ · 第三方 AI 詳解</span>
   <h2>為什麼要另外申請 GPT/Claude API？</h2>
   <div class="card accent">
     <p><b>Antigravity 內建 AI 是「給你用」</b>，幫你寫程式、改檔案。</p>
@@ -2203,7 +2297,7 @@
 </section>
 
 <section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ③ · 客服機器人</span>
+  <span class="tag">🤖 章節 11 · 補充 ④ · 客服機器人</span>
   <h2>客服機器人的三種類型</h2>
   <table>
     <tr><th></th><th>程式機器人</th><th>AI 機器人</th><th>混合型 ⭐</th></tr>

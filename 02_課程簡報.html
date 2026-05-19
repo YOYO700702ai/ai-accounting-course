@@ -2552,6 +2552,95 @@
   </div></div>
 </section>
 
+<!-- 補充 ⑤ 子模型平行協作 -->
+<section class="slide">
+  <span class="tag">👥 章節 11 · 補充 ⑤ · 子模型平行協作</span>
+  <div style="display:flex;align-items:center;gap:1em">
+    <img src="assets/course-art/icons/brain.png" style="width:80px;height:80px;border-radius:12px">
+    <h2 style="margin:0">AI 也可以「分身」一起做事 👥</h2>
+  </div>
+  <p class="muted" style="margin-top:.4em">當任務很大時，主 AI 可以自己<b style="color:var(--accent)">叫出小 AI 幫手</b>同時工作——叫做「子模型」。</p>
+  <div class="card deep">
+    <p class="center"><b>🧠 一個人 vs. 一個團隊</b></p>
+    <p class="center" style="font-size:1.15em;margin:.5em 0;line-height:1.9">
+      👤 <b>單一 AI</b>：一次只能做一件事，按順序<br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      👥 <b>主 AI + 子模型</b>：主 AI 拆任務、發包、彙整結果
+    </p>
+  </div>
+  <div class="card accent glow">
+    <p><b>💡 就像會計事務所裡的</b><br>主管 = 主 AI ｜ 助理們 = 子模型 ｜ 客戶要的報告 = 最後彙整</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">✅ 章節 11 · 補充 ⑤ · 什麼時候用</span>
+  <h2>什麼時候叫子模型？什麼時候自己做？</h2>
+  <div class="grid2">
+    <div class="card good">
+      <p><b>✅ 適合用子模型</b></p>
+      <ul style="margin:.3em 0">
+        <li><b>大量讀檔但只要結論</b><br>例：把 50 份合約丟一隻去摘要</li>
+        <li><b>多個獨立查詢同時跑</b><br>例：A 找客戶資料、B 找上月發票</li>
+        <li><b>需要獨立第二意見</b><br>例：另開一隻 review 主 AI 寫的東西</li>
+        <li><b>背景跑長任務</b><br>你繼續做別的事，它跑好通知你</li>
+      </ul>
+    </div>
+    <div class="card bad">
+      <p><b>❌ 不適合用</b></p>
+      <ul style="margin:.3em 0">
+        <li><b>對話脈絡複雜</b><br>子模型不知道前後文，要花成本重講</li>
+        <li><b>步驟有先後依賴</b><br>本來就要 A 做完才能做 B</li>
+        <li><b>小任務</b><br>自己順手做更快</li>
+        <li><b>需要你即時參與</b><br>子模型獨立跑，你看不到中間過程</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">📋 章節 11 · 補充 ⑤ · 會計師情境</span>
+  <h2>會計師可以這樣用 💼</h2>
+  <p class="muted">月底結帳、年度報稅這種「大量重複任務」就是子模型發揮的時候。</p>
+  <div class="card accent">
+    <p><b>🗓 情境：月底要結 20 個客戶的帳</b></p>
+    <p style="font-size:1.05em;margin:.5em 0;line-height:1.9">
+      👤 <b>你</b>：「幫我把這 20 個客戶的月結處理完」<br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      🧠 <b>主 AI</b>：分派 20 隻子模型，<b>同時</b>處理 20 個客戶<br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      👥 <b>子模型 1~20</b>：各自整理發票、對帳、生報表<br>
+      <span style="color:var(--accent);font-size:1.4em">↓</span><br>
+      🧠 <b>主 AI</b>：彙整 20 份結果 → 一份總表給你
+    </p>
+  </div>
+  <div class="card good">
+    <p><b>⏱ 時間差異</b>：單一 AI 跑 20 次 ≈ 2 小時 ｜ 子模型平行 ≈ 10 分鐘</p>
+  </div>
+</section>
+
+<section class="slide">
+  <span class="tag">💬 章節 11 · 補充 ⑤ · 怎麼開口</span>
+  <h2>怎麼叫 AI 開子模型？</h2>
+  <p class="muted center">不用記指令，用<b style="color:var(--accent)">自然語言</b>就好——關鍵字是「同時」「平行」「分頭」。</p>
+  <div class="promptbox">幫我<b style="color:var(--accent3)">同時</b>處理這 20 個客戶的月結，
+每個客戶<b style="color:var(--accent3)">開一隻子模型</b>去做，
+最後把所有結果<b style="color:var(--accent3)">彙整成一張總表</b>給我。</div>
+  <div class="grid2" style="margin-top:.4em">
+    <div class="card good">
+      <p><b>✨ 重點 1：說清楚邊界</b></p>
+      <p class="muted">每隻子模型負責「一個客戶」，不要互相干擾。</p>
+    </div>
+    <div class="card good">
+      <p><b>✨ 重點 2：指定彙整方式</b></p>
+      <p class="muted">不講的話子模型結果會四散，要明說「最後合成一份」。</p>
+    </div>
+  </div>
+  <div class="card accent glow" style="text-align:center;margin-top:.4em">
+    <p class="big" style="font-size:clamp(20px,2.4vw,30px);margin:.2em 0">學會這招 = AI 從「個人助理」變「整個團隊」🚀</p>
+  </div>
+</section>
+
 
 <section class="slide chapter-cover center-v">
   <h1 style="font-size:clamp(60px,9vw,120px)">課堂見 👋</h1>

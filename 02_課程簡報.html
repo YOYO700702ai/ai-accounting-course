@@ -1654,21 +1654,41 @@
 
 <section class="slide">
   <span class="tag">🛠 章節 8 · 8-9 · 實作環節</span>
-  <div style="display:flex;align-items:center;gap:1em">
-    <img src="assets/course-art/icons/rocket.png" style="width:72px;height:72px;border-radius:12px">
-    <h2 style="margin:0">現在換你做</h2>
+  <div style="flex:1;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:min(5vw,64px);min-height:0">
+    <div>
+      <p class="muted" style="margin:0 0 .25em;font-size:clamp(18px,1.8vw,26px);letter-spacing:.18em;font-weight:900">練習時間，也是休息時間</p>
+      <h1 style="margin:0;font-size:clamp(76px,10vw,146px);line-height:.95;color:#fff7df;text-shadow:0 12px 30px rgba(0,0,0,.42)">實作時間</h1>
+      <p style="margin-top:.9em;font-size:clamp(22px,2.2vw,34px);line-height:1.45;color:#f8e9bd;font-weight:800">
+        現在換你做。<br>
+        先休息一下，也把作品做出來。
+      </p>
+    </div>
+    <div style="display:grid;place-items:center">
+      <div aria-label="實作時間時鐘" style="width:min(34vw,360px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:linear-gradient(180deg,#f8efd7,#ead7a9);box-shadow:0 24px 58px rgba(0,0,0,.34),inset 0 0 0 14px rgba(212,160,74,.62),inset 0 0 0 22px rgba(63,94,52,.22)">
+        <div style="position:absolute;inset:34px;border:2px dashed rgba(63,94,52,.38);border-radius:50%"></div>
+        <div style="position:absolute;left:50%;top:50%;width:32%;height:10px;border-radius:999px;background:#2f4f3b;transform-origin:left center;transform:rotate(-90deg)"></div>
+        <div style="position:absolute;left:50%;top:50%;width:25%;height:10px;border-radius:999px;background:#2f4f3b;transform-origin:left center;transform:rotate(24deg)"></div>
+        <div style="position:absolute;left:50%;top:50%;width:20px;height:20px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(0,0,0,.25)"></div>
+        <div style="text-align:center;transform:translateY(25%)">
+          <div style="font-size:clamp(34px,4vw,56px);line-height:1;font-weight:900;color:#2f4f3b">15</div>
+          <div style="margin-top:.2em;font-size:clamp(18px,1.6vw,24px);font-weight:900;color:#6f5a31">分鐘</div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card accent">
-    <h3>1. 📷 截圖你喜歡的網頁</h3>
-    <p class="muted">瀏覽器、IG、Pinterest 找一個截下來</p>
-  </div>
-  <div class="card accent">
-    <h3>2. ✍️ 照 5 步驟給 AI 指令</h3>
-    <p class="muted">Step 1 角色 → Step 2 目的+客群 → Step 3 內容 → Step 4 資料 → Step 5 截圖</p>
-  </div>
-  <div class="card accent">
-    <h3>3. 🚀 做出你自己的網頁初稿</h3>
-    <p class="muted">整段 prompt 貼進 Antigravity → 等它跑完 → 開出來 → 跟同學分享</p>
+  <div class="grid3" style="gap:1em;margin-top:.5em">
+    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
+      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">1. 📷 截圖</h3>
+      <p class="muted" style="margin:0">找一個你喜歡的網頁風格</p>
+    </div>
+    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
+      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">2. ✍️ 下指令</h3>
+      <p class="muted" style="margin:0">照 5 步驟貼給 AI</p>
+    </div>
+    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
+      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">3. 🚀 做初稿</h3>
+      <p class="muted" style="margin:0">跑完後開出來分享</p>
+    </div>
   </div>
 </section>
 

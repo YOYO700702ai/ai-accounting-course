@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>打怪 RPG 進階版 · 金幣商店冒險</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#0f1730;
+    --bg2:#1a2547;
+    --card:#243561;
+    --accent:#fbbf24;
+    --gold:#fde68a;
+    --ok:#22c55e;
+    --bad:#ef4444;
+    --player:#60a5fa;
+    --enemy:#f87171;
+    --fg:#f1f5f9;
+    --muted:#94a3b8;
+    --wood:#8b5a2b;
+    --wood2:#5c3a1a;
+    --crit:#ff3860;
+  }
+  html,body{height:100%;font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+    color:var(--fg);background:radial-gradient(ellipse at top,#1e2a52,#0a1124 70%);
+    overflow:hidden;-webkit-font-smoothing:antialiased}
+  body{display:flex;align-items:center;justify-content:center;padding:20px}
+
+  .stage{width:min(960px,100%);max-height:100vh;
+    background:linear-gradient(180deg,var(--bg2),var(--bg));
+    border-radius:24px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.5);
+    border:2px solid rgba(251,191,36,.2);position:relative}
+
+  /* ====== 頂部資訊 ====== */
+  .topbar{display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:12px;padding:0 4px;gap:10px;flex-wrap:wrap}
+  .stage-info{font-size:14px;color:var(--muted);letter-spacing:.1em}
+  .stage-info b{color:var(--accent);font-size:18px}
+  .score-info{font-size:14px;color:var(--muted)}
+  .score-info b{color:var(--ok);font-size:18px}
+  .gold-counter{background:linear-gradient(180deg,#fde68a,#f59e0b);color:#3b2400;
+    padding:6px 14px;border-radius:999px;font-weight:900;font-size:18px;
+    box-shadow:0 4px 12px rgba(251,191,36,.4);border:2px solid #fff7d6;
+    display:inline-flex;align-items:center;gap:6px;transition:transform .2s}
+  .gold-counter.bump{animation:goldbump .4s ease}
+  @keyframes goldbump{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.25)}
+  }
+
+  /* ====== 戰鬥區 ====== */
+  .battle{display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;
+    margin-bottom:14px;min-height:170px}
+  .fighter{text-align:center;position:relative}
+  .fighter .avatar{font-size:72px;line-height:1;margin-bottom:8px;display:inline-block;
+    filter:drop-shadow(0 6px 12px rgba(0,0,0,.5));transition:transform .25s ease}
+  .fighter.attack .avatar{animation:attack .3s ease}
+  .fighter.hit .avatar{animation:hit .4s ease}
+  .fighter.defeated .avatar{animation:defeat .8s ease forwards}
+  .fighter .name{font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:700;letter-spacing:.1em}
+  .fighter.player .name{color:var(--player)}
+  .fighter.enemy .name{color:var(--enemy)}
+
+  .hpbar{height:18px;background:#0a1124;border-radius:9px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);position:relative}
+  .hpbar .fill{height:100%;transition:width .4s ease,background .4s ease;
+    background:linear-gradient(90deg,#22c55e,#16a34a)}
+  .hpbar .fill.mid{background:linear-gradient(90deg,#f59e0b,#d97706)}
+  .hpbar .fill.low{background:linear-gradient(90deg,#ef4444,#b91c1c);animation:lowblink 1s infinite}
+  .hpbar .label{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+
+  .vs{font-size:40px;font-weight:900;color:var(--accent);text-shadow:0 4px 12px rgba(251,191,36,.4)}
+
+  .damage-pop{position:absolute;top:30px;left:50%;transform:translateX(-50%);
+    font-size:30px;font-weight:900;pointer-events:none;opacity:0;
+    text-shadow:0 2px 8px rgba(0,0,0,.6);white-space:nowrap}
+  .damage-pop.show{animation:dmgpop 1s ease forwards}
+  .damage-pop.heal{color:var(--ok)}
+  .damage-pop.dmg{color:var(--bad)}
+  .damage-pop.gold{color:#fde047}
+  .damage-pop.crit{color:#fff;font-size:42px;text-shadow:0 0 12px var(--crit),0 0 24px var(--crit)}
+
+  /* ====== 題目區 ====== */
+  .question-area{background:var(--card);border-radius:14px;padding:16px 20px;
+    border:2px solid rgba(251,191,36,.15);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .question{font-size:clamp(17px,2.1vw,22px);font-weight:800;margin-bottom:12px;
+    line-height:1.5;text-align:center;min-height:1.5em}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .opt{padding:12px 16px;border:2px solid rgba(255,255,255,.15);
+    background:linear-gradient(180deg,#2c3e6e,#1f2d52);
+    color:var(--fg);border-radius:12px;font-size:clamp(14px,1.5vw,17px);
+    font-weight:700;cursor:pointer;transition:all .2s ease;text-align:left;
+    font-family:inherit;display:flex;align-items:center;gap:10px}
+  .opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(251,191,36,.25)}
+  .opt:disabled{cursor:default;opacity:.7}
+  .opt.correct{background:linear-gradient(180deg,#16a34a,#15803d);border-color:var(--ok);animation:bounce .4s}
+  .opt.wrong{background:linear-gradient(180deg,#dc2626,#991b1b);border-color:var(--bad);animation:shake .3s}
+  .opt .badge{display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;background:rgba(251,191,36,.2);
+    color:var(--accent);font-weight:900;font-size:13px;flex-shrink:0}
+  .opt.correct .badge,.opt.wrong .badge{background:rgba(255,255,255,.25);color:#fff}
+
+  .feedback{margin-top:10px;text-align:center;font-size:14px;font-weight:700;min-height:1.4em;opacity:0;
+    transition:opacity .2s}
+  .feedback.show{opacity:1}
+  .feedback.correct{color:var(--ok)}
+  .feedback.wrong{color:var(--bad)}
+
+  /* ====== 戰鬥列：背包 + 道具狀態 ====== */
+  .actionbar{display:flex;justify-content:space-between;align-items:center;
+    margin-top:10px;gap:10px;flex-wrap:wrap}
+  .action-btn{background:linear-gradient(180deg,#374a82,#243561);color:#fff;
+    border:2px solid rgba(251,191,36,.3);padding:8px 16px;border-radius:10px;
+    font-weight:800;font-size:14px;cursor:pointer;font-family:inherit;
+    transition:transform .15s,box-shadow .15s;display:inline-flex;align-items:center;gap:6px}
+  .action-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(251,191,36,.3)}
+  .crit-ready{background:linear-gradient(180deg,#dc2626,#991b1b);color:#fff;
+    padding:6px 12px;border-radius:8px;font-weight:900;font-size:13px;
+    animation:critglow 1s ease-in-out infinite;letter-spacing:.05em}
+  @keyframes critglow{
+    0%,100%{box-shadow:0 0 6px var(--crit)}
+    50%{box-shadow:0 0 16px var(--crit),0 0 24px var(--crit)}
+  }
+
+  /* ====== 背包彈窗 ====== */
+  .modal{position:absolute;inset:0;background:rgba(0,0,0,.7);z-index:20;
+    display:flex;align-items:center;justify-content:center;padding:20px;border-radius:24px}
+  .modal.hidden{display:none}
+  .modal-card{background:linear-gradient(180deg,#2c3e6e,#1f2d52);
+    border:2px solid var(--accent);border-radius:18px;padding:20px;
+    max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .modal-card h2{color:var(--accent);font-size:24px;margin-bottom:14px;text-align:center}
+  .bag-list{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+  .bag-item{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 14px;background:rgba(0,0,0,.25);border-radius:10px;
+    border:1px solid rgba(255,255,255,.08)}
+  .bag-item .info{display:flex;align-items:center;gap:10px}
+  .bag-item .emoji{font-size:28px}
+  .bag-item .name{font-weight:800;font-size:15px}
+  .bag-item .desc{font-size:12px;color:var(--muted);margin-top:2px}
+  .bag-item .count{background:var(--accent);color:#0f1730;border-radius:999px;
+    padding:2px 10px;font-weight:900;font-size:13px;margin-right:8px}
+  .bag-item button{background:linear-gradient(180deg,var(--ok),#15803d);color:#fff;
+    border:none;padding:6px 12px;border-radius:8px;font-weight:800;cursor:pointer;
+    font-family:inherit;font-size:13px}
+  .bag-item button:disabled{background:#475569;cursor:not-allowed;opacity:.6}
+  .bag-empty{text-align:center;color:var(--muted);padding:20px;font-style:italic}
+  .modal-close{display:block;margin:0 auto;background:linear-gradient(180deg,var(--accent),#d97706);
+    color:#0f1730;border:none;padding:10px 28px;border-radius:10px;font-weight:900;
+    cursor:pointer;font-family:inherit;font-size:15px}
+
+  /* ====== 商店 ====== */
+  .shop{position:absolute;inset:0;z-index:15;border-radius:24px;
+    background:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.08) 0,rgba(0,0,0,.08) 2px,transparent 2px,transparent 18px),
+      linear-gradient(180deg,#a06a3a,#6b4520);
+    display:flex;flex-direction:column;align-items:center;padding:24px;overflow-y:auto}
+  .shop.hidden{display:none}
+  .shop h2{color:#fff7d6;font-size:32px;margin-bottom:6px;
+    text-shadow:0 3px 0 #3b2100,0 6px 16px rgba(0,0,0,.5)}
+  .shop .sub{color:#fff7d6;opacity:.85;margin-bottom:18px;font-size:14px}
+  .shop-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:14px;width:100%;max-width:640px;margin-bottom:18px}
+  .shop-item{background:linear-gradient(180deg,#fff7d6,#f3d28c);
+    border:3px solid #5c3a1a;border-radius:14px;padding:14px;text-align:center;
+    box-shadow:0 8px 0 #5c3a1a,0 12px 20px rgba(0,0,0,.4);color:#3b2100;
+    transition:transform .15s}
+  .shop-item .emoji{font-size:48px;line-height:1;margin-bottom:6px}
+  .shop-item .iname{font-weight:900;font-size:16px;margin-bottom:4px}
+  .shop-item .idesc{font-size:12px;color:#5c3a1a;margin-bottom:8px;min-height:32px;line-height:1.4}
+  .shop-item .price{font-weight:900;color:#7a4a00;margin-bottom:8px;font-size:14px}
+  .shop-item button{background:linear-gradient(180deg,#22c55e,#15803d);color:#fff;
+    border:none;padding:8px 14px;border-radius:8px;font-weight:900;cursor:pointer;
+    font-family:inherit;width:100%;font-size:14px;box-shadow:0 3px 0 #0d4a1f}
+  .shop-item button:hover:not(:disabled){transform:translateY(-2px)}
+  .shop-item button:disabled{background:#94a3b8;box-shadow:0 3px 0 #475569;
+    cursor:not-allowed;opacity:.8}
+  .shop-item .owned{font-size:11px;color:#5c3a1a;margin-top:4px;font-weight:700}
+  .shop-bottom{display:flex;justify-content:space-between;width:100%;max-width:640px;
+    align-items:center;gap:12px;flex-wrap:wrap}
+  .shop-gold{background:#fff7d6;color:#7a4a00;padding:8px 18px;border-radius:10px;
+    font-weight:900;font-size:18px;border:2px solid #5c3a1a;
+    box-shadow:0 3px 0 #5c3a1a}
+  .shop-next{background:linear-gradient(180deg,#ef4444,#b91c1c);color:#fff;
+    border:none;padding:12px 24px;border-radius:12px;font-weight:900;font-size:16px;
+    cursor:pointer;font-family:inherit;box-shadow:0 4px 0 #7f1d1d,0 8px 20px rgba(0,0,0,.4);
+    border:2px solid #fff7d6}
+  .shop-next:hover{transform:translateY(-2px)}
+
+  /* ====== 載入 / 開始 / 結局 ====== */
+  .loading,.gameover,.victory,.start{position:absolute;inset:0;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;
+    background:rgba(15,23,48,.97);border-radius:24px;z-index:30;text-align:center;padding:30px}
+  .loading.hidden,.gameover.hidden,.victory.hidden,.start.hidden{display:none}
+  .loading .spinner{width:60px;height:60px;border:6px solid rgba(251,191,36,.2);
+    border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px}
+  .gameover .icon,.victory .icon,.start .icon{font-size:80px;margin-bottom:20px}
+  .gameover h1{color:var(--bad);font-size:48px;margin-bottom:10px}
+  .victory h1{font-size:48px;margin-bottom:10px;
+    background:linear-gradient(180deg,#fde68a,#f59e0b);-webkit-background-clip:text;
+    background-clip:text;color:transparent;animation:glow 2s ease-in-out infinite}
+  .start h1{color:var(--accent);font-size:42px;margin-bottom:10px}
+  .gameover p,.victory p,.start p{color:var(--muted);font-size:17px;margin-bottom:20px;
+    max-width:520px;line-height:1.6}
+  .victory .stats{font-size:18px;color:var(--gold);font-weight:800;margin-bottom:20px;line-height:1.8}
+  .btn{background:linear-gradient(180deg,var(--accent),#d97706);color:#0f1730;
+    border:none;padding:14px 36px;border-radius:12px;font-size:18px;font-weight:900;
+    cursor:pointer;font-family:inherit;box-shadow:0 6px 20px rgba(251,191,36,.4);
+    transition:transform .15s}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* ====== 動畫 ====== */
+  @keyframes attack{
+    0%{transform:translateX(0)}
+    50%{transform:translateX(70px) scale(1.1)}
+    100%{transform:translateX(0)}
+  }
+  @keyframes hit{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-10px) scale(.95)}
+    50%{transform:translateX(10px)}
+    75%{transform:translateX(-5px)}
+  }
+  @keyframes defeat{
+    0%{opacity:1;transform:rotate(0)}
+    100%{opacity:0;transform:rotate(90deg) translateY(40px)}
+  }
+  @keyframes dmgpop{
+    0%{opacity:0;transform:translateX(-50%) translateY(0) scale(.5)}
+    20%{opacity:1;transform:translateX(-50%) translateY(-10px) scale(1.2)}
+    100%{opacity:0;transform:translateX(-50%) translateY(-60px) scale(1)}
+  }
+  @keyframes lowblink{50%{opacity:.7}}
+  @keyframes bounce{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.05)}
+  }
+  @keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes glow{
+    0%,100%{filter:drop-shadow(0 0 10px rgba(251,191,36,.5))}
+    50%{filter:drop-shadow(0 0 20px rgba(251,191,36,.9))}
+  }
+
+  body.shake .stage{animation:bigshake .4s}
+  body.flash .stage{box-shadow:0 0 0 8px rgba(34,197,94,.55),0 20px 60px rgba(0,0,0,.5)}
+  body.critflash .stage{box-shadow:0 0 0 10px rgba(255,56,96,.7),0 20px 60px rgba(0,0,0,.5)}
+  body.goldflash .stage{box-shadow:0 0 0 8px rgba(253,224,71,.6),0 20px 60px rgba(0,0,0,.5)}
+  @keyframes bigshake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-4px)}
+    80%{transform:translateX(4px)}
+  }
+
+  .big-pop{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);
+    font-size:64px;font-weight:900;color:#fff;z-index:25;pointer-events:none;
+    text-shadow:0 0 16px var(--crit),0 0 32px var(--crit);opacity:0}
+  .big-pop.show{animation:bigpop 1s ease forwards}
+  @keyframes bigpop{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}
+    30%{opacity:1;transform:translate(-50%,-50%) scale(1.3)}
+    70%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+    100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}
+  }
+
+  .gold-pop{position:absolute;left:50%;top:35%;transform:translate(-50%,-50%);
+    font-size:48px;font-weight:900;color:#fde047;z-index:25;pointer-events:none;
+    text-shadow:0 0 16px rgba(253,224,71,.8),0 4px 8px rgba(0,0,0,.6);opacity:0}
+  .gold-pop.show{animation:bigpop 1.2s ease forwards}
+
+  @media (max-width:600px){
+    .options{grid-template-columns:1fr}
+    .fighter .avatar{font-size:60px}
+    .vs{font-size:32px}
+    .shop-grid{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+<a href="../大冒險地圖/index.html" style="position:fixed;top:12px;left:12px;z-index:9999;background:rgba(15,23,48,.85);color:#fde68a;padding:8px 14px;border-radius:6px;font-size:14px;text-decoration:none;font-weight:700;border:1px solid #fbbf24">← 回到大地圖</a>
+<div class="stage" id="stage">
+
+  <!-- 載入畫面 -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p style="color:var(--muted)">載入題庫中...</p>
+  </div>
+
+  <!-- 開始畫面 -->
+  <div class="start hidden" id="startScreen">
+    <div class="icon">⚔️</div>
+    <h1>打怪 RPG 進階版</h1>
+    <p>答對攻擊怪物、答錯被打！<br>
+       擊敗怪物會掉金幣，每關之間可以到 🏪 商店買道具。<br>
+       撐過 5 隻怪就過關！</p>
+    <button class="btn" onclick="startGame()">開始冒險</button>
+  </div>
+
+  <!-- 主遊戲 -->
+  <div id="game" class="hidden" style="display:none">
+    <div class="topbar">
+      <div class="stage-info">第 <b id="stageNo">1</b> / 5 關</div>
+      <div class="score-info">答對 <b id="correctCount">0</b> 題</div>
+      <div class="gold-counter" id="goldCounter">💰 <span id="goldNum">0</span></div>
+    </div>
+
+    <div class="battle">
+      <div class="fighter player" id="playerFighter">
+        <div class="name">🧙 玩家</div>
+        <div class="avatar">🧙</div>
+        <div class="hpbar"><div class="fill" id="playerHp" style="width:100%"></div>
+          <div class="label" id="playerHpLabel">100 / 100</div></div>
+        <div class="damage-pop" id="playerDmg"></div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="fighter enemy" id="enemyFighter">
+        <div class="name" id="enemyName">🐺 野狼</div>
+        <div class="avatar" id="enemyAvatar">🐺</div>
+        <div class="hpbar"><div class="fill" id="enemyHp" style="width:100%"></div>
+          <div class="label" id="enemyHpLabel">100 / 100</div></div>
+        <div class="damage-pop" id="enemyDmg"></div>
+      </div>
+    </div>
+
+    <div class="question-area">
+      <div class="question" id="question">準備中...</div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="actionbar">
+      <button class="action-btn" onclick="openBag()">🎒 背包</button>
+      <div id="critIndicator"></div>
+      <div style="font-size:12px;color:var(--muted)">HP 歸零會自動消耗 🛡 救命符</div>
+    </div>
+  </div>
+
+  <!-- 背包 Modal -->
+  <div class="modal hidden" id="bagModal">
+    <div class="modal-card">
+      <h2>🎒 背包</h2>
+      <div class="bag-list" id="bagList"></div>
+      <button class="modal-close" onclick="closeBag()">關閉</button>
+    </div>
+  </div>
+
+  <!-- 商店 -->
+  <div class="shop hidden" id="shop">
+    <h2>🏪 道具商店</h2>
+    <div class="sub" id="shopSub">擊敗怪物！購買道具讓接下來更輕鬆</div>
+    <div class="shop-grid" id="shopGrid"></div>
+    <div class="shop-bottom">
+      <div class="shop-gold">💰 <span id="shopGold">0</span></div>
+      <button class="shop-next" onclick="leaveShop()">進入下一關 ➜</button>
+    </div>
+  </div>
+
+  <!-- 大字暴擊提示 -->
+  <div class="big-pop" id="bigPop"></div>
+  <div class="gold-pop" id="goldPop"></div>
+
+  <!-- Game Over -->
+  <div class="gameover hidden" id="gameOver">
+    <div class="icon">💀</div>
+    <h1>Game Over</h1>
+    <p id="gameOverMsg">你倒下了... 沒關係再試一次！</p>
+    <button class="btn" onclick="resetGame()">重新挑戰</button>
+  </div>
+
+  <!-- Victory -->
+  <div class="victory hidden" id="victory">
+    <div class="icon">🏆</div>
+    <h1>通關成功！</h1>
+    <p>恭喜你打倒所有怪物！</p>
+    <div class="stats" id="victoryStats"></div>
+    <button class="btn" onclick="resetGame()">再玩一次</button>
+  </div>
+
+</div>
+
+<script>
+// ============ 設定 ============
+// 教師之後可貼上自己 Google Sheets 發布的 CSV 網址
+const CSV_URL = '';
+
+// 5 隻怪物（依序登場）
+const ENEMIES = [
+  {name:'🐺 野狼', avatar:'🐺'},
+  {name:'🦂 毒蠍', avatar:'🦂'},
+  {name:'👹 惡鬼', avatar:'👹'},
+  {name:'🐲 巨龍', avatar:'🐲'},
+  {name:'👑 魔王', avatar:'👑'},
+];
+
+const MAX_HP = 100;
+const DAMAGE = 25;
+const CRIT_DAMAGE = 50;
+const GOLD_PER_CORRECT = 5;
+
+// 商店道具
+const SHOP_ITEMS = [
+  {id:'potion', emoji:'🧪', name:'紅藥水', desc:'補 50 HP（戰鬥中也能用）', price:30},
+  {id:'crystal', emoji:'💎', name:'攻擊水晶', desc:'下一題答對暴擊 -50', price:40},
+  {id:'amulet', emoji:'🛡', name:'救命符', desc:'HP 歸零自動復活剩 1 滴', price:80},
+];
+
+// 內建範例題庫（國中通識：英文/數學/自然/歷史/地理）
+const SAMPLE_QUESTIONS = [
+  {q:'apple 的中文是？', a:'蘋果', wrongs:['鳳梨','葡萄','芒果']},
+  {q:'book 的中文是？', a:'書', wrongs:['筆','桌子','椅子']},
+  {q:'七乘以八等於？', a:'56', wrongs:['48','64','72']},
+  {q:'(-3) × (-4) 等於？', a:'12', wrongs:['-12','-7','7']},
+  {q:'三角形內角和是？', a:'180 度', wrongs:['90 度','360 度','270 度']},
+  {q:'臺灣的首都是？', a:'臺北', wrongs:['臺中','高雄','臺南']},
+  {q:'水的化學式是？', a:'H₂O', wrongs:['CO₂','O₂','NaCl']},
+  {q:'最大的海洋是？', a:'太平洋', wrongs:['大西洋','印度洋','北極海']},
+  {q:'地球是太陽系第幾顆行星？', a:'第三', wrongs:['第一','第二','第四']},
+  {q:'《三國演義》的作者是？', a:'羅貫中', wrongs:['吳承恩','施耐庵','曹雪芹']},
+  {q:'第一個登上月球的人是？', a:'阿姆斯壯', wrongs:['哥倫布','愛因斯坦','牛頓']},
+  {q:'人體最大的器官是？', a:'皮膚', wrongs:['肝臟','心臟','大腦']},
+  {q:'光合作用主要在植物的哪個部位？', a:'葉子', wrongs:['根','花','果實']},
+  {q:'「春眠不覺曉」下一句是？', a:'處處聞啼鳥', wrongs:['夜來風雨聲','花落知多少','疑是地上霜']},
+];
+
+// ============ 狀態 ============
+let questions = [];
+let playerHp = MAX_HP;
+let enemyHp = MAX_HP;
+let stageIdx = 0;
+let correctCount = 0;
+let gold = 0;
+let bag = {potion:0, crystal:0, amulet:0};
+let potionsUsed = 0;
+let critPending = false;
+let currentQuestion = null;
+let answering = false;
+
+// ============ CSV 載入 ============
+async function loadQuestions(){
+  if(!CSV_URL){
+    questions = SAMPLE_QUESTIONS;
+    return;
+  }
+  try{
+    const r = await fetch(CSV_URL);
+    const text = await r.text();
+    questions = parseCSV(text);
+    if(questions.length === 0) questions = SAMPLE_QUESTIONS;
+  }catch(e){
+    console.warn('CSV 載入失敗，使用內建題庫', e);
+    questions = SAMPLE_QUESTIONS;
+  }
+}
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  if(lines.length < 2) return [];
+  const out = [];
+  for(let i = 1; i < lines.length; i++){
+    const cells = splitCsvLine(lines[i]);
+    if(cells.length < 2) continue;
+    const q = (cells[0]||'').trim();
+    const a = (cells[1]||'').trim();
+    if(!q || !a || a === '空') continue;
+    const wrongs = [cells[2], cells[3], cells[4]]
+      .map(x => (x||'').trim())
+      .filter(x => x && x !== '空');
+    out.push({q, a, wrongs});
+  }
+  return out;
+}
+
+function splitCsvLine(line){
+  const cells = [];
+  let cur = '';
+  let inQuote = false;
+  for(let i = 0; i < line.length; i++){
+    const c = line[i];
+    if(c === '"'){
+      if(inQuote && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQuote = !inQuote;
+    } else if(c === ',' && !inQuote){
+      cells.push(cur); cur = '';
+    } else cur += c;
+  }
+  cells.push(cur);
+  return cells;
+}
+
+// ============ 工具 ============
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+function randomQuestion(){
+  return questions[Math.floor(Math.random() * questions.length)];
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function randInt(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// ============ 畫面更新 ============
+function updateHp(){
+  const pPct = Math.max(0, playerHp / MAX_HP) * 100;
+  const ePct = Math.max(0, enemyHp / MAX_HP) * 100;
+  const pBar = document.getElementById('playerHp');
+  const eBar = document.getElementById('enemyHp');
+  pBar.style.width = pPct + '%';
+  eBar.style.width = ePct + '%';
+  pBar.className = 'fill' + (pPct < 20 ? ' low' : pPct < 50 ? ' mid' : '');
+  eBar.className = 'fill' + (ePct < 20 ? ' low' : ePct < 50 ? ' mid' : '');
+  document.getElementById('playerHpLabel').textContent = Math.max(0, playerHp) + ' / ' + MAX_HP;
+  document.getElementById('enemyHpLabel').textContent = Math.max(0, enemyHp) + ' / ' + MAX_HP;
+}
+
+function updateStage(){
+  document.getElementById('stageNo').textContent = stageIdx + 1;
+  document.getElementById('correctCount').textContent = correctCount;
+  const enemy = ENEMIES[stageIdx];
+  document.getElementById('enemyName').textContent = enemy.name;
+  document.getElementById('enemyAvatar').textContent = enemy.avatar;
+}
+
+function updateGold(bump){
+  document.getElementById('goldNum').textContent = gold;
+  const shopGold = document.getElementById('shopGold');
+  if(shopGold) shopGold.textContent = gold;
+  if(bump){
+    const c = document.getElementById('goldCounter');
+    c.classList.remove('bump');
+    void c.offsetWidth;
+    c.classList.add('bump');
+  }
+}
+
+function updateCritIndicator(){
+  const el = document.getElementById('critIndicator');
+  el.innerHTML = critPending
+    ? '<span class="crit-ready">💎 暴擊待發</span>'
+    : '';
+}
+
+function showDamage(target, text, type){
+  const el = document.getElementById(target + 'Dmg');
+  el.textContent = text;
+  el.className = 'damage-pop ' + type;
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(()=> el.classList.remove('show'), 1000);
+}
+
+function showBigPop(text, type){
+  const el = (type === 'gold') ? document.getElementById('goldPop') : document.getElementById('bigPop');
+  el.textContent = text;
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+  setTimeout(()=> el.classList.remove('show'), 1200);
+}
+
+function flashScreen(cls){
+  document.body.classList.add(cls);
+  setTimeout(()=> document.body.classList.remove(cls), 400);
+}
+
+// ============ 出題 ============
+function nextQuestion(){
+  currentQuestion = randomQuestion();
+  document.getElementById('question').textContent = currentQuestion.q;
+  document.getElementById('feedback').textContent = '';
+  document.getElementById('feedback').className = 'feedback';
+
+  const allOpts = [
+    {text: currentQuestion.a, correct: true},
+    ...currentQuestion.wrongs.map(w => ({text: w, correct: false}))
+  ];
+  const shuffled = shuffle(allOpts);
+
+  const optsBox = document.getElementById('options');
+  optsBox.innerHTML = '';
+  const labels = ['A','B','C','D'];
+  shuffled.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.innerHTML = '<span class="badge">' + labels[i] + '</span><span>' + escapeHtml(o.text) + '</span>';
+    btn.onclick = () => answer(btn, o.correct);
+    optsBox.appendChild(btn);
+  });
+  answering = false;
+}
+
+// ============ 答題 ============
+function answer(btn, isCorrect){
+  if(answering) return;
+  answering = true;
+  const allBtns = document.querySelectorAll('.opt');
+  allBtns.forEach(b => b.disabled = true);
+
+  if(isCorrect){
+    btn.classList.add('correct');
+    correctCount++;
+    document.getElementById('correctCount').textContent = correctCount;
+    // 拿金幣
+    gold += GOLD_PER_CORRECT;
+    updateGold(true);
+    showDamage('player', '+' + GOLD_PER_CORRECT + ' 💰', 'gold');
+
+    const isCrit = critPending;
+    if(isCrit){
+      critPending = false;
+      updateCritIndicator();
+      document.getElementById('feedback').textContent = '💥 暴擊！';
+      document.getElementById('feedback').className = 'feedback show correct';
+      flashScreen('critflash');
+      showBigPop('CRITICAL!', 'crit');
+      playerAttack(CRIT_DAMAGE, true);
+    } else {
+      document.getElementById('feedback').textContent = '✓ 正確！+5 💰';
+      document.getElementById('feedback').className = 'feedback show correct';
+      flashScreen('flash');
+      playerAttack(DAMAGE, false);
+    }
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => {
+      const txt = b.querySelector('span:last-child').textContent;
+      if(txt === currentQuestion.a) b.classList.add('correct');
+    });
+    document.getElementById('feedback').textContent = '✗ 答錯了，正解：' + currentQuestion.a;
+    document.getElementById('feedback').className = 'feedback show wrong';
+    flashScreen('shake');
+    enemyAttack();
+  }
+}
+
+// ============ 戰鬥 ============
+function playerAttack(dmg, isCrit){
+  const player = document.getElementById('playerFighter');
+  player.classList.add('attack');
+  setTimeout(()=>{
+    player.classList.remove('attack');
+    enemyHp -= dmg;
+    showDamage('enemy', '-' + dmg + (isCrit ? ' 💥' : ''), isCrit ? 'crit' : 'dmg');
+    document.getElementById('enemyFighter').classList.add('hit');
+    setTimeout(()=> document.getElementById('enemyFighter').classList.remove('hit'), 400);
+    updateHp();
+
+    if(enemyHp <= 0){
+      defeatEnemy();
+    } else {
+      setTimeout(nextQuestion, 1200);
+    }
+  }, 300);
+}
+
+function enemyAttack(){
+  const enemy = document.getElementById('enemyFighter');
+  enemy.classList.add('attack');
+  setTimeout(()=>{
+    enemy.classList.remove('attack');
+    playerHp -= DAMAGE;
+    showDamage('player', '-' + DAMAGE, 'dmg');
+    document.getElementById('playerFighter').classList.add('hit');
+    setTimeout(()=> document.getElementById('playerFighter').classList.remove('hit'), 400);
+    updateHp();
+
+    if(playerHp <= 0){
+      handlePlayerDeath();
+    } else {
+      setTimeout(nextQuestion, 1500);
+    }
+  }, 300);
+}
+
+// 死亡與復活
+function handlePlayerDeath(){
+  // 救命符自動復活
+  if(bag.amulet > 0){
+    bag.amulet--;
+    playerHp = 1;
+    setTimeout(()=>{
+      updateHp();
+      showBigPop('🛡 復活！', 'crit');
+      showDamage('player', '🛡 復活', 'heal');
+      setTimeout(nextQuestion, 1500);
+    }, 600);
+    return;
+  }
+  // 沒救命符：判斷是否已經是 1 滴 HP 又死掉
+  // 我們無法直接判斷「上一次是不是 1」，但語意上：若 playerHp 在被攻擊前剛好是 1 → 死 → GameOver
+  // 由於 enemyAttack 一律 -25，所以 playerHp 死後會是 1-25 = -24（不是 -100），
+  // 用「死亡前 HP <= DAMAGE」判斷「是不是低血量倒下」會抓不到差別
+  // 改用 lastReviveAttempted 旗標：若這關已經懲罰過一次仍倒下 → GameOver
+  if(window._reviveUsedThisStage){
+    setTimeout(gameOver, 800);
+  } else {
+    window._reviveUsedThisStage = true;
+    // 重來該關：怪物 HP 重置，玩家 HP 設 1（懲罰）
+    setTimeout(()=>{
+      enemyHp = MAX_HP;
+      playerHp = 1;
+      updateHp();
+      showBigPop('💀 倒下了... 重來該關！', 'crit');
+      setTimeout(nextQuestion, 1800);
+    }, 800);
+  }
+}
+
+function defeatEnemy(){
+  const enemy = document.getElementById('enemyFighter');
+  enemy.classList.add('defeated');
+  // 額外掉落金幣 20-50
+  const drop = randInt(20, 50);
+  setTimeout(()=>{
+    gold += drop;
+    updateGold(true);
+    showBigPop('+' + drop + ' 💰', 'gold');
+    flashScreen('goldflash');
+  }, 500);
+
+  setTimeout(()=>{
+    stageIdx++;
+    window._reviveUsedThisStage = false;
+    if(stageIdx >= ENEMIES.length){
+      victory();
+    } else {
+      enemy.classList.remove('defeated');
+      openShop();
+    }
+  }, 1700);
+}
+
+// ============ 商店 ============
+function openShop(){
+  document.getElementById('shop').classList.remove('hidden');
+  document.getElementById('shopSub').textContent = '下一關：' + ENEMIES[stageIdx].name + '　先補充裝備吧！';
+  renderShop();
+  updateGold();
+}
+
+function renderShop(){
+  const grid = document.getElementById('shopGrid');
+  grid.innerHTML = '';
+  SHOP_ITEMS.forEach(it => {
+    const owned = bag[it.id] || 0;
+    const canBuy = gold >= it.price;
+    const card = document.createElement('div');
+    card.className = 'shop-item';
+    card.innerHTML = `
+      <div class="emoji">${it.emoji}</div>
+      <div class="iname">${it.name}</div>
+      <div class="idesc">${it.desc}</div>
+      <div class="price">💰 ${it.price}</div>
+      <button ${canBuy ? '' : 'disabled'}>${canBuy ? '購買' : '金幣不足'}</button>
+      <div class="owned">已擁有 ${owned}</div>
+    `;
+    card.querySelector('button').onclick = ()=> buyItem(it.id);
+    grid.appendChild(card);
+  });
+  document.getElementById('shopGold').textContent = gold;
+}
+
+function buyItem(id){
+  const item = SHOP_ITEMS.find(x => x.id === id);
+  if(!item || gold < item.price) return;
+  gold -= item.price;
+  bag[id] = (bag[id] || 0) + 1;
+  updateGold(true);
+  renderShop();
+}
+
+function leaveShop(){
+  document.getElementById('shop').classList.add('hidden');
+  // 玩家 HP 不自動回；只更新關卡資訊與怪物
+  enemyHp = MAX_HP;
+  updateHp();
+  updateStage();
+  updateCritIndicator();
+  setTimeout(nextQuestion, 400);
+}
+
+// ============ 背包 ============
+function openBag(){
+  renderBag();
+  document.getElementById('bagModal').classList.remove('hidden');
+}
+function closeBag(){
+  document.getElementById('bagModal').classList.add('hidden');
+}
+
+function renderBag(){
+  const list = document.getElementById('bagList');
+  list.innerHTML = '';
+  const items = SHOP_ITEMS.filter(it => (bag[it.id] || 0) > 0);
+  if(items.length === 0){
+    list.innerHTML = '<div class="bag-empty">背包是空的，去商店買點東西吧！</div>';
+    return;
+  }
+  items.forEach(it => {
+    const count = bag[it.id];
+    const row = document.createElement('div');
+    row.className = 'bag-item';
+    let actionHtml = '';
+    if(it.id === 'potion'){
+      const full = playerHp >= MAX_HP;
+      actionHtml = `<button ${full ? 'disabled' : ''}>${full ? 'HP 已滿' : '使用'}</button>`;
+    } else if(it.id === 'crystal'){
+      actionHtml = `<button ${critPending ? 'disabled' : ''}>${critPending ? '已啟用' : '啟用'}</button>`;
+    } else {
+      actionHtml = `<span style="color:var(--muted);font-size:12px">死亡時自動使用</span>`;
+    }
+    row.innerHTML = `
+      <div class="info">
+        <div class="emoji">${it.emoji}</div>
+        <div>
+          <div class="name">${it.name}</div>
+          <div class="desc">${it.desc}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <span class="count">×${count}</span>
+        ${actionHtml}
+      </div>
+    `;
+    const btn = row.querySelector('button');
+    if(btn && !btn.disabled){
+      btn.onclick = ()=> useItem(it.id);
+    }
+    list.appendChild(row);
+  });
+}
+
+function useItem(id){
+  if(id === 'potion'){
+    if(playerHp >= MAX_HP || (bag.potion||0) <= 0) return;
+    bag.potion--;
+    const heal = Math.min(50, MAX_HP - playerHp);
+    playerHp += heal;
+    potionsUsed++;
+    updateHp();
+    showDamage('player', '+' + heal + ' HP', 'heal');
+  } else if(id === 'crystal'){
+    if(critPending || (bag.crystal||0) <= 0) return;
+    bag.crystal--;
+    critPending = true;
+    updateCritIndicator();
+  }
+  renderBag();
+}
+
+// ============ 結局 ============
+function gameOver(){
+  document.getElementById('gameOverMsg').textContent =
+    `你倒在第 ${stageIdx + 1} 關（${ENEMIES[stageIdx].name}）面前... 累積 ${correctCount} 題、剩 ${gold} 💰。`;
+  document.getElementById('gameOver').classList.remove('hidden');
+}
+
+function victory(){
+  document.getElementById('victoryStats').innerHTML =
+    `答對 <b>${correctCount}</b> 題　·　剩餘 <b>${gold}</b> 💰<br>` +
+    `用了 <b>${potionsUsed}</b> 瓶 🧪 紅藥水　·　剩 HP <b>${playerHp}</b>`;
+  document.getElementById('victory').classList.remove('hidden');
+  localStorage.setItem('cert_warrior', '勇者之印');
+  if (!localStorage.getItem('adventure_start')) localStorage.setItem('adventure_start', Date.now());
+}
+
+// ============ 流程 ============
+function startGame(){
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('gameOver').classList.add('hidden');
+  document.getElementById('victory').classList.add('hidden');
+  document.getElementById('shop').classList.add('hidden');
+  document.getElementById('bagModal').classList.add('hidden');
+  document.getElementById('game').classList.remove('hidden');
+  document.getElementById('game').style.display = '';
+  document.getElementById('playerFighter').classList.remove('defeated');
+  document.getElementById('enemyFighter').classList.remove('defeated');
+
+  playerHp = MAX_HP;
+  enemyHp = MAX_HP;
+  stageIdx = 0;
+  correctCount = 0;
+  gold = 0;
+  bag = {potion:0, crystal:0, amulet:0};
+  potionsUsed = 0;
+  critPending = false;
+  window._reviveUsedThisStage = false;
+
+  updateHp();
+  updateStage();
+  updateGold();
+  updateCritIndicator();
+  nextQuestion();
+}
+
+function resetGame(){
+  startGame();
+}
+
+// ============ 啟動 ============
+(async ()=>{
+  await loadQuestions();
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('startScreen').classList.remove('hidden');
+})();
+</script>
+</body>
+</html>

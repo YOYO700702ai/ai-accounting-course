@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>成語填字 · 書卷字帖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  :root{
+    --paper:#f5ecd7;
+    --paper2:#ebe0c3;
+    --ink:#2b1d10;
+    --ink2:#5a4123;
+    --red:#b8332a;
+    --red2:#8a1f17;
+    --gold:#a78436;
+    --slot:#fffdf5;
+    --card:#fbf3dc;
+    --card2:#efe2bd;
+  }
+  html,body{height:100%;color:var(--ink);
+    font-family:"Noto Serif TC","ZCOOL XiaoWei","STKaiti","KaiTi","DFKai-SB","PingFang TC","Microsoft JhengHei",serif;
+    background:
+      radial-gradient(ellipse at 20% 0%, #efe2bd 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, #e3d4ad 0%, transparent 55%),
+      var(--paper);
+    overflow:hidden}
+  body{display:flex;align-items:center;justify-content:center;padding:10px;
+    background-image:
+      radial-gradient(ellipse at 20% 0%, #efe2bd 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, #e3d4ad 0%, transparent 55%),
+      repeating-linear-gradient(45deg, rgba(120,80,30,.02) 0 2px, transparent 2px 6px),
+      linear-gradient(180deg, var(--paper), var(--paper2))}
+
+  /* 主舞台 - 宣紙書卷 */
+  .scroll{width:min(880px,100%);max-height:96vh;position:relative;
+    background:linear-gradient(180deg,#fbf4e0,#f3e7c6);
+    border-radius:8px;padding:18px 22px 16px;
+    box-shadow:
+      0 30px 60px rgba(60,30,10,.25),
+      inset 0 0 80px rgba(180,140,80,.12),
+      inset 0 0 0 1px rgba(120,80,30,.15);
+    border:1px solid rgba(120,80,30,.25)}
+  /* 書卷上下軸 */
+  .scroll::before,.scroll::after{content:"";position:absolute;left:-6px;right:-6px;height:16px;
+    background:linear-gradient(180deg,#7a4a1f,#4a2a10);border-radius:6px;
+    box-shadow:0 4px 10px rgba(0,0,0,.25)}
+  .scroll::before{top:-8px}
+  .scroll::after{bottom:-8px}
+
+  /* 頂部 */
+  .topbar{display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:6px;padding-bottom:6px;border-bottom:1px dashed rgba(120,60,30,.3)}
+  .title{font-family:"ZCOOL XiaoWei","Noto Serif TC",serif;font-size:22px;font-weight:900;color:var(--ink);
+    letter-spacing:.2em;display:flex;align-items:center;gap:10px}
+  .seal{display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;background:var(--red);color:#fff8e8;
+    font-family:"ZCOOL XiaoWei",serif;font-size:14px;font-weight:900;
+    border-radius:4px;transform:rotate(-6deg);
+    box-shadow:0 2px 6px rgba(120,30,20,.4),inset 0 0 0 2px rgba(255,255,255,.18);
+    letter-spacing:0}
+  .meta{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--ink2)}
+  .meta b{color:var(--red);font-size:18px;font-weight:900;margin:0 2px}
+  .meta label{display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+    font-size:13px;color:var(--ink2);user-select:none}
+  .meta input[type=checkbox]{accent-color:var(--red);width:14px;height:14px}
+
+  /* 題目區 */
+  .question-wrap{text-align:center;padding:8px 10px 6px}
+  .hint{font-size:12px;color:var(--ink2);letter-spacing:.3em;margin-bottom:8px}
+  .idiom{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+  .ch{width:64px;height:64px;display:flex;align-items:center;justify-content:center;
+    font-family:"ZCOOL XiaoWei","Noto Serif TC",serif;font-size:42px;font-weight:700;
+    color:var(--ink);
+    background:linear-gradient(180deg,#fffaeb,#f5ead0);
+    border-radius:6px;
+    box-shadow:inset 0 0 0 1px rgba(120,80,30,.2),0 2px 6px rgba(80,40,10,.08);
+    transition:all .2s ease}
+  /* 空格：米字格紅框 */
+  .slot{background:var(--slot);
+    border:2.5px solid var(--red);position:relative;color:transparent;
+    box-shadow:inset 0 0 0 1px #fff,0 2px 8px rgba(120,30,20,.15)}
+  /* 米字格輔助線 */
+  .slot::before,.slot::after{content:"";position:absolute;background:rgba(184,51,42,.25);pointer-events:none}
+  .slot::before{left:50%;top:6%;bottom:6%;width:1px;transform:translateX(-50%);
+    box-shadow:0 0 0 0 var(--red)}
+  .slot::after{top:50%;left:6%;right:6%;height:1px;transform:translateY(-50%)}
+  .slot .x{position:absolute;inset:6%;pointer-events:none}
+  .slot .x::before,.slot .x::after{content:"";position:absolute;left:50%;top:50%;width:140%;height:1px;
+    background:rgba(184,51,42,.18)}
+  .slot .x::before{transform:translate(-50%,-50%) rotate(45deg)}
+  .slot .x::after{transform:translate(-50%,-50%) rotate(-45deg)}
+
+  .slot.over{background:#fff4d6;border-color:var(--red2);
+    box-shadow:inset 0 0 0 1px #fff,0 0 0 4px rgba(184,51,42,.25)}
+  .slot.filled{color:var(--red);background:#fffaf0}
+  .slot.filled::before,.slot.filled::after,.slot.filled .x::before,.slot.filled .x::after{opacity:.3}
+  .slot.wrong-flash{animation:wrongflash .25s ease}
+
+  /* 字卡區 */
+  .tray-label{text-align:center;font-size:11px;color:var(--ink2);
+    letter-spacing:.3em;margin:8px 0 6px;position:relative}
+  .tray-label::before,.tray-label::after{content:"";display:inline-block;
+    width:60px;height:1px;background:rgba(120,60,30,.3);vertical-align:middle;margin:0 12px}
+  .tray{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
+    padding:8px;background:rgba(255,250,235,.5);
+    border-radius:8px;border:1px dashed rgba(120,60,30,.25)}
+  .tile{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+    font-family:"ZCOOL XiaoWei","Noto Serif TC",serif;font-size:26px;font-weight:700;
+    color:var(--ink);cursor:grab;user-select:none;
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border-radius:6px;
+    box-shadow:0 2px 4px rgba(80,40,10,.15),inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(120,80,30,.15);
+    transition:transform .15s ease,box-shadow .15s ease,opacity .2s ease;
+    touch-action:none;position:relative}
+  .tile:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(80,40,10,.25),inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(120,80,30,.2)}
+  .tile.dragging{opacity:.4;cursor:grabbing}
+  .tile.used{visibility:hidden}
+  .tile.wrong{animation:tileshake .3s ease}
+
+  /* 拖曳浮動的字卡 */
+  .tile-ghost{position:fixed;pointer-events:none;z-index:1000;
+    width:62px;height:62px;display:flex;align-items:center;justify-content:center;
+    font-family:"ZCOOL XiaoWei","Noto Serif TC",serif;font-size:34px;font-weight:700;color:var(--ink);
+    background:linear-gradient(180deg,var(--card),var(--card2));
+    border-radius:6px;
+    box-shadow:0 8px 20px rgba(80,40,10,.35),inset 0 0 0 1px rgba(120,80,30,.25);
+    transform:translate(-50%,-50%) scale(1.05);transition:none}
+
+  /* 結果卡片 */
+  .modal{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(245,236,215,.85);backdrop-filter:blur(4px);border-radius:8px;z-index:20;
+    opacity:0;pointer-events:none;transition:opacity .25s ease}
+  .modal.show{opacity:1;pointer-events:auto}
+  .card{background:linear-gradient(180deg,#fff8e3,#f0e1b4);
+    border:2px solid var(--red);border-radius:10px;padding:32px 40px;
+    box-shadow:0 20px 50px rgba(120,30,20,.3);text-align:center;max-width:90%;
+    transform:scale(.85);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    position:relative}
+  .modal.show .card{transform:scale(1)}
+  .card .seal-big{position:absolute;top:-18px;right:-18px;width:60px;height:60px;
+    background:var(--red);color:#fff8e8;display:flex;align-items:center;justify-content:center;
+    font-family:"ZCOOL XiaoWei",serif;font-size:18px;font-weight:900;border-radius:6px;
+    transform:rotate(-12deg);box-shadow:0 4px 12px rgba(120,30,20,.5),inset 0 0 0 2px rgba(255,255,255,.2);
+    letter-spacing:0;line-height:1.1;padding:4px}
+  .card h2{font-family:"ZCOOL XiaoWei",serif;font-size:34px;color:var(--red);
+    letter-spacing:.3em;margin-bottom:10px}
+  .card .idiom-show{font-family:"ZCOOL XiaoWei",serif;font-size:42px;color:var(--ink);
+    letter-spacing:.2em;margin:14px 0}
+  .card .meaning{font-size:16px;color:var(--ink2);line-height:1.8;margin-bottom:20px;
+    max-width:420px;padding:0 10px}
+  .card .score{font-size:24px;color:var(--red);font-weight:700;margin:18px 0;
+    font-family:"ZCOOL XiaoWei",serif;letter-spacing:.15em}
+  .card .score b{font-size:36px;margin:0 4px}
+  .btn{background:linear-gradient(180deg,var(--red),var(--red2));color:#fff8e8;
+    border:none;padding:12px 32px;border-radius:6px;
+    font-family:"ZCOOL XiaoWei",serif;font-size:18px;font-weight:700;letter-spacing:.3em;
+    cursor:pointer;box-shadow:0 4px 12px rgba(120,30,20,.4);
+    transition:transform .15s ease}
+  .btn:hover{transform:translateY(-2px)}
+
+  /* 開始畫面 */
+  .start{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    background:linear-gradient(180deg,#fbf4e0,#f3e7c6);border-radius:8px;z-index:30;padding:30px;text-align:center}
+  .start.hidden{display:none}
+  .start .big-title{font-family:"ZCOOL XiaoWei",serif;font-size:64px;color:var(--ink);letter-spacing:.5em;margin-bottom:8px}
+  .start .sub{font-size:16px;color:var(--ink2);margin-bottom:28px;letter-spacing:.2em;line-height:1.8}
+  .start .seal-deco{font-size:60px;margin-bottom:20px}
+
+  /* 動畫 */
+  @keyframes wrongflash{
+    0%,100%{background:#fffaf0}
+    50%{background:#ffd4d0;box-shadow:inset 0 0 0 1px #fff,0 0 0 6px rgba(184,51,42,.35)}
+  }
+  @keyframes tileshake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+  }
+  @keyframes pop{
+    0%{transform:scale(1)}
+    50%{transform:scale(1.15)}
+    100%{transform:scale(1)}
+  }
+  .slot.filled.just{animation:pop .4s ease}
+
+  @media (max-width:600px){
+    .ch{width:62px;height:62px;font-size:42px}
+    .start .big-title{font-size:42px;letter-spacing:.3em}
+    .tray{grid-template-columns:repeat(5,1fr);gap:6px;padding:10px}
+    .tile{font-size:24px}
+    .scroll{padding:22px 16px 16px}
+    .topbar{flex-direction:column;gap:8px;align-items:flex-start}
+    .meta{font-size:13px;gap:10px}
+    .card{padding:24px 20px}
+    .card h2{font-size:26px}
+    .card .idiom-show{font-size:32px}
+  }
+</style>
+</head>
+<body>
+<a href="../大冒險地圖/index.html" style="position:fixed;top:12px;left:12px;z-index:9999;background:rgba(43,29,16,.85);color:#f5ecd7;padding:8px 14px;border-radius:6px;font-size:14px;text-decoration:none;font-weight:700;border:1px solid #a78436">← 回到大地圖</a>
+<div class="scroll" id="scroll">
+
+  <!-- 開始畫面 -->
+  <div class="start" id="startScreen">
+    <div class="seal-deco">📜</div>
+    <div class="big-title">成語填字</div>
+    <div class="sub">拖曳字卡填入空格<br>五題闖關 · 字字珠璣</div>
+    <button class="btn" onclick="startGame()">開卷</button>
+  </div>
+
+  <!-- 頂部 -->
+  <div class="topbar">
+    <div class="title">
+      <span class="seal">學</span>
+      成語填字
+    </div>
+    <div class="meta">
+      <span>第 <b id="qNo">1</b> / 5 題</span>
+      <span>答對 <b id="score">0</b></span>
+      <label><input type="checkbox" id="deductChk"> 錯誤扣分</label>
+    </div>
+  </div>
+
+  <!-- 題目 -->
+  <div class="question-wrap">
+    <div class="hint">將下方字卡拖入紅色空格</div>
+    <div class="idiom" id="idiomBox"></div>
+  </div>
+
+  <!-- 字卡 -->
+  <div class="tray-label">字卡</div>
+  <div class="tray" id="tray"></div>
+
+  <!-- 答對卡片 -->
+  <div class="modal" id="modal">
+    <div class="card">
+      <div class="seal-big">正<br>解</div>
+      <h2>答對了</h2>
+      <div class="idiom-show" id="modalIdiom"></div>
+      <div class="meaning" id="modalMeaning"></div>
+      <button class="btn" onclick="nextQuestion()">下一題</button>
+    </div>
+  </div>
+
+  <!-- 總成績 -->
+  <div class="modal" id="finalModal">
+    <div class="card">
+      <div class="seal-big">出<br>師</div>
+      <h2 id="finalTitle">闖關完成</h2>
+      <div class="score">答對 <b id="finalScore">0</b> / 5 題</div>
+      <div class="meaning" id="finalMsg"></div>
+      <button class="btn" onclick="resetGame()">重新挑戰</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ 題庫 ============
+const QUESTIONS = [
+  { 成語:'一鳴驚人', 缺字:[1,2], 答案:['鳴','驚'], 意思:'比喻平時默默無聞，突然有驚人表現。' },
+  { 成語:'風花雪月', 缺字:[1,3], 答案:['花','月'], 意思:'原指四時景色，後比喻浮華空洞的詩文或男女戀情。' },
+  { 成語:'三番五次', 缺字:[1,3], 答案:['番','次'], 意思:'形容次數很多。' },
+  { 成語:'一字千金', 缺字:[1,3], 答案:['字','金'], 意思:'形容文字價值極高，或文章極為精妙。' },
+  { 成語:'畫龍點睛', 缺字:[1,3], 答案:['龍','睛'], 意思:'比喻在關鍵處用一兩句話點明要旨，使內容生動傳神。' },
+  { 成語:'守株待兔', 缺字:[1,2], 答案:['株','待'], 意思:'比喻死守狹隘經驗，不知變通，妄想不勞而獲。' },
+  { 成語:'井底之蛙', 缺字:[0,3], 答案:['井','蛙'], 意思:'比喻見識淺薄狹隘的人。' },
+  { 成語:'臥薪嘗膽', 缺字:[1,2], 答案:['薪','嘗'], 意思:'形容刻苦自勵、發奮圖強，立志雪恥。' },
+  { 成語:'破釜沉舟', 缺字:[1,3], 答案:['釜','舟'], 意思:'比喻下定決心，不留退路，奮戰到底。' },
+  { 成語:'胸有成竹', 缺字:[1,3], 答案:['有','竹'], 意思:'比喻處事之前已有通盤考量、十足把握。' },
+  { 成語:'狐假虎威', 缺字:[1,2], 答案:['假','虎'], 意思:'比喻倚仗他人的權勢來欺壓人。' },
+  { 成語:'亡羊補牢', 缺字:[1,2], 答案:['羊','補'], 意思:'比喻犯錯後及時補救，仍可避免更大損失。' },
+  { 成語:'掩耳盜鈴', 缺字:[1,3], 答案:['耳','鈴'], 意思:'比喻自己欺騙自己，明明掩蓋不住卻偏要去掩飾。' },
+  { 成語:'刻舟求劍', 缺字:[1,3], 答案:['舟','劍'], 意思:'比喻拘泥固執、不知變通。' },
+  { 成語:'杯弓蛇影', 缺字:[1,2], 答案:['弓','蛇'], 意思:'比喻疑神疑鬼、自相驚擾。' },
+];
+
+// 干擾字池
+const DISTRACTOR_POOL = [
+  '山','水','風','雨','日','月','花','鳥','人','心','言','行','大','小','高','低',
+  '春','夏','秋','冬','東','西','南','北','金','木','火','土','天','地','古','今',
+  '思','念','情','意','千','萬','百','十','明','暗','光','色','聲','音','江','河',
+  '雲','霧','雪','霜','石','玉','珠','寶','詩','書','畫','琴','棋','酒','茶','友'
+];
+
+// ============ 狀態 ============
+let pool = [];           // 本場 5 題
+let qIdx = 0;            // 當前題目索引（0-4）
+let score = 0;
+let attempts = 0;        // 總嘗試次數
+let wrongCount = 0;      // 錯誤次數
+let currentQ = null;
+let filledSlots = [];    // 每格填入的字（null = 未填）
+
+// ============ 工具 ============
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i = a.length-1; i > 0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+// ============ Web Audio：清脆鈴聲 ============
+let audioCtx = null;
+function getAudio(){
+  if(!audioCtx){
+    try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+    catch(e){ return null; }
+  }
+  return audioCtx;
+}
+function playDing(){
+  const ctx = getAudio(); if(!ctx) return;
+  const now = ctx.currentTime;
+  [880, 1320].forEach((freq, i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, now + i*0.05);
+    gain.gain.linearRampToValueAtTime(0.18, now + i*0.05 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i*0.05 + 0.4);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now + i*0.05);
+    osc.stop(now + i*0.05 + 0.45);
+  });
+}
+function playBuzz(){
+  const ctx = getAudio(); if(!ctx) return;
+  const now = ctx.currentTime;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'square';
+  osc.frequency.setValueAtTime(220, now);
+  osc.frequency.linearRampToValueAtTime(110, now + 0.15);
+  gain.gain.setValueAtTime(0.12, now);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.22);
+}
+function playWin(){
+  const ctx = getAudio(); if(!ctx) return;
+  const now = ctx.currentTime;
+  [523, 659, 784, 1047].forEach((f, i)=>{
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.value = f;
+    gain.gain.setValueAtTime(0, now + i*0.1);
+    gain.gain.linearRampToValueAtTime(0.15, now + i*0.1 + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + i*0.1 + 0.3);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now + i*0.1);
+    osc.stop(now + i*0.1 + 0.35);
+  });
+}
+
+// ============ 出題 ============
+function renderQuestion(){
+  const q = currentQ;
+  filledSlots = q.缺字.map(()=> null);
+
+  document.getElementById('qNo').textContent = qIdx + 1;
+  document.getElementById('score').textContent = score;
+
+  // 渲染成語
+  const box = document.getElementById('idiomBox');
+  box.innerHTML = '';
+  const chars = q.成語.split('');
+  chars.forEach((ch, i) => {
+    const slotIdx = q.缺字.indexOf(i);
+    const el = document.createElement('div');
+    el.className = 'ch';
+    if(slotIdx >= 0){
+      el.classList.add('slot');
+      el.dataset.slotIdx = slotIdx;
+      el.dataset.answer = q.答案[slotIdx];
+      el.innerHTML = '<div class="x"></div>';
+      attachSlotDrop(el);
+    } else {
+      el.textContent = ch;
+    }
+    box.appendChild(el);
+  });
+
+  // 字卡：2 正解 + 13 干擾
+  const correctChars = q.答案.slice();
+  const used = new Set(correctChars.concat(chars));
+  const distractors = [];
+  const shuffledPool = shuffle(DISTRACTOR_POOL);
+  for(const d of shuffledPool){
+    if(distractors.length >= 13) break;
+    if(used.has(d)) continue;
+    distractors.push(d);
+    used.add(d);
+  }
+  const tileChars = shuffle(correctChars.concat(distractors));
+
+  const tray = document.getElementById('tray');
+  tray.innerHTML = '';
+  tileChars.forEach((ch, i) => {
+    const el = document.createElement('div');
+    el.className = 'tile';
+    el.textContent = ch;
+    el.dataset.char = ch;
+    el.dataset.tileId = 't' + i;
+    attachTileDrag(el);
+    tray.appendChild(el);
+  });
+}
+
+// ============ 拖曳：通用（同時支援滑鼠 + 觸控） ============
+let dragging = null;          // 當前拖曳的 tile element
+let ghost = null;             // 浮動字卡
+
+function attachTileDrag(tile){
+  tile.addEventListener('mousedown', startDrag);
+  tile.addEventListener('touchstart', startDrag, {passive:false});
+}
+
+function startDrag(e){
+  const tile = e.currentTarget;
+  if(tile.classList.contains('used')) return;
+  e.preventDefault();
+  dragging = tile;
+  tile.classList.add('dragging');
+
+  // 建立浮動 ghost
+  ghost = document.createElement('div');
+  ghost.className = 'tile-ghost';
+  ghost.textContent = tile.dataset.char;
+  document.body.appendChild(ghost);
+
+  const pt = getPoint(e);
+  moveGhost(pt.x, pt.y);
+
+  document.addEventListener('mousemove', onMove);
+  document.addEventListener('mouseup', onEnd);
+  document.addEventListener('touchmove', onMove, {passive:false});
+  document.addEventListener('touchend', onEnd);
+  document.addEventListener('touchcancel', onEnd);
+}
+
+function getPoint(e){
+  if(e.touches && e.touches[0]) return {x:e.touches[0].clientX, y:e.touches[0].clientY};
+  if(e.changedTouches && e.changedTouches[0]) return {x:e.changedTouches[0].clientX, y:e.changedTouches[0].clientY};
+  return {x:e.clientX, y:e.clientY};
+}
+
+function moveGhost(x, y){
+  if(!ghost) return;
+  ghost.style.left = x + 'px';
+  ghost.style.top = y + 'px';
+}
+
+function onMove(e){
+  if(!dragging) return;
+  e.preventDefault();
+  const pt = getPoint(e);
+  moveGhost(pt.x, pt.y);
+
+  // 高亮 hover 中的空格
+  const el = document.elementFromPoint(pt.x, pt.y);
+  document.querySelectorAll('.slot.over').forEach(s => s.classList.remove('over'));
+  if(el){
+    const slot = el.closest('.slot');
+    if(slot && !slot.classList.contains('filled')) slot.classList.add('over');
+  }
+}
+
+function onEnd(e){
+  if(!dragging){ cleanup(); return; }
+  const pt = getPoint(e);
+  const target = document.elementFromPoint(pt.x, pt.y);
+  const slot = target ? target.closest('.slot') : null;
+
+  if(slot && !slot.classList.contains('filled')){
+    tryFill(dragging, slot);
+  } else {
+    // 放在非空格 → 彈回
+    dragging.classList.remove('dragging');
+  }
+  cleanup();
+}
+
+function cleanup(){
+  document.removeEventListener('mousemove', onMove);
+  document.removeEventListener('mouseup', onEnd);
+  document.removeEventListener('touchmove', onMove);
+  document.removeEventListener('touchend', onEnd);
+  document.removeEventListener('touchcancel', onEnd);
+  document.querySelectorAll('.slot.over').forEach(s => s.classList.remove('over'));
+  if(dragging) dragging.classList.remove('dragging');
+  if(ghost){ ghost.remove(); ghost = null; }
+  dragging = null;
+}
+
+// 空格不需 attach drop（用 elementFromPoint 抓），但保留以備未來擴充
+function attachSlotDrop(slot){}
+
+// ============ 填字判定 ============
+function tryFill(tile, slot){
+  attempts++;
+  const guess = tile.dataset.char;
+  const answer = slot.dataset.answer;
+  const slotIdx = parseInt(slot.dataset.slotIdx, 10);
+
+  if(guess === answer){
+    // 正確
+    slot.textContent = answer;
+    slot.classList.add('filled','just');
+    setTimeout(()=> slot.classList.remove('just'), 400);
+    tile.classList.add('used');
+    filledSlots[slotIdx] = answer;
+    playDing();
+
+    // 全部填滿 → 顯示卡片
+    if(filledSlots.every(x => x !== null)){
+      score++;
+      document.getElementById('score').textContent = score;
+      setTimeout(showAnswerCard, 500);
+    }
+  } else {
+    // 錯誤
+    wrongCount++;
+    slot.classList.add('wrong-flash');
+    tile.classList.add('wrong');
+    playBuzz();
+    setTimeout(()=>{
+      slot.classList.remove('wrong-flash');
+      tile.classList.remove('wrong');
+    }, 300);
+
+    // 扣分（若開啟）
+    if(document.getElementById('deductChk').checked && score > 0){
+      // 不從 score 真扣（怕變負或破壞 5 題上限），改用單獨計分顯示
+      // 這裡示範：扣 attempts 顯示給老師看；簡化處理為提示
+    }
+  }
+}
+
+// ============ 答對卡片 ============
+function showAnswerCard(){
+  document.getElementById('modalIdiom').textContent = currentQ.成語;
+  document.getElementById('modalMeaning').textContent = currentQ.意思;
+  document.getElementById('modal').classList.add('show');
+}
+
+function nextQuestion(){
+  document.getElementById('modal').classList.remove('show');
+  qIdx++;
+  if(qIdx >= pool.length){
+    showFinal();
+  } else {
+    currentQ = pool[qIdx];
+    renderQuestion();
+  }
+}
+
+// ============ 結算 ============
+function showFinal(){
+  document.getElementById('finalScore').textContent = score;
+  const deduct = document.getElementById('deductChk').checked;
+  let msg = '共嘗試 ' + attempts + ' 次，錯誤 ' + wrongCount + ' 次。';
+  if(score === 5){
+    document.getElementById('finalTitle').textContent = '滿分通關';
+    msg += '\n字字珠璣，成語大師！';
+  } else if(score >= 3){
+    document.getElementById('finalTitle').textContent = '闖關完成';
+    msg += '\n再接再厲，更上層樓！';
+  } else {
+    document.getElementById('finalTitle').textContent = '再接再厲';
+    msg += '\n多多複習，必能精進！';
+  }
+  if(deduct){
+    const net = Math.max(0, score - wrongCount * 0.5);
+    msg += '\n（含扣分後分數：' + net + '）';
+  }
+  document.getElementById('finalMsg').textContent = msg;
+  document.getElementById('finalModal').classList.add('show');
+  playWin();
+  localStorage.setItem('cert_idiom', '成語之印');
+  if (!localStorage.getItem('adventure_start')) localStorage.setItem('adventure_start', Date.now());
+}
+
+// ============ 流程 ============
+function startGame(){
+  document.getElementById('startScreen').classList.add('hidden');
+  // 啟動 audio context（需使用者互動）
+  getAudio();
+  resetState();
+  pool = shuffle(QUESTIONS).slice(0, 5);
+  currentQ = pool[0];
+  renderQuestion();
+}
+
+function resetState(){
+  qIdx = 0;
+  score = 0;
+  attempts = 0;
+  wrongCount = 0;
+  filledSlots = [];
+}
+
+function resetGame(){
+  document.getElementById('finalModal').classList.remove('show');
+  resetState();
+  pool = shuffle(QUESTIONS).slice(0, 5);
+  currentQ = pool[0];
+  renderQuestion();
+}
+
+// 防止頁面意外觸發拖曳預設行為
+document.addEventListener('dragstart', e => e.preventDefault());
+</script>
+</body>
+</html>

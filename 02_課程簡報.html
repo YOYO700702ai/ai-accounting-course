@@ -505,6 +505,34 @@
   .auto-flow p{text-shadow:none}
   .slide.auto-slide{padding:5vh 6vw 7vh}
   .slide.auto-slide .tag{position:absolute;top:18px;left:24px;margin:0;z-index:5}
+
+  /* === 手機/平板響應 === */
+  @media (max-width:900px){
+    .slide{padding:3vh 5vw 10vh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+    .slide.chapter-cover{padding:10vh 5vw 10vh}
+    h1{font-size:clamp(24px,6vw,42px)}
+    h2{font-size:clamp(20px,5vw,32px)}
+    h3{font-size:clamp(15px,4vw,20px)}
+    p,li{font-size:clamp(13px,3.5vw,17px)}
+    .promptbox{font-size:clamp(11px,3vw,14px);max-height:50vh}
+    .grid2,.grid3,.grid4{grid-template-columns:1fr!important;gap:.6em!important}
+    .counter{top:8px;right:12px;font-size:11px;padding:.3em .8em}
+    .keyhint{font-size:10px;bottom:6px;padding:.2em .7em}
+    .chapter-cover h1{font-size:clamp(36px,9vw,60px)}
+    body::before{display:none}  /* 移除葉子裝飾避免遮擋 */
+    .card{padding:.7em 1em}
+    table{font-size:clamp(12px,3vw,15px)}
+    th,td{padding:.4em .6em}
+    .demolinks a{padding:.6em 1em;font-size:.9em}
+  }
+  @media (max-width:600px){
+    .slide{padding:2vh 4vw 9vh}
+    .keyhint{content:'← → 滑動翻頁'}
+    .promptbox{padding:.7em .9em}
+  }
+  /* 防止觸控滑動衝突 */
+  .slide{touch-action:pan-y}
+
 </style>
 </head>
 <body>
@@ -2768,7 +2796,7 @@
 </div>
 
 <div class="counter"><b id="cur">1</b> / <span id="total">1</span></div>
-<div class="keyhint">← → 翻頁 ｜ F 全螢幕</div>
+<div class="keyhint">← → 翻頁 ｜ 滑動翻頁 ｜ F 全螢幕</div>
 
 <script>
   const slides=[...document.querySelectorAll('.slide')];
@@ -2782,6 +2810,28 @@
     document.getElementById('cur').textContent=i+1;
   }
   function go(d){show(i+d)}
+
+  
+  // === 手機觸控滑動翻頁 ===
+  let __tsX=null,__tsY=null,__tsT=0;
+  document.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1)return;
+    const t=e.target;
+    if(t.closest('button,a,input,textarea,select,.promptbox,.tabs,.tab,.demolinks'))return;
+    __tsX=e.touches[0].clientX;
+    __tsY=e.touches[0].clientY;
+    __tsT=Date.now();
+  },{passive:true});
+  document.addEventListener('touchend',e=>{
+    if(__tsX===null)return;
+    const dx=e.changedTouches[0].clientX-__tsX;
+    const dy=e.changedTouches[0].clientY-__tsY;
+    const dt=Date.now()-__tsT;
+    __tsX=null;
+    if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5 && dt<600){
+      if(dx<0)go(1);else go(-1);
+    }
+  },{passive:true});
 
   document.addEventListener('keydown',e=>{
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1)}

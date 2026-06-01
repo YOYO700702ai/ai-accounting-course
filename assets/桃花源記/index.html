@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>桃花源記・尋源之路</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section id="game" class="game-shell" aria-label="桃花源記尋源之路互動遊戲">
+      <div class="backdrop" aria-hidden="true">
+        <img id="sceneImage" class="scene-image" alt="">
+      </div>
+      <div class="paper-noise" aria-hidden="true"></div>
+      <div id="petalLayer" class="petal-layer" aria-hidden="true"></div>
+
+      <section id="titleScreen" class="screen title-screen" role="button" tabindex="0" aria-label="點擊任何位置開始遊戲">
+        <img class="cover-image" src="assets/cover.png?v=20260601-village" alt="陶淵明.桃花源記，點擊任何位置開始遊戲">
+      </section>
+
+      <section id="playLayer" class="play-layer" aria-label="字詞排序區"></section>
+
+      <aside id="puzzlePanel" class="puzzle-panel" aria-label="答題框" hidden>
+        <div id="answerTrack" class="answer-track"></div>
+        <button id="resetButton" class="reset-button" type="button">重排</button>
+      </aside>
+
+      <div id="messageToast" class="message-toast" role="status" aria-live="polite"></div>
+
+      <section id="explainLayer" class="screen explain-screen" hidden>
+        <img id="explainImage" class="explain-image" alt="">
+        <div class="explain-copy">
+          <p id="explainText"></p>
+        </div>
+      </section>
+
+      <section id="endingScreen" class="screen ending-screen" role="button" tabindex="0" aria-label="點擊進入桃花村" hidden></section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

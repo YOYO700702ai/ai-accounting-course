@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>心得作業小禮包 · 教師 AI 程式課</title>
+<style>
+  :root {
+    --bg: #0e1a13;
+    --card: #1a2e22;
+    --card2: #213a2c;
+    --green: #4a7c59;
+    --green-2: #6ba87a;
+    --gold: #d4af37;
+    --gold-2: #f4d76b;
+    --text: #e8f0ea;
+    --muted: #8aa395;
+    --accent: #c2966b;
+    --red: #d97373;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(ellipse at top, #1a2e22 0%, #0e1a13 70%);
+    color: var(--text);
+    font-family: "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
+    line-height: 1.75;
+    min-height: 100vh;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 2.5em 1.2em 5em; }
+  header {
+    text-align: center;
+    padding: 2em 1em 2.5em;
+    border-bottom: 2px solid var(--green);
+    margin-bottom: 2em;
+  }
+  header h1 {
+    font-size: clamp(30px, 5vw, 52px);
+    margin: 0;
+    background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: 2px;
+  }
+  header .sub { color: var(--muted); margin-top: .5em; font-size: clamp(13px,1.6vw,17px); }
+  header .badge {
+    display: inline-block; margin-top: 1em;
+    background: rgba(212,175,55,.15); border: 1px solid var(--gold);
+    color: var(--gold-2); padding: .4em 1em; border-radius: 20px; font-size: .9em;
+  }
+  .toc {
+    background: var(--card); border: 1px solid var(--green); border-radius: 12px;
+    padding: 1.2em 1.4em; margin-bottom: 2.5em;
+  }
+  .toc h3 { margin: 0 0 .8em; color: var(--gold-2); font-size: 1.05em; }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: .5em .8em; }
+  .toc a {
+    color: var(--text); text-decoration: none; padding: .4em .6em;
+    border-radius: 6px; border-left: 3px solid var(--green-2);
+    background: rgba(255,255,255,.02); font-size: .92em; transition: all .15s;
+  }
+  .toc a:hover { background: rgba(106,168,122,.15); border-left-color: var(--gold); }
+  .big-section-title {
+    font-size: clamp(22px, 3vw, 32px); color: var(--gold-2);
+    border-left: 6px solid var(--gold); padding-left: .6em; margin: 2.5em 0 1em;
+  }
+  .group { margin-bottom: 2.2em; }
+  .group-title {
+    font-size: clamp(17px,2vw,22px); color: var(--green-2);
+    margin: 0 0 .8em; padding-bottom: .4em; border-bottom: 1px dashed var(--green);
+  }
+  .prompt-card {
+    background: var(--card); border: 1px solid var(--green);
+    border-radius: 10px; margin-bottom: 1em; overflow: hidden;
+  }
+  .prompt-head {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: .8em 1em; background: var(--card2); gap: 1em;
+  }
+  .prompt-tag { color: var(--accent); font-size: .8em; margin-bottom: .2em; }
+  .prompt-title { color: var(--gold-2); font-weight: bold; font-size: 1.02em; }
+  .copybtn {
+    background: linear-gradient(135deg, var(--gold), #b8941f);
+    color: #1a1a1a; border: none; padding: .45em .9em; border-radius: 6px;
+    cursor: pointer; font-weight: bold; font-size: .9em; white-space: nowrap;
+    transition: transform .1s;
+  }
+  .copybtn:hover { transform: translateY(-1px); }
+  .copybtn.copied { background: linear-gradient(135deg, #6ba87a, #4a7c59); color: #fff; }
+  .prompt-body {
+    margin: 0; padding: 1em 1.2em; background: #0c1610; color: #d5e3da;
+    font-family: "Cascadia Code","Consolas","Microsoft JhengHei",monospace;
+    font-size: clamp(12px, 1.3vw, 14px); white-space: pre-wrap; word-break: break-word;
+    line-height: 1.65; max-height: 320px; overflow: auto;
+  }
+  .prompt-body::-webkit-scrollbar { width: 8px; }
+  .prompt-body::-webkit-scrollbar-thumb { background: var(--green); border-radius: 4px; }
+
+  /* Firebase 區塊 */
+  .fb-step {
+    background: var(--card); border: 1px solid var(--green);
+    border-left: 5px solid var(--gold); border-radius: 12px;
+    margin-bottom: 1.6em; overflow: hidden;
+  }
+  .fb-head {
+    padding: 1em 1.4em; background: var(--card2);
+    display: flex; align-items: baseline; gap: 1em; flex-wrap: wrap;
+  }
+  .fb-code {
+    background: var(--gold); color: #1a1a1a;
+    padding: .3em .8em; border-radius: 5px;
+    font-weight: bold; font-size: .95em;
+  }
+  .fb-title { color: var(--gold-2); font-weight: bold; font-size: clamp(16px,1.8vw,20px); }
+  .fb-body-grid {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.5em;
+    padding: 1.4em;
+  }
+  .fb-text { font-size: clamp(14px,1.4vw,16px); }
+  .fb-text p { margin: .5em 0; }
+  .fb-text ol, .fb-text ul { padding-left: 1.4em; margin: .5em 0; line-height: 1.85; }
+  .fb-text code {
+    background: #0c1610; color: var(--gold-2);
+    padding: .15em .45em; border-radius: 4px; font-size: .92em;
+    border: 1px solid rgba(212,175,55,.25);
+  }
+  .fb-img-wrap {
+    background: #0c1610; border-radius: 8px; padding: .8em;
+    border: 1px solid var(--green); align-self: flex-start;
+    position: sticky; top: 1em;
+  }
+  .fb-img-wrap img {
+    width: 100%; height: auto; border-radius: 6px;
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,.5);
+    display: block;
+  }
+  .fb-cap {
+    color: var(--muted); font-size: .82em; text-align: center;
+    margin-top: .6em; line-height: 1.5;
+  }
+  .tip {
+    background: rgba(106,168,122,.12); border-left: 4px solid var(--green-2);
+    padding: .7em 1em; border-radius: 6px; margin: .8em 0; font-size: .95em;
+  }
+  .bad {
+    background: rgba(217,115,115,.12); border-left: 4px solid var(--red);
+    padding: .7em 1em; border-radius: 6px; margin: .8em 0; font-size: .95em;
+  }
+  .warn {
+    background: rgba(212,175,55,.12); border-left: 4px solid var(--gold);
+    padding: .7em 1em; border-radius: 6px; margin: .8em 0; font-size: .95em;
+  }
+  .ok {
+    background: rgba(106,168,122,.18); border: 1px solid var(--green-2);
+    padding: .8em 1em; border-radius: 6px; margin: .8em 0;
+    text-align: center; font-weight: bold; color: var(--green-2);
+  }
+  .rule-code {
+    background: #0c1610; border: 1px solid var(--gold);
+    border-radius: 8px; margin-top: 1em; overflow: hidden;
+  }
+  .rule-head {
+    background: var(--card2); padding: .6em 1em;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--gold-2); font-size: .92em; font-weight: bold;
+  }
+  .rule-code pre {
+    margin: 0; padding: 1em 1.2em; color: var(--gold-2);
+    font-family: "Cascadia Code","Consolas",monospace;
+    font-size: clamp(12px,1.3vw,14px); line-height: 1.7;
+    white-space: pre-wrap;
+  }
+  .final-code {
+    background: #0c1610; color: var(--gold-2);
+    padding: 1em 1.2em; border-radius: 10px; border: 1px solid var(--gold);
+    margin-top: 1.5em; font-family: "Cascadia Code","Consolas",monospace;
+    font-size: clamp(11px,1.2vw,14px); white-space: pre-wrap;
+    overflow: auto; line-height: 1.6;
+  }
+  .intro-card {
+    background: linear-gradient(135deg, rgba(212,175,55,.1), rgba(106,168,122,.08));
+    border: 1px solid var(--gold); border-radius: 12px;
+    padding: 1.2em 1.5em; margin-bottom: 2em;
+  }
+  .intro-card p { margin: .4em 0; }
+  .intro-card b { color: var(--gold-2); }
+
+  .fb-flow {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: .8em;
+    margin: 1.5em 0 2em;
+  }
+  .fb-flow-card {
+    background: var(--card); border: 1px solid var(--green);
+    border-top: 4px solid var(--gold);
+    border-radius: 10px; padding: 1em .8em; text-align: center;
+  }
+  .fb-flow-card .n { font-size: 1.8em; color: var(--gold-2); font-weight: bold; }
+  .fb-flow-card .t { color: var(--green-2); font-weight: bold; margin: .3em 0; }
+  .fb-flow-card .d { color: var(--muted); font-size: .82em; }
+
+  footer {
+    text-align: center; color: var(--muted);
+    padding: 2em 1em 0; border-top: 1px dashed var(--green);
+    margin-top: 3em; font-size: .9em;
+  }
+
+  /* 桃花源記 下載區塊 */
+  .gift-pack {
+    background: linear-gradient(135deg, #1d2e22, #14241b);
+    border: 2px solid var(--gold);
+    border-radius: 16px;
+    margin-top: 3em;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,.4);
+  }
+  .gift-pack-grid {
+    display: block;
+  }
+  .gift-cover {
+    background: #0c1610; display: flex; align-items: center; justify-content: center;
+    padding: 2em 1.5em; border-bottom: 1px solid var(--green);
+  }
+  .gift-cover-stage {
+    position: relative;
+    width: 100%; max-width: 920px;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(212,175,55,.3);
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    background: #000;
+  }
+  .gift-cover-stage img.cover-img,
+  .gift-cover-stage iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: none; display: block;
+  }
+  .gift-cover-stage img.cover-img { object-fit: cover; }
+  .play-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1em;
+    background: linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.55) 100%);
+    cursor: pointer;
+    transition: background .2s;
+    z-index: 2;
+  }
+  .play-overlay:hover { background: linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.45) 100%); }
+  .play-btn-big {
+    width: 96px; height: 96px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    display: flex; align-items: center; justify-content: center;
+    color: #1a1a1a; font-size: 42px; font-weight: bold;
+    box-shadow: 0 6px 30px rgba(212,175,55,.55), 0 0 0 8px rgba(212,175,55,.18);
+    transition: transform .15s;
+    margin-left: 8px;
+  }
+  .play-overlay:hover .play-btn-big { transform: scale(1.08); }
+  .play-label {
+    color: #fff; font-size: clamp(15px, 1.6vw, 18px);
+    background: rgba(0,0,0,.55);
+    padding: .4em 1em; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(4px);
+  }
+  .play-fullscreen {
+    position: absolute; top: 10px; right: 10px;
+    background: rgba(0,0,0,.6); color: var(--gold-2);
+    border: 1px solid var(--gold); border-radius: 6px;
+    padding: .3em .7em; font-size: .85em; cursor: pointer;
+    z-index: 3; display: none;
+  }
+  .gift-cover-stage.playing .play-fullscreen { display: block; }
+  .gift-body { padding: 2em 2em 2.4em; max-width: 820px; margin: 0 auto; }
+  .gift-eyebrow {
+    display: inline-block;
+    background: rgba(212,175,55,.18); color: var(--gold-2);
+    padding: .25em .8em; border-radius: 20px;
+    font-size: .82em; border: 1px solid var(--gold);
+    margin-bottom: .8em;
+  }
+  .gift-title {
+    font-size: clamp(24px,3vw,36px);
+    margin: 0 0 .3em;
+    background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    letter-spacing: 1px;
+  }
+  .gift-subtitle { color: var(--accent); margin: 0 0 1em; font-size: 1em; }
+  .gift-desc {
+    background: rgba(106,168,122,.08);
+    border-left: 4px solid var(--green-2);
+    padding: .8em 1em; border-radius: 6px;
+    margin: 1em 0; font-size: .95em; line-height: 1.7;
+  }
+  .gift-desc .quote {
+    display: block; margin-top: .6em; padding-top: .6em;
+    border-top: 1px dashed var(--green);
+    color: var(--gold-2); font-style: italic; text-align: center;
+  }
+  .gift-section-title {
+    color: var(--gold-2); font-weight: bold;
+    margin: 1.2em 0 .4em; font-size: 1.05em;
+    border-left: 4px solid var(--gold); padding-left: .6em;
+  }
+  .gift-note {
+    background: rgba(217,115,115,.1);
+    border-left: 4px solid var(--red);
+    padding: .7em 1em; border-radius: 6px; margin: .5em 0;
+    font-size: .92em; line-height: 1.7;
+  }
+  .gift-note ol { margin: .3em 0; padding-left: 1.4em; }
+  .gift-steps {
+    background: rgba(212,175,55,.08);
+    border-left: 4px solid var(--gold);
+    padding: .8em 1em 1em; border-radius: 6px;
+    margin: .5em 0; font-size: .95em;
+  }
+  .gift-steps ol { margin: .3em 0; padding-left: 1.4em; line-height: 1.9; }
+  .gift-steps code {
+    background: #0c1610; color: var(--gold-2);
+    padding: .1em .4em; border-radius: 4px; font-size: .9em;
+  }
+  .download-btn {
+    display: inline-flex; align-items: center; gap: .6em;
+    margin-top: 1.4em; padding: 1em 1.6em;
+    background: linear-gradient(135deg, var(--gold-2), var(--gold));
+    color: #1a1a1a; text-decoration: none; font-weight: bold;
+    font-size: clamp(15px,1.6vw,18px);
+    border-radius: 10px; border: none; cursor: pointer;
+    box-shadow: 0 4px 18px rgba(212,175,55,.4);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(212,175,55,.55);
+  }
+  .download-btn .icon { font-size: 1.4em; }
+  .download-meta {
+    color: var(--muted); font-size: .82em; margin-top: .6em;
+  }
+  @media (max-width: 800px) {
+    .gift-cover { padding: 1.2em; }
+    .gift-cover img { max-height: 320px; }
+    .gift-body { padding: 1.5em 1.2em; }
+  }
+
+  @media (max-width: 800px) {
+    .fb-body-grid { grid-template-columns: 1fr; }
+    .fb-img-wrap { position: static; }
+    .fb-flow { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .prompt-head { flex-direction: column; align-items: stretch; }
+    .copybtn { align-self: flex-end; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+  <h1>🎁 心得作業小禮包</h1>
+  <p class="sub">教師 AI 程式課 · 全部提示詞 + Firebase 完整圖文教學</p>
+  <span class="badge">一頁打包 · 點按鈕就能複製</span>
+</header>
+<div class="intro-card">
+  <p>📦 這份小禮包裡有兩塊東西：</p>
+  <p><b>① 全部提示詞</b>：課堂上每一段給 AI 的 Prompt，全部抓出來。要哪段點「📋 複製」就走人。</p>
+  <p><b>② Firebase 完整圖文教學</b>：14 個步驟、每一步附畫面截圖，照著做就有自己的雲端後台。</p>
+  <p><b>③ 桃花源記 · 前篇任務包</b>：YOYO 親手調教的完整提示詞（.docx），下載丟進專案就能跑。</p>
+</div>
+<nav class="toc"><h3>📑 目錄</h3><div class="toc-grid"><a href="#g0">📚 章節 1 · 題庫整理 (NotebookLM)</a><a href="#g1">🤖 章節 4 · 暖身：AI 自我介紹</a><a href="#g2">🎮 章節 4 · 三個基礎遊戲</a><a href="#g3">🎨 章節 4 · 美術升級</a><a href="#g4">📋 章節 5 · 萬用 Prompt 模板</a><a href="#g5">🎯 章節 6 · 三個示範作品</a><a href="#g6">💭 章節 6 · 讓 AI 幫你想提示詞</a><a href="#g7">🗺 章節 8 · 大冒險地圖（三關串連）</a><a href="#g8">🎨 章節 8 · 美術升級（地圖 + 封面 + 結局）</a><a href="#g9">🚀 章節 9 · 推上 GitHub</a><a href="#g10">🔥 章節 9 · Firebase 安全規則</a><a href="#g11">📣 課程資訊</a><a href="#firebase">🔥 Firebase 完整圖文設定流程</a><a href="#taohua">🍑 桃花源記 · 前篇任務包（下載）</a></div></nav>
+<h2 class="big-section-title">📝 Part 1 · 提示詞合集</h2>
+<section id="g0" class="group"><h2 class="group-title">📚 章節 1 · 題庫整理 (NotebookLM)</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">2️⃣ 章節 1 · 準備題庫 · Step 2</div><div class="prompt-title">Step 2：下提示詞，讓 NBLM 整理成標準表格</div></div><button class="copybtn" data-target="pc-p-nblm-format">📋 複製</button></div><pre class="prompt-body" id="pc-p-nblm-format">請幫我把這份題庫整理成「四選一選擇題」的標準表格。
+
+格式要求：
+1. 每一列就是一題
+2. 欄位順序：題目 | A | B | C | D（總共 5 欄）
+3. A 欄位「一律放正確答案」
+   （不管原本標的是哪個選項，正解都搬到 A）
+4. B、C、D 欄位放剩下 3 個錯誤選項
+5. 不要包含題號、不要分節、不要其他說明
+6. 如果某題未滿 4 個選項，缺的格子用「空」補上
+7. 用 Markdown 表格格式輸出，方便我複製貼到 Excel</pre></div></section><section id="g1" class="group"><h2 class="group-title">🤖 章節 4 · 暖身：AI 自我介紹</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🤖 章節 4 · 暖身 ① · AI 自我介紹</div><div class="prompt-title">🤖 章節 4 · 暖身 ① · AI 自我介紹</div></div><button class="copybtn" data-target="pc-p-warm3">📋 複製</button></div><pre class="prompt-body" id="pc-p-warm3">請在桌面建一個叫「AI 能做什麼」的資料夾，
+裡面做一個 index.html，是你（Claude + Antigravity）的自我介紹。
+
+內容包含：
+1. 你是誰、結合 Antigravity 後能做什麼
+2. 列出你能做的所有事，每項至少一個老師日常教學工作的例子（出考卷、班級經營、家長聯絡、教材製作等）
+3. 推薦老師最該裝的 Antigravity 插件 / 擴充功能（含說明為什麼）
+4. 我要怎麼跟你說話，才能得到最好的回答（給 3~5 個 do / don&#x27;t）
+
+風格：友善、清楚、有條理，深色背景配溫暖重點色。
+完成後用本地瀏覽器打開給我看。</pre></div></section><section id="g2" class="group"><h2 class="group-title">🎮 章節 4 · 三個基礎遊戲</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-snake">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake">幫我在桌面建立一個叫「貪吃蛇」的資料夾，裡面做一個 index.html，是經典貪吃蛇遊戲。
+
+需求：
+- 鍵盤方向鍵控制蛇移動
+- 吃到食物 → 蛇變長 + 加 10 分
+- 撞到牆壁或自己 → 遊戲結束
+- 深色背景、蛇是亮綠色、食物是紅色
+- 右上角即時顯示分數
+- 結束時跳出「Game Over」彈窗，附「重新開始」按鈕
+- 介面簡潔、有圓角、像現代手機遊戲
+
+完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-mine">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine">幫我在桌面建立一個叫「踩地雷」的資料夾，裡面做一個 index.html，是經典踩地雷遊戲。
+
+需求：
+- 9×9 格的盤面，隨機放 10 顆地雷
+- 滑鼠左鍵翻開格子：
+  - 空格 → 顯示周圍地雷數量（1~8，每個數字用不同顏色）
+  - 地雷 → 顯示💥，遊戲結束
+- 滑鼠右鍵插旗子 🚩 標記可疑格子
+- 翻完所有「非地雷格」= 過關
+- 上方顯示：剩餘地雷數、計時器、重新開始按鈕
+- 介面要乾淨好看、深色主題
+
+完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-mole">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole">幫我在桌面建立一個叫「打地鼠」的資料夾，裡面做一個 index.html，是經典打地鼠遊戲。
+
+需求：
+- 3×3 共 9 個洞，地鼠隨機從某個洞冒出來 1.5 秒後自動縮回
+- 點到地鼠 → 加 10 分 + 地鼠立刻消失
+- 沒點到的地鼠縮回去不扣分，但點到「空洞」要扣 5 分
+- 遊戲時長 30 秒，倒數計時
+- 時間到 → 跳出最終分數 + 重新開始按鈕
+- 地鼠用 🐹，洞用咖啡色圓形
+- 卡通可愛風格、有冒出/縮回動畫
+
+完成後請用本地瀏覽器幫我打開。</pre></div></section><section id="g3" class="group"><h2 class="group-title">🎨 章節 4 · 美術升級</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📦 章節 4 · 4-6</div><div class="prompt-title">美術升級萬用框架</div></div><button class="copybtn" data-target="pc-p-art-frame">📋 複製</button></div><pre class="prompt-body" id="pc-p-art-frame">請幫我升級剛剛做的[作品名]，加入以下美化：
+
+1. 主題：[挑一個風格]
+   選項：賽博龐克霓虹 / 馬卡龍可愛 / 日式溫暖手繪 /
+         簡約現代 Material / 復古像素 / 森林自然 / 太空科幻
+
+2. 配色：[主色 + 輔色]，例如「深藍底 + 金色重點」
+
+3. 動畫：按鈕 hover 抬升 / 操作彈跳 / 過場 fade / 得分跳大
+
+4. 粒子效果：成功撒星星 / 失敗破碎震動
+
+5. 音效（Web Audio API 合成）：操作聲、得分聲、結束聲
+
+6. 字體：Google Fonts
+   選項：&#x27;Noto Sans TC&#x27; / &#x27;Orbitron&#x27; / &#x27;Press Start 2P&#x27; / &#x27;Kosugi Maru&#x27;
+
+7. 遊戲感（Game Feel）：震動 / COMBO / 慢動作淡出
+
+請保持玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-snake-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake-a">請幫我升級剛剛做的貪吃蛇，加入以下美化：
+
+1. 主題：賽博龐克霓虹風（黑底 + 粉紅 + 藍 + 綠霓虹光）
+2. 蛇的每一節用漸層色，移動時拖一條光尾
+3. 食物會脈動發光（呼吸效果）
+4. 吃到食物時：分數跳大放大 0.2 秒 / 蛇暫時整個發光 / 撒幾顆星星粒子
+5. Game Over 時：螢幕震動 0.3 秒 + 慢動作淡出
+6. 字體：用 Google Fonts 載入 &#x27;Orbitron&#x27;
+7. 按鍵聲、吃食物聲、結束聲（用 Web Audio API 合成）
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-mine-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine-a">請幫我升級剛剛做的踩地雷，加入以下美化：
+
+1. 主題：簡約現代 Material 風（淺色乾淨 + 一個重點色）
+2. 翻開格子時加 3D 翻轉動畫（X 軸翻 180 度）
+3. 數字 1~8 各用不同馬卡龍色
+4. 插旗時旗子有小幅彈跳
+5. 點到地雷時：整個盤面瞬間翻紅 + 震動 0.5 秒
+6. 過關時：星星粒子撒落 + 簡單烟火動畫
+7. 字體：用 Google Fonts 載入 &#x27;Inter&#x27;
+8. 翻開音效、插旗音效、地雷爆炸音效、過關音效
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-mole-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole-a">請幫我升級剛剛做的打地鼠，加入以下美化：
+
+1. 主題：日式溫暖手繪風（米黃底 + 木紋洞口）
+2. 地鼠冒出時：「啵」音效 + 從洞裡彈跳出來
+3. 打中地鼠時：地鼠頭旋轉飛出 + 顯示「+10」彈出數字 / 撒可愛粒子 / 「碰」打擊音效
+4. 打到空洞時：「哎呀」音效 + 螢幕輕微抖動 + 顯示「-5」
+5. 連續打中 3 次以上 → 顯示「COMBO ×N!」+ 額外特效
+6. 倒數計時最後 5 秒會閃紅 + 滴答音效
+7. 字體：用 Google Fonts 載入 &#x27;Kosugi Maru&#x27;
+
+請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div></section><section id="g4" class="group"><h2 class="group-title">📋 章節 5 · 萬用 Prompt 模板</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📋 章節 5 · 5-5</div><div class="prompt-title">萬用 Prompt 模板</div></div><button class="copybtn" data-target="pc-p-template">📋 複製</button></div><pre class="prompt-body" id="pc-p-template">我是 [你的角色 / 身分]，
+我有一個 [痛點 / 問題 / 任務]，
+請幫我做一個 [作品類型]，
+給 [觀眾 / 使用情境] 用。
+
+需求：
+- [功能 1]
+- [功能 2]
+- [視覺 / 風格 / 互動]
+
+完成後請在桌面建 [資料夾名] 資料夾，用本地瀏覽器打開。</pre></div></section><section id="g5" class="group"><h2 class="group-title">🎯 章節 6 · 三個示範作品</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎴 章節 6 · 示範 1 · 配對遊戲</div><div class="prompt-title">朝代配對 — 古今對對碰</div></div><button class="copybtn" data-target="pc-p-demo1">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo1">我是國中歷史老師，要做一個「朝代配對」練習網頁給學生玩。
+請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範1_朝代配對」的子資料夾，做一個 index.html。
+
+═══ 題目資料（直接寫在 JS 裡，不用外部檔案）═══
+請在 JS 裡建兩個陣列：
+- 6 個朝代（每個朝代有 id 跟名稱）
+- 15+ 個事件（每個事件有 dynasty_id 對應到朝代，可以多對一）
+- 每個朝代可以對應 1 個以上的事件（數量不一致沒關係）
+
+朝代陣列（左欄）：
+  { id: 1, name: &quot;秦&quot; }
+  { id: 2, name: &quot;漢&quot; }
+  { id: 3, name: &quot;唐&quot; }
+  { id: 4, name: &quot;宋&quot; }
+  { id: 5, name: &quot;明&quot; }
+  { id: 6, name: &quot;清&quot; }
+
+事件陣列（右欄，至少 15 個）：
+  { id: &#x27;e1&#x27;,  dynasty_id: 1, text: &quot;統一六國&quot;,     icon: &quot;⚔️&quot; }
+  { id: &#x27;e2&#x27;,  dynasty_id: 1, text: &quot;修築萬里長城&quot;, icon: &quot;🧱&quot; }
+  { id: &#x27;e3&#x27;,  dynasty_id: 1, text: &quot;焚書坑儒&quot;,     icon: &quot;🔥&quot; }
+  { id: &#x27;e4&#x27;,  dynasty_id: 2, text: &quot;張騫通西域&quot;,   icon: &quot;🐪&quot; }
+  { id: &#x27;e5&#x27;,  dynasty_id: 2, text: &quot;文景之治&quot;,     icon: &quot;📜&quot; }
+  { id: &#x27;e6&#x27;,  dynasty_id: 2, text: &quot;罷黜百家獨尊儒術&quot;, icon: &quot;📖&quot; }
+  { id: &#x27;e7&#x27;,  dynasty_id: 3, text: &quot;貞觀之治&quot;,     icon: &quot;👑&quot; }
+  { id: &#x27;e8&#x27;,  dynasty_id: 3, text: &quot;安史之亂&quot;,     icon: &quot;💥&quot; }
+  { id: &#x27;e9&#x27;,  dynasty_id: 3, text: &quot;玄奘西行取經&quot;, icon: &quot;🧘&quot; }
+  { id: &#x27;e10&#x27;, dynasty_id: 4, text: &quot;王安石變法&quot;,   icon: &quot;📜&quot; }
+  { id: &#x27;e11&#x27;, dynasty_id: 4, text: &quot;岳飛抗金&quot;,     icon: &quot;🗡️&quot; }
+  { id: &#x27;e12&#x27;, dynasty_id: 5, text: &quot;鄭和下西洋&quot;,   icon: &quot;⛵&quot; }
+  { id: &#x27;e13&#x27;, dynasty_id: 5, text: &quot;永樂大典編成&quot;, icon: &quot;📚&quot; }
+  { id: &#x27;e14&#x27;, dynasty_id: 6, text: &quot;鴉片戰爭&quot;,     icon: &quot;💣&quot; }
+  { id: &#x27;e15&#x27;, dynasty_id: 6, text: &quot;康熙盛世&quot;,     icon: &quot;🌅&quot; }
+  { id: &#x27;e16&#x27;, dynasty_id: 6, text: &quot;辛亥革命終結&quot;, icon: &quot;🏛️&quot; }
+
+═══ 遊戲核心玩法 ═══
+1. 畫面分左右兩區
+   - 左欄：6 個朝代「卡格」（朝代名在上方，下方是「掉落區」可放多張事件卡）
+   - 右欄：15+ 張事件卡，順序隨機打亂
+2. 玩家從右欄把事件卡拖曳到左欄對應的朝代格子
+3. 用 HTML5 drag-and-drop API
+4. 配對判斷：
+   - 正確（dynasty_id 相符）→ 事件卡變綠、鎖定在朝代格內（堆疊顯示）
+   - 錯誤 → 紅色閃光 0.3 秒 + 卡片彈回右欄原位
+5. 每次嘗試（不論對錯）都計數
+6. 右欄事件卡全部正確放完 → 過關畫面（金色閃光 + 顯示總嘗試次數 + 再玩一次按鈕）
+
+═══ 視覺風格 ═══
+- 古典中國風：深色底 + 金色邊框 + 紅色點綴
+- 朝代卡：金色邊框、米黃底、朝代名用大字
+- 事件卡：紅色邊框、深色底、icon + 事件名稱
+- 已配對的事件卡用較小縮圖形式堆疊在朝代格內
+- 字型「Noto Serif TC」古典襯線
+- RWD：手機改上下兩欄；事件卡區可橫向捲動
+
+═══ 技術需求 ═══
+- 單一 index.html（CSS + JS 全部塞在一個檔案裡）
+- 不依賴任何第三方套件
+- 中文 UTF-8 編碼
+- 題目資料直接寫在 JS 裡
+- 朝代格的掉落區要能容納多張事件卡
+
+完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 6 · 示範 2 · 成語填字</div><div class="prompt-title">成語填字 — 拖字卡補空格</div></div><button class="copybtn" data-target="pc-p-demo2">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo2">我是國中國文老師，要做一個「成語填字」拖曳遊戲給學生玩。
+請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範2_成語填字」的子資料夾，做一個 index.html。
+
+═══ 題庫資料來源 ═══
+不用外部 CSV，題目直接硬寫在 JS 裡，至少 10 題。
+每題格式：
+
+const QUESTIONS = [
+  { 成語: &#x27;一鳴驚人&#x27;, 缺字: [1, 2], 答案: [&#x27;鳴&#x27;, &#x27;驚&#x27;], 意思: &#x27;比喻平時默默無聞，突然有驚人表現。&#x27; },
+  { 成語: &#x27;風花雪月&#x27;, 缺字: [1, 3], 答案: [&#x27;花&#x27;, &#x27;月&#x27;], 意思: &#x27;原指四時景色，後比喻浮華空洞的詩文。&#x27; },
+  { 成語: &#x27;三番五次&#x27;, 缺字: [1, 3], 答案: [&#x27;番&#x27;, &#x27;次&#x27;], 意思: &#x27;形容次數很多。&#x27; },
+  { 成語: &#x27;一字千金&#x27;, 缺字: [1, 3], 答案: [&#x27;字&#x27;, &#x27;金&#x27;], 意思: &#x27;形容文字價值極高。&#x27; },
+  { 成語: &#x27;畫龍點睛&#x27;, 缺字: [1, 3], 答案: [&#x27;龍&#x27;, &#x27;睛&#x27;], 意思: &#x27;比喻在關鍵處點明要旨。&#x27; },
+  // …請幫我補滿至少 10 題，挑國中常見成語
+];
+
+每題的「缺字」是索引（0-3），代表要挖空的位置；答案是按缺字順序對應的字。
+
+═══ 遊戲核心玩法 ═══
+1. 一場遊戲共 5 題（從題庫隨機抽，不重複）
+2. 每題畫面：
+   - 上方大字顯示成語，缺字位置用方框「□」代替
+   - 例：「一 □ 千 □」
+   - 下方排 15 張字卡（隨機排列）：2 個正解 + 13 個干擾字
+   - 字卡順序每次都打亂
+3. 玩家把字卡用拖曳拉到上方的空格
+4. 判定：
+   - 拖對 → 字卡變綠、鎖定在空格內、播清脆鈴聲
+   - 拖錯 → 字卡彈回原位、紅光閃 0.2 秒
+5. 兩個空格都填對 → 顯示「✓ 答對！」+ 成語意思 + 下一題按鈕
+6. 5 題完成 → 顯示總成績 + 重新挑戰按鈕
+
+═══ 視覺風格 ═══
+- 古色古香、書卷字帖風
+- 背景：米黃宣紙色 + 淡淡紋理
+- 標題與成語：毛筆楷書字型（用「Noto Serif TC」）
+- 空格用紅色方框（像書法字帖的米字格）
+- 字卡用淺色木紋或淡黃底 + 黑色楷體
+- 答對時空格內字變為紅色（像紅章蓋上去）
+
+═══ 技術需求 ═══
+- 單一 index.html（CSS + JS 全部塞進去）
+- 不依賴第三方套件（字型用 Google Fonts CDN 可以）
+- 中文 UTF-8 編碼
+- 拖曳同時支援桌機滑鼠 + 平板觸控
+
+完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">⚔️ 章節 6 · 示範 3 · 打怪 RPG 進階版</div><div class="prompt-title">打怪 RPG 進階版 — 練題目像在打 BOSS</div></div><button class="copybtn" data-target="pc-p-demo3">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo3">我是國中老師，要做一個「打怪 RPG 進階版」練習題網頁給學生玩。
+請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範3_打怪RPG」的子資料夾，做一個 index.html。
+
+═══ 題庫資料來源 ═══
+請用 fetch 抓這個 Google Sheets 發布的 CSV 網址：
+
+[請貼上你的 Sheets CSV 網址]
+
+CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是錯誤選項
+（如果某欄是「空」就忽略那個選項）
+
+═══ 遊戲核心玩法 ═══
+1. 玩家固定一個角色（🧙 巫師），HP 100、初始金幣 0
+2. 一場遊戲共 5 個關卡，每關 1 隻怪（依序登場）：
+   第 1 關 🐺 野狼（HP 100）
+   第 2 關 🦂 毒蠍（HP 100）
+   第 3 關 👹 惡鬼（HP 100）
+   第 4 關 🐲 巨龍（HP 100）
+   第 5 關 👑 魔王（HP 100）
+3. 戰鬥流程：
+   - 顯示「我方 vs 怪物」+ HP 血條 + 右上角金幣總額
+   - 怪物頭上跳出一題（CSV 隨機抽，選項順序打亂）
+   - 4 個選項按鈕（A/B/C/D）
+   - 答對 → 攻擊怪物 -25 HP + 拿 5 金幣
+   - 答錯 → 怪物攻擊 -25 HP + 顯示正確答案 2 秒
+4. 怪物 HP 歸零 → 額外掉落 20-50 隨機金幣 → 進入商店
+5. 5 隻怪打完 → 通關畫面（顯示答對題數 / 剩餘金幣 / 用了幾瓶藥水）
+
+═══ 金幣系統 ═══
+- 右上角金幣計數器（💰 + 數字）
+- 答對 1 題 = +5 金幣
+- 擊敗怪物 = 額外 +20 到 +50 隨機金幣
+
+═══ 商店系統（每關之間自動進入）═══
+| 道具 | 效果 | 價格 |
+|------|------|------|
+| 🧪 紅藥水 | 補 50 HP（戰鬥中也能用） | 30 金幣 |
+| 💎 攻擊水晶 | 下一題答對暴擊：怪物 -50 HP | 40 金幣 |
+| 🛡 救命符 | HP 歸零自動復活，剩 1 滴 HP | 80 金幣 |
+
+═══ 死亡與復活 ═══
+- HP 歸零時：
+  - 有救命符 → 自動消耗 1 個，HP 回 1 繼續
+  - 沒救命符 → 重來該關，HP 設成 1（懲罰）
+  - 已 HP 1 又死且無符 → Game Over 紅底畫面 + 重新開始
+
+═══ 背包與隨時補血 ═══
+- 戰鬥畫面下方「🎒 背包」按鈕
+- 點開顯示道具與數量，可立刻用紅藥水補血
+
+═══ 視覺風格 ═══
+- 像素風或卡通可愛風，深色背景配明亮重點色
+- HP 血條：綠 → 黃（&lt;50%）→ 紅（&lt;20% 閃爍）
+- 金幣計數器：金黃色，數字變動時跳一下
+- 答對畫面閃綠 0.2s、答錯震動 0.3s
+- 暴擊時閃紅光 + 大字「CRITICAL!」
+- 商店：木紋背景 + 道具卡片
+
+═══ 技術需求 ═══
+- 單一 index.html
+- 不依賴第三方套件，用純 fetch + JavaScript
+- CSV 抓不到時用內建範例題庫 fallback
+- 開啟時自動 fetch + loading 動畫
+
+完成後請用本地瀏覽器幫我打開。</pre></div></section><section id="g6" class="group"><h2 class="group-title">💭 章節 6 · 讓 AI 幫你想提示詞</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 6 · 補充 · 實際範例</div><div class="prompt-title">只要記住前面三個公式：角色 / 原因 / 目的</div></div><button class="copybtn" data-target="pc-p-ai-write-prompt">📋 複製</button></div><pre class="prompt-body" id="pc-p-ai-write-prompt">我是一個國小英文老師，
+我常常遇到學生背完單字考完就忘，
+我想要做一個「單字打地鼠」小遊戲，
+讓學生在遊戲的過程裡，反覆練習常見的英文單字。
+我的單字題庫已經放在 Google Sheets，網址是 [學員自己貼]。
+
+請你幫我想出一段這個小遊戲需要的提示詞（PROMPT）。</pre></div></section><section id="g7" class="group"><h2 class="group-title">🗺 章節 8 · 大冒險地圖（三關串連）</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🗺 章節 8 · 大冒險地圖</div><div class="prompt-title">三關連動：拿三個憑證才能開啟大門</div></div><button class="copybtn" data-target="pc-p-adventure-map">📋 複製</button></div><pre class="prompt-body" id="pc-p-adventure-map">我前面已經做好 3 個小遊戲，分別在這些資料夾：
+- 示範1_朝代配對/index.html
+- 示範2_成語填字/index.html
+- 示範3_打怪RPG/index.html
+
+請幫我做一個「大冒險地圖」入口頁，把這 3 個遊戲串成完整闖關冒險。
+
+═══ 結構 ═══
+- 在「示範作品」資料夾下，建一個新資料夾「大冒險地圖」
+- 做一個 index.html 當入口頁
+- 用相對路徑連到旁邊的 3 個遊戲資料夾
+
+═══ 入口頁畫面 ═══
+- 頂部：標題「大冒險地圖」+ 一行說明「完成 3 個關卡，拿到 3 個憑證解開大門」
+- 右上角：「🔄 清除進度」按鈕
+- 中央：3 個關卡按鈕，網格整齊排列：
+  - 大圖示 emoji
+  - 關卡名稱
+  - 狀態（未完成 / 已完成 ✓）
+  - 點擊開啟對應遊戲
+
+  關卡 1：🎴 朝代配對 → 點擊開啟 ../示範1_朝代配對/index.html
+  關卡 2：📝 成語填字 → 點擊開啟 ../示範2_成語填字/index.html
+  關卡 3：⚔️ 打怪 RPG → 點擊開啟 ../示範3_打怪RPG/index.html
+
+- 下方：「🔒 通關大門」按鈕
+  - 旁邊顯示「目前持有：X / 3」
+  - **重要：不論持有幾個憑證，這個按鈕都可以點，會跳出大門 modal**
+
+═══ 在每個遊戲頁面加上「回到大地圖」按鈕 ═══
+請同時修改 3 個遊戲的 index.html，在每個遊戲頁面的明顯位置（例如左上角或右上角）加上一個按鈕：
+  「← 回到大地圖」
+按下後跳轉到 ../大冒險地圖/index.html
+
+═══ 憑證系統（localStorage 跨頁）═══
+- 完成朝代配對 → 取得「朝代之印」
+- 完成成語填字 → 取得「成語之印」
+- 完成打怪 RPG → 取得「勇者之印」
+- localStorage 鍵：cert_dynasty / cert_idiom / cert_warrior
+- 入口頁 onload 時讀取 → 已完成的關卡按鈕變綠色 + 顯示 ✓
+
+⚠️ 3 個遊戲已經有寫 localStorage，不要動
+
+═══ 通關大門 modal（點通關大門按鈕後跳出）═══
+- 上半：3 個橫排凹槽（標籤：朝代 / 成語 / 勇者）
+- 下半：背包欄，顯示目前持有的憑證徽章
+  - 玩家拖曳憑證到對應凹槽（HTML5 drag-and-drop）
+  - 拖對 → 憑證停在凹槽 + 變綠色
+  - 拖錯 → 紅色閃 + 彈回背包
+- 如果持有的憑證不足 3 個，玩家還是可以拖目前有的進去試試看，但只有 3 個都拖對才會開門
+- 3 個都拖對 → 切換到通關畫面
+
+═══ 通關畫面 ═══
+- 標題「🏆 冒險完成！」
+- 顯示總冒險時長（從 adventure_start 到現在，格式 mm 分 ss 秒）
+- 「再次冒險」按鈕（清除所有 localStorage 重來）
+
+═══ 技術需求 ═══
+- 單一 index.html（CSS + JS 全部塞進去）
+- 用 localStorage 跨頁傳遞憑證
+- 拖曳同時支援桌機滑鼠 + 平板觸控
+- 不依賴任何第三方套件
+- 中文 UTF-8
+
+完成後請用本地瀏覽器幫我打開大地圖頁面。</pre></div></section><section id="g8" class="group"><h2 class="group-title">🎨 章節 8 · 美術升級（地圖 + 封面 + 結局）</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 8 · 美術升級 · A 段</div><div class="prompt-title">幫大地圖畫一張背景圖（請 AI 畫圖）</div></div><button class="copybtn" data-target="pc-p-map-art-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-map-art-a">請幫我畫一張橫式的「冒險地圖背景圖」（16:9 比例，給網頁當底圖用）。
+
+═══ 整體風格（從下面挑一個，把 [風格名] 換掉）═══
+[風格名]：
+- 科技風
+- 古代水墨風（中國山水畫 ， 全黑白，墨色，）
+- 童話繪本插畫風（彩色蠟筆 + 圓潤可愛）
+- 像素 8-bit RPG 風（復古遊戲地圖）
+- Q 版漫畫風(粗線條 + 鮮豔色塊)
+- 手繪羊皮紙風（古地圖 + 墨水手繪）
+
+═══ 4 個地標（請幫地點選擇符合風格的名字）═══
+
+地標 1（「朝代配對」遊戲）
+地標 2（「成語填字」遊戲）
+地標 3（「打怪 RPG」遊戲）
+地標 4（中央大門，集滿 3 印才能開）
+═══ 構圖要求 ═══
+- 4 個關卡分散在畫面 4 個區域（地標 1、2、3 環繞四周；地標 4 在正中央）
+- 4 個關卡之間用「跟所選風格相符的方式」連接（不一定要路徑或河流）
+- 4 個關卡要用名牌按鈕的方式寫上關卡名字
+- 整體色調統一
+
+═══ 輸出 ═══
+- 橫式 16:9（建議 1920×1080）
+- PNG 格式</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎬 章節 8 · 美術升級 · B 段</div><div class="prompt-title">幫遊戲畫一張封面（請 AI 畫圖）</div></div><button class="copybtn" data-target="pc-p-game-cover">📋 複製</button></div><pre class="prompt-body" id="pc-p-game-cover">請幫我畫一張遊戲封面圖（橫式 16:9，給網頁當開場畫面用）。
+
+═══ 整體風格（跟剛剛畫的地圖用同一個風格）═══
+[風格名]：
+- 科技風
+- 古代水墨風（中國山水畫 ， 全黑白，墨色，）
+- 童話繪本插畫風（彩色蠟筆 + 圓潤可愛）
+- 像素 8-bit RPG 風（復古遊戲地圖）
+- Q 版漫畫風(粗線條 + 鮮豔色塊)
+- 手繪羊皮紙風（古地圖 + 墨水手繪）
+
+═══ 內容要素 ═══
+- 史詩 RPG 感（戲劇性光影、英雄輪廓、神秘氛圍）
+- 畫面正中央：一個大大的遊戲名稱（請你幫我取一個符合風格的 RPG 感名字）
+- 副標（放在標題下方一點）：「點擊任何部位遊戲開始」
+- 背景氛圍要跟所選風格一致
+
+═══ 構圖 ═══
+- 標題與副標都置中（垂直、水平都置中）
+- 看起來像一款 RPG 遊戲的開場封面
+
+═══ 輸出 ═══
+- 橫式 16:9（建議 1920×1080）
+- PNG 格式</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎮 章節 8 · 美術升級 · C 段</div><div class="prompt-title">把大地圖跟封面放進遊戲</div></div><button class="copybtn" data-target="pc-p-cover-integrate">📋 複製</button></div><pre class="prompt-body" id="pc-p-cover-integrate">我在「大冒險地圖」資料夾放了 2 張圖：
+- cover.png（遊戲開場封面）
+- map-bg.png（大地圖，圖上已經有 4 個名牌：朝代區、成語區、怪獸區、中央大門）
+
+請幫我把它們整合到 index.html，做成完整的遊戲流程：
+
+═══ 1. 開場封面 ═══
+- 開啟頁面時先顯示 cover.png 全螢幕
+- 點任何地方 → 淡出，進入大地圖
+- 用 sessionStorage 記錄，從關卡頁回來時不再顯示封面
+- 「再次冒險」按鈕清掉所有 storage 時，下次重玩會再顯示封面
+
+═══ 2. 大地圖（保留地圖原本的視覺）═══
+- map-bg.png 完整顯示（保持比例不裁切）
+  → 用 max-width / max-height + object-fit:contain，包在 container 裡置中
+- 地圖已經有 4 個名牌（朝代、成語、怪獸、中央大門），**不要再加新按鈕疊上去**
+- 改用「透明可點區域」疊在每個名牌位置：
+  - 4 個透明 div，position:absolute，疊在名牌大概位置
+  - cursor:pointer，hover 時整個區域微微亮起（淡色光暈）
+  - 點擊 → 跳轉對應遊戲，或中央那個 → 打開大門 modal
+- 已通關的關卡 → 在對應名牌上疊一個綠色 ✓ 印章圖示（不要蓋住名牌字）
+
+═══ 3. 透明熱區位置 ═══
+請你直接打開 map-bg.png 看圖，找出 4 個名牌（朝代、成語、怪獸、中央大門）在圖上的位置，
+用百分比座標（top% / left%）把透明熱區精準疊在每個名牌上。
+如果不確定，先放好你判斷的位置，我會打開頁面回報「朝代要往右移 5%」之類的微調。
+
+═══ 4. 右上角資訊區（唯一一處）═══
+- 「持有 X / 3」
+- 「🔄 清除進度」按鈕
+- 不要在其他地方再顯示持有數
+
+═══ 5. 保留功能 ═══
+- 通關大門 modal（點中央熱區跳出）：3 凹槽 + 背包 + 拖曳
+- 通關畫面（mm 分 ss 秒）
+- 「再次冒險」按鈕（同時清 localStorage + sessionStorage）
+
+═══ 6. 技術 ═══
+- 單一 index.html
+- 拖曳支援桌機 + 平板觸控
+- 中文 UTF-8
+- 不依賴第三方
+
+完成後請打開瀏覽器給我看。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎬 章節 8 · 美術升級 · D 段</div><div class="prompt-title">幫遊戲加結局劇情（用「要提示詞的提示詞」）</div></div><button class="copybtn" data-target="pc-p-ending-meta">📋 複製</button></div><pre class="prompt-body" id="pc-p-ending-meta">═══ 我要你幫我做兩件事 ═══
+
+請根據我的上面那個遊戲風格，幫我生出下面兩段「Prompt」給我
+（不是直接做，是給我兩段我可以複製貼上的提示詞）：
+
+────────────────────
+【第一段】結局劇情 Prompt（給 Antigravity 寫進遊戲用）
+────────────────────
+要包含：
+- 結局共幾張過場圖（建議 3~5 張）
+- 每張圖的場景描述
+- 每張圖搭配的旁白或角色台詞（要符合風格，不要俗套）
+- 結局標題（4~8 個字，史詩感）
+- 玩家按一下進到下一張，最後一張按完顯示「冒險完成」
+
+────────────────────
+【第二段】每張結局圖的繪圖 Prompt（給 GPT / Midjourney 畫圖用）
+────────────────────
+針對第一段裡每一張過場圖，各給我一段獨立的繪圖 Prompt，
+讓我可以分別貼到繪圖 AI。每段要包含：
+- 場景視覺描述（光線、構圖、氛圍）
+- 風格指定（跟我遊戲風格一致）
+- 比例：16:9
+- 輸出 PNG
+
+═══ 注意 ═══
+- 你只需要「給我這兩段 Prompt 文字」，不要直接執行
+- 風格要前後一致
+- 結局要有韻味、留白，不要說教</pre></div></section><section id="g9" class="group"><h2 class="group-title">🚀 章節 9 · 推上 GitHub</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🛠 章節 9 · 9-2 · 實作時間</div><div class="prompt-title">🛠 章節 9 · 9-2 · 實作時間</div></div><button class="copybtn" data-target="pc-p-github">📋 複製</button></div><pre class="prompt-body" id="pc-p-github">我的 GitHub 帳號已經登入好了（gh auth status 確認過）。
+
+請幫我做以下事情：
+1. 在 GitHub 建立一個新的【公開】倉庫，名稱叫：[請改成你想要的名字]
+2. 把目前這個資料夾的所有檔案推上去
+3. 開啟 GitHub Pages（用 main 分支根目錄）
+4. 把網站的公開連結給我，我要分享給學生或家長
+
+如果中間有任何選擇要做，請依照「最簡單、最常用」的方式處理。
+做完直接給我連結就好。</pre></div></section><section id="g10" class="group"><h2 class="group-title">🔥 章節 9 · Firebase 安全規則</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">3️⃣ 章節 9 · Step 3 ⭐</div><div class="prompt-title">Step 3：把規則改成「永久允許」</div></div><button class="copybtn" data-target="pc-p-firebase-rules">📋 複製</button></div><pre class="prompt-body" id="pc-p-firebase-rules">rules_version = &#x27;2&#x27;;
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre></div></section><section id="g11" class="group"><h2 class="group-title">📣 課程資訊</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📣 一百分遊戲教育 · 近期開課</div><div class="prompt-title">下次見：近期課程公告 🔥</div></div><button class="copybtn" data-target="pc-p-courses">📋 複製</button></div><pre class="prompt-body" id="pc-p-courses">【一百分遊戲教育｜近期開課】🔥
+
+━━━━━━━━━━━━━━━━━━
+🎮 AI 微型程式 x 動態題庫工作坊
+✨ 把無聊考卷變成奇幻遊戲！🏠線上課
+   用 AI 蓋出會出題、會記分、會反饋的小遊戲。
+
+📍 6/13（六）19:00–22:30　（名額剩六位/前兩梯優惠）
+   ✅ 同樣內容，週末晚場，給平日抽不開身的你
+   👉 https://forms.gle/4rvo8k1QPevAyDmG8
+
+📍7/12（日）19:00–22:30　（新開班）
+   ✅ 同樣內容，週日晚場，給平日抽不開身的你
+   👉 https://forms.gle/9audWbjouNrnpkSw8
+
+━━━━━━━━━━━━━━━━━━
+🪄 GEM 文字冒險建構實戰 T4
+📅 6/5（五）19:30–21:30｜💻 線上｜💰 NT$888
+✨ 不需程式碼，用 AI文字打造你的文字冒險遊戲
+👉 https://forms.gle/GFtwtitHEcpwWLJx5
+
+━━━━━━━━━━━━━━━━━━
+☀️ 2026 暑期工作坊 重磅回歸 ☀️
+
+🐻 第四彈・謎熊康普利
+📅 7/4（六）｜🏠 實體一天課程
+   戶外實境結合環境謎題設計與手作解謎小道具
+👉 https://forms.gle/juvHwAs9KNPqZWfa7
+
+🎲 第三彈・遊戲設計的夢工廠
+📅 7/5（日）｜🏠 實體一天課程
+   解謎活動如何寫故事與人物設計
+👉 https://forms.gle/FCGG97EzhbyyB6gY8
+
+━━━━━━━━━━━━━━━━━━
+📖 完整課程介紹 / 教師研習：
+https://yoyo700702ai.github.io/100points-education-site/#courses</pre></div></section><h2 class="big-section-title" id="firebase">🔥 Part 2 · Firebase 完整圖文教學</h2>
+<div class="intro-card">
+  <p>📍 <b>Firebase 是什麼？</b>Google 出的免費後台服務 — 把遊戲分數、學生紀錄存到雲端，多裝置同步、全班共用。</p>
+  <p>⏱ 整個流程約 <b>5 分鐘</b>，免費 Spark 方案就夠用，<b>全程不要升級成付費</b>。每天 5 萬次讀取，個人 / 班級用爆不掉。</p>
+  <p>🎯 <b>最後你會拿到</b>一段 <code>firebaseConfig</code> 設定碼，整段貼給 AI 就完成串接。</p>
+</div>
+<div class="fb-flow"><div class="fb-flow-card"><div class="n">1</div><div class="t">建立專案</div><div class="d">Step 1.1 ~ 1.4<br>填名字、關 Gemini、關 Analytics</div></div><div class="fb-flow-card"><div class="n">2</div><div class="t">建立資料庫</div><div class="d">Step 2.1 ~ 2.4<br>選 asia-east1、測試模式</div></div><div class="fb-flow-card"><div class="n">3</div><div class="t">改規則</div><div class="d">Step 3<br>貼上 if true 永久允許</div></div><div class="fb-flow-card"><div class="n">4</div><div class="t">拿設定碼</div><div class="d">Step 4.1 ~ 4.4<br>註冊網頁 App、複製 &lt;script&gt;</div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 1.1</span><span class="fb-title">打開 Firebase 控制台</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>🔗 打開網址</b></p>
+<p style="margin-left:1em"><a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a><br>
+用你的 Google 帳號登入（沒有就先申請一個 Gmail）。</p>
+
+<p><b>📋 進到首頁後要做的事</b></p>
+<ol>
+  <li>點中央那張大卡片 <b>「建立 Firebase 專案」</b></li>
+  <li>或點左上角 <b>「+ 新增專案」</b>（兩個結果一樣）</li>
+</ol>
+
+<div class="tip">💡 第一次打開可能會看到一張「歡迎使用 Firebase」說明頁，按過去就好。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-06.png" alt="打開 Firebase 控制台" loading="lazy"><div class="fb-cap">看到這道「光門」就對了 — 進入 Firebase 世界</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 1.2</span><span class="fb-title">輸入專案名稱</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>在中央 <b>「專案名稱」</b>欄位輸入名字<br>
+    建議用英文小寫，例：<code>my-class-game</code>、<code>trytry</code>、<code>history-quiz</code></li>
+  <li>下方會自動產生一個 ID（例：<code>trytry-9e732</code>）— <b>不用管它</b></li>
+  <li>勾選 <b>「我接受《Firebase 條款》」</b></li>
+  <li>下面那條「Google 開發人員計畫」<b>保留藍色開啟</b>就好（沒差）</li>
+  <li>點右下角藍色 <b>「繼續」</b>按鈕</li>
+</ol>
+
+<div class="warn">⚠️ <b>名字不能用中文</b>，也不能有空白。<br>專案 ID 一旦建立就<b>不能改</b>，但名字之後可以改。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-02.png" alt="輸入專案名稱" loading="lazy"><div class="fb-cap">範例：專案名稱填 TRYTRY，自動產生的 ID 不用管它</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 1.3</span><span class="fb-title">關掉 Gemini in Firebase</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<p>下一頁標題會是 <b>「Firebase 專案的 AI 輔助功能」</b></p>
+<ol>
+  <li>找到下方 <b>「啟用 Gemini in Firebase」</b>開關</li>
+  <li><b>點它，把藍色關掉變灰色</b>（預設是開的，要手動關！）</li>
+  <li>點右下角藍色 <b>「繼續」</b></li>
+</ol>
+
+<div class="bad"><b>❌ 為什麼要關？</b><br>
+我們的 AI 工具用的是 Antigravity / Claude / Gemini CLI，<b>不需要</b> Firebase 內建的 Gemini。<br>
+開了會佔用 quota，沒好處。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-03.png" alt="關掉 Gemini in Firebase" loading="lazy"><div class="fb-cap">把藍色開關「啟用 Gemini in Firebase」點成灰色</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 1.4</span><span class="fb-title">關掉 Google Analytics</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<p>下一頁標題是 <b>「Google Analytics」</b></p>
+<ol>
+  <li>找最下方 <b>「啟用這項專案的 Google Analytics 功能」</b>開關</li>
+  <li><b>確認是灰色（關閉狀態）</b> — 如果是藍色就點一下把它關掉</li>
+  <li>點右下角藍色 <b>「建立專案」</b></li>
+  <li>等 30 秒，看到「Firebase 專案已準備就緒」→ 點 <b>「繼續」</b></li>
+</ol>
+
+<div class="bad"><b>❌ 為什麼要關？</b><br>
+Analytics 是用來分析使用者行為的工具，課程教學用不到，關掉比較單純。</div>
+
+<div class="ok">✅ 點「繼續」後會進到專案首頁，<b>第一階段完成！</b></div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-04.png" alt="關掉 Google Analytics" loading="lazy"><div class="fb-cap">確認 Analytics 開關是灰色（關閉）</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 2.0</span><span class="fb-title">專案建好啦！認識你的後台首頁</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>✅ 確認你看到這些元素</b></p>
+<ul>
+  <li>左上角顯示 <b>你的專案名</b>（例：TRYTRY）+ <b>Spark 方案</b>標籤</li>
+  <li>中央有一句「<b>○○，你好，歡迎使用 Firebase 專案！</b>」</li>
+  <li>一排平台圖示：iOS / Android / <b>&lt;/&gt; 網頁</b> / Unity / Flutter</li>
+</ul>
+
+<div class="tip">💡 <b>不要急著點 &lt;/&gt; 網頁！</b><br>
+正確順序是：先建資料庫 → 改規則 → 最後才註冊網頁應用程式拿設定碼。<br>
+順序錯了不會壞，但會多繞一圈。</div>
+
+<p>👉 接下來看<b>左側選單</b>，準備找 <b>Firestore</b>。</p>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-06.png" alt="專案建好啦！認識你的後台首頁" loading="lazy"><div class="fb-cap">專案首頁 — 左上角顯示 Spark 方案 = 完全免費</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 2.1</span><span class="fb-title">進到 Cloud Firestore</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>左側選單找 <b>「建構」</b>類別 → 點 <b>「Firestore」</b><br>
+    （找不到的話，用上方搜尋列輸入 <code>firestore</code>）</li>
+  <li>看到 <b>Cloud Firestore</b> 介紹頁（橘色 logo + 大象徵符號）</li>
+  <li>點中央 <b>「建立資料庫」</b>白底外框按鈕</li>
+</ol>
+
+<div class="warn">⚠️ <b>不要</b>點旁邊的「詢問 Gemini」按鈕，那個是 AI 對話框，不是建資料庫。</div>
+
+<div class="tip">💡 <b>Firestore 是什麼？</b><br>
+就是 Google 的雲端資料庫，類似 MongoDB 那種「文件」結構。<br>
+你不用懂內部原理，<b>AI 會幫你寫存取的程式</b>。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-09.png" alt="進到 Cloud Firestore" loading="lazy"><div class="fb-cap">點中央白色「建立資料庫」按鈕</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 2.2</span><span class="fb-title">選資料庫位置（asia-east1）</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>第一步「版本」直接<b>選 Standard 版</b>（預設） → 下一步</li>
+  <li>進到 <b>「資料庫 ID 和位置」</b>頁面
+    <ul>
+      <li>資料庫 ID 維持 <code>(default)</code>，<b>不用改</b></li>
+      <li>位置點下拉選單 → <b>選 <code>asia-east1 (Taiwan)</code></b></li>
+    </ul>
+  </li>
+  <li>點藍色 <b>「下一步」</b></li>
+</ol>
+
+<div class="warn">⚠️ <b>位置一經設定就無法變更！</b><br>
+畫面會跳出黃色警告框提醒你。記得選 <b>asia-east1（彰化，台灣）</b>，給台灣學生用速度最快、延遲最低。<br>
+選錯的話只能砍掉重新建一個專案。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-10.png" alt="選資料庫位置（asia-east1）" loading="lazy"><div class="fb-cap">位置一定要選 asia-east1 (Taiwan)，台灣速度最快</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 2.3</span><span class="fb-title">用「測試模式」啟動 ⭐</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>進到第三步「設定」，會看到兩個選項：
+    <ul>
+      <li><b>以測試模式啟動</b> ← <b style="color:#f4d76b">選這個</b></li>
+      <li>以正式版模式啟動（資料預設不能讀寫，<b>不要選</b>）</li>
+    </ul>
+  </li>
+  <li>點左下角藍色 <b>「建立」</b></li>
+  <li>等 30 秒，看到資料庫主畫面 ✅</li>
+</ol>
+
+<div class="tip">💡 <b>測試模式 vs 正式版模式</b><br>
+· 測試模式：30 天內任何人都能讀寫，30 天後自動鎖死<br>
+· 正式版模式：預設誰都不能讀寫<br>
+<br>
+兩個都不是我們要的最終狀態 — 我們選測試模式，<b>下一步馬上把規則改成永久允許</b>。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-11.png" alt="用「測試模式」啟動 ⭐" loading="lazy"><div class="fb-cap">選「以測試模式啟動」（上面那個）</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 2.4</span><span class="fb-title">資料庫建好的畫面</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>✅ 看到下面這些元素就代表成功</b></p>
+<ul>
+  <li>上方有 <b>資料 / 規則 / 索引 / 使用量 / Extensions</b> 五個分頁</li>
+  <li>左欄顯示 <code>(default)</code> 資料庫</li>
+  <li>中央空空的 — 因為還沒有任何資料（正常！不用慌）</li>
+</ul>
+
+<p>👉 接下來：點上方 <b>「規則」</b>分頁，準備改規則。<br>
+（規則改完，AI 才能順利幫你寫資料進去）</p>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-12.png" alt="資料庫建好的畫面" loading="lazy"><div class="fb-cap">資料庫主畫面 — 上方有「規則」分頁</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 3</span><span class="fb-title">把規則改成「永久允許」 ⭐⭐</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>點上方 <b>「規則」</b>分頁</li>
+  <li>中央會看到一段預設程式碼 → <b>整段全選刪掉</b></li>
+  <li>貼上下方那段（重點是最後那行 <code>if true</code>）</li>
+  <li>點右上角藍色 <b>「發布」</b>按鈕</li>
+  <li>看到綠色提示「<b>規則已發布</b>」✅</li>
+</ol>
+
+<div class="warn">⚠️ <code>if true</code> 的意思是「<b>任何人都能讀寫</b>」<br>
+適合教學、班級遊戲、學生作業這類用途，<b>絕對不要放</b>：<br>
+· 學生個資（身分證、生日、地址、家長電話）<br>
+· 任何密碼<br>
+· 商業機密資料</div>
+
+<div class="rule-code">
+<div class="rule-head">
+  <span>📋 規則程式碼（整段複製）</span>
+  <button class="copybtn" data-target="rule-code-body">📋 複製</button>
+</div>
+<pre id="rule-code-body">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}</pre>
+</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-13.png" alt="把規則改成「永久允許」 ⭐⭐" loading="lazy"><div class="fb-cap">看到第 16 行 allow read, write: if true 就對了</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 4.1</span><span class="fb-title">回到專案首頁，點「+ 新增應用程式」</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>左上角點 Firebase logo → 回到專案首頁</li>
+  <li>看到 <b>你的專案名稱</b>標題下方有個 <b>「+ 新增應用程式」</b>白色按鈕</li>
+  <li>點下去</li>
+</ol>
+
+<div class="tip">💡 <b>兩種首頁畫面都可以開始</b><br>
+· 第一次來 → 看到一排平台圖示，直接點 <code>&lt;/&gt;</code> 網頁就好<br>
+· 之後再來 → 看到「+ 新增應用程式」按鈕，點下去再選 <code>&lt;/&gt;</code> 網頁<br>
+結果完全一樣！</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-06.png" alt="回到專案首頁，點「+ 新增應用程式」" loading="lazy"><div class="fb-cap">點白色「+ 新增應用程式」按鈕</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 4.2</span><span class="fb-title">選 &lt;/&gt; 網頁平台</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>一排平台圖示中，<b>點橘色框的 <code>&lt;/&gt;</code></b>（網頁）<br>
+    — 不要點 iOS、Android、Unity、Flutter</li>
+  <li>進到「將 Firebase 新增至你的網頁應用程式」</li>
+  <li><b>應用程式暱稱</b>隨便填，例：<code>game</code>、<code>web</code></li>
+  <li><b>不要勾</b>「同時為這個應用程式設定 Firebase Hosting」<br>
+    （勾了會多一堆設定流程，我們之後用 GitHub Pages 部署就好）</li>
+  <li>點藍色 <b>「註冊應用程式」</b></li>
+</ol>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-05.png" alt="選 &lt;/&gt; 網頁平台" loading="lazy"><div class="fb-cap">點橘色框的 &lt;/&gt; 網頁圖示（旁邊小白框寫「網頁」）</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 4.3</span><span class="fb-title">切到「使用 &lt;script&gt; 標記」 ⭐⭐</span></div><div class="fb-body-grid"><div class="fb-text">
+<div class="bad"><b>❌ 預設會停在「使用 npm」這頁 — 不要用這個！</b><br>
+npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML」，<b>不需要 npm</b>。</div>
+
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>畫面上方有個切換按鈕，找到 <b>「使用 &lt;script&gt; 標記」</b>分頁</li>
+  <li>點下去切過去</li>
+  <li>畫面會變成以 HTML <code>&lt;script type="module"&gt;</code> 開頭的程式碼</li>
+  <li>→ 下一步就是複製這段</li>
+</ol>
+
+<div class="tip">💡 沒切過去而直接用了 npm 那段，AI 也看得懂並會幫你改寫，但<b>會多一兩個來回</b>。切對最省事。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-07.png" alt="切到「使用 &lt;script&gt; 標記」 ⭐⭐" loading="lazy"><div class="fb-cap">❌ 預設的「使用 npm」— 不要用這個</div></div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 4.4</span><span class="fb-title">複製整段 &lt;script&gt; ⭐⭐⭐</span></div><div class="fb-body-grid"><div class="fb-text">
+<p><b>✅ 你要看到的畫面長這樣</b></p>
+<ul>
+  <li>上方已切到 <b>「使用 &lt;script&gt; 標記」</b></li>
+  <li>程式碼第一行是 <code>&lt;script type="module"&gt;</code></li>
+  <li>中間有 <code>const firebaseConfig = { apiKey, authDomain, projectId... }</code></li>
+  <li>最後以 <code>&lt;/script&gt;</code> 結尾</li>
+</ul>
+
+<p><b>📋 操作步驟</b></p>
+<ol>
+  <li>點程式碼右上角的<b>複製圖示</b>（兩張紙疊在一起的小 icon）</li>
+  <li><b>整段</b>都要複製：從 <code>&lt;script&gt;</code> 到 <code>&lt;/script&gt;</code> 全部</li>
+  <li>貼到記事本暫存，<b>等一下要整段給 AI</b></li>
+  <li>下方點 <b>「前往主控台」</b>完成</li>
+</ol>
+
+<div class="warn">⚠️ <b>apiKey 不是密碼，可以公開貼</b><br>
+規則裡的 <code>if true</code> 才是真正的鎖。Firebase 的 apiKey 本來就會被瀏覽器看到，<b>不用怕被偷</b>。</div>
+</div><div class="fb-img-wrap"><img src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/firebase-08.png" alt="複製整段 &lt;script&gt; ⭐⭐⭐" loading="lazy"><div class="fb-cap">✅ 正確：使用 &lt;script&gt; 標記，整段複製</div></div></div></div><h3 style="color:var(--gold-2);margin-top:2em">🔑 最後你會拿到的設定碼長這樣</h3>
+<p style="color:var(--muted)">整段複製貼給 AI，並告訴它「<b>請把這個 Firebase 設定接進我的遊戲，把學生分數寫進 Firestore</b>」即可。</p>
+<pre class="final-code">&lt;script type=&quot;module&quot;&gt;
+  import { initializeApp } from &quot;https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js&quot;;
+
+  const firebaseConfig = {
+    apiKey: &quot;AIzaSyXXXXXXXXXXXXXXXXXXXXXX&quot;,
+    authDomain: &quot;trytry-9e732.firebaseapp.com&quot;,
+    projectId: &quot;trytry-9e732&quot;,
+    storageBucket: &quot;trytry-9e732.firebasestorage.app&quot;,
+    messagingSenderId: &quot;1234567890&quot;,
+    appId: &quot;1:1234567890:web:abcdef1234567890&quot;
+  };
+
+  const app = initializeApp(firebaseConfig);
+&lt;/script&gt;</pre>
+<div class="tip" style="margin-top:1.5em">💡 <b>給 AI 的接續提示詞範例：</b><br>「請把這段 Firebase 設定加到我的遊戲 index.html。<br>我希望玩家通關時，把他的名字、分數、嘗試次數寫進 Firestore 一個叫 <code>scores</code> 的 collection。<br>另外做一個 <code>leaderboard.html</code>，從 Firestore 抓前 10 名分數做排行榜。」</div>
+<h2 class="big-section-title" id="taohua">🍑 Part 3 · 桃花源記 · 前篇任務包</h2>
+<section class="gift-pack">
+  <div class="gift-pack-grid">
+    <div class="gift-cover">
+      <div class="gift-cover-stage" id="taohuaStage">
+        <img class="cover-img" src="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/桃花源記/cover.png" alt="桃花源記封面">
+        <div class="play-overlay" id="taohuaPlay">
+          <div class="play-btn-big">▶</div>
+          <div class="play-label">點擊試玩 · 桃花源記前篇</div>
+        </div>
+        <button class="play-fullscreen" id="taohuaFs" title="全螢幕">⛶ 全螢幕</button>
+      </div>
+    </div>
+    <div class="gift-body">
+      <span class="gift-eyebrow">🎁 一鍵下載 · 不用複製貼上</span>
+      <h2 class="gift-title">桃花源記 · 前篇</h2>
+      <p class="gift-subtitle">YOYO 與 AI 共創的完整專案提示詞</p>
+
+      <div class="gift-desc">
+        這份提示詞是 <b>YOYO 與 AI 討論出來的</b> — 給了玩法跟想法，然後請 AI 給我一份「<b>能讓 AI 看懂並且執行完成程式指令的任務 PROMPT</b>」。<br>
+        裡面所有的規格都是 <b>AI 自己判斷生出來</b>的，不用本人給。
+        <span class="quote">「自己生出一份專案提示詞並不難，多練習跟 AI 溝通即可。」</span>
+      </div>
+
+      <div class="gift-section-title">⚠️ 注意事項</div>
+      <div class="gift-note">
+        <ol>
+          <li>此提示詞<b>只能給 Codex (GPT) 使用</b>。<br>Claude 無法畫圖、Gemini 目前的畫圖能力與程式算力不足。</li>
+          <li>做出來的程式會需要<b>測試微調</b>，可以自己跟 AI 溝通慢慢調整。</li>
+          <li>提示詞<b>沒有做手機優化</b>，只適合平板跟電腦。<br>可以做出來後請 AI 幫你做手機優化。<br><span style="display:block;margin-top:.4em;color:var(--gold-2);font-style:italic;text-align:center">「AI 並不會一次做到好，必須有耐心與他微調。」</span></li>
+        </ol>
+      </div>
+
+      <div class="gift-section-title">📥 下載後的使用步驟</div>
+      <div class="gift-steps">
+        <ol>
+          <li>下載 <code>任務.docx</code>，放進你的專案資料夾</li>
+          <li>開啟 <b>Codex（或 Antigravity）</b>，打開上面的專案資料夾</li>
+          <li>請 AI <b>閱讀並執行</b>資料夾裡面的「任務」</li>
+        </ol>
+      </div>
+
+      <a class="download-btn" href="https://cdn.jsdelivr.net/gh/YOYO700702ai/ai-accounting-course@main/教師課程/assets/桃花源記/任務.docx" download="任務.docx">
+        <span class="icon">📥</span>
+        <span>下載「任務.docx」</span>
+      </a>
+      <div class="download-meta">檔案會直接存到你的下載資料夾，原檔名 <code>任務.docx</code></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  💡 課程結束後，這份小禮包可以一直收著。改題庫、改視覺、加新功能，隨時翻出來複製。<br>
+  🎓 一百分遊戲教育 · 教師 AI 程式工作坊
+</footer>
+</div>
+<script>
+(function(){
+  const stage = document.getElementById('taohuaStage');
+  const play = document.getElementById('taohuaPlay');
+  const fs = document.getElementById('taohuaFs');
+  if (!stage || !play) return;
+  play.addEventListener('click', () => {
+    const iframe = document.createElement('iframe');
+    iframe.src = 'assets/桃花源記/index.html';
+    iframe.setAttribute('allow', 'fullscreen; autoplay');
+    iframe.setAttribute('allowfullscreen', 'true');
+    stage.appendChild(iframe);
+    play.remove();
+    const img = stage.querySelector('img.cover-img');
+    if (img) img.remove();
+    stage.classList.add('playing');
+  });
+  fs.addEventListener('click', () => {
+    const iframe = stage.querySelector('iframe');
+    if (!iframe) return;
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+  });
+})();
+
+document.querySelectorAll('.copybtn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const targetId = btn.dataset.target;
+    const el = document.getElementById(targetId);
+    if (!el) return;
+    const text = el.innerText;
+    try { await navigator.clipboard.writeText(text); }
+    catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    const orig = btn.textContent;
+    btn.textContent = '✓ 已複製'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+  });
+});
+</script>
+</body>
+</html>

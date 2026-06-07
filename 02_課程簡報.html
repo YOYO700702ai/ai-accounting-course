@@ -533,9 +533,46 @@
   /* 防止觸控滑動衝突 */
   .slide{touch-action:pan-y}
 
+  /* === 背景音樂控制面板 === */
+  .bgm-panel{position:fixed;top:14px;right:24px;z-index:30;
+    display:flex;align-items:center;gap:8px;
+    background:rgba(22,41,31,.85);
+    border:1px solid var(--accent);border-radius:999px;
+    padding:6px 12px;
+    box-shadow:0 4px 12px rgba(0,0,0,.35);
+    backdrop-filter:blur(8px);
+    font-size:13px;color:var(--cream)}
+  .bgm-btn{background:transparent;border:none;color:var(--cream);
+    cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;
+    transition:transform .15s}
+  .bgm-btn:hover{transform:scale(1.15);color:var(--accent)}
+  .bgm-slider{appearance:none;-webkit-appearance:none;
+    width:70px;height:4px;background:rgba(245,237,214,.3);
+    border-radius:999px;outline:none;cursor:pointer}
+  .bgm-slider::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;
+    width:12px;height:12px;border-radius:50%;background:var(--accent);
+    cursor:pointer;border:2px solid var(--cream)}
+  .bgm-slider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;
+    background:var(--accent);cursor:pointer;border:2px solid var(--cream)}
+  /* 計數器位置往左讓給 BGM panel */
+  .counter{right:auto;left:24px}
+  @media (max-width:900px){
+    .bgm-panel{top:8px;right:10px;padding:4px 8px;gap:5px}
+    .bgm-slider{width:50px}
+    .counter{left:10px;top:8px;font-size:11px}
+  }
 </style>
 </head>
 <body>
+<!-- 背景音樂 + 控制面板 -->
+<audio id="bgm" loop preload="auto">
+  <source src="assets/bgm.mp3" type="audio/mpeg">
+</audio>
+<div class="bgm-panel" id="bgmPanel">
+  <button class="bgm-btn" id="bgmToggle" title="播放/暫停背景音樂">🔇</button>
+  <input type="range" class="bgm-slider" id="bgmVolume" min="0" max="100" value="30" title="調整音量">
+</div>
+
 <div class="deck" id="deck">
 
 <!-- 封面 -->
@@ -1913,42 +1950,9 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
   </div>
 </section>
 
-<!-- 章節 8 · 美術升級：把圖套進大地圖 -->
-<section class="slide">
-  <span class="tag">🖼 章節 8 · 美術升級 · B 段</span>
-  <h2>把背景圖換進大地圖</h2>
-  <p class="muted">圖放好後，把下面整段貼給 Antigravity，讓它把背景圖套進現有的大地圖頁面。</p>
-  <div class="promptbox" id="p-map-art-b">我在「大冒險地圖」資料夾裡放了一張新的背景圖 map-bg.png。
-請幫我把它套用到 index.html：
-
-1. 把 map-bg.png 設為整個頁面的背景圖
-   - background-image + background-size: cover
-   - background-position: center
-   - 讓它撐滿整個視窗
-
-2. 把 3 個關卡按鈕的位置改成「絕對定位」，疊在背景圖對應的地標上：
-   - 關卡 1（朝代）→ 對應背景圖的「地標 1」位置
-   - 關卡 2（成語）→ 對應背景圖的「地標 2」位置
-   - 關卡 3（怪獸）→ 對應背景圖的「地標 3」位置
-   - 通關大門按鈕 → 對應背景圖中央的「地標 4」位置
-
-3. 按鈕樣式要配合背景圖：
-   - 圓形或圓角矩形
-   - 半透明深色底 + 白色文字（避免被背景圖蓋過看不清）
-   - 已完成的關卡按鈕加綠色光暈
-
-4. 按鈕保留原本的 hover 放大、點擊跳轉功能
-5. 其他功能（🔄 清除進度、大門 modal、通關畫面）都保留
-
-完成後請用瀏覽器打開給我看，如果位置沒疊好告訴我哪個地標的座標需要調整（用 top/left 百分比表示）。<button class="copybtn">📋 複製</button></div>
-  <div class="card warn" style="margin-top:.5em">
-    <p>⚠️ 如果按鈕位置沒對準地標 → 告訴 AI「關卡 1 要往左移 5%、往下移 10%」之類的話，AI 會微調。</p>
-  </div>
-</section>
-
 <!-- 章節 8 · 美術升級：遊戲封面 -->
 <section class="slide">
-  <span class="tag">🎬 章節 8 · 美術升級 · C 段</span>
+  <span class="tag">🎬 章節 8 · 美術升級 · B 段</span>
   <h2>幫遊戲畫一張封面（請 AI 畫圖）</h2>
   <p class="muted">挑跟剛剛地圖<b>同一個風格</b>，把下面整段貼給 GPT 內建畫圖或 Midjourney。</p>
   <div class="promptbox" id="p-game-cover">請幫我畫一張遊戲封面圖（橫式 16:9，給網頁當開場畫面用）。
@@ -1977,209 +1981,122 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 - PNG 格式<button class="copybtn">📋 複製</button></div>
   <div class="card good" style="margin-top:.5em">
     <p>畫好後存成 <code>cover.png</code>，放進 <code>示範作品/大冒險地圖/</code>。</p>
-    <p class="muted">下一步：告訴 Antigravity「把這張當大地圖的開場畫面，<b>整張圖點任何地方都會進入地圖</b>」。</p>
   </div>
 </section>
 
+<!-- 章節 8 · 美術升級：D 段把封面+地圖整合 -->
 <section class="slide">
-  <span class="tag">😶 章節 8 · 8-1</span>
-  <h2>「沒想法」是最常見的卡點</h2>
-  <div class="card deep" style="text-align:center;padding:1.8em">
-    <div style="font-size:3em">😶</div>
-    <p style="font-size:1.2em;margin:.3em 0">老師說：「現在打開 Antigravity，做你自己的東西吧」</p>
-    <p class="big" style="margin:.3em 0;font-size:clamp(26px,3vw,40px)">→ 腦袋一片空白</p>
+  <span class="tag">🎮 章節 8 · 美術升級 · C 段</span>
+  <h2>把大地圖跟封面放進遊戲</h2>
+  <p class="muted">圖都畫好放進資料夾後，把下面整段貼給 Antigravity。</p>
+  <div class="promptbox" id="p-cover-integrate">我在「大冒險地圖」資料夾放了 2 張圖：
+- cover.png（遊戲開場封面）
+- map-bg.png（大地圖，圖上已經有 4 個名牌：朝代區、成語區、怪獸區、中央大門）
+
+請幫我把它們整合到 index.html，做成完整的遊戲流程：
+
+═══ 1. 開場封面 ═══
+- 開啟頁面時先顯示 cover.png 全螢幕
+- 點任何地方 → 淡出，進入大地圖
+- 用 sessionStorage 記錄，從關卡頁回來時不再顯示封面
+- 「再次冒險」按鈕清掉所有 storage 時，下次重玩會再顯示封面
+
+═══ 2. 大地圖（保留地圖原本的視覺）═══
+- map-bg.png 完整顯示（保持比例不裁切）
+  → 用 max-width / max-height + object-fit:contain，包在 container 裡置中
+- 地圖已經有 4 個名牌（朝代、成語、怪獸、中央大門），**不要再加新按鈕疊上去**
+- 改用「透明可點區域」疊在每個名牌位置：
+  - 4 個透明 div，position:absolute，疊在名牌大概位置
+  - cursor:pointer，hover 時整個區域微微亮起（淡色光暈）
+  - 點擊 → 跳轉對應遊戲，或中央那個 → 打開大門 modal
+- 已通關的關卡 → 在對應名牌上疊一個綠色 ✓ 印章圖示（不要蓋住名牌字）
+
+═══ 3. 透明熱區位置 ═══
+請你直接打開 map-bg.png 看圖，找出 4 個名牌（朝代、成語、怪獸、中央大門）在圖上的位置，
+用百分比座標（top% / left%）把透明熱區精準疊在每個名牌上。
+如果不確定，先放好你判斷的位置，我會打開頁面回報「朝代要往右移 5%」之類的微調。
+
+═══ 4. 右上角資訊區（唯一一處）═══
+- 「持有 X / 3」
+- 「🔄 清除進度」按鈕
+- 不要在其他地方再顯示持有數
+
+═══ 5. 保留功能 ═══
+- 通關大門 modal（點中央熱區跳出）：3 凹槽 + 背包 + 拖曳
+- 通關畫面（mm 分 ss 秒）
+- 「再次冒險」按鈕（同時清 localStorage + sessionStorage）
+
+═══ 6. 技術 ═══
+- 單一 index.html
+- 拖曳支援桌機 + 平板觸控
+- 中文 UTF-8
+- 不依賴第三方
+
+完成後請打開瀏覽器給我看。<button class="copybtn">📋 複製</button></div>
+  <div class="card good" style="margin-top:.5em">
+    <p>✅ 做完後：開啟 → 看到封面 → 點任何地方 → 進入大地圖 → 闖關</p>
+    <p class="muted">「再次冒險」按鈕也會清掉 sessionStorage，所以重玩會再看到封面。</p>
   </div>
-  <div class="card glow accent" style="margin-top:1em;text-align:center">
-    <p style="font-size:1.15em;margin:.3em 0">別擔心，有一個 <b style="color:var(--accent)">5 步驟法</b> 👇</p>
-    <p class="big" style="margin:.3em 0">從空白到初稿，只要 <span class="hl">10 分鐘</span> ⏱</p>
+  <div class="demolinks" style="margin-top:.6em">
+    <a href="示範作品/大冒險地圖_完成版/index.html" target="_blank">🎁 看老師完成品示範</a>
   </div>
 </section>
 
+<!-- 章節 8 · 美術升級：D 段結局劇情（要提示詞的提示詞）-->
 <section class="slide">
-  <span class="tag">🗺 章節 8 · 8-2 總覽</span>
-  <h2>5 步驟法</h2>
-  <div class="card stripe info">
-    <div class="iconcard">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">1</div>
-      <div class="body">
-        <b style="font-size:1.1em">說你是什麼「角色」</b> 👤
-        <p class="muted small">角色 / 身分 / 專業背景</p>
-      </div>
-    </div>
+  <span class="tag">🎬 章節 8 · 美術升級 · D 段</span>
+  <h2>幫遊戲加結局劇情（用「要提示詞的提示詞」）</h2>
+  <p class="muted">每個人的遊戲風格不同，所以給你<b>萬用版</b>：把下面這段貼給 AI，AI 會根據你的遊戲，幫你生出「劇情 prompt」+「圖片 prompt」。</p>
+  <div class="promptbox" id="p-ending-meta">═══ 我要你幫我做兩件事 ═══
+
+請根據我的上面那個遊戲風格，幫我生出下面兩段「Prompt」給我
+（不是直接做，是給我兩段我可以複製貼上的提示詞）：
+
+────────────────────
+【第一段】結局劇情 Prompt（給 Antigravity 寫進遊戲用）
+────────────────────
+要包含：
+- 結局共幾張過場圖（建議 3~5 張）
+- 每張圖的場景描述
+- 每張圖搭配的旁白或角色台詞（要符合風格，不要俗套）
+- 結局標題（4~8 個字，史詩感）
+- 玩家按一下進到下一張，最後一張按完顯示「冒險完成」
+
+────────────────────
+【第二段】每張結局圖的繪圖 Prompt（給 GPT / Midjourney 畫圖用）
+────────────────────
+針對第一段裡每一張過場圖，各給我一段獨立的繪圖 Prompt，
+讓我可以分別貼到繪圖 AI。每段要包含：
+- 場景視覺描述（光線、構圖、氛圍）
+- 風格指定（跟我遊戲風格一致）
+- 比例：16:9
+- 輸出 PNG
+
+═══ 注意 ═══
+- 你只需要「給我這兩段 Prompt 文字」，不要直接執行
+- 風格要前後一致
+- 結局要有韻味、留白，不要說教<button class="copybtn">📋 複製</button></div>
+  <div class="card good" style="margin-top:.5em">
+    <p><b>📋 流程</b>：</p>
+    <p>1️⃣ 把上面整段貼給 AI（Claude / GPT 都行）</p>
+    <p>2️⃣ AI 會回你 <b>2 段新 prompt</b></p>
+    <p>3️⃣ <b>第二段</b> 每張圖分別貼給 GPT / MJ → 出圖 → 放進資料夾</p>
+    <p>4️⃣ <b>第一段</b> 貼給 Antigravity → 寫進遊戲</p>
   </div>
-  <div class="card stripe info">
-    <div class="iconcard">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">2</div>
-      <div class="body">
-        <b style="font-size:1.1em">說網頁的「目的」+「客群」</b> 🎯
-        <p class="muted small">解決什麼問題 / 給誰用</p>
-      </div>
-    </div>
-  </div>
-  <div class="card stripe info">
-    <div class="iconcard">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">3</div>
-      <div class="body">
-        <b style="font-size:1.1em">寫下希望網頁包含的「內容」</b> 📝
-        <p class="muted small">核心元素 + 留發揮空間</p>
-      </div>
-    </div>
-  </div>
-  <div class="card stripe info">
-    <div class="iconcard">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">4</div>
-      <div class="body">
-        <b style="font-size:1.1em">給 AI 各種「資料」</b> 📚 <span class="pill">可後補</span>
-        <p class="muted small">服務清單 / 收費表 / 案例</p>
-      </div>
-    </div>
-  </div>
-  <div class="card stripe accent glow" data-ribbon="最關鍵">
-    <div class="iconcard">
-      <div class="numbadge">5</div>
-      <div class="body">
-        <b style="font-size:1.15em">截圖你喜歡的「網頁風格」</b> 📷 ⭐
-        <p class="muted small">給 AI 看圖，比講話強 10 倍</p>
-      </div>
-    </div>
+  <div class="demolinks" style="margin-top:.6em">
+    <a href="示範作品/大冒險地圖_完成版/index.html?ending=1" target="_blank">🎬 看老師結局成品示範</a>
   </div>
 </section>
 
+<!-- 章節 8 · 結局影片實作時間 -->
 <section class="slide">
-  <span class="tag">👤 章節 8 · 8-3 · Step 1</span>
-  <h2>說你是什麼角色</h2>
-  <table>
-    <tr><th>寫法</th><th>AI 以為的你</th></tr>
-    <tr><td>「我要做網頁」</td><td>學生？工程師？老闆？😵</td></tr>
-    <tr><td>「我是會計師」</td><td>會用會計專業語言 ✓</td></tr>
-    <tr><td>「我是執業 8 年的稅務顧問，主要服務中小企業」</td><td>知道深度、規模、客戶層 ✓✓✓</td></tr>
-  </table>
-  <p class="big" style="margin:.4em 0;font-size:clamp(22px,2.4vw,32px)">越具體越好 🎯</p>
-</section>
-
-<section class="slide">
-  <span class="tag">🎯 章節 8 · 8-4 · Step 2</span>
-  <h2>說網頁的目的 + 客群</h2>
-  <div class="grid2">
-    <div class="card">
-      <h3>🎯 目的</h3>
-      <p class="muted">決定功能優先順序</p>
-      <p>· 讓客戶搞懂折舊</p>
-      <p>· 客戶申報前對帳</p>
-      <p>· 自我介紹頁</p>
-    </div>
-    <div class="card">
-      <h3>👥 客群</h3>
-      <p class="muted">決定介面複雜度、字級、互動</p>
-      <p>· 年齡層</p>
-      <p>· 職業背景</p>
-      <p>· 手機 or 電腦</p>
-    </div>
-  </div>
-  <div class="card accent">
-    <p><b>範例</b>：目的是讓我的客戶（<b>50 歲以上小吃店老闆、不會用電腦、用手機操作</b>）搞懂他每月要繳多少營業稅。</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">📝 章節 8 · 8-5 · Step 3</span>
-  <h2>寫下希望網頁包含的內容</h2>
-  <table>
-    <tr><th>寫多少</th><th>結果</th></tr>
-    <tr><td><b>不寫</b></td><td>AI <b>自己猜</b>，可能歪</td></tr>
-    <tr><td><b>寫了</b></td><td>AI <b>精準產出</b> ✓</td></tr>
-    <tr><td><b>寫太多</b></td><td>AI <b>沒空間發揮</b></td></tr>
-  </table>
-  <div class="card good">
-    <p><b>✅ 剛剛好（核心 + 留空間）</b></p>
-    <p>「希望包含：輸入銷售額/進項額、即時顯示應納稅額、視覺要簡單。<b>其他你覺得對的元素都可以加</b>」</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">📚 章節 8 · 8-6 · Step 4</span>
-  <h2>給 AI 各種資料（可後補）</h2>
-  <div class="grid2">
-    <div class="card">
-      <h3>📦 你可以給的</h3>
-      <p>· 服務項目清單</p>
-      <p>· 收費表 / 報價單</p>
-      <p>· 案例 / 客戶見證</p>
-      <p>· 法規條文 / 公式</p>
-      <p>· 寫過的文案</p>
-    </div>
-    <div class="card good">
-      <h3>✨ 給了之後</h3>
-      <p>AI 用<b>你的真實資料</b></p>
-      <p>你只要校對</p>
-      <p class="muted">資料給 AI，文案它寫；你的工作是校對。</p>
-    </div>
-  </div>
-  <div class="card accent">
-    <p><b>一開始不放沒關係</b>：先做空殼，看 AI 怎麼設計，再補資料進去。</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">📷 章節 8 · 8-7 · Step 5 ⭐</span>
-  <h2>截圖你喜歡的網頁風格</h2>
-  <table>
-    <tr><th>你說</th><th>AI 理解</th></tr>
-    <tr><td>「現代簡約風」</td><td>太抽象</td></tr>
-    <tr><td>「溫暖一點」</td><td>多溫暖？</td></tr>
-    <tr><td><b>截一張圖給 AI 看</b></td><td><b>直接複製版面、配色、字體</b> ✓</td></tr>
-  </table>
-  <div class="grid2" style="margin-top:.4em">
-    <div class="card">
-      <h3>📷 怎麼找</h3>
-      <p class="muted">看到好看就截圖 / IG / Pinterest / Dribbble</p>
-    </div>
-    <div class="card">
-      <h3>📤 怎麼給</h3>
-      <p class="muted">拖進 AI panel + 加一句「請參考這張圖的視覺風格」</p>
-    </div>
-  </div>
-  <p class="center"><b>先模仿，再變成自己的 🪞</b></p>
-</section>
-
-<section class="slide">
-  <span class="tag">📋 章節 8 · 8-8 · 組合範例</span>
-  <h2>把 5 步驟組起來</h2>
-  <div class="promptbox" id="p-fivestep">【Step 1 角色】
-我是執業 8 年的會計師，主要服務台中地區的中小企業。
-
-【Step 2 目的 + 客群】
-我想做一個網頁，用來自我介紹 + 帶到我的服務項目。
-給未來想找會計師的中小企業老闆看（35~55 歲、用手機看居多、
-時間有限、不耐長文）。
-
-【Step 3 希望包含的內容】
-- 我的專業背景（一段話帶過就好）
-- 3 項主要服務（記帳、報稅、公司設立諮詢）
-- 客戶見證（2~3 句即可）
-- 預約諮詢按鈕（連到 LINE）
-- 其他你覺得會讓老闆願意聯絡的元素都可以加
-
-【Step 4 資料】
-（這次先不給，你先做出空殼，我看完再補上）
-
-【Step 5 風格】
-（附上一張我喜歡的網頁截圖）
-請參考這張圖的視覺風格——簡約現代、有溫度。
-
-在桌面建「我的會計師名片頁」資料夾，做一個 index.html，
-完成後請開本地瀏覽器給我檢查。<button class="copybtn">📋 複製</button></div>
-</section>
-
-<section class="slide">
-  <span class="tag">🛠 章節 8 · 8-9 · 實作環節</span>
+  <span class="tag">🛠 章節 8 · 結局影片實作</span>
   <div style="flex:1;display:grid;grid-template-columns:1.1fr .9fr;align-items:center;gap:min(5vw,64px);min-height:0">
     <div>
-      <p class="muted" style="margin:0 0 .25em;font-size:clamp(18px,1.8vw,26px);letter-spacing:.18em;font-weight:900">練習時間，也是休息時間</p>
+      <p class="muted" style="margin:0 0 .25em;font-size:clamp(18px,1.8vw,26px);letter-spacing:.18em;font-weight:900">結局影片實作時間</p>
       <h1 style="margin:0;font-size:clamp(76px,10vw,146px);line-height:.95;color:#fff7df;text-shadow:0 12px 30px rgba(0,0,0,.42)">實作時間</h1>
       <p style="margin-top:.9em;font-size:clamp(22px,2.2vw,34px);line-height:1.45;color:#f8e9bd;font-weight:800">
-        現在換你做。<br>
-        先休息一下，也把作品做出來。
+        <b style="color:var(--accent2)">10 分鐘</b>幫你的遊戲做出結局過場動畫。
       </p>
     </div>
     <div style="display:grid;place-items:center">
@@ -2188,328 +2105,39 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
         <div style="position:absolute;left:50%;top:50%;width:32%;height:10px;border-radius:999px;background:#2f4f3b;transform-origin:left center;transform:rotate(-90deg)"></div>
         <div style="position:absolute;left:50%;top:50%;width:25%;height:10px;border-radius:999px;background:#2f4f3b;transform-origin:left center;transform:rotate(24deg)"></div>
         <div style="position:absolute;left:50%;top:50%;width:20px;height:20px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(0,0,0,.25)"></div>
-        
       </div>
     </div>
   </div>
-  <div class="grid3" style="gap:1em;margin-top:.5em">
-    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
-      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">1. 📷 截圖</h3>
-      <p class="muted" style="margin:0">找一個你喜歡的網頁風格</p>
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:.7em;margin-top:.5em">
+    <div class="card accent" style="margin:0;padding:.7em .85em;border-radius:10px">
+      <h3 style="margin:0 0 .2em;font-size:clamp(15px,1.4vw,20px)">1. 💬 跟 AI 要 prompt</h3>
+      <p class="muted" style="margin:0;font-size:.9em">把上一頁那段貼給 Claude/GPT → AI 回 2 段</p>
     </div>
-    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
-      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">2. ✍️ 下指令</h3>
-      <p class="muted" style="margin:0">照 5 步驟貼給 AI</p>
+    <div class="card accent" style="margin:0;padding:.7em .85em;border-radius:10px">
+      <h3 style="margin:0 0 .2em;font-size:clamp(15px,1.4vw,20px)">2. 🎨 拿繪圖 prompt 出圖</h3>
+      <p class="muted" style="margin:0;font-size:.9em">把每段貼到 GPT 網頁版或 Gemini → 一張張下載</p>
     </div>
-    <div class="card accent" style="margin:0;padding:.9em 1.05em;border-radius:10px">
-      <h3 style="margin:0 0 .25em;font-size:clamp(17px,1.6vw,23px)">3. 🚀 做初稿</h3>
-      <p class="muted" style="margin:0">跑完後開出來分享</p>
+    <div class="card accent" style="margin:0;padding:.7em .85em;border-radius:10px">
+      <h3 style="margin:0 0 .2em;font-size:clamp(15px,1.4vw,20px)">3. 📁 圖+劇情 prompt 整合</h3>
+      <p class="muted" style="margin:0;font-size:.9em">圖存進資料夾 + 第一段 prompt 給 Antigravity</p>
+    </div>
+    <div class="card accent" style="margin:0;padding:.7em .85em;border-radius:10px">
+      <h3 style="margin:0 0 .2em;font-size:clamp(15px,1.4vw,20px)">4. 🎬 開檔看成果</h3>
+      <p class="muted" style="margin:0;font-size:.9em">叫 AI 直接開本地瀏覽器播給你看</p>
     </div>
   </div>
 </section>
 
-<!-- 章節 8 美編 -->
+<!-- 章節 9 -->
 <section class="slide chapter-cover">
-  <p class="chno">章節 8 · 進階</p>
-  <h1 style="color:var(--accent2)">美工美編 🎨</h1>
-  <p>網頁有了<br>圖怎麼放進去？</p>
+  <p class="chno">CHAPTER 9</p>
+  <h1>把網頁推上<br>GitHub 🚀</h1>
+  <p style="margin-top:1em">免費 + LINE 點開就能看<br>修改即時更新</p>
 </section>
 
+<!-- 章節 8 GitHub --(已歸入第九章)-->
 <section class="slide">
-  <span class="tag">🖼 章節 8 · 美編 · 圖怎麼進網頁</span>
-  <h2>本課不主教做圖，但要會放進去</h2>
-  <div class="card warn">
-    <p>⚠️ 作圖一般用 AI 繪圖工具。目前美感最強：<b>GPT 繪圖（gpt-image 系列）</b>。</p>
-    <p class="muted">AI 變化快，重點學「流程」。</p>
-  </div>
-  <h3>標準流程</h3>
-  <div class="grid2">
-    <div class="card"><b>1️⃣ 畫好圖</b><p class="muted">用 GPT 或其他 AI 工具</p></div>
-    <div class="card"><b>2️⃣ 放進專案資料夾</b><p class="muted">例：images/</p></div>
-    <div class="card"><b>3️⃣ 取英文檔名</b><p class="muted">logo.png · hero-banner.jpg</p></div>
-    <div class="card good"><b>4️⃣ 告訴 AI「放進網站」</b><p class="muted">AI 自動放 + 打包推 GitHub</p></div>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🎁 章節 8 · 美編 · 多巴胺記憶</span>
-  <h2>一點點驚喜 — 多巴胺記憶</h2>
-  <div class="card accent">
-    <p><b>科學原理</b>：大腦對「預期之外的好事」會<b>分泌多巴胺</b>。</p>
-    <p>多巴胺 = 「想再做一次」+「會記住這次經驗」</p>
-  </div>
-  <div class="grid3" style="margin-top:.6em">
-    <div class="card"><b>🎁 小轉蛋</b><p class="muted">完成跳折扣 / 知識卡</p></div>
-    <div class="card"><b>💕 個人化稱讚</b><p class="muted">「[名字]，你答對了！」</p></div>
-    <div class="card"><b>🏅 成就標籤</b><p class="muted">「準時申報達人」「節稅小高手」</p></div>
-  </div>
-  <div class="card bad" style="margin-top:.4em">
-    <p>⚠️ <b>一個頁面 = 一個主要驚喜</b>。少少給才珍貴。</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🎰 章節 8 · 美編 · 轉蛋小撇步</span>
-  <h2>客戶完成任務 → 給他抽轉蛋 🎰</h2>
-  <p class="center muted">就像 ATM 結束後跳出來的轉蛋——客戶只玩了 1 分鐘，也會<b style="color:var(--accent)">印象深刻</b> ✨</p>
-  <div class="grid3" style="margin-top:.6em">
-    <div class="card stripe pink">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--pink),#ec4899)">1</div>
-        <div class="body">
-          <b>禮物不用貴重</b>
-          <p class="muted small">小禮物只是「<b>驚喜</b>」<br>重點是意料之外</p>
-        </div>
-      </div>
-    </div>
-    <div class="card stripe purple">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--purple),#8b5cf6)">2</div>
-        <div class="body">
-          <b>等級 = 稀有，不是貴</b>
-          <p class="muted small">傳說禮物可以只是<br>「親手寫的祝福卡」</p>
-        </div>
-      </div>
-    </div>
-    <div class="card stripe accent glow">
-      <div class="iconcard">
-        <div class="numbadge">3</div>
-        <div class="body">
-          <b>感覺勝過實物</b>
-          <p class="muted small">大多數人要的是<br><span class="hl">「抽到稀有」</span>的感覺</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="card accent glow" style="text-align:center;margin-top:.6em">
-    <p style="margin:.2em 0">點下方按鈕，體驗一個「客戶任務完成」的轉蛋示範 👇</p>
-    <div class="demolinks" style="justify-content:center;margin-top:.4em">
-      <a href="示範作品/轉蛋機/index.html" target="_blank">🎰 開啟轉蛋機示範</a>
-    </div>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🎨 章節 8 · 美編 · 4 步驟法</span>
-  <h2>想做美術升級版？4 步驟法 🎨</h2>
-  <p class="muted center">基礎版用 emoji 已經能玩，但想做<b>能商業使用、客戶會 wow</b>的——照這 4 步走。</p>
-  <div class="grid4" style="margin-top:.7em">
-    <div class="card stripe info">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">1</div>
-      <b>請 AI 給提示詞</b>
-      <p class="muted small">不用自己想 prompt</p>
-    </div>
-    <div class="card stripe info">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">2</div>
-      <b>複製去 AI 生圖</b>
-      <p class="muted small">用 GPT / Midjourney</p>
-    </div>
-    <div class="card stripe info">
-      <div class="numbadge" style="background:linear-gradient(135deg,var(--info),#3b82f6)">3</div>
-      <b>圖丟回資料夾</b>
-      <p class="muted small">告訴 AI 用這些素材</p>
-    </div>
-    <div class="card stripe accent glow">
-      <div class="numbadge">4</div>
-      <b>完成版上線</b>
-      <p class="muted small">AI 自動換掉</p>
-    </div>
-  </div>
-  <p class="center muted">接下來 4 頁，一步一步看怎麼做 👉</p>
-</section>
-
-<section class="slide">
-  <span class="tag">📝 章節 8 · 美編 · Step 1</span>
-  <h2>Step 1：請 AI 給轉蛋機圖的提示詞</h2>
-  <p class="muted center">告訴 AI 你要什麼，讓它幫你寫專業的圖像 prompt。</p>
-  <div class="promptbox" id="p-gacha-step1">我要做一個給會計師客戶用的「任務完成轉蛋機」網頁。
-請幫我寫 GPT / Midjourney / DALL-E 可以用的圖像生成 prompt，
-我需要以下 8 張圖：
-
-1. 一台「復古橘色轉蛋機」主視覺
-   - 透明圓頂裝滿彩色扭蛋
-   - 木質暖橘色機台 + 金屬把手 + 投幣孔
-   - 正面視角、去背 PNG、扁平向量插畫、暖色調
-
-2. 6 顆彩色扭蛋膠囊橫排（紅橘黃綠藍紫）
-   - 透明上半 + 彩色下半，金屬光澤
-   - 去背 PNG、6:1 橫向
-
-3-7. 5 個稀有度的禮物盒（同款不同顏色）
-   - N（普通）：白色 + 米色蝴蝶結
-   - R（不錯）：綠色 + 金色蝴蝶結
-   - SR（稀有）：藍色 + 金色蝴蝶結 + 寶石
-   - SSR（史詩）：紫色 + 金色蝴蝶結 + 閃爍星星
-   - UR（傳說）：金色 + 桂冠 + 王冠 + 大量金光
-   - 每個盒身上有對應的稀有度英文字
-   - 去背 PNG、Q 版可愛風
-
-8. 慶祝特效素材
-   - 金色彩帶 + 星星 + 爆炸光芒
-   - 透明背景 PNG、用於史詩 / 傳說中獎時
-
-風格：扁平向量、暖色調、Q 版可愛、商業級品質
-比例：每張獨立 PNG，背景透明<button class="copybtn">📋 複製</button></div>
-</section>
-
-<section class="slide">
-  <span class="tag">📤 章節 8 · 美編 · Step 2</span>
-  <h2>Step 2：複製提示詞去 AI 生圖工具</h2>
-  <div class="grid3" style="margin-top:.6em">
-    <div class="card accent">
-      <h3>🎨 GPT (推薦)</h3>
-      <p>· 中文理解最好</p>
-      <p>· 一次能畫多張</p>
-      <p>· 風格穩定</p>
-      <p class="muted small">適合會計師</p>
-    </div>
-    <div class="card info">
-      <h3>🌈 Midjourney</h3>
-      <p>· 美感最強</p>
-      <p>· 風格獨特</p>
-      <p>· 需要 Discord</p>
-      <p class="muted small">適合追求美感</p>
-    </div>
-    <div class="card teal">
-      <h3>🌟 Gemini / 其他</h3>
-      <p>· Google 帳號就能用</p>
-      <p>· 免費</p>
-      <p>· 速度快</p>
-      <p class="muted small">適合入門</p>
-    </div>
-  </div>
-  <div class="card good glow" style="margin-top:.6em">
-    <p><b>💡 操作小撇步</b></p>
-    <p>· <b>一次貼一段</b>（不要 8 張一起要，AI 會懶得每張都認真畫）</p>
-    <p>· <b>不滿意就重畫</b>（同一個 prompt 多畫幾次選最好的）</p>
-    <p>· <b>記得寫「去背 PNG / 透明背景」</b>（不然會有白底很難用）</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">📁 章節 8 · 美編 · Step 3</span>
-  <h2>Step 3：把圖丟回資料夾給 AI</h2>
-  <p class="muted center">畫好的 8 張圖長這樣 👇 把它們放進專案資料夾，然後告訴 AI「用這些素材」</p>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:.6em;margin:.5em 0;background:rgba(247,241,222,.95);padding:1em;border-radius:14px;border:1px solid var(--card-border)">
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/machine.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>機台</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/capsules.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>6 色膠囊</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/sparkle.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>慶祝特效</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/prize-n.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>N 普通</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/prize-r.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>R 不錯</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/prize-sr.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SR 稀有</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/prize-ssr.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SSR 史詩</b></p></div>
-    <div style="text-align:center"><img src="示範作品/轉蛋機_完成版/images/prize-ur.png" style="width:100%;max-height:90px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>UR 傳說</b></p></div>
-  </div>
-  <div class="promptbox" id="p-gacha-step3">我把畫好的 8 張圖放在 images/ 資料夾，請幫我升級剛剛的轉蛋機網頁：
-
-- machine.png → 機台主視覺
-- capsules.png → 6 顆扭蛋（橫排 sprite，可切割使用）
-- prize-n.png ~ prize-ur.png → 5 種稀有度的禮物盒
-- sparkle.png → SSR / UR 中獎時的慶祝特效
-
-請把這些圖替換掉原本的 emoji + CSS，動畫和遊戲邏輯都保留。
-完成後打開瀏覽器給我看。<button class="copybtn">📋 複製</button></div>
-</section>
-
-<section class="slide">
-  <span class="tag">✨ 章節 8 · 美編 · Step 4</span>
-  <h2>Step 4：完成版 — 兩個案例對比</h2>
-  <p class="muted center">同一份程式，加了素材後質感完全不一樣 ✨</p>
-
-  <h3 style="margin-top:.6em">🎰 案例一：轉蛋機</h3>
-  <div class="grid2">
-    <div class="card">
-      <h3 style="margin:.2em 0">📦 基礎版（emoji + CSS）</h3>
-      <p class="muted small">· 純 CSS 動畫 · emoji 當禮物 · 適合：快速 demo</p>
-      <div class="demolinks" style="margin-top:.4em">
-        <a href="示範作品/轉蛋機/index.html" target="_blank">🎰 基礎版</a>
-      </div>
-    </div>
-    <div class="card accent glow">
-      <h3 style="margin:.2em 0">🎨 完成版（AI 生圖）</h3>
-      <p class="muted small">· 真實插畫機台 · 精美禮物盒 · 適合：客戶交付</p>
-      <div class="demolinks" style="margin-top:.4em">
-        <a href="示範作品/轉蛋機_完成版/index.html" target="_blank">✨ 完成版</a>
-      </div>
-    </div>
-  </div>
-
-  <h3 style="margin-top:.5em">🏢 案例二：公司 vs 行號</h3>
-  <div class="grid2">
-    <div class="card">
-      <h3 style="margin:.2em 0">📦 基礎版</h3>
-      <p class="muted small">· 純文字卡片 · 拖拉配對 · 適合：教學原型</p>
-      <div class="demolinks" style="margin-top:.4em">
-        <a href="示範作品/公司vs行號/index.html" target="_blank">🏢 基礎版</a>
-      </div>
-    </div>
-    <div class="card accent glow">
-      <h3 style="margin:.2em 0">🎨 設計版（AI 生圖）</h3>
-      <p class="muted small">· 插畫角色 · 互動感升級 · 適合：客戶交付</p>
-      <div class="demolinks" style="margin-top:.4em">
-        <a href="示範作品/公司vs行號_設計版/index.html" target="_blank">✨ 設計版</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="card good" style="margin-top:.5em">
-    <p class="center"><b>📌 流程總結</b>：請 AI 給 prompt → 去 GPT 生圖 → 圖放資料夾 → 告訴 AI 用這些素材 → <b>完成 ✨</b></p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🧠 章節 8 · 美編 · 換大腦</span>
-  <h2>Antigravity 可以換大腦</h2>
-  <div class="card accent">
-    <p>📌 回想章節 1：Antigravity 只是<b>手腳</b>，<b>大腦</b>可以自己選。</p>
-  </div>
-  <h3>訂閱 GPT 的人，建議：</h3>
-  <div class="grid2">
-    <div class="card"><b>1.</b> 左邊找「Extensions」</div>
-    <div class="card"><b>2.</b> 搜尋 <b>Codex</b></div>
-    <div class="card"><b>3.</b> 安裝 + 登入 GPT 帳號</div>
-    <div class="card good"><b>4.</b> 用 GPT 大腦 ✨</div>
-  </div>
-  <div class="card good">
-    <p><b>✅ GPT 大腦的優勢</b></p>
-    <p>· 內建繪圖（不用切換工具）· 畫完自動存檔 · 設計能力 + 美感比 Claude 強</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🤝 章節 8 · 美編 · 三大模型</span>
-  <h2>三大模型 — 各有專長</h2>
-  <div class="grid3">
-    <div class="card">
-      <div class="big" style="font-size:2em;margin:.1em 0">🧑‍💻</div>
-      <h3 class="center">Claude</h3>
-      <p class="center"><b>嚴謹工程師</b></p>
-      <p class="muted center">最會寫程式<br>理解能力最佳</p>
-    </div>
-    <div class="card accent">
-      <div class="big" style="font-size:2em;margin:.1em 0">🎨</div>
-      <h3 class="center">GPT</h3>
-      <p class="center"><b>美術藝術家</b></p>
-      <p class="muted center">圖畫最好<br>美感最佳</p>
-    </div>
-    <div class="card">
-      <div class="big" style="font-size:2em;margin:.1em 0">🔗</div>
-      <h3 class="center">Gemini</h3>
-      <p class="center"><b>整合系統</b></p>
-      <p class="muted center">Google 整合最方便<br>最便宜</p>
-    </div>
-  </div>
-  <table>
-    <tr><th>能力</th><th>排序</th></tr>
-    <tr><td><b>美術 / 設計</b></td><td>GPT &nbsp;>>>&nbsp; Gemini &nbsp;>&nbsp; Claude</td></tr>
-    <tr><td><b>程式 / 邏輯</b></td><td>Claude &nbsp;>&nbsp; GPT &nbsp;>>>&nbsp; Gemini</td></tr>
-    <tr><td><b>串聯生態系</b></td><td>Gemini &nbsp;>&nbsp; Claude &nbsp;=&nbsp; GPT</td></tr>
-  </table>
-</section>
-
-<!-- 章節 8 GitHub -->
-<section class="slide">
-  <span class="tag">🚀 章節 8 · 8-10</span>
+  <span class="tag">🚀 章節 9 · 9-1</span>
   <h2>把網頁推上 GitHub</h2>
   <div class="grid3">
     <div class="card good"><div class="big" style="font-size:2em;margin:.1em 0">📲</div><p class="center"><b>LINE 點一下就能看</b></p></div>
@@ -2523,12 +2151,12 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🛠 章節 8 · 8-11 · 實作時間</span>
+  <span class="tag">🛠 章節 9 · 9-2 · 實作時間</span>
   <div style="display:flex;align-items:center;gap:1.5em;margin-bottom:.5em">
     <div style="flex:1">
       <p class="muted" style="margin:0;font-size:clamp(14px,1.3vw,18px);letter-spacing:.18em;font-weight:900">實作時間</p>
       <h1 style="margin:0;font-size:clamp(40px,5.5vw,76px);line-height:1;color:#fff7df;text-shadow:0 8px 22px rgba(0,0,0,.42)">將網頁推上 GitHub</h1>
-      <p style="margin-top:.4em;font-size:clamp(18px,1.8vw,26px);line-height:1.4;color:#f8e9bd;font-weight:800">把你做好的網頁變成<b style="color:var(--accent2)">客戶能打開的網址</b>。</p>
+      <p style="margin-top:.4em;font-size:clamp(18px,1.8vw,26px);line-height:1.4;color:#f8e9bd;font-weight:800">把你做好的網頁變成<b style="color:var(--accent2)">學生、家長、同事能打開的網址</b>。</p>
     </div>
     <div aria-label="clock" style="width:min(18vw,160px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;background:linear-gradient(180deg,#f8efd7,#ead7a9);box-shadow:0 14px 30px rgba(0,0,0,.3),inset 0 0 0 8px rgba(212,160,74,.62);flex-shrink:0">
       <div style="position:absolute;left:50%;top:50%;width:30%;height:5px;border-radius:999px;background:#2f4f3b;transform-origin:left center;transform:rotate(-90deg)"></div>
@@ -2544,14 +2172,14 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
         ① 建立公開倉庫<br>
         ② 把資料夾推上去<br>
         ③ 開啟 GitHub Pages<br>
-        ④ 拿到網址 → 分享給客戶
+        ④ 拿到網址 → 分享給學生或家長群組
       </p>
     </div>
     <div class="card good">
       <p style="margin:0"><b>📝 提醒</b></p>
-      <p>· 倉庫名用<b>英文小寫</b>+連字號<br>　 例：<code>tax-calc</code></p>
+      <p>· 倉庫名用<b>英文小寫</b>+連字號<br>　 例：<code>english-quiz</code></p>
       <p>· 推上後等 <b>1~2 分鐘</b>佈署完成</p>
-      <p>· <b>不要</b>放客戶資料、密碼、API key</p>
+      <p>· <b>不要</b>放學生個資、家長資料、密碼、API key</p>
     </div>
   </div>
 
@@ -2562,14 +2190,14 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 1. 在 GitHub 建立一個新的【公開】倉庫，名稱叫：[請改成你想要的名字]
 2. 把目前這個資料夾的所有檔案推上去
 3. 開啟 GitHub Pages（用 main 分支根目錄）
-4. 把網站的公開連結給我，我要分享給客戶看
+4. 把網站的公開連結給我，我要分享給學生或家長
 
 如果中間有任何選擇要做，請依照「最簡單、最常用」的方式處理。
 做完直接給我連結就好。<button class="copybtn">📋 複製</button></div>
 </section>
 
 <section class="slide">
-  <span class="tag warn">⚠️ 章節 8 · 8-12</span>
+  <span class="tag warn">⚠️ 章節 9 · 9-3</span>
   <h2>GitHub Pages 的限制</h2>
   <table>
     <tr><th>限制</th><th>怎麼辦</th></tr>
@@ -2591,7 +2219,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🌐 章節 8 · 8-13 · 上架平台</span>
+  <span class="tag">🌐 章節 9 · 9-4 · 上架平台</span>
   <h2>除了 GitHub Pages，還有什麼？</h2>
   <table>
     <tr><th>平台</th><th>後端</th><th>特色</th></tr>
@@ -2606,160 +2234,471 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
   </div>
 </section>
 
-<section class="slide">
-  <span class="tag">💾 章節 8 · 8-14 · 資料庫</span>
-  <h2>什麼時候需要資料庫？</h2>
-  <div class="card accent">
-    <p><b>用 Excel 比喻</b>：</p>
-    <p>· Excel = 一個檔案，開啟、編輯、關閉</p>
-    <p>· 資料庫 = <b>「永遠開著」的 Excel</b>，多人同時看同時改</p>
-  </div>
-  <table>
-    <tr><th>你想做的事</th><th>要資料庫？</th></tr>
-    <tr><td>純試算工具</td><td>❌</td></tr>
-    <tr><td>純展示頁</td><td>❌</td></tr>
-    <tr><td><b>客戶填表單，你之後要回看</b></td><td>✅</td></tr>
-    <tr><td><b>客戶登入查自己的資料</b></td><td>✅</td></tr>
-  </table>
-</section>
+<!-- 章節 9 · Firebase 教學（超詳細版・配截圖）-->
 
+<!-- 9-5 為什麼用 Firebase -->
 <section class="slide">
-  <span class="tag">📊 章節 8 · 8-15</span>
-  <h2>新手該用哪個資料庫？</h2>
-  <table>
-    <tr><th>工具</th><th>像什麼</th><th>難度</th></tr>
-    <tr><td><b>Google Sheets</b></td><td>試算表當資料庫</td><td>🟢 最低</td></tr>
-    <tr><td><b>Airtable</b></td><td>升級版試算表</td><td>🟡 中</td></tr>
-    <tr><td><b>Supabase</b></td><td>真資料庫 + 認證</td><td>🟠 中高</td></tr>
-    <tr><td><b>Firebase Firestore</b></td><td>Google 全套後端</td><td>🟠 中高</td></tr>
-  </table>
-  <div class="card accent">
-    <p><b>學習順序</b>：Google Sheets → Airtable → Supabase</p>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">🎯 章節 8 · 8-16 · 決策表</span>
-  <h2>看一眼就知道怎麼選</h2>
-  <table>
-    <tr><th>想做的事</th><th>平台</th><th>資料庫</th></tr>
-    <tr><td>純展示</td><td>GitHub Pages</td><td>不用</td></tr>
-    <tr><td>給客戶玩的試算</td><td>GitHub Pages</td><td>不用</td></tr>
-    <tr><td><b>客戶填表單，我收到</b></td><td>Vercel</td><td>Google Sheets</td></tr>
-    <tr><td><b>客戶填表單，客戶回查</b></td><td>Vercel</td><td>Airtable</td></tr>
-    <tr><td><b>客戶登入查財報</b></td><td>Vercel</td><td>Supabase</td></tr>
-  </table>
-</section>
-
-<!-- 章節 8 資料安全 -->
-<section class="slide chapter-cover">
-  <p class="chno">章節 8 · 必看</p>
-  <h1 style="color:var(--bad)">⚠️ 資料安全</h1>
-  <p>會計師用 AI 做客戶資料 App 前<br>先看這節</p>
-</section>
-
-<section class="slide">
-  <span class="tag warn">⚠️ 章節 8 · 8-17 · 警告</span>
-  <div style="display:flex;align-items:center;gap:1em">
-    <img src="assets/course-art/icons/shield.png" style="width:72px;height:72px;border-radius:12px">
-    <h2 style="margin:0">為什麼會計師特別危險？</h2>
-  </div>
-  <div class="card bad glow">
-    <p style="font-size:1.1em"><b>🔐 你處理的是「高敏感資料」</b></p>
-    <div class="grid4" style="margin-top:.4em">
-      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">🆔<br><b class="small">身分證</b></div>
-      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">💳<br><b class="small">銀行帳號</b></div>
-      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">📊<br><b class="small">財報</b></div>
-      <div style="text-align:center;padding:.5em;background:rgba(239,68,68,.08);border-radius:8px">📝<br><b class="small">稅務 / 健保</b></div>
+  <span class="tag">🔥 章節 9 · 9-5 · Firebase 介紹</span>
+  <h2>為什麼要用 Firebase？</h2>
+  <p class="muted">遊戲做好上線了，但所有資料都存在「玩家自己的瀏覽器」裡 — 換一台裝置就重來。Firebase 把資料存雲端，讓多裝置同步、全班共用。</p>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card bad">
+      <p><b>❌ 沒有 Firebase</b></p>
+      <ul style="margin:.3em 0;padding-left:1.4em;line-height:1.8">
+        <li>學生在家玩 → 在學校重來</li>
+        <li>看不到其他人的分數</li>
+        <li>老師看不到誰寫了幾題</li>
+        <li>遊戲只能一個人玩</li>
+      </ul>
+    </div>
+    <div class="card good">
+      <p><b>✅ 有 Firebase</b></p>
+      <ul style="margin:.3em 0;padding-left:1.4em;line-height:1.8">
+        <li>跨裝置同步進度</li>
+        <li>全班共用排行榜</li>
+        <li>老師遠端看誰寫到哪</li>
+        <li>多人同時對戰、合作</li>
+      </ul>
     </div>
   </div>
-  <div class="card bad" style="text-align:center;background:linear-gradient(135deg,rgba(239,68,68,.2),rgba(239,68,68,.05))">
-    <p class="big" style="color:var(--bad);margin:.2em 0;font-size:clamp(22px,2.7vw,36px);-webkit-text-fill-color:var(--bad);background:none;filter:none">出事 = <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">法律</span> + <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">信譽</span> + <span class="hl" style="background:linear-gradient(180deg,transparent 60%,rgba(239,68,68,.3) 60%)">賠錢</span> 💸</p>
+  <div class="card accent glow" style="margin-top:.5em;text-align:center">
+    <p style="font-size:clamp(16px,1.8vw,22px);margin:.2em 0">Google 出的<b class="hl">免費後台服務</b> · 個人用 5 年都用不完</p>
   </div>
+</section>
+
+<!-- 9-5b 全流程地圖 -->
+<section class="slide">
+  <span class="tag">🗺️ 章節 9 · Firebase · 全流程</span>
+  <h2>四大步驟，跟著做就成功</h2>
+  <p class="muted">整個流程大約 5 分鐘。看到下面這四關，做完就有自己的後台了。</p>
+  <div class="grid2" style="margin-top:.6em">
+    <div class="card accent">
+      <p><b>1️⃣ 建立 Firebase 專案</b></p>
+      <p class="muted">填名字 → 關掉 Gemini → 關掉 Analytics → 建立</p>
+    </div>
+    <div class="card accent">
+      <p><b>2️⃣ 建立 Firestore 資料庫</b></p>
+      <p class="muted">選 asia-east1（台灣）→ 用「正式版模式」啟動</p>
+    </div>
+    <div class="card accent">
+      <p><b>3️⃣ 改規則為 <code>if true</code></b></p>
+      <p class="muted">讓 AI 寫程式時不會卡權限</p>
+    </div>
+    <div class="card accent">
+      <p><b>4️⃣ 取得設定碼（最重要）</b></p>
+      <p class="muted">點 <code>&lt;/&gt;</code> 網頁圖示 → 複製整段 script</p>
+    </div>
+  </div>
+  <div class="card warn" style="margin-top:.5em">
+    <p><b>⚠️ 免費的 Spark 方案就夠用</b>，全程<b>不要升級成付費</b>。每天 5 萬次讀取，個人/班級用爆不掉。</p>
+  </div>
+</section>
+
+<!-- 9-6a Step 1.1 進入控制台 -->
+<section class="slide">
+  <span class="tag">1️⃣ 章節 9 · Step 1.1</span>
+  <h2>Step 1.1：打開 Firebase 控制台</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>🔗 打開網址</b></p>
+        <p><a class="url" href="https://console.firebase.google.com" target="_blank" rel="noopener" style="color:var(--accent3);font-size:clamp(14px,1.4vw,18px)">console.firebase.google.com</a></p>
+        <p class="muted" style="margin-top:.4em">用你的 Google 帳號登入（沒有就先申請 Gmail）</p>
+      </div>
+      <div class="card" style="margin-top:.5em">
+        <p><b>📋 進到首頁後</b></p>
+        <p>1. 點中央大卡片 <b>「建立 Firebase 專案」</b></p>
+        <p>2. 或左上角 <b>「+ 新增專案」</b></p>
+      </div>
+      <div class="card good">
+        <p>看到右側那道「光門」就代表你已經進到 Firebase 世界了 — 接下來四步就完成。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-06.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">穿過這道門，開始建立你的後台</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-6b Step 1.2 輸入專案名稱 -->
+<section class="slide">
+  <span class="tag">1️⃣ 章節 9 · Step 1.2</span>
+  <h2>Step 1.2：輸入專案名稱</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 在中央 <b>「專案名稱」</b>欄位輸入名字<br>　（建議英文小寫，例：<code>my-class-game</code>、<code>trytry</code>）</p>
+        <p>2. 下方會自動產生 ID（例：<code>trytry-9e732</code>）— 不用管</p>
+        <p>3. <b>勾選</b>「我接受《Firebase 條款》」</p>
+        <p>4. 下面那條「Google 開發人員計畫」<b>保留藍色開啟</b>即可（沒差）</p>
+        <p>5. 點右下角藍色 <b>「繼續」</b>按鈕</p>
+      </div>
+      <div class="card warn">
+        <p><b>⚠️ 名字不能用中文</b>，也不能有空白。專案 ID 一旦建立<b>不能改</b>，但名字之後可以改。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-02.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">範例:專案名稱填 TRYTRY</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-6c Step 1.3 關掉 Gemini -->
+<section class="slide">
+  <span class="tag">1️⃣ 章節 9 · Step 1.3</span>
+  <h2>Step 1.3：關掉 Gemini in Firebase</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>下一頁標題是 <b>「Firebase 專案的 AI 輔助功能」</b></p>
+        <p>1. 找到下方 <b>「啟用 Gemini in Firebase」</b>開關</p>
+        <p>2. <b>點它，把藍色關掉變灰色</b>（預設是開的！）</p>
+        <p>3. 點右下角藍色 <b>「繼續」</b></p>
+      </div>
+      <div class="card bad">
+        <p><b>❌ 為什麼要關？</b></p>
+        <p>我們的 AI 工具用的是 Antigravity / Claude / Gemini CLI，不需要 Firebase 內建的 Gemini。開了會占用 quota，沒好處。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-03.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">把藍色開關「啟用 Gemini in Firebase」關掉</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-6d Step 1.4 關掉 Google Analytics -->
+<section class="slide">
+  <span class="tag">1️⃣ 章節 9 · Step 1.4</span>
+  <h2>Step 1.4：關掉 Google Analytics</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>下一頁標題是 <b>「Google Analytics」</b></p>
+        <p>1. 找最下方 <b>「啟用這項專案的 Google Analytics 功能」</b>開關</p>
+        <p>2. <b>確認是灰色（關閉狀態）</b> — 如果是藍色就點一下關掉</p>
+        <p>3. 點右下角藍色 <b>「建立專案」</b></p>
+        <p>4. 等 30 秒，看到「Firebase 專案已準備就緒」→ 點 <b>「繼續」</b></p>
+      </div>
+      <div class="card bad">
+        <p><b>❌ 為什麼要關？</b></p>
+        <p>Analytics 用來分析使用者行為，課程教學用不到，關掉比較單純。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-04.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">確認開關是灰色（關閉），再點建立專案</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-7a Step 2.0 看到專案首頁 -->
+<section class="slide">
+  <span class="tag">2️⃣ 章節 9 · Step 2.0</span>
+  <h2>專案建好啦！你現在看到的畫面</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card good">
+        <p><b>✅ 確認你看到</b></p>
+        <p>· 左上 <b>TRYTRY</b>（你的專案名）+ <b>Spark 方案</b>標籤</p>
+        <p>· 中央一句「<b>○○，你好，歡迎使用 Firebase 專案！</b>」</p>
+        <p>· 一排平台圖示：iOS / Android / <b class="hl">&lt;/&gt; 網頁</b> / Unity / Flutter</p>
+      </div>
+      <div class="card accent">
+        <p><b>📋 接下來</b></p>
+        <p>不要急著點 <code>&lt;/&gt;</code> 網頁！我們<b>先建資料庫</b>，最後才註冊應用程式取得設定碼。</p>
+        <p>👉 看<b>左側選單</b>，準備找 <b>Firestore</b></p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-06.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">專案首頁長這樣 — Spark 方案 = 完全免費</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-7b Step 2.1 進到 Firestore -->
+<section class="slide">
+  <span class="tag">2️⃣ 章節 9 · Step 2.1</span>
+  <h2>Step 2.1：進到 Cloud Firestore</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 左側選單找 <b>「建構」</b>類別 → 點 <b>「Firestore」</b><br>　（或上方搜尋列輸入 <code>firestore</code>）</p>
+        <p>2. 看到 <b>Cloud Firestore</b> 介紹頁（橘色 logo + 大象徵符號）</p>
+        <p>3. 點中央 <b>「建立資料庫」</b>白底外框按鈕</p>
+        <p>　⚠️ <b>不要</b>點旁邊的「詢問 Gemini」</p>
+      </div>
+      <div class="card good">
+        <p><b>💡 Firestore 是什麼？</b><br>就是 Google 的雲端資料庫，像 MongoDB 那種「文件」結構。你不用懂，AI 會處理。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-09.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">點白色「建立資料庫」按鈕</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-7c Step 2.2 選位置 -->
+<section class="slide">
+  <span class="tag">2️⃣ 章節 9 · Step 2.2</span>
+  <h2>Step 2.2：選資料庫位置（asia-east1）</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 第一步「版本」直接<b>選 Standard 版</b>（預設）→ 下一步</p>
+        <p>2. 進到 <b>「資料庫 ID 和位置」</b></p>
+        <p>　· 資料庫 ID 維持 <code>(default)</code> 不用改</p>
+        <p>　· 位置點下拉選單 → <b>選 <code>asia-east1 (Taiwan)</code></b></p>
+        <p>3. 點藍色 <b>「下一步」</b></p>
+      </div>
+      <div class="card warn">
+        <p><b>⚠️ 重要：位置一經設定無法變更！</b></p>
+        <p>畫面會跳出黃色警告框提醒你。記得選 <b>asia-east1（彰化，台灣）</b>，速度最快、延遲最低。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-10.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">位置選 asia-east1 (Taiwan)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-7d Step 2.3 安全規則 -->
+<section class="slide">
+  <span class="tag">2️⃣ 章節 9 · Step 2.3 ⭐</span>
+  <h2>Step 2.3：用「測試模式」啟動</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 進到第三步「設定」，會看到兩個選項：</p>
+        <p>　· <b>以測試模式啟動</b> ← <b class="hl">選這個</b>（資料預設私人）</p>
+        <p>　· 以測試模式啟動（30 天後會自動鎖死，<b>不要選</b>）</p>
+        <p>2. 點左下角藍色 <b>「建立」</b></p>
+        <p>3. 等 30 秒，看到資料庫主畫面 ✅</p>
+      </div>
+      <div class="card good">
+        <p><b>💡 為什麼選正式版？</b><br>「測試模式」30 天到期會自動把資料鎖住，到時候你的遊戲就壞了。「測試模式」雖然預設不能讀寫，但我們<b>下一步會手動把規則改成永久允許</b>。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-11.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">選「以測試模式啟動」（截圖示意，課程選正式版）</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-7e Step 2.4 資料庫建好 -->
+<section class="slide">
+  <span class="tag">2️⃣ 章節 9 · Step 2.4</span>
+  <h2>Step 2.4：資料庫建立完成的畫面</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card good">
+        <p><b>✅ 看到下面這些元素就代表成功</b></p>
+        <p>· 上方有 <b>資料 / 規則 / 索引 / 使用量 / Extensions</b> 分頁</p>
+        <p>· 左欄顯示 <code>(default)</code> 資料庫</p>
+        <p>· 中央空空的 — 因為還沒有任何資料（正常）</p>
+      </div>
+      <div class="card accent">
+        <p><b>📋 接下來</b></p>
+        <p>👉 點上方 <b>「規則」</b>分頁，準備改規則</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-12.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">資料庫主畫面 — 點上方「規則」</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-8 Step 3 改規則 -->
+<section class="slide">
+  <span class="tag">3️⃣ 章節 9 · Step 3 ⭐</span>
+  <h2>Step 3：把規則改成「永久允許」</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 點上方 <b>「規則」</b>分頁</p>
+        <p>2. 中央會看到一段預設程式碼 → <b>整段全選刪掉</b></p>
+        <p>3. <b>貼上右下方那段</b>（重點是 <code>if true</code>）</p>
+        <p>4. 點右上角藍色 <b>「發布」</b>按鈕 → 看到「規則已發布」✅</p>
+      </div>
+      <div class="card warn">
+        <p><b>⚠️ <code>if true</code> = 任何人都能讀寫</b><br>適合教學用，<b>不要放</b>學生個資、家長資料、密碼。</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-13.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">看到第 16 行 <code>allow read, write: if true</code> 就對了</p>
+    </div>
+  </div>
+  <div class="promptbox" id="p-firebase-rules" style="margin-top:.5em">rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}<button class="copybtn">📋 複製</button></div>
+</section>
+
+<!-- 9-9a Step 4.1 新增應用程式 -->
+<section class="slide">
+  <span class="tag">4️⃣ 章節 9 · Step 4.1 ⭐</span>
+  <h2>Step 4.1：點「+ 新增應用程式」</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 左上角點 Firebase logo → 回到專案首頁</p>
+        <p>2. 看到 <b>TRYTRY</b> 標題下方有個 <b>「+ 新增應用程式」</b>白色按鈕</p>
+        <p>3. 點下去</p>
+      </div>
+      <div class="card good">
+        <p><b>💡 兩種首頁畫面都可以</b></p>
+        <p>· 第一次來 → 看到一排平台圖示，點 <code>&lt;/&gt;</code> 網頁</p>
+        <p>· 之後再來 → 看到「+ 新增應用程式」按鈕，點下去再選 <code>&lt;/&gt;</code> 網頁</p>
+        <p>結果一樣！</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-06.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">點白色「+ 新增應用程式」按鈕</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-9b Step 4.2 選網頁圖示 -->
+<section class="slide">
+  <span class="tag">4️⃣ 章節 9 · Step 4.2 ⭐</span>
+  <h2>Step 4.2：選 <code>&lt;/&gt;</code> 網頁平台</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 一排平台圖示中，<b>點橘色框的 <code>&lt;/&gt;</code></b>（網頁）</p>
+        <p>　— 不要點 iOS、Android、Unity、Flutter</p>
+        <p>2. 進到「將 Firebase 新增至你的網頁應用程式」</p>
+        <p>3. <b>應用程式暱稱</b>隨便填，例：<code>game</code></p>
+        <p>4. <b>不要勾</b>「同時為這個應用程式設定 Firebase Hosting」</p>
+        <p>5. 點藍色 <b>「註冊應用程式」</b></p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-05.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">點 <code>&lt;/&gt;</code> 網頁圖示（旁邊小白框寫「網頁」）</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-9c Step 4.3 切到 script tag -->
+<section class="slide">
+  <span class="tag">4️⃣ 章節 9 · Step 4.3 ⭐⭐</span>
+  <h2>Step 4.3：切到「使用 &lt;script&gt; 標記」</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card bad">
+        <p><b>❌ 預設會停在「使用 npm」這頁</b></p>
+        <p>右下角的截圖就是預設畫面，<b>不要用這個</b>。npm 是給開發者裝套件用的，AI 寫網頁不需要。</p>
+      </div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 在上方切換鍵點 <b>「使用 &lt;script&gt; 標記」</b></p>
+        <p>2. 畫面會變成 HTML <code>&lt;script type="module"&gt;</code> 開頭 → 下一頁示範</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-07.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">❌ 預設「使用 npm」— 不要這個</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-9d Step 4.4 複製整段 script -->
+<section class="slide">
+  <span class="tag">4️⃣ 章節 9 · Step 4.4 ⭐⭐⭐</span>
+  <h2>Step 4.4：複製整段 &lt;script&gt;</h2>
+  <div class="grid2" style="align-items:start">
+    <div>
+      <div class="card good">
+        <p><b>✅ 你要的畫面長這樣</b></p>
+        <p>· 上方切到 <b>「使用 &lt;script&gt; 標記」</b></p>
+        <p>· 程式碼第一行是 <code>&lt;script type="module"&gt;</code></p>
+        <p>· 中間有 <code>const firebaseConfig = { apiKey, authDomain, projectId... }</code></p>
+        <p>· 最後 <code>&lt;/script&gt;</code> 結尾</p>
+      </div>
+      <div class="card accent">
+        <p><b>📋 操作</b></p>
+        <p>1. 點程式碼右上角的<b>複製圖示</b>（兩張紙疊在一起）</p>
+        <p>2. <b>整段</b>都要複製：從 <code>&lt;script&gt;</code> 到 <code>&lt;/script&gt;</code></p>
+        <p>3. 貼到記事本暫存，等等要給 AI</p>
+        <p>4. 下方點 <b>「前往主控台」</b>完成</p>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <img src="assets/firebase-08.png" style="max-width:100%;border-radius:8px;border:2px solid var(--accent);box-shadow:0 4px 16px rgba(0,0,0,.4)">
+      <p class="muted" style="font-size:.85em;margin-top:.4em">✅ 正確：使用 &lt;script&gt; 標記</p>
+    </div>
+  </div>
+</section>
+
+<!-- 9-9e 設定碼樣本 -->
+<section class="slide">
+  <span class="tag">4️⃣ 章節 9 · Step 4 · 你拿到的東西</span>
+  <h2>你最後應該拿到這樣的程式碼</h2>
+  <p class="muted">這就是你 Firebase 的「鑰匙」— 等下整段貼給 AI，它就知道怎麼連到你的資料庫。</p>
+  <pre style="background:rgba(0,0,0,.35);color:var(--accent3);padding:.8em 1em;border-radius:10px;font-size:clamp(11px,1.1vw,15px);overflow:auto;line-height:1.6;border:1px solid var(--accent)">&lt;script type="module"&gt;
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyXXXXXXXXXXXXXXXXXXXXXX",
+    authDomain: "trytry-9e732.firebaseapp.com",
+    projectId: "trytry-9e732",
+    storageBucket: "trytry-9e732.firebasestorage.app",
+    messagingSenderId: "1234567890",
+    appId: "1:1234567890:web:abcdef1234567890"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+&lt;/script&gt;</pre>
   <div class="card warn">
-    <p style="font-size:1.05em">⚠️ 最危險的——不是你不會的事，是<br><b style="color:var(--warn);font-size:1.1em">「你不知道你不會的事」</b></p>
+    <p><b>⚠️ apiKey 不是密碼，可以公開貼</b> — 規則 <code>if true</code> 才是真正的鎖。Firebase 的 apiKey 本來就會被瀏覽器看到。</p>
   </div>
 </section>
 
-<section class="slide">
-  <span class="tag warn">💀 章節 8 · 8-18 · 5 個雷</span>
-  <h2>新手最常踩的 5 個雷</h2>
-  <table>
-    <tr><th>#</th><th>災難</th><th>會發生</th></tr>
-    <tr><td>1</td><td><b>API Key 外洩</b></td><td>推上 GitHub → 被偷用 → 帳單爆表</td></tr>
-    <tr><td>2</td><td><b>資料庫權限沒設</b></td><td>全世界看得到客戶資料</td></tr>
-    <tr><td>3</td><td><b>敏感檔推 GitHub</b></td><td>Google 搜得到 .env、客戶 Excel</td></tr>
-    <tr><td>4</td><td><b>XSS 攻擊</b></td><td>客戶輸入被當程式執行</td></tr>
-    <tr><td>5</td><td><b>沒備份</b></td><td>客戶資料永遠不見</td></tr>
-  </table>
+<!-- 9-10 給 AI 什麼 -->
+<section class="slide chapter-cover center-v">
+  <span class="tag" style="align-self:center">🤖 章節 9 · Firebase · 整合到遊戲</span>
+  <h1 style="font-size:clamp(34px,5vw,68px);line-height:1.4;margin-top:.4em">
+    把 Step 4 的<b style="color:var(--accent2)">設定碼</b>給 AI<br>
+    跟 AI 討論你需要的功能<br>
+    <span class="hl">AI 會自己幫你處理</span>
+  </h1>
+  <p style="margin-top:1.5em;color:var(--muted);font-size:clamp(16px,1.8vw,22px)">不用懂 Firestore 怎麼運作 — 你只要說想要的功能</p>
 </section>
 
-<section class="slide">
-  <span class="tag">🛡 章節 8 · 8-19 · 保命四鐵則</span>
-  <h2>最嚴格的「保命四鐵則」</h2>
-  <div class="grid2">
-    <div class="card good stripe glow">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">1</div>
-        <div class="body">
-          <b style="font-size:1.05em">真敏感資料 → 不要自己做</b>
-          <p class="muted small">身分證 / 銀行帳號 / 健保<br>→ 找專業工程師</p>
-        </div>
-      </div>
-    </div>
-    <div class="card good stripe glow">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">2</div>
-        <div class="body">
-          <b style="font-size:1.05em">倉庫一律設 Private</b>
-          <p class="muted small">含客戶資料的專案<br>絕對不能 Public</p>
-        </div>
-      </div>
-    </div>
-    <div class="card good stripe glow">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">3</div>
-        <div class="body">
-          <b style="font-size:1.05em">開發中用「假資料」</b>
-          <p class="muted small">真實資料等正式上線後<br>才進去</p>
-        </div>
-      </div>
-    </div>
-    <div class="card good stripe glow">
-      <div class="iconcard">
-        <div class="numbadge" style="background:linear-gradient(135deg,var(--ok),#65a30d)">4</div>
-        <div class="body">
-          <b style="font-size:1.05em">API Key 放「環境變數」</b>
-          <p class="muted small">告訴 AI：用 <code>.env</code><br>加進 <code>.gitignore</code></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="slide">
-  <span class="tag">✅ 章節 8 · 8-20 · 決策表</span>
-  <h2>該不該自己動手？</h2>
-  <table>
-    <tr><th>想做的事</th><th>該不該</th></tr>
-    <tr><td>給客戶看的純展示頁、教學頁</td><td>✅ 可以</td></tr>
-    <tr><td>給客戶玩的試算工具（不存資料）</td><td>✅ 可以</td></tr>
-    <tr><td>內部客戶名單 + 連絡資訊</td><td>⚠️ Private + Airtable</td></tr>
-    <tr><td>客戶填表單寄給你</td><td>⚠️ Vercel + Google Sheets</td></tr>
-    <tr><td><b>客戶帳密登入查財報</b></td><td>🔴 找工程師</td></tr>
-    <tr><td><b>客戶上傳身分證</b></td><td>🔴 找工程師</td></tr>
-  </table>
-</section>
-
-<!-- 章節 9 -->
+<!-- 章節 10 -->
 <section class="slide chapter-cover">
-  <p class="chno">CHAPTER 9</p>
+  <p class="chno">CHAPTER 10</p>
   <h1>跟 AI 長期協作<br>的 3 件事 🤝</h1>
   <p>從「會用」到「用得久、用得好」</p>
 </section>
 
 <section class="slide">
-  <span class="tag">🤝 章節 9 · 9-1</span>
+  <span class="tag">🤝 章節 10 · 10-1</span>
   <h2>① 信任建立在熟悉之上</h2>
   <p class="muted">你跟 AI 是工作夥伴。事情交給 AI 沒問題——但你必須知道 AI <b style="color:var(--accent)">怎麼工作</b>的。</p>
   <div class="card bad">
@@ -2775,7 +2714,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">👶 章節 9 · 9-2</span>
+  <span class="tag">👶 章節 10 · 10-2</span>
   <h2>② 當「巨嬰」— 凡事先問 AI</h2>
   <p class="muted">把「要自己動手」的事情<b style="color:var(--accent)">習慣性丟給 AI</b>。</p>
   <div class="card accent">
@@ -2797,7 +2736,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🎓 章節 9 · 9-3 · SKILL</span>
+  <span class="tag">🎓 章節 10 · 10-3 · SKILL</span>
   <h2>③ 把重複工作做成「SKILL」</h2>
   <div class="card bad">
     <p><b>❌ 沒 SKILL 的痛苦</b></p>
@@ -2824,13 +2763,13 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 
 <!-- 章節 10 結業 -->
 <section class="slide chapter-cover">
-  <p class="chno">CHAPTER 10</p>
+  <p class="chno">CHAPTER 11</p>
   <h1>結業 🎓</h1>
   <p>你已經會了<br>接下來去做。</p>
 </section>
 
 <section class="slide">
-  <span class="tag">💛 章節 10 · 結語</span>
+  <span class="tag">💛 章節 11 · 結語</span>
   <h2>給你的最後兩段話</h2>
   <div class="card accent">
     <p style="font-size:clamp(15px,1.5vw,21px);line-height:1.9">
@@ -2849,17 +2788,72 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
       <b style="color:#8b5a14">耐心</b>與<b style="color:#8b5a14">如何跨出舒適圈</b>，才是。
     </p>
   </div>
+  <div class="card glow" style="margin-top:1em;border-width:2px;border-color:#d4a04a;background:linear-gradient(135deg,#2b1810,#1f1108)">
+    <p style="font-size:clamp(20px,2.4vw,32px);line-height:1.8;text-align:center;color:#fde68a;font-weight:900;letter-spacing:.05em;margin:.3em 0">
+      AI 時代，<br>
+      <span style="color:#fbbf24">只有你想不到，沒有你做不到</span>
+    </p>
+  </div>
+</section>
+
+<!-- 結業 · 課後心得作業（全螢幕純圖）-->
+<section class="slide" style="padding:0;align-items:center;justify-content:center;background:#0a1612">
+  <img src="assets/課後心得作業.png" alt="課後心得作業公告" style="width:100%;height:100%;object-fit:contain;display:block">
+</section>
+
+<!-- 結業 · 近期開課公告（可複製）-->
+<section class="slide">
+  <span class="tag">📣 一百分遊戲教育 · 近期開課</span>
+  <h2>下次見：近期課程公告 🔥</h2>
+  <p class="muted">把下面這段複製貼到你的 LINE / 社群分享。</p>
+  <div class="promptbox" id="p-courses">【一百分遊戲教育｜近期開課】🔥
+
+━━━━━━━━━━━━━━━━━━
+🎮 AI 微型程式 x 動態題庫工作坊
+✨ 把無聊考卷變成奇幻遊戲！🏠線上課
+   用 AI 蓋出會出題、會記分、會反饋的小遊戲。
+
+📍 6/13（六）19:00–22:30　（名額剩六位/前兩梯優惠）
+   ✅ 同樣內容，週末晚場，給平日抽不開身的你
+   👉 https://forms.gle/4rvo8k1QPevAyDmG8
+
+📍7/12（日）19:00–22:30　（新開班）
+   ✅ 同樣內容，週日晚場，給平日抽不開身的你
+   👉 https://forms.gle/9audWbjouNrnpkSw8
+
+━━━━━━━━━━━━━━━━━━
+🪄 GEM 文字冒險建構實戰 T4
+📅 6/5（五）19:30–21:30｜💻 線上｜💰 NT$888
+✨ 不需程式碼，用 AI文字打造你的文字冒險遊戲
+👉 https://forms.gle/GFtwtitHEcpwWLJx5
+
+━━━━━━━━━━━━━━━━━━
+☀️ 2026 暑期工作坊 重磅回歸 ☀️
+
+🐻 第四彈・謎熊康普利
+📅 7/4（六）｜🏠 實體一天課程
+   戶外實境結合環境謎題設計與手作解謎小道具
+👉 https://forms.gle/juvHwAs9KNPqZWfa7
+
+🎲 第三彈・遊戲設計的夢工廠
+📅 7/5（日）｜🏠 實體一天課程
+   解謎活動如何寫故事與人物設計
+👉 https://forms.gle/FCGG97EzhbyyB6gY8
+
+━━━━━━━━━━━━━━━━━━
+📖 完整課程介紹 / 教師研習：
+https://yoyo700702ai.github.io/100points-education-site/#courses<button class="copybtn">📋 複製</button></div>
 </section>
 
 <!-- 章節 11 · AI 小知識補充 -->
 <section class="slide chapter-cover center-v">
-  <p class="chno">CHAPTER 11 · 補充</p>
+  <p class="chno">CHAPTER 12 · 補充</p>
   <h1>📚 AI 小知識</h1>
   <p style="margin-top:1em">未來做進階 App 時會碰到的概念</p>
 </section>
 
 <section class="slide">
-  <span class="tag">🔑 章節 11 · 補充 ① · API Key</span>
+  <span class="tag">🔑 章節 12 · 補充 ① · API Key</span>
   <h2>什麼是 API Key？</h2>
   <div class="card accent glow">
     <p style="font-size:1.15em"><b>🔑 直接想成「鑰匙」</b></p>
@@ -2871,7 +2865,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🔑 章節 11 · 補充 ① · 常見的鑰匙</span>
+  <span class="tag">🔑 章節 12 · 補充 ① · 常見的鑰匙</span>
   <h2>常見的鑰匙有哪些？</h2>
   <table>
     <tr><th>服務類型</th><th>什麼時候需要</th></tr>
@@ -2884,7 +2878,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ② · 第三方 AI 詳解</span>
+  <span class="tag">🤖 章節 12 · 補充 ② · 第三方 AI 詳解</span>
   <h2>為什麼要另外申請 GPT/Claude API？</h2>
   <div class="card accent">
     <p><b>Antigravity 內建 AI 是「給你用」</b>，幫你寫程式、改檔案。</p>
@@ -2903,7 +2897,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">🤖 章節 11 · 補充 ③ · 客服機器人</span>
+  <span class="tag">🤖 章節 12 · 補充 ③ · 客服機器人</span>
   <h2>客服機器人的三種類型</h2>
   <table>
     <tr><th></th><th>程式機器人</th><th>AI 機器人</th><th>混合型 ⭐</th></tr>
@@ -2922,7 +2916,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 
 <!-- 補充 ④ AI 自動化流程（GPT 節奏版 · 12 張）-->
 <section class="slide auto-slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④ · AI 自動化流程</span>
+  <span class="tag">⚙️ 章節 12 · 補充 ④ · AI 自動化流程</span>
   <div class="auto-flow"><div class="af-split">
     <div>
       <span class="kicker">API Key 後面的下一個課程</span>
@@ -2939,7 +2933,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④ · 現況</span>
+  <span class="tag">⚙️ 章節 12 · 補充 ④ · 現況</span>
   <div class="auto-flow"><div class="af-frame">
     <div>
       <span class="kicker">先從大家熟悉的狀態開始</span>
@@ -2958,7 +2952,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④ · 思考題</span>
+  <span class="tag">⚙️ 章節 12 · 補充 ④ · 思考題</span>
   <div class="auto-flow"><div class="af-center"><div>
     <div class="question">來腦力激盪一下，<br>怎麼樣才可以你不發指令，<br>就讓 AI 工作呢？</div>
     <div class="pause-line"></div>
@@ -2966,7 +2960,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④ · 關鍵字</span>
+  <span class="tag">⚙️ 章節 12 · 補充 ④ · 關鍵字</span>
   <div class="auto-flow"><div class="af-center"><div>
     <div class="one-word">觸發</div>
     <p class="subline">不是你去叫 AI。<br>是讓程式在對的時候去叫 AI。</p>
@@ -2974,7 +2968,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⚙️ 章節 11 · 補充 ④ · 心臟</span>
+  <span class="tag">⚙️ 章節 12 · 補充 ④ · 心臟</span>
   <div class="auto-flow"><div class="af-split">
     <div>
       <span class="kicker">先給它一顆心臟</span>
@@ -2991,7 +2985,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⏰ 章節 11 · 補充 ④ · 定時觸發型</span>
+  <span class="tag">⏰ 章節 12 · 補充 ④ · 定時觸發型</span>
   <div class="auto-flow"><div class="af-split">
     <div>
       <span class="kicker">第一種</span>
@@ -3003,7 +2997,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⏰ 章節 11 · 補充 ④ · 時間表</span>
+  <span class="tag">⏰ 章節 12 · 補充 ④ · 時間表</span>
   <div class="auto-flow"><div class="af-frame">
     <div>
       <span class="kicker">範例：一天四次被叫醒</span>
@@ -3027,7 +3021,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⏰ 章節 11 · 補充 ④ · 設定四要素</span>
+  <span class="tag">⏰ 章節 12 · 補充 ④ · 設定四要素</span>
   <div class="auto-flow"><div class="af-frame">
     <div>
       <span class="kicker">重點不是鬧鐘，是任務說得夠不夠清楚</span>
@@ -3046,7 +3040,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">⏰ 章節 11 · 補充 ④ · 思考任務</span>
+  <span class="tag">⏰ 章節 12 · 補充 ④ · 思考任務</span>
   <div class="auto-flow"><div class="af-center"><div>
     <span class="kicker">不要忘記：AI 有思考能力</span>
     <h2>你可以派給它<br><span class="gold">需要思考</span>的任務</h2>
@@ -3055,7 +3049,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">📁 章節 11 · 補充 ④ · 狀態改變</span>
+  <span class="tag">📁 章節 12 · 補充 ④ · 狀態改變</span>
   <div class="auto-flow"><div class="af-center"><div>
     <span class="kicker">第二種</span>
     <div class="one-word">狀態改變</div>
@@ -3064,7 +3058,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">📁 章節 11 · 補充 ④ · 任務觸發型</span>
+  <span class="tag">📁 章節 12 · 補充 ④ · 任務觸發型</span>
   <div class="auto-flow"><div class="af-frame">
     <div>
       <span class="kicker">任務觸發型</span>
@@ -3087,7 +3081,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide auto-slide">
-  <span class="tag">🎯 章節 11 · 補充 ④ · 三件事</span>
+  <span class="tag">🎯 章節 12 · 補充 ④ · 三件事</span>
   <div class="auto-flow"><div class="af-frame">
     <div>
       <span class="kicker">最後收斂成一張圖</span>
@@ -3105,7 +3099,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 
 <!-- 補充 ⑤ 子模型平行協作 -->
 <section class="slide">
-  <span class="tag">👥 章節 11 · 補充 ⑤ · 子模型平行協作</span>
+  <span class="tag">👥 章節 12 · 補充 ⑤ · 子模型平行協作</span>
   <div style="display:flex;align-items:center;gap:1em">
     <img src="assets/course-art/icons/brain.png" style="width:80px;height:80px;border-radius:12px">
     <h2 style="margin:0">AI 也可以「分身」一起做事 👥</h2>
@@ -3125,7 +3119,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">✅ 章節 11 · 補充 ⑤ · 什麼時候用</span>
+  <span class="tag">✅ 章節 12 · 補充 ⑤ · 什麼時候用</span>
   <h2>什麼時候叫子模型？什麼時候自己做？</h2>
   <div class="grid2">
     <div class="card good">
@@ -3150,7 +3144,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">📋 章節 11 · 補充 ⑤ · 會計師情境</span>
+  <span class="tag">📋 章節 12 · 補充 ⑤ · 會計師情境</span>
   <h2>會計師可以這樣用 💼</h2>
   <p class="muted">月底結帳、年度報稅這種「大量重複任務」就是子模型發揮的時候。</p>
   <div class="card accent">
@@ -3171,7 +3165,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
 </section>
 
 <section class="slide">
-  <span class="tag">💬 章節 11 · 補充 ⑤ · 怎麼開口</span>
+  <span class="tag">💬 章節 12 · 補充 ⑤ · 怎麼開口</span>
   <h2>怎麼叫 AI 開子模型？</h2>
   <p class="muted center">不用記指令，用<b style="color:var(--accent)">自然語言</b>就好——關鍵字是「同時」「平行」「分頭」。</p>
   <div class="promptbox">幫我<b style="color:var(--accent3)">同時</b>處理這 20 個客戶的月結，
@@ -3238,6 +3232,52 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
     }
   },{passive:true});
 
+  // === 背景音樂控制 ===
+  (function(){
+    const bgm = document.getElementById('bgm');
+    const toggleBtn = document.getElementById('bgmToggle');
+    const volSlider = document.getElementById('bgmVolume');
+    if(!bgm || !toggleBtn || !volSlider) return;
+
+    // 從 localStorage 讀取記住的音量
+    const savedVol = parseFloat(localStorage.getItem('bgm_volume'));
+    const initVol = isNaN(savedVol) ? 30 : savedVol;
+    bgm.volume = initVol / 100;
+    volSlider.value = initVol;
+
+    function updateIcon(){
+      toggleBtn.textContent = bgm.paused ? '🔇' : '🎵';
+    }
+    updateIcon();
+
+    toggleBtn.addEventListener('click', ()=>{
+      if(bgm.paused){
+        bgm.play().then(updateIcon).catch(()=>{});
+      } else {
+        bgm.pause();
+        updateIcon();
+      }
+    });
+
+    volSlider.addEventListener('input', ()=>{
+      const v = parseFloat(volSlider.value);
+      bgm.volume = v / 100;
+      localStorage.setItem('bgm_volume', v);
+    });
+
+    // 嘗試自動播放（多數瀏覽器會擋，需使用者第一次互動才能播）
+    bgm.play().then(updateIcon).catch(()=>{
+      // 等使用者第一次點擊任何地方再播放
+      const startOnce = () => {
+        bgm.play().then(updateIcon).catch(()=>{});
+        document.removeEventListener('click', startOnce);
+        document.removeEventListener('keydown', startOnce);
+      };
+      document.addEventListener('click', startOnce, {once:true});
+      document.addEventListener('keydown', startOnce, {once:true});
+    });
+  })();
+
   document.addEventListener('keydown',e=>{
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();go(1)}
     if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();go(-1)}
@@ -3264,7 +3304,23 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
     });
   });
 
-  // Copy buttons
+  // Copy buttons (跨環境：HTTPS 用 clipboard API、file:// 用 execCommand fallback)
+  function _copyText(text){
+    return new Promise((res,rej)=>{
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(res).catch(()=>_execCopy(text,res,rej));
+      } else { _execCopy(text,res,rej); }
+    });
+  }
+  function _execCopy(text,res,rej){
+    const ta=document.createElement('textarea');
+    ta.value=text;
+    ta.style.cssText='position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try{const ok=document.execCommand('copy');document.body.removeChild(ta);ok?res():rej(new Error('execCommand false'));}
+    catch(e){document.body.removeChild(ta);rej(e);}
+  }
   document.querySelectorAll('.copybtn').forEach(btn=>{
     btn.addEventListener('click',(e)=>{
       e.stopPropagation();
@@ -3272,7 +3328,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
       const txt=Array.from(box.childNodes)
         .filter(n=>n.nodeType===3 || (n.nodeType===1 && n.tagName!=='BUTTON'))
         .map(n=>n.textContent).join('').trim();
-      navigator.clipboard.writeText(txt).then(()=>{
+      _copyText(txt).then(()=>{
         btn.textContent='✓ 已複製';
         btn.classList.add('copied');
         setTimeout(()=>{btn.textContent='📋 複製';btn.classList.remove('copied')},1500);

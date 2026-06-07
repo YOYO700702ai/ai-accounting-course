@@ -304,8 +304,8 @@
     <div class="card" style="margin-top:1em;border-color:var(--accent)">
       <p style="margin:0 0 .6em"><b>👇 接下來請依照你的電腦選一條路走（點選下方按鈕直接跳轉）</b></p>
       <div class="pathbtns">
-        <a class="pathbtn" href="#" onclick="show(8);return false;">🍎 <b>我是 Mac 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
-        <a class="pathbtn" href="#" onclick="show(12);return false;">🪟 <b>我是 Windows 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
+        <a class="pathbtn" href="#" onclick="show(9);return false;">🍎 <b>我是 Mac 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
+        <a class="pathbtn" href="#" onclick="show(13);return false;">🪟 <b>我是 Windows 使用者</b><span class="muted">點此開始 Step 1~5</span></a>
       </div>
     </div>
   </section>
@@ -399,8 +399,8 @@ eval "$(/usr/local/bin/brew shellenv)"</code>
     <div class="card" style="border-color:#ef4444;background:#1a0e0e">
       <p style="margin:0 0 .3em"><b>💡 常見坑</b></p>
       <p style="margin:.2em 0">🔴 <b>brew 跑了沒反應</b> → 關終端機重新打開</p>
-      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(10);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去</p>
-      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(10);return false;">↩ 回 Step 4 重做</a></p>
+      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(11);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去</p>
+      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(11);return false;">↩ 回 Step 4 重做</a></p>
     </div>
   </section>
 
@@ -485,8 +485,8 @@ eval "$(/usr/local/bin/brew shellenv)"</code>
       <p style="margin:0 0 .3em"><b>💡 常見坑</b></p>
       <p style="margin:.2em 0">🔴 <b>裝完輸入 gh 找不到指令</b> → PowerShell <b>沒重開</b>。整個視窗關掉再打開一個新的。</p>
       <p style="margin:.2em 0">🔴 <b>winget 一直失敗</b> → 直接到 <a class="url" href="https://cli.github.com" target="_blank" rel="noopener">cli.github.com</a> 下載 <code>.msi</code> 雙擊安裝，再回來跑 <code>gh --version</code>。</p>
-      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(14);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去。</p>
-      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(14);return false;">↩ 回 Step 4 重做</a>。</p>
+      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(15);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去。</p>
+      <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(15);return false;">↩ 回 Step 4 重做</a>。</p>
     </div>
   </section>
 
@@ -627,7 +627,13 @@ eval "$(/usr/local/bin/brew shellenv)"</code>
     slides[i].classList.add('active');
     document.getElementById('cur').textContent=i+1;
   }
+  // Mac Step 5 → 下一頁跳過 Win 整段，直接到自我檢核
+  // Win Step 1 → 上一頁跳回分歧頁，不要跑回 Mac Step 5
+  const nextMap={12:17};
+  const prevMap={13:8};
   function go(d){
+    if(d===1&&nextMap[i]!=null)return show(nextMap[i]);
+    if(d===-1&&prevMap[i]!=null)return show(prevMap[i]);
     show(i+d);
   }
   document.addEventListener('keydown',e=>{

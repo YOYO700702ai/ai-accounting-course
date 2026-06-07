@@ -18,16 +18,33 @@
       <div class="paper-noise" aria-hidden="true"></div>
       <div id="petalLayer" class="petal-layer" aria-hidden="true"></div>
 
+      <audio id="bgMusic" src="背景音樂.mp3" loop preload="auto"></audio>
+      <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true" aria-label="關閉背景音樂">♪ 音樂</button>
+
       <section id="titleScreen" class="screen title-screen" role="button" tabindex="0" aria-label="點擊任何位置開始遊戲">
         <img class="cover-image" src="assets/cover.png?v=20260601-village" alt="陶淵明.桃花源記，點擊任何位置開始遊戲">
       </section>
 
+      <section id="villageLayer" class="village-layer" aria-label="桃花村探索熱點" hidden></section>
       <section id="playLayer" class="play-layer" aria-label="字詞排序區"></section>
 
       <aside id="puzzlePanel" class="puzzle-panel" aria-label="答題框" hidden>
         <div id="answerTrack" class="answer-track"></div>
         <button id="resetButton" class="reset-button" type="button">重排</button>
       </aside>
+
+      <section id="dialogueLayer" class="dialogue-layer" aria-label="桃花村對話" hidden>
+        <div class="dialogue-card">
+          <div class="dialogue-portrait">
+            <img id="dialogueImage" alt="">
+          </div>
+          <div class="dialogue-content">
+            <div id="dialogueName" class="dialogue-name"></div>
+            <p id="dialogueText" class="dialogue-text"></p>
+            <div id="dialogueOptions" class="dialogue-options"></div>
+          </div>
+        </div>
+      </section>
 
       <div id="messageToast" class="message-toast" role="status" aria-live="polite"></div>
 

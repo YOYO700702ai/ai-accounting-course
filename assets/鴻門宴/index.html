@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>鴻門宴・楚漢風雲</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section id="game" class="game-shell" aria-label="鴻門宴互動劇情教育遊戲">
+      <img id="sceneImage" class="scene-image" alt="">
+      <div class="scene-dim" aria-hidden="true"></div>
+      <div class="paper-texture" aria-hidden="true"></div>
+
+      <audio id="bgMusic" src="Bronze Oaths.mp3" loop preload="auto"></audio>
+      <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true" aria-label="關閉背景音樂">♪ 音樂</button>
+      <div id="scorePanel" class="score-panel" aria-live="polite">分數 100</div>
+
+      <section id="titleScreen" class="screen title-screen" role="button" tabindex="0" aria-label="點擊開始鴻門宴">
+        <img src="assets/cover.png?v=20260610-hongmen" alt="鴻門宴，點擊開始">
+      </section>
+
+      <div id="actHint" class="act-hint" aria-live="polite"></div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <section id="dialogueLayer" class="dialogue-layer" hidden>
+        <article class="dialogue-box">
+          <div class="portrait-shell">
+            <img id="speakerPortrait" alt="">
+          </div>
+          <div class="dialogue-copy">
+            <div id="speakerName" class="speaker-name"></div>
+            <p id="quoteText" class="quote-text"></p>
+            <p id="dialogueText" class="dialogue-text"></p>
+            <button id="continueButton" class="continue-button" type="button" hidden>繼續</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="choiceLayer" class="choice-layer" hidden>
+        <div id="choicePrompt" class="choice-prompt"></div>
+        <div id="choiceOptions" class="choice-options"></div>
+        <div id="choiceExplain" class="choice-explain" hidden></div>
+        <button id="choiceContinue" class="continue-button choice-continue" type="button" hidden>繼續</button>
+      </section>
+
+      <section id="seatLayer" class="seat-layer" aria-label="鴻門宴座位排列遊戲" hidden>
+        <div class="seat-board">
+          <div class="seat-zones" id="seatZones"></div>
+          <aside class="seat-tray">
+            <div class="seat-tray-title">人物牌</div>
+            <div id="seatCards" class="seat-cards"></div>
+            <p id="seatStatus" class="seat-status">請排出鴻門宴座次。</p>
+            <div class="seat-actions">
+              <button id="seatReset" class="ghost-button" type="button">重排</button>
+              <button id="seatContinue" class="continue-button" type="button" disabled>繼續</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="modalLayer" class="modal-layer" hidden>
+        <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <h2 id="modalTitle"></h2>
+          <p id="modalBody"></p>
+          <button id="modalButton" class="continue-button" type="button">知道了</button>
+        </article>
+      </section>
+
+      <section id="endingScreen" class="screen ending-screen" role="button" tabindex="0" aria-label="點擊重新開始" hidden></section>
+      <section id="gameOverScreen" class="screen game-over-screen" role="button" tabindex="0" aria-label="分數歸零，點擊重新開始" hidden></section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

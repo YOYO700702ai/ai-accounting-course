@@ -398,8 +398,14 @@ eval "$(/usr/local/bin/brew shellenv)"</code>
     </div></div>
     <div class="card" style="border-color:#ef4444;background:#1a0e0e">
       <p style="margin:0 0 .3em"><b>💡 常見坑</b></p>
-      <p style="margin:.2em 0">🔴 <b>brew 跑了沒反應</b> → 關終端機重新打開</p>
-      <p style="margin:.2em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(11);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去</p>
+      <p style="margin:.2em 0">🔴 <b>裝完 Homebrew、重開終端機還是 <code>command not found</code></b> <span style="color:#fca5a5">（每屆都有人踩）</span></p>
+      <p class="muted" style="margin:.1em 0 .3em 1.6em;font-size:.9em">→ 你 <b>沒有跑「Next steps」那兩行指令</b>。Homebrew 雖然裝好了，但終端機還不知道它在哪。<a class="jumpbtn" href="#" onclick="show(8);return false;">↩ 回 Step 2 補做 Next steps</a></p>
+      <p class="muted" style="margin:.1em 0 .4em 1.6em;font-size:.9em">→ 簡單版：直接複製下面兩行貼進終端機按 Enter（Apple Silicon Mac 用）：</p>
+      <code class="cmd" style="margin-left:1.6em">echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' &gt;&gt; ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</code>
+      <p class="muted" style="margin:.2em 0 .4em 1.6em;font-size:.9em">→ 如果你是 Intel Mac（2019 年以前），把 <code>/opt/homebrew/</code> 改成 <code>/usr/local/</code></p>
+      <p style="margin:.4em 0"><b style="color:#fbbf24">📌 一句話解釋給學員聽</b>：「<i>Homebrew 已經裝好了，但你的終端機還不知道它在哪裡。上面那兩行就是『告訴終端機 Homebrew 的位置』。</i>」</p>
+      <p style="margin:.4em 0">🔴 <b>卡在 web browser 那步</b> → 重跑 <code>gh auth login</code> <a class="jumpbtn" href="#" onclick="show(11);return false;">↩ 回 Step 4 重做</a>，最後一題改選 <code>Paste an authentication token</code>，到 <a class="url" href="https://github.com/settings/tokens" target="_blank" rel="noopener">github.com/settings/tokens</a> 產生 Personal Access Token 貼進去</p>
       <p style="margin:.2em 0">🔴 <b>gh auth status 顯示 not logged in</b> → 重跑 <code>gh auth login</code> 一次 <a class="jumpbtn" href="#" onclick="show(11);return false;">↩ 回 Step 4 重做</a></p>
     </div>
   </section>

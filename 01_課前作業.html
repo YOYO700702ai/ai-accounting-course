@@ -324,9 +324,18 @@
       <p style="margin:.4em 0 .2em">✅ 看到 <code>Homebrew 4.x.x</code> → 翻下一頁（Step 3）</p>
       <p style="margin:.2em 0">❌ 看到 <code>command not found</code> → 先裝 Homebrew，整段貼進去按 Enter：</p>
       <code class="cmd">/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code>
+      <div class="card" style="margin:.4em 0;padding:.8em 1em;background:#3a1f0a;border-color:#fbbf24;border-width:2px">
+        <p style="margin:0 0 .3em;color:#fbbf24;font-size:1.05em"><b>🛑 重要：貼上後一定要看完這段再動手！</b></p>
+        <p style="margin:.3em 0"><b>Homebrew 下載要 3~10 分鐘</b>，跟一般安裝程式不同，<b style="color:#fbbf24">終端機不會有進度條</b>，畫面看起來像「卡住」一樣，但其實正在跑。</p>
+        <p style="margin:.3em 0">👉 看到這些字代表<b>正在下載</b>，<b style="color:#fbbf24">不要按任何鍵、不要貼任何東西</b>：</p>
+        <p style="margin:.2em 0 .2em 1em;font-family:ui-monospace,Menlo,monospace;font-size:.88em;color:#94a3b8">==&gt; Downloading and installing Homebrew...<br>remote: Enumerating objects: 340833, done.<br>remote: Counting objects: 100% ...</p>
+        <p style="margin:.3em 0">⏳ <b>耐心等</b>，等到終端機回到一般提示字（最後一行有 <code>使用者名稱@電腦 ~ %</code>）才算跑完。</p>
+        <p style="margin:.3em 0;color:#fca5a5">⚠️ 太早貼下一步指令會出現 <code>command not found</code> 或 <code>no such file or directory</code>，Homebrew 還沒裝好就跑下一步當然會錯。</p>
+      </div>
       <div class="card" style="margin:.4em 0;padding:.7em 1em;background:#0b1220">
         <p style="margin:0 0 .3em"><b>⌛ 安裝過程中會發生這些事，照著做就好：</b></p>
         <p style="margin:.2em 0">1️⃣ 螢幕問你密碼 → 輸入 <b>Mac 開機密碼</b> 按 Enter（<b>打字不會顯示是正常的</b>，安心打）</p>
+        <p style="margin:.2em 0">📌 看到 <code>Press RETURN/ENTER to continue or any other key to abort:</code> → <b style="color:#fbbf24">只能按 Enter 鍵！</b>按其他鍵會中止安裝</p>
         <p style="margin:.2em 0">2️⃣ 跑完最後會看到 <code>==&gt; Next steps:</code>，下面列出 <b>2~3 行指令</b>。直接把下面這組整段貼進終端機按 Enter 即可（先記下你的<b>使用者名稱</b>，登入畫面顯示的那個英文名）：</p>
         <p style="margin:.4em 0 .15em">🍎 <b>Apple Silicon Mac（M1 / M2 / M3 / M4，2020 年後幾乎都是）</b></p>
         <code class="cmd">echo &gt;&gt; ~/.zprofile

@@ -1,0 +1,18 @@
+圖文動態網頁簡報 Skill｜學員安裝說明
+
+最簡單安裝：
+1. 先把整個 ZIP 解壓縮，不要直接在 ZIP 裡執行。
+2. 雙擊 install-web-ppt-skill.cmd。
+3. 看到 Installation complete 後關閉視窗。
+4. 如果 Codex 已經開著但看不到新 Skill，重新啟動 Codex。
+
+使用方式：
+在 Codex 新任務輸入 $build-visual-web-ppt，接著貼上或指定你的課程資料。
+
+範例：
+請使用 $build-visual-web-ppt，把這個資料夾裡的課程資料做成圖文並茂、可用左右鍵播放的網頁簡報。請依內容選配色，重要概念用動態說明，需要的插圖直接使用繪圖模型製作。
+
+手動安裝備援：
+把 build-visual-web-ppt 整個資料夾複製到：
+%USERPROFILE%\.agents\skills\build-visual-web-ppt
+

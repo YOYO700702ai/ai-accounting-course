@@ -1,10 +1,14 @@
 圖文動態網頁簡報 Skill｜學員安裝說明
 
 最簡單安裝：
-1. 先把整個 ZIP 解壓縮，不要直接在 ZIP 裡執行。
-2. 雙擊 install-web-ppt-skill.cmd。
-3. 看到 Installation complete 後關閉視窗。
-4. 如果 Codex 已經開著但看不到新 Skill，重新啟動 Codex。
+1. 下載後先在 ZIP 檔上按右鍵 →「內容」→ 勾選「解除封鎖」→「確定」。
+   （這一步可以避免 Windows 把安裝檔擋下來；如果內容視窗裡沒有「解除封鎖」選項，直接跳過即可。）
+2. 把整個 ZIP 解壓縮，不要直接在 ZIP 裡執行。
+3. 雙擊 install-web-ppt-skill.cmd。
+   如果跳出藍色「Windows 已保護您的電腦」或「安全性警告」視窗，這是 Windows
+   對網路下載檔案的正常提醒，不是中毒：點「其他資訊」→「仍要執行」（或「執行」）即可。
+4. 看到 Installation complete 後關閉視窗。
+5. 如果 Codex 已經開著但看不到新 Skill，重新啟動 Codex。
 
 使用方式：
 在 Codex 新任務輸入 $build-visual-web-ppt，接著貼上或指定你的課程資料。
@@ -15,4 +19,3 @@
 手動安裝備援：
 把 build-visual-web-ppt 整個資料夾複製到：
 %USERPROFILE%\.agents\skills\build-visual-web-ppt
-

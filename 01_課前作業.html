@@ -105,7 +105,7 @@
     <span class="tag">AI 程式 + 動態題庫 課程 · 課前作業</span>
     <h1>開課前，請先完成 6 件事</h1>
     <p class="hero">為了讓上課當天可以直接動手做，麻煩在開課前先把下面六項準備好。預計 <b>30 分鐘</b> 就能搞定。</p>
-    <p style="margin:.8em 0 0"><b>⚡ 安裝完了？</b>　<a class="jumpbtn" href="#" onclick="show(20);return false;" style="font-size:1em;padding:.35em 1em">🧩 這裡跳轉 → 程式模組安裝</a></p>
+    <p style="margin:.8em 0 0"><b>⚡ 安裝完了？</b>　<a class="jumpbtn" href="#" onclick="show(24);return false;" style="font-size:1em;padding:.35em 1em">🧩 這裡跳轉 → 程式模組安裝</a></p>
     <div class="card" style="margin-top:1em">
       <p style="margin:.2em 0"><span class="check">⓪</span> <b style="color:var(--accent)">訂閱一個 AI</b>（GPT Plus / Claude / Gemini Pro 三選一）</p>
       <p style="margin:.2em 0"><span class="check">①</span> 下載並安裝 <b>Antigravity IDE</b></p>
@@ -545,22 +545,128 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
     </div>
   </section>
 
-  <!-- 10.6 題庫進階：NotebookLM → CSV 活網址 -->
+  <!-- 10.6 題庫進階：NotebookLM → CSV 活網址（共 5 頁） -->
   <section class="slide">
     <span class="tag">題庫進階 · 想先做起來放也可以</span>
     <h2>📓 進一步：把題庫變成「活網址」</h2>
-    <p>課堂上會帶大家做，但想先在家完成也可以：用免費的 <b>NotebookLM</b> 把題庫整理成標準表格，再讓 Google Sheets 發布成一條 <b>CSV 活網址</b>——之後改題目，遊戲自動更新。</p>
-    <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:.8em;margin-top:.8em">
-      <div class="card" style="margin:0;padding:1em 1.1em"><p style="margin:0;font-size:.95em"><b style="color:var(--accent2)">①</b> 題目 PDF 丟進 <b>NotebookLM</b></p></div>
-      <div class="card" style="margin:0;padding:1em 1.1em"><p style="margin:0;font-size:.95em"><b style="color:var(--accent2)">②</b> 貼提示詞，整理成<b>標準表格</b></p></div>
-      <div class="card" style="margin:0;padding:1em 1.1em"><p style="margin:0;font-size:.95em"><b style="color:var(--accent2)">③</b> 匯出為 <b>Google 試算表</b></p></div>
-      <div class="card" style="margin:0;padding:1em 1.1em"><p style="margin:0;font-size:.95em"><b style="color:var(--accent2)">④</b> 發布成 <b>CSV</b>，拿到<b style="color:var(--accent)">活網址</b></p></div>
+    <p>課堂上會帶大家做，但想先在家完成也可以：用免費的 <b>NotebookLM</b> 把題庫整理成標準表格，再讓 Google Sheets 發布成一條 <b>CSV 活網址</b>——之後改題目，遊戲自動更新。接下來 4 頁就是完整步驟 👉</p>
+    <div style="margin:.8em 0;background:#f6f2e8;border-radius:12px;padding:.6em;border:1px solid #334155">
+      <img src="assets/nblm-flow.png" alt="流程圖：題目 PDF 丟進 NotebookLM 整理成表格，匯出到 Google Sheets，發布成活的題庫 CSV 網址" style="display:block;width:100%;max-width:900px;margin:0 auto;border-radius:8px">
     </div>
-    <div class="card" style="margin-top:1em;border-color:var(--accent)">
-      <p style="margin:0 0 .6em"><b>👇 完整圖解教學（含課堂用的提示詞，可直接複製）</b></p>
-      <a class="pathbtn" style="max-width:560px" href="notebooklm-csv/index.html" target="_blank" rel="noopener">📓 <b>打開「題庫變 CSV 活網址」圖解教學</b><span class="muted">四步驟圖文 + 完成檢查表</span></a>
+    <div class="card" style="margin-top:.4em">
+      <p style="margin:.2em 0"><b>為什麼用 NotebookLM？</b>　🆓 <b>免費、不算 AI 額度</b>，放心整理整本題庫　·　📄 直接讀 PDF / Word　·　📊 產出電腦能用的標準表格</p>
+      <p class="muted" style="margin:.3em 0">網址：<a class="url" href="https://notebooklm.google.com/" target="_blank" rel="noopener">notebooklm.google.com</a>（用 Google 帳號登入）</p>
     </div>
-    <p class="muted" style="margin-top:.8em">NotebookLM 免費、不算 AI 額度：<a class="url" href="https://notebooklm.google.com/" target="_blank" rel="noopener">notebooklm.google.com</a></p>
+  </section>
+
+  <!-- 10.7 NBLM Step 1 -->
+  <section class="slide">
+    <span class="tag">題庫進階 · Step 1</span>
+    <h2>Step 1：把題目 PDF 丟進 NotebookLM</h2>
+    <div class="step"><div class="num">1</div><p>打開 <a class="url" href="https://notebooklm.google.com/" target="_blank" rel="noopener">notebooklm.google.com</a> → 用 Google 帳號登入</p></div>
+    <div class="step"><div class="num">2</div><p>點左上角 <b>「＋ 建立新筆記本」</b>（或 + New notebook）</p></div>
+    <div class="step"><div class="num">3</div><div>
+      <p style="margin:0">把你的<b>題目 PDF 檔</b>拖進中央上傳區（或點「上傳」選檔案）</p>
+      <p class="muted" style="margin:.3em 0;font-size:.92em">✅ 支援格式：PDF / Word / Google 文件 / 純文字 / 網址</p>
+      <p class="muted" style="margin:.2em 0;font-size:.92em">✅ 一次可以丟多個檔案（同單元 / 同章節題目都丟進去）</p>
+    </div></div>
+    <div class="step"><div class="num">4</div><p>等 10~30 秒，跑出「來源摘要」→ 表示讀好了 <span class="check">✓</span></p></div>
+    <div class="card" style="border-color:var(--accent2)">
+      <p style="margin:0"><b>💡 小撇步</b>：題庫如果是<b>圖片掃描</b>（如手寫考卷拍照），NotebookLM 也能讀，但建議先用手機掃描 App 轉成 PDF，認字率更高。</p>
+    </div>
+  </section>
+
+  <!-- 10.8 NBLM Step 2 -->
+  <section class="slide">
+    <span class="tag">題庫進階 · Step 2</span>
+    <h2>Step 2：下提示詞，整理成標準表格</h2>
+    <p class="muted">把下面這段提示詞貼進 NotebookLM 下方的<b>對話框</b>，按送出（這是課堂用的同一段，點「複製」即可）：</p>
+    <code class="cmd" style="white-space:pre-wrap;word-break:break-word">請幫我把這份題庫整理成「四選一選擇題」的標準表格。
+
+格式要求：
+1. 每一列就是一題
+2. 欄位順序：題目 | A | B | C | D（總共 5 欄）
+3. A 欄位「一律放正確答案」（不管原本標的是哪個選項，正解都搬到 A）
+4. B、C、D 欄位放剩下 3 個錯誤選項
+5. 不要包含題號、不要分節、不要其他說明
+6. 如果某題未滿 4 個選項，缺的格子用「空」補上
+7. 用 Markdown 表格格式輸出，方便我複製貼到 Excel</code>
+    <div class="card" style="margin-top:.8em">
+      <p style="margin:0 0 .4em"><b>✅ 完成的表格會長這樣：</b></p>
+      <table style="border-collapse:collapse;width:100%;font-size:.92em">
+        <tr>
+          <th style="border:1px solid #475569;padding:.35em .7em;background:#0b1220;text-align:left">題目</th>
+          <th style="border:1px solid #475569;padding:.35em .7em;background:#0b1220;text-align:left;color:var(--ok)">A（正解）</th>
+          <th style="border:1px solid #475569;padding:.35em .7em;background:#0b1220;text-align:left">B</th>
+          <th style="border:1px solid #475569;padding:.35em .7em;background:#0b1220;text-align:left">C</th>
+          <th style="border:1px solid #475569;padding:.35em .7em;background:#0b1220;text-align:left">D</th>
+        </tr>
+        <tr>
+          <td style="border:1px solid #475569;padding:.35em .7em">蘋果的英文</td>
+          <td style="border:1px solid #475569;padding:.35em .7em;color:var(--ok)"><b>apple</b></td>
+          <td style="border:1px solid #475569;padding:.35em .7em">banana</td>
+          <td style="border:1px solid #475569;padding:.35em .7em">orange</td>
+          <td style="border:1px solid #475569;padding:.35em .7em">grape</td>
+        </tr>
+        <tr>
+          <td style="border:1px solid #475569;padding:.35em .7em">世界最高山</td>
+          <td style="border:1px solid #475569;padding:.35em .7em;color:var(--ok)"><b>珠穆朗瑪峰</b></td>
+          <td style="border:1px solid #475569;padding:.35em .7em">玉山</td>
+          <td style="border:1px solid #475569;padding:.35em .7em">富士山</td>
+          <td style="border:1px solid #475569;padding:.35em .7em">阿爾卑斯山</td>
+        </tr>
+      </table>
+    </div>
+    <p class="muted" style="margin-top:.5em;font-size:.9em">⚠️ <b>檢查重點</b>：A 欄是不是<b>全部都是正確答案</b>？沒有就再說一次：「A 欄要放正解，請重新整理」。</p>
+  </section>
+
+  <!-- 10.9 NBLM Step 3 -->
+  <section class="slide">
+    <span class="tag">題庫進階 · Step 3</span>
+    <h2>Step 3：存成記事 → 匯出為試算表</h2>
+    <div class="step"><div class="num">1</div><div>
+      <p style="margin:0">表格跑出來後，在那段回應的下方點 <b>「儲存到筆記」</b>（圖示像便利貼）</p>
+      <p class="muted" style="margin:.2em 0;font-size:.92em">→ 右邊側欄會出現一筆新的「記事」</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div>
+      <p style="margin:0">點那筆記事右邊的 <b>「⋮」三點選單</b> → 選 <b>「匯出為試算表」</b></p>
+      <p class="muted" style="margin:.2em 0;font-size:.92em">→ 會自動建一份 Google Sheets，並直接打開</p>
+    </div></div>
+    <div class="step"><div class="num">3</div><div>
+      <p style="margin:0">確認內容無誤後，<b>重新命名</b>：<code>【科目】題庫_v1</code></p>
+      <p class="muted" style="margin:.2em 0;font-size:.92em">例：「國一英文_單字題庫_v1」</p>
+    </div></div>
+    <div class="step"><div class="num">4</div><div>
+      <p style="margin:0">需要 Excel 檔的話：<b>檔案 → 下載 → Microsoft Excel (.xlsx)</b></p>
+      <p class="muted" style="margin:.2em 0;font-size:.92em">不需要就留在 Google Sheets——下一頁要用它做活網址</p>
+    </div></div>
+  </section>
+
+  <!-- 10.10 NBLM Step 4 -->
+  <section class="slide">
+    <span class="tag">題庫進階 · Step 4 ⭐</span>
+    <h2>Step 4：發布成 CSV，拿到活網址</h2>
+    <p class="muted">這是<b style="color:var(--accent)">整個流程的魔法時刻</b>——一條網址，遊戲跟著題庫一起更新。</p>
+    <div class="step"><div class="num">1</div><p>在 Google Sheets 點左上角 <b>「檔案」→「共用」→「發布到網路」</b></p></div>
+    <div class="step"><div class="num">2</div><div>
+      <p style="margin:0">跳出視窗後，<b>2 個下拉選單</b>要選對：</p>
+      <div class="mock" style="max-width:560px">
+        <div><span class="target">整份文件 ▾</span>　<span class="target">逗號分隔值 (.csv) ▾</span><span class="arrow">← 兩個都要選對！</span></div>
+        <div style="margin-top:.4em" class="ignore">網頁 · Excel（不要選這些）</div>
+      </div>
+    </div></div>
+    <div class="step"><div class="num">3</div><p>點藍色 <b>「發布」</b> 按鈕 → 跳確認 → 點「<b>確定</b>」</p></div>
+    <div class="step"><div class="num">4</div><div>
+      <p style="margin:0">會跳出一條<b>很長的網址</b>（docs.google.com/ 開頭）→ <b>複製起來</b></p>
+      <p class="muted" style="margin:.3em 0;font-size:.92em">這條網址 = 你的「<b>活題庫</b>」，把它存在好找的地方，<b>上課當天要用</b></p>
+    </div></div>
+    <div class="step"><div class="num">5</div><div>
+      <p style="margin:0">驗證能用：把網址貼到瀏覽器網址列按 Enter</p>
+      <p class="muted" style="margin:.3em 0;font-size:.92em">→ 會下載一個 .csv 檔，或直接顯示「題目,A,B,C,D」開頭的內容 = 成功 <span class="check">✓</span></p>
+    </div></div>
+    <div class="card" style="margin-top:.5em;border-color:var(--accent)">
+      <p style="margin:0"><b>💡 之後想改題目？</b>直接在 Google Sheets 改 → 存檔 → <b style="color:var(--ok)">遊戲自動更新</b>，不用重新發布、不用重做網頁。</p>
+    </div>
   </section>
 
   <!-- 11 自我檢核 -->
@@ -601,7 +707,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
     </div>
   </section>
 
-  <!-- 11.5 延伸模組安裝（封面按鈕 show(20) 指到這頁，動這頁位置要同步改） -->
+  <!-- 11.5 延伸模組安裝（封面按鈕 show(24) 指到這頁，動這頁位置要同步改） -->
   <section class="slide">
     <span class="tag">延伸任務 · 裝完 Antigravity 之後</span>
     <h2>🧩 幫 Antigravity 裝上延伸模組</h2>
@@ -631,7 +737,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
     <div class="card"><a class="url" href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a>　<span class="muted">（Git，Windows 用）</span></div>
     <div class="card"><a class="url" href="https://cli.github.com" target="_blank" rel="noopener">https://cli.github.com</a>　<span class="muted">（GitHub CLI 備案）</span></div>
     <div class="card"><a class="url" href="antigravity-modules/index.html" target="_blank" rel="noopener">延伸模組安裝圖解教學</a>　<span class="muted">（繁中語言包 + Codex / Claude Code）</span></div>
-    <div class="card"><a class="url" href="notebooklm-csv/index.html" target="_blank" rel="noopener">題庫變 CSV 活網址圖解教學</a>　<span class="muted">（NotebookLM → Google Sheets → 發布 CSV）</span></div>
+    <div class="card"><a class="url" href="https://notebooklm.google.com/" target="_blank" rel="noopener">https://notebooklm.google.com/</a>　<span class="muted">（NotebookLM，題庫變活網址用）</span></div>
   </section>
 
 </div>

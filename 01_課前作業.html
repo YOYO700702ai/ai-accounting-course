@@ -105,7 +105,7 @@
     <span class="tag">AI 程式 + 動態題庫 課程 · 課前作業</span>
     <h1>開課前，請先完成 6 件事</h1>
     <p class="hero">為了讓上課當天可以直接動手做，麻煩在開課前先把下面六項準備好。預計 <b>30 分鐘</b> 就能搞定。</p>
-    <p style="margin:.8em 0 0"><b>⚡ 安裝完了？</b>　<a class="jumpbtn" href="#" onclick="show(24);return false;" style="font-size:1em;padding:.35em 1em">🧩 這裡跳轉 → 程式模組安裝</a></p>
+    <p style="margin:.8em 0 0"><b>⚡ 安裝完了？快速跳轉：</b>　<a class="jumpbtn" href="#" onclick="show(19);return false;" style="font-size:1em;padding:.35em 1em">🧩 程式模組安裝</a>　<a class="jumpbtn" href="#" onclick="show(20);return false;" style="font-size:1em;padding:.35em 1em">📓 題庫變 CSV 活網址</a></p>
     <div class="card" style="margin-top:1em">
       <p style="margin:.2em 0"><span class="check">⓪</span> <b style="color:var(--accent)">訂閱一個 AI</b>（GPT Plus / Claude / Gemini Pro 三選一）</p>
       <p style="margin:.2em 0"><span class="check">①</span> 下載並安裝 <b>Antigravity IDE</b></p>
@@ -545,7 +545,66 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
     </div>
   </section>
 
-  <!-- 10.6 題庫進階：NotebookLM → CSV 活網址（共 5 頁） -->
+  <!-- 11 自我檢核 -->
+  <section class="slide">
+    <span class="tag">課前自我檢核</span>
+    <h2>上課前，請確認以下都 ✓</h2>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1em;margin-top:.6em">
+      <div class="card" style="flex:0 0 240px;font-size:.92em">
+        <p style="margin:.2em 0"><b>① Antigravity</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 電腦能打開 <b>Antigravity IDE</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 已用 Google 帳號登入</p>
+      </div>
+      <div class="card" style="flex:0 0 240px;font-size:.92em">
+        <p style="margin:.2em 0"><b>② GitHub 帳號</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 擁有可登入的 <b>GitHub 帳號</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 記得自己的 username</p>
+      </div>
+      <div class="card" style="flex:0 0 240px;font-size:.92em">
+        <p style="margin:.2em 0"><b>③ Git</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 終端機輸入 <code>git --version</code> 有版本號</p>
+      </div>
+      <div class="card" style="flex:0 0 240px;font-size:.92em">
+        <p style="margin:.2em 0"><b>④ 電腦登入 GitHub</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 終端機輸入 <code>gh --version</code> 有版本號</p>
+        <p style="margin:.2em 0"><span class="check">☐</span> <code>gh auth status</code> 看到 ✓ Logged in</p>
+      </div>
+      <div class="card" style="flex:0 0 240px;font-size:.92em;border-color:var(--accent)">
+        <p style="margin:.2em 0"><b>⑤ 題庫</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 題目是<b>選擇題</b>（四選一）</p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 每題都標好<b>正確答案</b></p>
+        <p style="margin:.2em 0"><span class="check">☐</span> 至少 <b>10 題</b> 以上</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.2em;border-color:var(--accent2)">
+      <p style="margin:0 0 .3em"><b>📸 遇到卡關不用緊張</b></p>
+      <p style="margin:.2em 0">把錯誤畫面<b>截圖</b>，到<b>課程群組</b>提問，我們會一起處理 💪</p>
+      <p class="muted" style="margin:.2em 0">提問時附上：① 你在哪一步 ② 螢幕截圖 ③ 你的作業系統（Mac / Windows）</p>
+    </div>
+  </section>
+
+  <!-- 11.5 延伸模組安裝（封面按鈕 show(19) 指到這頁，動這頁位置要同步改） -->
+  <section class="slide">
+    <span class="tag">延伸任務 · 裝完 Antigravity 之後</span>
+    <h2>🧩 幫 Antigravity 裝上延伸模組</h2>
+    <p>Antigravity 裝好之後，再花 <b>5 分鐘</b>裝兩個延伸模組，上課會順很多：</p>
+    <div class="two">
+      <div class="card" style="border-color:var(--ok);margin:0">
+        <p style="margin:0 0 .3em;font-size:1.1em"><b style="color:var(--ok)">🈶 繁體中文語言包</b> <span class="pill">建議必裝</span></p>
+        <p class="muted" style="margin:.2em 0">選單、按鈕、提示全部變繁體中文，操作不用再用猜的。</p>
+      </div>
+      <div class="card" style="border-color:var(--accent2);margin:0">
+        <p style="margin:0 0 .3em;font-size:1.1em"><b style="color:var(--accent2)">🤖 AI 程式助理（二選一）</b></p>
+        <p class="muted" style="margin:.2em 0"><b>Codex</b>（OpenAI）或 <b>Claude Code</b>（Anthropic）擇一。<b>不必兩個都裝</b>，選你有訂閱或老師指定的那個。</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.2em;border-color:var(--accent)">
+      <p style="margin:0 0 .6em"><b>👇 完整圖解教學在這裡（四張截圖步驟 + 安裝完成檢查表）</b></p>
+      <a class="pathbtn" style="max-width:560px" href="antigravity-modules/index.html" target="_blank" rel="noopener">🧩 <b>打開「延伸模組安裝」圖解教學</b><span class="muted">看著截圖跟著點，5 分鐘完成</span></a>
+    </div>
+  </section>
+
+  <!-- 10.6 題庫進階：NotebookLM → CSV 活網址（共 5 頁；封面按鈕 show(20) 指到第一頁，動位置要同步改） -->
   <section class="slide">
     <span class="tag">題庫進階 · 想先做起來放也可以</span>
     <h2>📓 進一步：把題庫變成「活網址」</h2>
@@ -684,65 +743,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code>
     </div></div>
     <div class="card" style="margin-top:.5em;border-color:var(--accent)">
       <p style="margin:0"><b>💡 之後想改題目？</b>直接在 Google Sheets 改 → 存檔 → <b style="color:var(--ok)">遊戲自動更新</b>，不用重新發布、不用重做網頁。</p>
-    </div>
-  </section>
-
-  <!-- 11 自我檢核 -->
-  <section class="slide">
-    <span class="tag">課前自我檢核</span>
-    <h2>上課前，請確認以下都 ✓</h2>
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1em;margin-top:.6em">
-      <div class="card" style="flex:0 0 240px;font-size:.92em">
-        <p style="margin:.2em 0"><b>① Antigravity</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 電腦能打開 <b>Antigravity IDE</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 已用 Google 帳號登入</p>
-      </div>
-      <div class="card" style="flex:0 0 240px;font-size:.92em">
-        <p style="margin:.2em 0"><b>② GitHub 帳號</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 擁有可登入的 <b>GitHub 帳號</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 記得自己的 username</p>
-      </div>
-      <div class="card" style="flex:0 0 240px;font-size:.92em">
-        <p style="margin:.2em 0"><b>③ Git</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 終端機輸入 <code>git --version</code> 有版本號</p>
-      </div>
-      <div class="card" style="flex:0 0 240px;font-size:.92em">
-        <p style="margin:.2em 0"><b>④ 電腦登入 GitHub</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 終端機輸入 <code>gh --version</code> 有版本號</p>
-        <p style="margin:.2em 0"><span class="check">☐</span> <code>gh auth status</code> 看到 ✓ Logged in</p>
-      </div>
-      <div class="card" style="flex:0 0 240px;font-size:.92em;border-color:var(--accent)">
-        <p style="margin:.2em 0"><b>⑤ 題庫</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 題目是<b>選擇題</b>（四選一）</p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 每題都標好<b>正確答案</b></p>
-        <p style="margin:.2em 0"><span class="check">☐</span> 至少 <b>10 題</b> 以上</p>
-      </div>
-    </div>
-    <div class="card" style="margin-top:1.2em;border-color:var(--accent2)">
-      <p style="margin:0 0 .3em"><b>📸 遇到卡關不用緊張</b></p>
-      <p style="margin:.2em 0">把錯誤畫面<b>截圖</b>，到<b>課程群組</b>提問，我們會一起處理 💪</p>
-      <p class="muted" style="margin:.2em 0">提問時附上：① 你在哪一步 ② 螢幕截圖 ③ 你的作業系統（Mac / Windows）</p>
-    </div>
-  </section>
-
-  <!-- 11.5 延伸模組安裝（封面按鈕 show(24) 指到這頁，動這頁位置要同步改） -->
-  <section class="slide">
-    <span class="tag">延伸任務 · 裝完 Antigravity 之後</span>
-    <h2>🧩 幫 Antigravity 裝上延伸模組</h2>
-    <p>Antigravity 裝好之後，再花 <b>5 分鐘</b>裝兩個延伸模組，上課會順很多：</p>
-    <div class="two">
-      <div class="card" style="border-color:var(--ok);margin:0">
-        <p style="margin:0 0 .3em;font-size:1.1em"><b style="color:var(--ok)">🈶 繁體中文語言包</b> <span class="pill">建議必裝</span></p>
-        <p class="muted" style="margin:.2em 0">選單、按鈕、提示全部變繁體中文，操作不用再用猜的。</p>
-      </div>
-      <div class="card" style="border-color:var(--accent2);margin:0">
-        <p style="margin:0 0 .3em;font-size:1.1em"><b style="color:var(--accent2)">🤖 AI 程式助理（二選一）</b></p>
-        <p class="muted" style="margin:.2em 0"><b>Codex</b>（OpenAI）或 <b>Claude Code</b>（Anthropic）擇一。<b>不必兩個都裝</b>，選你有訂閱或老師指定的那個。</p>
-      </div>
-    </div>
-    <div class="card" style="margin-top:1.2em;border-color:var(--accent)">
-      <p style="margin:0 0 .6em"><b>👇 完整圖解教學在這裡（四張截圖步驟 + 安裝完成檢查表）</b></p>
-      <a class="pathbtn" style="max-width:560px" href="antigravity-modules/index.html" target="_blank" rel="noopener">🧩 <b>打開「延伸模組安裝」圖解教學</b><span class="muted">看著截圖跟著點，5 分鐘完成</span></a>
     </div>
   </section>
 

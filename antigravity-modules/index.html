@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Antigravity｜建議安裝的擴充功能</title>
+  <style>
+    :root { --ink:#263548; --muted:#647184; --paper:#f7f4ed; --navy:#172638; --gold:#f0b24a; --teal:#47b7a7; --line:#d9dfe4; --white:#fff; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--ink); background:var(--paper); font-family:"Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif; line-height:1.75; }
+    .hero { background:radial-gradient(circle at 82% 20%,#315778 0,transparent 30%),var(--navy); color:white; padding:68px 24px 56px; }
+    .wrap { max-width:1080px; margin:auto; }
+    .eyebrow { color:#ffd47e; letter-spacing:.12em; font-weight:700; font-size:.86rem; }
+    h1 { margin:9px 0 14px; max-width:850px; font-size:clamp(2.15rem,5vw,4rem); line-height:1.22; }
+    .lead { max-width:780px; margin:0; font-size:1.13rem; color:#e3edf4; }
+    nav { background:#fff; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+    nav .wrap { display:flex; gap:6px; overflow:auto; padding:12px 18px; }
+    nav a { text-decoration:none; color:var(--ink); font-weight:700; white-space:nowrap; padding:7px 12px; border-radius:20px; }
+    nav a:hover { background:#fff1d5; }
+    main { padding:42px 24px 66px; }
+    section { margin:0 0 54px; }
+    h2 { margin:0 0 14px; font-size:clamp(1.55rem,3vw,2.25rem); line-height:1.35; }
+    h3 { margin:0 0 8px; font-size:1.3rem; line-height:1.45; }
+    .intro { font-size:1.08rem; max-width:900px; }
+    .notice { background:#fff5de; border-left:5px solid var(--gold); padding:18px 20px; border-radius:0 12px 12px 0; margin:22px 0; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .card { background:var(--white); border:1px solid var(--line); border-radius:16px; padding:23px; box-shadow:0 5px 20px #2635480d; }
+    .number { display:inline-grid; place-items:center; width:32px; height:32px; border-radius:50%; background:var(--navy); color:white; font-weight:800; margin-bottom:10px; }
+    .tag { display:inline-block; padding:2px 10px; font-size:.84rem; border-radius:999px; background:#ddf5f1; color:#126e62; font-weight:700; }
+    .optional { background:#fff1d5; color:#8a5810; }
+    .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:24px; }
+    .step { background:white; border-radius:16px; overflow:hidden; border:1px solid var(--line); }
+    .step img { display:block; width:100%; border-bottom:1px solid var(--line); }
+    .step-content { padding:18px 20px 20px; }
+    .step-content p { margin:6px 0 0; }
+    .choice { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .choice .card { border-top:5px solid var(--teal); }
+    .choice .card:last-child { border-top-color:var(--gold); }
+    ul { padding-left:1.35em; margin:9px 0; }
+    .checklist { background:#e9f6f4; border-radius:18px; padding:25px 28px; }
+    .checklist li { margin:7px 0; }
+    footer { background:var(--navy); color:#d9e6ee; text-align:center; padding:28px 20px; font-size:.95rem; }
+    @media (max-width:780px) { .grid,.steps,.choice { grid-template-columns:1fr; } .hero { padding-top:46px; } main { padding:32px 18px; } }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <div class="eyebrow">ANTIGRAVITY IDE · 新手安裝指南</div>
+      <h1>Antigravity 需要安裝哪些模組？</h1>
+      <p class="lead">先把介面變成看得懂的繁體中文，再選擇一位 AI 程式助理。這份圖文說明依照你的安裝畫面整理，照著做就能完成基本設定。</p>
+    </div>
+  </header>
+  <nav><div class="wrap"><a href="#overview">先看結論</a><a href="#how">開啟延伸模組</a><a href="#language">繁中語言包</a><a href="#assistants">AI 助理二選一</a><a href="#check">完成檢查</a></div></nav>
+  <main class="wrap">
+    <section id="overview">
+      <h2>先看結論：建議安裝 2 個</h2>
+      <p class="intro">Antigravity 的「延伸模組」就是替 IDE 加上新功能的小工具。剛開始使用時，安裝<strong>繁體中文語言包</strong>，再從 <strong>Codex</strong> 與 <strong>Claude Code</strong> 裡選一個，即可開始使用。</p>
+      <div class="notice"><strong>重要：</strong>Codex 和 Claude Code 都是 AI 程式助理，功能有重疊。一般使用者<strong>不必兩個都裝</strong>；選你有帳號、訂閱或老師指定的那一個即可。</div>
+      <div class="grid">
+        <article class="card"><span class="tag">建議必裝</span><h3>繁體中文語言包</h3><p>把選單、按鈕和提示轉為繁體中文，操作更容易。</p></article>
+        <article class="card"><span class="tag optional">二選一</span><h3>Codex — OpenAI</h3><p>在 IDE 裡使用 Codex 協助讀程式、修改檔案與執行工作。</p></article>
+        <article class="card"><span class="tag optional">二選一</span><h3>Claude Code — Anthropic</h3><p>在 IDE 裡使用 Claude Code 協助理解專案與撰寫程式。</p></article>
+      </div>
+    </section>
+
+    <section id="how">
+      <h2>第 1 步：找到「延伸模組」</h2>
+      <div class="steps">
+        <article class="step"><img src="images/01-open-extensions.png" alt="Antigravity 左側工具列的延伸模組圖示，提示快捷鍵 Ctrl Shift X"><div class="step-content"><span class="number">1</span><h3>點左側的方塊圖示</h3><p>滑鼠移到圖示時會顯示「延伸模組」。也可按 <strong>Ctrl + Shift + X</strong> 開啟。</p></div></article>
+        <article class="step"><img src="images/02-traditional-chinese.png" alt="在延伸模組市集搜尋繁體中文語言包"><div class="step-content"><span class="number">2</span><h3>在上方搜尋框輸入名稱</h3><p>例如輸入 <strong>Chinese (Traditional) Language Pack</strong>、<strong>Codex</strong> 或 <strong>Claude</strong>。</p></div></article>
+        <article class="step"><img src="images/03-codex.png" alt="Codex 擴充功能安裝畫面"><div class="step-content"><span class="number">3</span><h3>點選正確項目後安裝</h3><p>確認作者、名稱和圖示，再按「安裝」。出現「正在安裝」時請稍等。</p></div></article>
+      </div>
+      <p class="notice">你的畫面顯示 Antigravity 預設使用 <strong>Open VSX</strong> 市集。這是正常的擴充功能來源；只要從搜尋結果中確認名稱與發行者即可。</p>
+    </section>
+
+    <section id="language">
+      <h2>第 2 步：先裝「繁體中文語言包」</h2>
+      <div class="card">
+        <span class="tag">建議必裝</span>
+        <h3>Chinese (Traditional) Language Pack for Visual Studio Code</h3>
+        <p>你的截圖顯示發行者是 <strong>MS-CEINTL</strong>，描述為「Language pack extension for Chinese (Traditional)」。這個模組只負責把介面中文化，不會替你寫程式，也不需要額外登入 AI 帳號。</p>
+        <ul><li>在搜尋框輸入 <strong>Chinese (Traditional) Language Pack</strong>。</li><li>點選名稱相同、發行者為 <strong>MS-CEINTL</strong> 的結果。</li><li>按「安裝」。若系統提示重新啟動或重新載入視窗，依提示操作即可生效。</li><li>看到按鈕變成「解除安裝」，代表已安裝完成。</li></ul>
+      </div>
+    </section>
+
+    <section id="assistants">
+      <h2>第 3 步：AI 程式助理二選一</h2>
+      <p class="intro">兩個模組都能在開發過程中提供 AI 協助，但它們屬於不同公司與服務。請按你的使用需求選擇，而不是因為看到搜尋結果就全部安裝。</p>
+      <div class="choice">
+        <article class="card"><span class="tag optional">選項 A</span><h3>Codex — OpenAI's coding agent</h3><img src="images/03-codex.png" alt="Codex 安裝畫面" style="width:100%;margin:14px 0;border:1px solid #d9dfe4"><p>截圖中發行者是 <strong>openai</strong>。適合已使用 OpenAI／ChatGPT 生態系、並希望在 IDE 裡與 Codex 合作完成程式工作的使用者。</p><ul><li>搜尋：<strong>Codex</strong></li><li>確認名稱：<strong>Codex — OpenAI's coding agent</strong></li><li>確認發行者：<strong>openai</strong></li><li>安裝後依畫面登入或授權；是否需要可用帳號或方案，以安裝後顯示的流程為準。</li></ul></article>
+        <article class="card"><span class="tag optional">選項 B</span><h3>Claude Code for VS Code</h3><img src="images/04-claude-code.png" alt="Claude Code for VS Code 安裝畫面" style="width:100%;margin:14px 0;border:1px solid #d9dfe4"><p>截圖中發行者是 <strong>Anthropic</strong>。適合已使用 Claude 服務，並希望把 Claude Code 直接整合到 IDE 的使用者。</p><ul><li>搜尋：<strong>Claude</strong></li><li>確認名稱：<strong>Claude Code for VS Code</strong></li><li>確認發行者：<strong>Anthropic</strong></li><li>安裝後依畫面登入或授權；是否需要可用帳號或方案，以安裝後顯示的流程為準。</li></ul></article>
+      </div>
+    </section>
+
+    <section id="check">
+      <h2>安裝完成後，這樣檢查</h2>
+      <div class="checklist"><ul><li>搜尋到的項目按鈕已從「安裝」改為「解除安裝」或顯示已安裝狀態。</li><li>繁中語言包安裝後，若介面仍是英文，先依提示重新載入／重啟 Antigravity。</li><li>只保留一個 AI 助理（Codex 或 Claude Code）作為起點；日後真的需要再加裝另一個。</li><li>AI 模組第一次開啟時，依官方畫面登入。不要把密碼、API 金鑰或敏感資料貼進一般對話。</li><li>安裝失敗時，先確認網路，按延伸模組頁面的重新整理按鈕，再重新嘗試。</li></ul></div>
+    </section>
+  </main>
+  <footer>Antigravity 擴充功能安裝說明｜依提供畫面整理</footer>
+</body>
+</html>

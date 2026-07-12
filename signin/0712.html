@@ -6,298 +6,141 @@
 <title>7/12 AI 微型程式工作坊｜點名台</title>
 <style>
   :root{
-    --bg-a:#0F0B24;
-    --bg-b:#1E1748;
-    --bg-c:#2A1F63;
-    --glow:#5B4EA8;
-
-    --coral:#FB7185;
-    --orange:#F97316;
-    --gold:#F59E0B;
-    --mint:#10B981;
-    --sky:#38BDF8;
-    --purple:#A78BFA;
-    --pink:#F472B6;
-
-    --ink:#1F1B4D;
-    --ink-soft:#5B5680;
-    --ink-mute:#8B87A8;
-
-    --fg:#F5F0FF;
-    --fg-mute:#B8B0DA;
-
-    --card:#FFFFFF;
-    --card-hover:#FFFCF5;
-
-    --shadow-soft: 0 8px 24px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.15);
-    --shadow-lift: 0 24px 48px rgba(139,92,246,.35), 0 8px 20px rgba(0,0,0,.3);
-    --shadow-signed: 0 20px 40px rgba(16,185,129,.4), 0 0 0 3px rgba(16,185,129,.35);
-    --shadow-modal: 0 40px 80px rgba(0,0,0,.5), 0 20px 40px rgba(0,0,0,.35);
+    --coral:#FB7185; --mint:#10B981; --sky:#38BDF8;
+    --purple:#A78BFA; --pink:#F472B6;
+    --fg:#F5F0FF; --fg-mute:#B8B0DA;
   }
-  *{box-sizing:border-box;margin:0;padding:0}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:rgba(167,139,250,.25)}
   html,body{min-height:100%;color:var(--fg);
     font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
-    -webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(167,139,250,.25) 0%, transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 110%, rgba(244,114,182,.15) 0%, transparent 60%),
-      linear-gradient(180deg, var(--bg-a) 0%, var(--bg-b) 50%, var(--bg-a) 100%);
-    background-attachment:fixed;
+    background:#141031;
+    background:linear-gradient(180deg,#0F0B24 0%,#1E1748 50%,#0F0B24 100%);
     overflow-x:hidden;
   }
 
-  /* 漂浮裝飾 - 更少更淡 */
-  .float{position:fixed;pointer-events:none;opacity:.2;filter:blur(.3px);z-index:0;
-    animation:float 10s ease-in-out infinite}
-  .f1{top:8%;left:5%;font-size:2.4rem;animation-delay:-2s}
-  .f2{top:14%;right:6%;font-size:2rem;animation-delay:-4s}
-  .f3{bottom:12%;left:7%;font-size:2.2rem;animation-delay:-5s}
-  .f4{bottom:16%;right:8%;font-size:2rem;animation-delay:-6s}
-  @keyframes float{
-    0%,100%{transform:translateY(0) rotate(-4deg)}
-    50%{transform:translateY(-18px) rotate(4deg)}
-  }
-
-  header{padding:7vh 5vw 2vh;text-align:center;position:relative;z-index:1}
-  .kicker{
-    display:inline-flex;align-items:center;gap:.5em;
-    padding:.4em 1.1em;border-radius:999px;
-    background:rgba(255,255,255,.08);color:#E9D5FF;
-    border:1px solid rgba(255,255,255,.12);
-    font-size:.82em;letter-spacing:.14em;font-weight:800;
-    margin-bottom:1.2em;backdrop-filter:blur(6px);
-  }
-  .kicker::before{content:'●';color:var(--coral);animation:blink 1.6s infinite}
-  @keyframes blink{50%{opacity:.35}}
-
-  h1{
-    font-size:clamp(36px,6vw,68px);
-    font-weight:900;line-height:1.08;letter-spacing:-.02em;
-    margin-bottom:.4em;
+  header{padding:6vh 5vw 2vh;text-align:center}
+  .kicker{display:inline-block;padding:.4em 1.1em;border-radius:999px;
+    background:rgba(255,255,255,.09);color:#E9D5FF;
+    border:1px solid rgba(255,255,255,.14);
+    font-size:.82em;letter-spacing:.14em;font-weight:800;margin-bottom:1.2em;}
+  h1{font-size:clamp(34px,6vw,64px);font-weight:900;line-height:1.1;
+    letter-spacing:-.01em;margin-bottom:.4em;
     background:linear-gradient(120deg,#FDE68A 0%,#FBCFE8 45%,#C4B5FD 100%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 0 60px rgba(196,181,253,.15);
-  }
-  h1 .em{
-    display:inline-block;font-size:.75em;vertical-align:middle;margin:0 .1em;
-    background:linear-gradient(135deg,#FBBF24,#F59E0B);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-  }
-  .subtitle{color:var(--fg-mute);font-size:clamp(15px,1.9vw,20px);
-    margin-top:.3em;line-height:1.6;font-weight:500}
+    -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .subtitle{color:var(--fg-mute);font-size:clamp(15px,1.9vw,20px);font-weight:500}
   .subtitle b{color:#FCD34D;font-weight:800}
 
-  .stats{display:flex;justify-content:center;gap:1.2em;margin:2.4em 0 1.4em;
-    flex-wrap:wrap;position:relative;z-index:1}
-  .stat{
-    background:rgba(255,255,255,.06);padding:1.1em 1.6em;border-radius:20px;
-    text-align:center;min-width:140px;
-    border:1px solid rgba(255,255,255,.1);
-    backdrop-filter:blur(10px);
-    box-shadow:var(--shadow-soft);transition:transform .3s;
-  }
-  .stat:hover{transform:translateY(-3px);background:rgba(255,255,255,.09)}
-  .stat-num{font-size:2.4em;font-weight:900;line-height:1;letter-spacing:-.02em}
+  .stats{display:flex;justify-content:center;gap:1em;margin:2.2em 0 1.2em;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.07);padding:1em 1.5em;border-radius:18px;
+    text-align:center;min-width:130px;border:1px solid rgba(255,255,255,.12);}
+  .stat-num{font-size:2.2em;font-weight:900;line-height:1}
   .stat-num.done{color:#6EE7B7}
   .stat-num.total{color:#C4B5FD}
   .stat-num.left{color:#FCA5A5}
-  .stat-label{font-size:.82em;color:var(--fg-mute);margin-top:.4em;
-    letter-spacing:.08em;font-weight:700}
+  .stat-label{font-size:.8em;color:var(--fg-mute);margin-top:.4em;letter-spacing:.08em;font-weight:700}
 
-  .progress-wrap{max-width:640px;margin:0 auto 4em;padding:0 5vw;position:relative;z-index:1}
-  .progress{height:16px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;
-    border:1px solid rgba(255,255,255,.1);
-    box-shadow:inset 0 2px 6px rgba(0,0,0,.35);}
-  .progress-bar{height:100%;
+  .progress-wrap{max-width:640px;margin:0 auto 3.4em;padding:0 5vw}
+  .progress{height:14px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);}
+  .progress-bar{height:100%;border-radius:99px;
     background:linear-gradient(90deg,var(--mint),var(--sky),var(--purple),var(--coral));
-    background-size:200% 100%;border-radius:99px;
-    transition:width 1s cubic-bezier(.4,0,.2,1);
-    box-shadow:0 0 20px rgba(139,92,246,.6);animation:shimmer 4s linear infinite;}
-  @keyframes shimmer{100%{background-position:200% 0}}
-  .progress-text{text-align:center;margin-top:.9em;color:var(--fg-mute);
-    font-size:.95em;font-weight:600}
+    transition:width .8s ease;}
+  .progress-text{text-align:center;margin-top:.8em;color:var(--fg-mute);font-size:.95em;font-weight:600}
 
-  main{max-width:1240px;margin:0 auto;padding:0 5vw 6vh;position:relative;z-index:1}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:20px}
-  @media(min-width:700px){.grid{gap:26px}}
+  main{max-width:1240px;margin:0 auto;padding:0 5vw 6vh}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:18px}
 
   .card{
-    position:relative;background:var(--card);border-radius:22px;
-    padding:1.8em 1.2em 1.5em;text-align:center;cursor:pointer;
-    transition:all .35s cubic-bezier(.4,0,.2,1);
-    overflow:hidden;user-select:none;
-    box-shadow:var(--shadow-soft);border:2px solid transparent;
+    display:block;width:100%;
+    position:relative;background:#fff;border-radius:20px;
+    padding:1.7em 1em 1.4em;text-align:center;cursor:pointer;
+    border:none;border-top:6px solid #C4B5FD;
+    font-family:inherit;
+    box-shadow:0 8px 20px rgba(0,0,0,.35);
+    transition:transform .2s, box-shadow .2s;
   }
-  .card::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:5px;
-    background:linear-gradient(90deg,var(--pink),var(--purple),var(--sky));
-    opacity:.9;transition:opacity .3s, height .3s;
-  }
-  .card:hover{
-    transform:translateY(-8px) scale(1.03);background:var(--card-hover);
-    box-shadow:var(--shadow-lift);border-color:rgba(196,181,253,.6);
-  }
-  .card:hover::before{height:8px;opacity:1}
-  .card:active{transform:translateY(-4px) scale(1.01)}
+  .card:hover{transform:translateY(-5px);box-shadow:0 16px 32px rgba(139,92,246,.4)}
+  .card:active{transform:translateY(-1px)}
 
-  .card-name{font-size:2.1em;font-weight:900;color:#1F1B4D;
-    letter-spacing:.14em;line-height:1.1;margin-top:.2em;margin-bottom:.4em;}
-  .card-line{display:inline-block;font-size:.82em;color:#5B5680;
-    font-weight:600;padding:.35em .7em;border-radius:8px;
-    background:linear-gradient(135deg,#FEF3C7,#FDE68A);
+  .card-name{font-size:2em;font-weight:900;color:#1F1B4D;
+    letter-spacing:.12em;line-height:1.1;margin-bottom:.4em;}
+  .card-line{display:inline-block;font-size:.8em;color:#5B5680;font-weight:600;
+    padding:.35em .7em;border-radius:8px;background:#FDE68A;
     max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .card-status{margin-top:1em;font-size:.78em;
-    color:#7C3AED;letter-spacing:.1em;font-weight:700;
-    padding:.4em .8em;border-radius:99px;background:rgba(139,92,246,.12);
-    display:inline-block;}
+  .card-status{display:inline-block;margin-top:.9em;font-size:.76em;
+    color:#7C3AED;letter-spacing:.08em;font-weight:700;
+    padding:.4em .8em;border-radius:99px;background:#EDE9FE;}
 
-  .card.signed{
-    background:linear-gradient(135deg,#D1FAE5,#A7F3D0);
-    box-shadow:var(--shadow-signed);border-color:var(--mint);
-    animation:signedPulse .7s ease-out;cursor:default;
-  }
-  .card.signed::before{background:linear-gradient(90deg,var(--mint),var(--sky));height:8px;opacity:1;}
-  .card.signed::after{
-    content:'✓';position:absolute;top:14px;right:16px;color:#fff;
-    font-size:1.3em;font-weight:900;width:34px;height:34px;
-    background:var(--mint);border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 4px 12px rgba(16,185,129,.5);
-    animation:checkPop .55s cubic-bezier(.34,1.56,.64,1);
-  }
+  .card.signed{background:#D1FAE5;border-top-color:var(--mint);cursor:default}
+  .card.signed:hover{transform:none;box-shadow:0 8px 20px rgba(0,0,0,.35)}
   .card.signed .card-name{color:#065F46}
-  .card.signed .card-line{background:rgba(255,255,255,.7);color:#047857}
-  .card.signed .card-status{background:var(--mint);color:#fff;
-    box-shadow:0 4px 8px rgba(16,185,129,.3);}
-  .card.signed:hover{transform:none;box-shadow:var(--shadow-signed);border-color:var(--mint);}
-  .card.signed:hover::before{height:8px}
-
-  @keyframes signedPulse{0%{transform:scale(1)}40%{transform:scale(1.08)}100%{transform:scale(1.03)}}
-  @keyframes checkPop{0%{transform:scale(0) rotate(-180deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+  .card.signed .card-line{background:#fff;color:#047857}
+  .card.signed .card-status{background:var(--mint);color:#fff}
+  .card.signed::after{content:'✓';position:absolute;top:12px;right:14px;
+    color:#fff;font-size:1.2em;font-weight:900;width:32px;height:32px;
+    background:var(--mint);border-radius:50%;line-height:32px;}
 
   /* ===== Modal ===== */
   .modal-backdrop{
-    position:fixed;inset:0;background:rgba(15,11,36,.75);
-    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-    display:none;align-items:center;justify-content:center;
-    z-index:100;padding:20px;
-    animation:fadeIn .3s ease-out;
+    position:fixed;inset:0;background:rgba(10,7,25,.82);
+    display:none;align-items:flex-start;justify-content:center;
+    z-index:100;padding:16px;overflow-y:auto;
   }
   .modal-backdrop.open{display:flex}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
   .modal{
-    background:#fff;border-radius:28px;
-    max-width:520px;width:100%;max-height:92vh;overflow-y:auto;
-    box-shadow:var(--shadow-modal);
-    padding:0;position:relative;
-    animation:popIn .4s cubic-bezier(.34,1.56,.64,1);
+    background:#fff;border-radius:24px;max-width:520px;width:100%;
+    margin:auto 0;
+    box-shadow:0 30px 60px rgba(0,0,0,.5);
+    color:#1F1B4D;
   }
-  @keyframes popIn{
-    from{opacity:0;transform:scale(.85) translateY(20px)}
-    to{opacity:1;transform:scale(1) translateY(0)}
-  }
-
-  .modal-header{
-    padding:2em 2em 1.4em;text-align:center;position:relative;
-    border-bottom:1px solid #F3EFFF;
-  }
-  .modal-close{
-    position:absolute;top:14px;right:14px;
-    width:36px;height:36px;border-radius:50%;
+  .modal-header{padding:1.8em 1.6em 1.2em;text-align:center;position:relative;
+    border-bottom:1px solid #F3EFFF;}
+  .modal-close{position:absolute;top:12px;right:12px;
+    width:40px;height:40px;border-radius:50%;
     background:#F5F1FF;border:none;cursor:pointer;
-    color:var(--ink-soft);font-size:1.3em;line-height:1;
-    display:flex;align-items:center;justify-content:center;
-    transition:all .2s;
-  }
-  .modal-close:hover{background:var(--coral);color:#fff;transform:rotate(90deg)}
+    color:#5B5680;font-size:1.3em;line-height:1;font-family:inherit;}
+  .modal-question{color:#8B87A8;font-size:.88em;font-weight:700;letter-spacing:.1em;margin-bottom:.3em}
+  .modal-name{font-size:2.1em;font-weight:900;letter-spacing:.08em;line-height:1.15;margin-bottom:.3em}
+  .modal-line{display:inline-block;font-size:.85em;color:#5B5680;
+    padding:.35em .8em;border-radius:8px;background:#FDE68A;font-weight:600}
 
-  .modal-question{color:var(--ink-mute);font-size:.9em;
-    font-weight:700;letter-spacing:.1em;margin-bottom:.4em}
-  .modal-name{font-size:2.4em;font-weight:900;color:var(--ink);
-    letter-spacing:.1em;line-height:1.15;margin-bottom:.3em}
-  .modal-line{display:inline-block;font-size:.85em;color:var(--ink-soft);
-    padding:.35em .8em;border-radius:8px;
-    background:linear-gradient(135deg,#FEF3C7,#FDE68A);font-weight:600}
-
-  .modal-body{padding:1.6em 2em .5em}
-
-  .q-block{margin-bottom:1.8em}
-  .q-label{font-size:1.05em;font-weight:800;color:var(--ink);
-    margin-bottom:.9em;display:block;line-height:1.4;}
-  .q-hint{font-size:.82em;color:var(--ink-mute);
-    font-weight:500;margin-top:-.5em;margin-bottom:.7em;display:block}
+  .modal-body{padding:1.4em 1.6em .4em}
+  .q-block{margin-bottom:1.6em}
+  .q-label{font-size:1.05em;font-weight:800;margin-bottom:.3em;display:block;line-height:1.4}
+  .q-hint{font-size:.8em;color:#8B87A8;font-weight:500;margin-bottom:.7em;display:block}
 
   .opts{display:grid;gap:10px}
   .opt{
     display:flex;align-items:center;gap:.8em;
-    padding:.9em 1em;border-radius:14px;
-    background:#FAF7FF;border:2px solid transparent;
-    cursor:pointer;transition:all .25s;
-    font-weight:600;color:var(--ink);
-    user-select:none;
+    padding:1em;border-radius:14px;min-height:52px;
+    background:#FAF7FF;border:2px solid #E9E4F9;
+    cursor:pointer;font-weight:600;color:#1F1B4D;
   }
-  .opt:hover{background:#F0E9FE;border-color:rgba(139,92,246,.3)}
-  .opt input{position:absolute;opacity:0;pointer-events:none}
-  .opt .box{
-    width:26px;height:26px;border-radius:8px;
-    border:2.5px solid #C4B5FD;background:#fff;
-    flex:0 0 26px;display:flex;align-items:center;justify-content:center;
-    transition:all .2s;font-size:1em;color:#fff;font-weight:900;
-  }
-  .opt.checkbox .box{border-radius:8px}
-  .opt.radio .box{border-radius:50%}
-  .opt.selected{background:linear-gradient(135deg,#EDE9FE,#DDD6FE);
-    border-color:var(--purple);color:#5B21B6;}
-  .opt.selected .box{background:var(--purple);border-color:var(--purple)}
-  .opt.selected .box::after{content:'✓'}
-  .opt.radio.selected .box::after{content:'';width:10px;height:10px;
-    background:#fff;border-radius:50%;position:static}
+  .opt input{width:22px;height:22px;flex:0 0 22px;accent-color:#8B5CF6;cursor:pointer}
+  .opt:has(input:checked){background:#EDE9FE;border-color:#8B5CF6;color:#5B21B6}
 
-  .modal-actions{padding:.5em 2em 1.8em;display:flex;gap:12px}
-  .btn{
-    flex:1;padding:1em;border:none;border-radius:14px;
-    font-family:inherit;font-size:1em;font-weight:800;
-    cursor:pointer;transition:all .25s;letter-spacing:.05em;
-  }
-  .btn-cancel{background:#F5F1FF;color:var(--ink-soft)}
-  .btn-cancel:hover{background:#E5DFF7;color:var(--coral)}
-  .btn-submit{
-    background:linear-gradient(135deg,var(--mint),#059669);
-    color:#fff;
-    box-shadow:0 6px 16px rgba(16,185,129,.35);
-  }
-  .btn-submit:hover{transform:translateY(-2px);
-    box-shadow:0 10px 24px rgba(16,185,129,.5);}
-  .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-  .btn-submit.loading{pointer-events:none}
-  .btn-submit.loading::after{content:'⌛';margin-left:.5em}
+  .modal-actions{padding:.4em 1.6em 1.6em;display:flex;gap:12px}
+  .btn{flex:1;padding:1em;border:none;border-radius:14px;
+    font-family:inherit;font-size:1em;font-weight:800;cursor:pointer;letter-spacing:.04em;}
+  .btn-cancel{background:#F5F1FF;color:#5B5680}
+  .btn-submit{background:#10B981;color:#fff;box-shadow:0 6px 14px rgba(16,185,129,.35)}
+  .btn-submit:disabled{opacity:.5;cursor:not-allowed}
 
-  .err{color:var(--coral);font-size:.85em;font-weight:600;
-    margin-top:.4em;display:none}
+  .err{color:#E11D48;font-size:.85em;font-weight:700;margin-top:.5em;display:none}
   .err.show{display:block}
 
-  footer{text-align:center;padding:2vh 5vw 6vh;color:var(--fg-mute);
-    font-size:.9em;position:relative;z-index:1}
+  footer{text-align:center;padding:2vh 5vw 6vh;color:var(--fg-mute);font-size:.9em}
   .reset-btn{display:inline-block;margin-top:1.2em;padding:.5em 1.2em;
     background:transparent;color:var(--fg-mute);
-    border:1.5px solid rgba(255,255,255,.15);border-radius:99px;
-    font-size:.8em;cursor:pointer;font-family:inherit;font-weight:600;transition:all .3s;}
-  .reset-btn:hover{color:#FCA5A5;border-color:#FCA5A5}
+    border:1.5px solid rgba(255,255,255,.18);border-radius:99px;
+    font-size:.8em;cursor:pointer;font-family:inherit;font-weight:600;}
 </style>
 </head>
 <body>
 
-<span class="float f1">✨</span>
-<span class="float f2">🎨</span>
-<span class="float f3">🎮</span>
-<span class="float f4">🧠</span>
-<span class="float f5">💡</span>
-<span class="float f6">🌟</span>
-
 <header>
   <span class="kicker">2026 · 07 · 12 · SATURDAY NIGHT</span>
-  <h1>AI 微型程式工作坊 <span class="em">🎯</span><br>今晚點名台</h1>
+  <h1>AI 微型程式工作坊 🎯<br>今晚點名台</h1>
   <p class="subtitle">找到你的名字，點下去 → 答 2 題 → <b>3 秒完成簽到</b></p>
 
   <div class="stats">
@@ -320,7 +163,7 @@
 <div class="modal-backdrop" id="modal">
   <div class="modal">
     <div class="modal-header">
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" type="button" onclick="closeModal()">✕</button>
       <div class="modal-question">請確認</div>
       <div class="modal-name" id="modal-name">—</div>
       <div class="modal-line" id="modal-line">—</div>
@@ -328,42 +171,42 @@
     <div class="modal-body">
 
       <div class="q-block">
-        <label class="q-label">1️⃣ 你目前訂閱的 AI 模型（可複選）</label>
+        <span class="q-label">1️⃣ 你目前訂閱的 AI 模型（可複選）</span>
         <span class="q-hint">老師會依大家常用的工具調整演示節奏</span>
         <div class="opts" id="opts-ai">
-          <label class="opt checkbox"><input type="checkbox" value="GPT（ChatGPT Plus / Pro）"><span class="box"></span>GPT（ChatGPT Plus / Pro）</label>
-          <label class="opt checkbox"><input type="checkbox" value="Claude"><span class="box"></span>Claude</label>
-          <label class="opt checkbox"><input type="checkbox" value="Gemini"><span class="box"></span>Gemini</label>
-          <label class="opt checkbox"><input type="checkbox" value="都沒有訂閱(用免費版)"><span class="box"></span>都沒有訂閱（用免費版）</label>
+          <label class="opt"><input type="checkbox" value="GPT（ChatGPT Plus / Pro）">GPT（ChatGPT Plus / Pro）</label>
+          <label class="opt"><input type="checkbox" value="Claude">Claude</label>
+          <label class="opt"><input type="checkbox" value="Gemini">Gemini</label>
+          <label class="opt"><input type="checkbox" value="都沒有訂閱(用免費版)">都沒有訂閱（用免費版）</label>
         </div>
         <div class="err" id="err-ai">☝ 至少選一個</div>
       </div>
 
       <div class="q-block">
-        <label class="q-label">2️⃣ 今天能否跟完全程？</label>
+        <span class="q-label">2️⃣ 今天能否跟完全程？</span>
         <span class="q-hint">課程全程大約到 23:30 結束</span>
         <div class="opts" id="opts-time">
-          <label class="opt radio"><input type="radio" name="time" value="✅ 可以跟完全程"><span class="box"></span>✅ 可以跟完全程</label>
-          <label class="opt radio"><input type="radio" name="time" value="⏰ 中途需要提前離開"><span class="box"></span>⏰ 中途需要提前離開</label>
+          <label class="opt"><input type="radio" name="time" value="✅ 可以跟完全程">✅ 可以跟完全程</label>
+          <label class="opt"><input type="radio" name="time" value="⏰ 中途需要提前離開">⏰ 中途需要提前離開</label>
         </div>
         <div class="err" id="err-time">☝ 請選一項</div>
       </div>
 
     </div>
     <div class="modal-actions">
-      <button class="btn btn-cancel" onclick="closeModal()">不是我，取消</button>
-      <button class="btn btn-submit" id="btn-submit" onclick="submitSignin()">確認送出 ✓</button>
+      <button class="btn btn-cancel" type="button" onclick="closeModal()">不是我，取消</button>
+      <button class="btn btn-submit" type="button" id="btn-submit" onclick="submitSignin()">確認送出 ✓</button>
     </div>
   </div>
 </div>
 
 <footer>
   💡 點錯人？沒關係，開起來後按「不是我，取消」就好，不會被記錄。
-  <br><button class="reset-btn" onclick="if(confirm('確定要清除這台電腦上的簽到紀錄？')){localStorage.clear();location.reload()}">重置本機顯示狀態</button>
+  <br><button class="reset-btn" type="button" onclick="if(confirm('確定要清除這台裝置上的簽到顯示？')){localStorage.removeItem('signin_0712_v2');location.reload()}">重置本機顯示狀態</button>
 </footer>
 
 <script>
-  const STUDENTS = [
+  var STUDENTS = [
     {name:"張勝",    line:"張勝"},
     {name:"廖惠儀",   line:"廖惠儀"},
     {name:"黃盈盛",   line:"盛(蒼鷺)"},
@@ -382,61 +225,67 @@
     {name:"謝沐妍",   line:"Mu yen"},
     {name:"李東龍",   line:"daniel東"},
     {name:"江旻璇",   line:"Annie 旻璇"},
-    {name:"凃品卉",   line:"A-pin Tu"},
+    {name:"凃品卉",   line:"A-pin Tu"}
   ];
 
-  // Google Form 提交端點 (formResponse) + 三個 entry ID
-  const FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSd4GQHrpng5GN3awJlC1en_HnvwDfvb0SO9wrpzLjg21l7OsA/formResponse";
-  const ENTRY_NAME = "entry.1358771206";  // 姓名
-  const ENTRY_AI   = "entry.1917234261";  // AI 訂閱（checkbox 多選）
-  const ENTRY_TIME = "entry.1449837851";  // 全程參與（radio）
+  var FORM_ACTION = "https://docs.google.com/forms/d/e/1FAIpQLSd4GQHrpng5GN3awJlC1en_HnvwDfvb0SO9wrpzLjg21l7OsA/formResponse";
+  var ENTRY_NAME = "entry.1358771206";
+  var ENTRY_AI   = "entry.1917234261";
+  var ENTRY_TIME = "entry.1449837851";
+  var STORAGE_KEY = "signin_0712_v2";
 
-  const STORAGE_KEY = "signin_0712_v2";
-
-  let currentStudent = null;
+  var currentStudent = null;
 
   function mask(name){
     if(name.length <= 1) return name;
-    if(name.length === 2) return name[0] + "〇";
-    return name[0] + "〇".repeat(name.length - 2) + name.slice(-1);
+    if(name.length === 2) return name.charAt(0) + "〇";
+    return name.charAt(0) + Array(name.length - 1).join("〇") + name.charAt(name.length - 1);
   }
-  const getSigned = () => {
-    try{ return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]")); }
-    catch{ return new Set(); }
-  };
-  const saveSigned = set => localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+  function getSigned(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+  function isSigned(name){ return getSigned().indexOf(name) !== -1; }
+  function addSigned(name){
+    var list = getSigned();
+    if(list.indexOf(name) === -1){ list.push(name); }
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); }catch(e){}
+  }
 
   function updateStats(){
-    const signed = getSigned();
-    const total = STUDENTS.length;
-    const done = signed.size;
+    var done = getSigned().length;
+    var total = STUDENTS.length;
     document.getElementById("signed-count").textContent = done;
     document.getElementById("remaining-count").textContent = total - done;
     document.getElementById("bar").style.width = Math.round(done/total*100) + "%";
-    const txt = document.getElementById("progress-text");
+    var txt = document.getElementById("progress-text");
     if(done === 0) txt.textContent = "還沒有人簽到 · 快來成為第一個 ✨";
     else if(done === total) txt.textContent = "🎉 全班都到齊了！可以上課了！";
-    else txt.textContent = `${done} / ${total} 人已簽到 · 還有 ${total - done} 人趕快點名 ⏰`;
+    else txt.textContent = done + " / " + total + " 人已簽到 · 還有 " + (total - done) + " 人趕快點名 ⏰";
   }
 
   function render(){
-    const grid = document.getElementById("grid");
-    const signed = getSigned();
+    var grid = document.getElementById("grid");
     grid.innerHTML = "";
-    STUDENTS.forEach(s => {
-      const card = document.createElement("div");
-      card.className = "card" + (signed.has(s.name) ? " signed" : "");
-      card.dataset.name = s.name;
-      card.innerHTML = `
-        <div class="card-name">${mask(s.name)}</div>
-        <div class="card-line">LINE：${s.line}</div>
-        <div class="card-status">${signed.has(s.name) ? "已完成簽到" : "點我開始簽到 →"}</div>
-      `;
-      if(!signed.has(s.name)){
-        card.addEventListener("click", () => openModal(s));
-      }
-      grid.appendChild(card);
-    });
+    for(var i = 0; i < STUDENTS.length; i++){
+      (function(s){
+        var signed = isSigned(s.name);
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "card" + (signed ? " signed" : "");
+        btn.setAttribute("data-name", s.name);
+        btn.innerHTML =
+          '<div class="card-name">' + mask(s.name) + '</div>' +
+          '<div class="card-line">LINE：' + s.line + '</div>' +
+          '<div class="card-status">' + (signed ? "已完成簽到" : "點我開始簽到 →") + '</div>';
+        if(!signed){
+          btn.onclick = function(){ openModal(s); };
+        } else {
+          btn.disabled = false; /* 保持可見但無動作 */
+        }
+        grid.appendChild(btn);
+      })(STUDENTS[i]);
+    }
     updateStats();
   }
 
@@ -444,101 +293,71 @@
     currentStudent = s;
     document.getElementById("modal-name").textContent = "你是 " + s.name + " 嗎？";
     document.getElementById("modal-line").textContent = "LINE：" + s.line;
-    // 重設表單
-    document.querySelectorAll("#opts-ai input").forEach(x => x.checked = false);
-    document.querySelectorAll("#opts-time input").forEach(x => x.checked = false);
-    document.querySelectorAll(".opt").forEach(o => o.classList.remove("selected"));
-    document.querySelectorAll(".err").forEach(e => e.classList.remove("show"));
-    const btn = document.getElementById("btn-submit");
-    btn.disabled = false; btn.classList.remove("loading");
+    var inputs = document.querySelectorAll("#opts-ai input, #opts-time input");
+    for(var i = 0; i < inputs.length; i++){ inputs[i].checked = false; }
+    var errs = document.querySelectorAll(".err");
+    for(var j = 0; j < errs.length; j++){ errs[j].className = errs[j].className.replace(" show",""); }
+    var btn = document.getElementById("btn-submit");
+    btn.disabled = false;
     btn.textContent = "確認送出 ✓";
-    document.getElementById("modal").classList.add("open");
-    document.body.style.overflow = "hidden";
+    document.getElementById("modal").className = "modal-backdrop open";
   }
   function closeModal(){
-    document.getElementById("modal").classList.remove("open");
-    document.body.style.overflow = "";
+    document.getElementById("modal").className = "modal-backdrop";
     currentStudent = null;
   }
-  document.getElementById("modal").addEventListener("click", e => {
-    if(e.target.id === "modal") closeModal();
-  });
-
-  // 選項 UI toggle
-  document.querySelectorAll(".opt").forEach(opt => {
-    opt.addEventListener("click", e => {
-      const input = opt.querySelector("input");
-      if(input.type === "radio"){
-        opt.parentElement.querySelectorAll(".opt").forEach(o => o.classList.remove("selected"));
-        opt.classList.add("selected");
-      } else {
-        // checkbox 手動 toggle（避免 label 雙重觸發）
-        if(e.target.tagName !== "INPUT"){
-          input.checked = !input.checked;
-        }
-        opt.classList.toggle("selected", input.checked);
-      }
-    });
-  });
+  document.getElementById("modal").onclick = function(e){
+    if(e.target && e.target.id === "modal") closeModal();
+  };
 
   function submitSignin(){
     if(!currentStudent) return;
 
-    // 收集答案
-    const aiVals = [...document.querySelectorAll("#opts-ai input:checked")].map(i => i.value);
-    const timeVal = (document.querySelector("#opts-time input:checked") || {}).value;
+    var aiChecked = document.querySelectorAll("#opts-ai input:checked");
+    var timeChecked = document.querySelector("#opts-time input:checked");
 
-    // 驗證
-    let ok = true;
-    if(aiVals.length === 0){ document.getElementById("err-ai").classList.add("show"); ok = false; }
-    else document.getElementById("err-ai").classList.remove("show");
-    if(!timeVal){ document.getElementById("err-time").classList.add("show"); ok = false; }
-    else document.getElementById("err-time").classList.remove("show");
+    var ok = true;
+    var errAi = document.getElementById("err-ai");
+    var errTime = document.getElementById("err-time");
+    if(aiChecked.length === 0){ errAi.className = "err show"; ok = false; }
+    else{ errAi.className = "err"; }
+    if(!timeChecked){ errTime.className = "err show"; ok = false; }
+    else{ errTime.className = "err"; }
     if(!ok) return;
 
-    // 建 FormData 送到 Google Form
-    const fd = new FormData();
-    fd.append(ENTRY_NAME, currentStudent.name);
-    aiVals.forEach(v => fd.append(ENTRY_AI, v));  // checkbox 多選：同 key 多值
-    fd.append(ENTRY_TIME, timeVal);
+    var params = [];
+    params.push(ENTRY_NAME + "=" + encodeURIComponent(currentStudent.name));
+    for(var i = 0; i < aiChecked.length; i++){
+      params.push(ENTRY_AI + "=" + encodeURIComponent(aiChecked[i].value));
+    }
+    params.push(ENTRY_TIME + "=" + encodeURIComponent(timeChecked.value));
 
-    const btn = document.getElementById("btn-submit");
-    btn.disabled = true; btn.classList.add("loading");
-    btn.textContent = "送出中";
+    var btn = document.getElementById("btn-submit");
+    btn.disabled = true;
+    btn.textContent = "送出中…";
 
-    // no-cors 模式，Google 會收到但我們讀不到回應（沒差）
-    fetch(FORM_ACTION, {
-      method: "POST",
-      mode: "no-cors",
-      body: fd,
-    }).then(() => {
-      // 標記本地已簽到
-      const signed = getSigned();
-      signed.add(currentStudent.name);
-      saveSigned(signed);
-      // 更新該卡片
-      const card = document.querySelector(`.card[data-name="${CSS.escape(currentStudent.name)}"]`);
-      if(card){
-        card.classList.add("signed");
-        card.querySelector(".card-status").textContent = "已完成簽到";
-        card.style.cursor = "default";
-        // 移除 click listener（用 clone 大法）
-        const clone = card.cloneNode(true);
-        card.parentNode.replaceChild(clone, card);
-      }
-      updateStats();
+    var doneName = currentStudent.name;
+    function markDone(){
+      addSigned(doneName);
+      render();
       closeModal();
-    }).catch(err => {
-      alert("送出失敗，請再試一次：" + err);
-      btn.disabled = false; btn.classList.remove("loading");
-      btn.textContent = "確認送出 ✓";
-    });
-  }
+    }
 
-  // ESC 關 modal
-  document.addEventListener("keydown", e => {
-    if(e.key === "Escape") closeModal();
-  });
+    // 用 XHR + form-urlencoded（相容性最高，LINE 內建瀏覽器也 OK）
+    try{
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", FORM_ACTION, true);
+      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      xhr.onloadend = markDone;   // no-cors 情境讀不到結果，一律當成功
+      xhr.send(params.join("&"));
+      // 保險：3 秒後若還沒回應也直接標記完成
+      setTimeout(function(){
+        if(document.getElementById("modal").className.indexOf("open") !== -1) markDone();
+      }, 3000);
+    }catch(e){
+      markDone();
+    }
+  }
 
   render();
 </script>

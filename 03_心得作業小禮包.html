@@ -501,6 +501,72 @@
     border: 1px solid var(--gold);
     white-space: nowrap;
   }
+
+  /* ===== 分頁 4：實用 AI 工具 ===== */
+  .tools-hero {
+    position: relative; overflow: hidden;
+    display: grid; grid-template-columns: minmax(0,1.08fr) minmax(280px,.92fr);
+    align-items: center; gap: clamp(1.2em,4vw,3em);
+    padding: clamp(1.5em,4vw,3.2em); margin-bottom: 1.8em;
+    border: 1px solid rgba(244,215,107,.52); border-radius: 24px;
+    background:
+      radial-gradient(circle at 82% 18%, rgba(86,190,205,.2), transparent 28%),
+      radial-gradient(circle at 8% 90%, rgba(244,215,107,.16), transparent 34%),
+      linear-gradient(145deg, #15261d, #17152b 76%);
+    box-shadow: 0 22px 70px rgba(0,0,0,.36);
+  }
+  .tools-hero-copy { position: relative; z-index: 2; }
+  .tools-kicker { color: #91d8d7; font-weight: 900; letter-spacing: .14em; font-size: .82em; }
+  .tools-hero h2 { margin: .18em 0 .28em; color: #fff5cf; font-size: clamp(34px,5vw,58px); line-height: 1.08; }
+  .tools-hero p { margin: .5em 0 0; color: #d7ddd7; font-size: clamp(16px,1.8vw,20px); line-height: 1.75; }
+  .tools-badge { display:inline-flex; margin-top:1em; padding:.45em .9em; border-radius:999px; background:rgba(244,215,107,.12); border:1px solid rgba(244,215,107,.45); color:var(--gold-2); font-weight:bold; }
+  .tools-collage { position: relative; min-height: 250px; }
+  .tools-collage img {
+    position: absolute; width: 82%; aspect-ratio: 16/9; object-fit: cover;
+    border: 3px solid #efe1b6; border-radius: 16px; background: #f7f1de;
+    box-shadow: 8px 10px 0 rgba(0,0,0,.3);
+  }
+  .tools-collage img:first-child { top: 0; right: 0; transform: rotate(3deg); }
+  .tools-collage img:last-child { left: 0; bottom: 0; transform: rotate(-4deg); width: 68%; }
+  .tools-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1.35em; margin:1.2em 0 2em; }
+  .tool-card {
+    display:flex; flex-direction:column; min-width:0; overflow:hidden;
+    border:1px solid rgba(244,215,107,.42); border-radius:20px;
+    background:linear-gradient(155deg,rgba(33,58,44,.96),rgba(20,28,43,.98));
+    box-shadow:0 15px 38px rgba(0,0,0,.3);
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .tool-card:hover { transform:translateY(-6px); border-color:var(--gold-2); box-shadow:0 22px 45px rgba(0,0,0,.38); }
+  .tool-cover { display:block; overflow:hidden; border-bottom:1px solid rgba(244,215,107,.36); background:#f7f1de; }
+  .tool-cover img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; transition:transform .45s ease; }
+  .tool-card:hover .tool-cover img { transform:scale(1.035); }
+  .tool-content { display:flex; flex-direction:column; flex:1; padding:1.25em; }
+  .tool-tags { display:flex; flex-wrap:wrap; gap:.45em; margin-bottom:.85em; }
+  .tool-tag { padding:.3em .65em; border:1px solid rgba(255,255,255,.18); border-radius:999px; color:#dce8df; font-size:.77em; font-weight:800; background:rgba(255,255,255,.07); }
+  .tool-tag.primary { color:#182016; border-color:var(--gold); background:linear-gradient(135deg,var(--gold-2),var(--gold)); }
+  .tool-card h3 { margin:0 0 .55em; color:#fff5cf; font-size:clamp(21px,2.4vw,29px); line-height:1.3; }
+  .tool-card p { margin:0 0 1em; color:var(--muted); line-height:1.7; }
+  .tool-points { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.55em; margin:.2em 0 1.2em; }
+  .tool-point { padding:.55em .65em; border-radius:10px; background:rgba(255,255,255,.055); color:#d9e5dc; font-size:.85em; font-weight:700; }
+  .tool-point::before { content:"✓"; color:#91d8d7; font-weight:950; margin-right:.42em; }
+  .tool-link {
+    display:inline-flex; align-items:center; justify-content:center; gap:.45em;
+    margin-top:auto; padding:.78em 1em; border:1px solid var(--gold); border-radius:12px;
+    color:#182016; background:linear-gradient(135deg,var(--gold-2),var(--gold));
+    font-weight:900; text-decoration:none; box-shadow:0 6px 18px rgba(212,175,55,.24);
+  }
+  .tool-link:hover { filter:brightness(1.08); transform:translateY(-1px); }
+  .tools-note { padding:1em 1.15em; border:1px dashed rgba(145,216,215,.5); border-radius:14px; background:rgba(86,190,205,.08); color:#d3e4e1; }
+  .tools-note strong { color:#91d8d7; }
+  @media (max-width: 800px) {
+    .tools-hero { grid-template-columns:1fr; }
+    .tools-collage { min-height:235px; max-width:520px; width:100%; margin:0 auto; }
+    .tools-grid { grid-template-columns:1fr; }
+  }
+  @media (max-width: 480px) {
+    .tools-collage { min-height:190px; }
+    .tool-points { grid-template-columns:1fr; }
+  }
 </style>
 </head>
 <body>
@@ -511,16 +577,18 @@
   <span class="badge">一頁打包 · 點按鈕就能複製</span>
 </header>
 <div class="intro-card">
-  <p>📦 這份小禮包分成三個分頁，點上方分頁按鈕切換：</p>
+  <p>📦 這份小禮包分成四個分頁，點上方分頁按鈕切換：</p>
   <p><b>📝 分頁 1 · 提示詞合集 + Firebase</b>：課堂上每一段給 AI 的 Prompt 全部抓出來 + Firebase 14 步驟圖文教學。</p>
   <p><b>🎁 分頁 2 · 經典文學任務包</b>：桃花源記 · 鴻門宴 · 燭之武退秦，三組完整劇情遊戲提示詞（含下載）。</p>
   <p><b>🎨 分頁 3 · 圖文動態網頁簡報 Skill</b>：下載、雙擊安裝，讓 Codex 把簡單課程資料做成有配色、插圖、故事與動態說明的網頁 PPT。</p>
+  <p><b>🧰 分頁 4 · 實用 AI 工具</b>：收藏 Codex 動態寵物與 NotebookLM 兩篇圖解教學，點卡片就能直接開啟。</p>
 </div>
 
 <nav class="tab-nav">
   <button class="tab-btn active" data-tab="tab1"><span class="finger">👉</span> 📝 提示詞合集 + Firebase</button>
   <button class="tab-btn" data-tab="tab2"><span class="finger">👉</span> 🎁 經典文學任務包</button>
   <button class="tab-btn" data-tab="tab3"><span class="finger">👉</span> 🎨 網頁簡報 Skill</button>
+  <button class="tab-btn" data-tab="tab4"><span class="finger">👉</span> 🧰 實用 AI 工具</button>
 </nav>
 
 <div class="tab-pane active" id="tab1">
@@ -1610,6 +1678,52 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
     </div>
   </details>
 </div><!-- /#tab3 -->
+
+<div class="tab-pane" id="tab4">
+  <section class="tools-hero">
+    <div class="tools-hero-copy">
+      <div class="tools-kicker">TEACHER'S AI TOOLBOX · 一百分遊戲教育</div>
+      <h2>實用 AI 工具</h2>
+      <p>不是只介紹功能，而是帶你一步一步真的做出來。這裡收藏老師、創作者與自學者都能立刻上手的 AI 圖解教學。</p>
+      <span class="tools-badge">🎁 免費閱讀 · 點卡片另開教學頁</span>
+    </div>
+    <div class="tools-collage" aria-label="兩篇實用 AI 工具教學封面預覽">
+      <img src="assets/ai-tools/notebooklm-guide.png" alt="餵飽你的 NotebookLM 手繪教學封面">
+      <img src="assets/ai-tools/codex-pet-guide.jpg" alt="把角色孵成 Codex 動態寵物手繪教學封面">
+    </div>
+  </section>
+
+  <h2 class="big-section-title">🧭 選一篇，今天就開始用</h2>
+  <div class="tools-grid">
+    <article class="tool-card">
+      <a class="tool-cover" href="https://codex-pet-hatch-guide.hankvictor1023.chatgpt.site" target="_blank" rel="noopener noreferrer">
+        <img src="assets/ai-tools/codex-pet-guide.jpg" alt="Codex 動態寵物圖解教學：把角色孵成桌面夥伴">
+      </a>
+      <div class="tool-content">
+        <div class="tool-tags"><span class="tool-tag primary">CODEX</span><span class="tool-tag">動態寵物</span><span class="tool-tag">圖解教學</span></div>
+        <h3>把你的角色圖，孵成會動的 Codex 桌面夥伴</h3>
+        <p>不用自己切 88 格，也不用背規格。一張角色圖、一段指令，就能完成九種動畫、安裝檔與 QA 檢查。</p>
+        <div class="tool-points"><span class="tool-point">完整四站流程</span><span class="tool-point">可直接複製的指令</span><span class="tool-point">九種動畫說明</span><span class="tool-point">安裝與排錯教學</span></div>
+        <a class="tool-link" href="https://codex-pet-hatch-guide.hankvictor1023.chatgpt.site" target="_blank" rel="noopener noreferrer">開啟 Codex 動態寵物教學 ↗</a>
+      </div>
+    </article>
+
+    <article class="tool-card">
+      <a class="tool-cover" href="https://notebooklm-superpower-guide.hankvictor1023.chatgpt.site" target="_blank" rel="noopener noreferrer">
+        <img src="assets/ai-tools/notebooklm-guide.png" alt="餵飽你的 NotebookLM：知識整理與 AI 自動化教學">
+      </a>
+      <div class="tool-content">
+        <div class="tool-tags"><span class="tool-tag primary">NOTEBOOKLM</span><span class="tool-tag">知識整理</span><span class="tool-tag">AI 自動化</span></div>
+        <h3>餵飽你的 NotebookLM！從收影片到拿走完整產出</h3>
+        <p>先用 Chrome 外掛把影片快速搬進筆記本，再讓桌面 AI 接管摘要、心智圖、Podcast、測驗與批次下載。</p>
+        <div class="tool-points"><span class="tool-point">一鍵收進筆記本</span><span class="tool-point">播放清單批次搬家</span><span class="tool-point">桌面 AI 進階玩法</span><span class="tool-point">產出下載與整理</span></div>
+        <a class="tool-link" href="https://notebooklm-superpower-guide.hankvictor1023.chatgpt.site" target="_blank" rel="noopener noreferrer">開啟 NotebookLM 教學 ↗</a>
+      </div>
+    </article>
+  </div>
+
+  <div class="tools-note"><strong>💡 建議使用順序：</strong>第一次玩 Codex，先從「動態寵物」感受 AI 幫你完成一整套作品；需要整理影片、課程或研究資料時，再把 NotebookLM 的收集與產出流程接起來。</div>
+</div><!-- /#tab4 -->
 
 <footer>
   💡 課程結束後，這份小禮包可以一直收著。改題庫、改視覺、加新功能，隨時翻出來複製。<br>

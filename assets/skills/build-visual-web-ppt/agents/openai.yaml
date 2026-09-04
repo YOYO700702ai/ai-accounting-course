@@ -1,4 +1,4 @@
 interface:
   display_name: "圖文動態網頁簡報"
   short_description: "把課程資料變成有動態、故事感與 AI 插圖的網頁簡報"
-  default_prompt: "Use $build-visual-web-ppt to turn my course notes into a polished visual web presentation."
+  default_prompt: "請使用 $build-visual-web-ppt，把我的課程資料做成以 index.html 為入口、含 assets/images 的圖文動態網頁簡報資料夾。預設使用繁體中文，先整理故事線，再依內容選擇配色、插圖與動態；完成後用本機 HTTP 預覽並檢查桌機與手機畫面。"

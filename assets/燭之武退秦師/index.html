@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>燭之武退秦師・一夜退兵</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260824-landscape">
+</head>
+<body>
+  <main class="page-shell">
+    <button id="orientationHint" class="orientation-hint" type="button" aria-label="切換為橫向遊玩">↻ 點我切換橫向遊玩</button>
+    <section id="game" class="game-shell" aria-label="燭之武退秦師互動歷史劇場">
+      <img id="sceneImage" class="scene-image" alt="">
+      <div class="scene-dim" aria-hidden="true"></div>
+      <div class="paper-texture" aria-hidden="true"></div>
+
+      <audio id="bgMusic" src="背景配樂_燭之武.mp3?v=20260812-live-ready" loop preload="metadata"></audio>
+      <button id="musicToggle" class="music-toggle" type="button" aria-pressed="true" aria-label="關閉背景音樂">♪ 音樂</button>
+      <button id="codexToggle" class="codex-toggle" type="button" aria-label="開啟成語金句圖鑑">圖鑑</button>
+      <div id="scorePanel" class="score-panel" aria-live="polite">分數 100</div>
+
+      <section id="titleScreen" class="screen title-screen" role="button" tabindex="0" aria-label="點擊開始燭之武退秦師">
+        <img src="assets/cover.webp?v=20260812-zhu-live-v1" alt="燭之武退秦師，點擊任何位置開始">
+      </section>
+
+      <div id="actHint" class="act-hint" aria-live="polite"></div>
+      <div id="viewStamp" class="view-stamp" aria-live="polite"></div>
+      <img id="eventStamp" class="event-stamp" alt="東道主典故印章" hidden>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+      <section id="dialogueLayer" class="dialogue-layer" hidden>
+        <article id="dialogueBox" class="dialogue-box">
+          <div class="portrait-shell">
+            <img id="speakerPortrait" alt="">
+          </div>
+          <div class="dialogue-copy">
+            <div id="speakerName" class="speaker-name"></div>
+            <p id="quoteText" class="quote-text"></p>
+            <p id="dialogueText" class="dialogue-text"></p>
+            <button id="continueButton" class="continue-button" type="button" hidden>繼續</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="choiceLayer" class="choice-layer" hidden>
+        <div id="choicePrompt" class="choice-prompt"></div>
+        <div id="choiceOptions" class="choice-options"></div>
+        <div id="choiceExplain" class="choice-explain" hidden></div>
+        <button id="choiceContinue" class="continue-button choice-continue" type="button" hidden>繼續</button>
+      </section>
+
+      <section id="sneakLayer" class="sneak-layer" aria-label="月夜潛行小遊戲" hidden>
+        <article class="sneak-panel">
+          <div class="sneak-header">
+            <div>
+              <h2>月下潛行</h2>
+              <p id="sneakPrompt"></p>
+            </div>
+            <div id="sneakSteps" class="sneak-steps"></div>
+          </div>
+          <div class="sneak-field">
+            <div id="torchLight" class="torch-light" aria-hidden="true"></div>
+            <div id="sneakFigure" class="sneak-figure" aria-hidden="true"></div>
+          </div>
+          <div class="sneak-actions">
+            <button class="sneak-button" type="button" data-action="等">等</button>
+            <button class="sneak-button" type="button" data-action="行">行</button>
+            <button class="sneak-button" type="button" data-action="繞">繞</button>
+          </div>
+          <p id="sneakStatus" class="sneak-status"></p>
+        </article>
+      </section>
+
+      <section id="persuadeLayer" class="persuade-layer" aria-label="論點卡牌說服戰" hidden>
+        <article class="persuade-board strategic">
+          <div class="persuade-top">
+            <div class="persuade-title">
+              <h2>論點・說服戰</h2>
+              <div id="argumentTrack" class="argument-track"></div>
+            </div>
+            <div class="trust-box">
+              <span id="trustLabel">信任度 50</span>
+              <div class="trust-meter" aria-hidden="true">
+                <div id="trustFill" class="trust-fill"></div>
+                <div id="trustNeedle" class="trust-needle"></div>
+              </div>
+            </div>
+            <img id="qinPortrait" class="qin-portrait" src="assets/char-qinmugong.webp?v=20260812-zhu-live-v1" alt="秦穆公">
+          </div>
+          <div class="strategic-stage">
+            <img id="strategicMap" class="strategic-map" alt="戰略示意圖">
+            <p id="persuadeStatus" class="strategic-intro">從十張卡中選出五張，依序建立論述。</p>
+          </div>
+          <div id="handCards" class="hand-cards"></div>
+          <div class="persuade-actions">
+            <button id="submitPersuadeBtn" class="continue-button" type="button" disabled>送出論述（還差 5 段）</button>
+            <button id="showRulesBtn" class="ghost-button" type="button">規則</button>
+          </div>
+        </article>
+      </section>
+
+      <section id="codexLayer" class="codex-layer" hidden>
+        <article class="codex-panel" role="dialog" aria-modal="true" aria-labelledby="codexTitle">
+          <header>
+            <h2 id="codexTitle">成語金句圖鑑</h2>
+            <button id="codexClose" class="ghost-button" type="button">關閉</button>
+          </header>
+          <div id="codexCards" class="codex-cards"></div>
+        </article>
+      </section>
+
+      <section id="modalLayer" class="modal-layer" hidden>
+        <article class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+          <h2 id="modalTitle"></h2>
+          <p id="modalBody"></p>
+          <div id="modalChoices" class="modal-choices"></div>
+          <button id="modalButton" class="continue-button" type="button">知道了</button>
+        </article>
+      </section>
+
+      <section id="endingScreen" class="screen ending-screen" tabindex="0" aria-label="結局畫面" hidden>
+        <article id="rankCard" class="rank-card" aria-live="polite" hidden></article>
+        <button id="historySeal" class="history-seal" type="button" hidden>史</button>
+        <button id="restartFromEnding" class="ending-restart" type="button">重新開始</button>
+      </section>
+
+      <section id="gameOverScreen" class="screen game-over-screen" tabindex="0" aria-label="結局分歧" hidden>
+        <article id="gameOverPanel" class="game-over-panel" hidden>
+          <p id="gameOverText"></p>
+          <div class="game-over-actions">
+            <button id="badRetry" class="continue-button" type="button">重新選擇</button>
+            <button id="badHome" class="ghost-button" type="button">回封面</button>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js?v=20260824-landscape"></script>
+</body>
+</html>

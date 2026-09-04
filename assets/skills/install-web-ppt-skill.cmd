@@ -3,11 +3,12 @@ setlocal
 title Install Visual Web PPT Skill for Codex
 
 set "SOURCE=%~dp0build-visual-web-ppt"
-set "SKILLS_HOME=%USERPROFILE%\.agents\skills"
+set "SKILLS_HOME=%USERPROFILE%\.codex\skills"
 set "TARGET=%SKILLS_HOME%\build-visual-web-ppt"
 
 if not exist "%SOURCE%\SKILL.md" goto missing
 if not exist "%SKILLS_HOME%" mkdir "%SKILLS_HOME%"
+if errorlevel 1 goto failed
 
 echo Installing Visual Web PPT Skill...
 xcopy "%SOURCE%\*" "%TARGET%\" /E /I /Y /Q >nul
@@ -15,10 +16,10 @@ if errorlevel 1 goto failed
 if not exist "%TARGET%\SKILL.md" goto failed
 
 echo.
-echo Installation complete.
+echo Skill files copied successfully.
 echo Skill folder: %TARGET%
-echo If Codex is already open and the skill does not appear, restart Codex.
-echo Then type: $build-visual-web-ppt
+echo Next: return to Codex and type $build-visual-web-ppt.
+echo If the skill does not appear, restart Codex and try again.
 echo.
 pause
 exit /b 0
@@ -37,4 +38,3 @@ echo Installation failed. Please use the manual installation steps in the gift-p
 echo.
 pause
 exit /b 1
-

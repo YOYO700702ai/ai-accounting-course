@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Validate a self-contained HTML web presentation without third-party packages."""
+"""快速靜態檢查網頁簡報的 HTML 與本地素材，不取代瀏覽器實測。
+
+本工具不會執行 JavaScript、播放動畫、操作按鍵、截圖、檢查 CSS 背景資源，
+也不保證實際版面或離線播放正常。
+"""
 
 from __future__ import annotations
 
@@ -153,9 +157,9 @@ def validate(path: Path, strict: bool) -> tuple[list[str], list[str]]:
 
 
 def main() -> int:
-    argp = argparse.ArgumentParser(description="檢查動態網頁 PPT 的結構與本地素材。")
+    argp = argparse.ArgumentParser(description="快速靜態檢查動態網頁簡報的結構與本地素材。")
     argp.add_argument("html", type=Path, help="要檢查的 index.html")
-    argp.add_argument("--strict", action="store_true", help="把警告視為錯誤")
+    argp.add_argument("--strict", action="store_true", help="把靜態檢查警告視為錯誤")
     args = argp.parse_args()
 
     errors, warnings = validate(args.html.resolve(), args.strict)
@@ -166,7 +170,7 @@ def main() -> int:
     if errors:
         print(f"檢查失敗：{len(errors)} 個錯誤。")
         return 1
-    print("檢查通過：HTML 結構、導航標記與本地圖片引用正常。")
+    print("快速靜態檢查通過：HTML 結構、必要導航標記與 <img> 本地引用正常；仍需用瀏覽器驗收互動、版面、背景資源與離線播放。")
     return 0
 
 

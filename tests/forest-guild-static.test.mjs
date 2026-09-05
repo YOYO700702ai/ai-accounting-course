@@ -84,12 +84,12 @@ test('shared hongmen link and direct toolbox link select the correct tab', () =>
   }
 });
 
-test('guide exposes only current preview.5 learner downloads', () => {
+test('guide exposes only current preview.7 learner downloads', () => {
   const links = references(forest).filter(reference => reference.includes('/downloads/forest-guild/'));
   assert.equal(links.length, 3);
   for (const link of links) {
     assert(link.startsWith('https://yoyo-ai-gift-pack.hankvictor1023.chatgpt.site/downloads/forest-guild/'));
-    assert(link.includes('0.5.11-preview.5'));
+    assert(link.includes('0.5.11-preview.7'));
   }
   assert(links.some(link => link.endsWith('.exe')));
   assert(links.some(link => link.endsWith('.zip')));
@@ -102,6 +102,8 @@ test('learner instructions retain avatar, platform, update, unlock and minimize 
   assert.equal((forest.match(/<details>/g) || []).length, 9);
   assert.match(forest, /Microsoft Store／MSIX/);
   assert.match(forest, /不必另外安裝 CLI、設定路徑或修改 WindowsApps 權限/);
+  assert.match(forest, /下載約 194 MB/);
+  assert.match(forest, /本機測試約 245 MB/);
   for (const text of ['恢復預設頭像', 'PNG、JPG 或 BMP', 'Windows 11', 'lucide-circle-alert', '500 萬 TOKEN', '每天最多一位', '第一次啟用', '不要刪除存檔或先卸載', '縮小到 Windows 下方工作列', '試用版尚未完成程式簽章']) {
     assert(forest.includes(text), text);
   }

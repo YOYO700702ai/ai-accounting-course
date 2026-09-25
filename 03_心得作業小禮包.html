@@ -716,548 +716,148 @@
 </nav>
 
 <div class="tab-pane active" id="tab1">
-
 <nav class="toc prompt-toc" aria-label="提示詞分類">
   <h3>🗂 提示詞分類</h3>
   <p class="toc-intro">不用照章節讀；直接從你現在要完成的事開始。</p>
-  <div class="prompt-category-list">
-    <section class="prompt-category"><h4>📚 準備內容</h4><div class="prompt-category-links"><a href="#g0">整理題庫</a><a href="#g1">暖身自我介紹</a><a href="#g4">萬用模板</a></div></section>
+  <div class="prompt-category-list"><section class="prompt-category"><h4>🤖 認識與使用 Codex</h4><div class="prompt-category-links"><a href="#g-work">信箱、排程與 Skill</a><a href="#g1">暖身與自訂指令</a></div></section>
+    <section class="prompt-category"><h4>📚 準備內容</h4><div class="prompt-category-links"><a href="#g0">整理題庫</a><a href="#g4">萬用模板</a></div></section>
     <section class="prompt-category"><h4>🎮 做遊戲與互動</h4><div class="prompt-category-links"><a href="#g2">基礎小遊戲</a><a href="#g5">完整示範</a><a href="#g6">請 AI 幫想提示詞</a></div></section>
     <section class="prompt-category is-gacha"><h4>🎰 轉蛋／獎勵設計</h4><div class="prompt-category-links"><a href="#g8b">轉蛋機美術與提示詞</a></div></section>
     <section class="prompt-category"><h4>🎨 美術與進階任務</h4><div class="prompt-category-links"><a href="#g3">美術升級</a><a href="#g7">大冒險地圖</a><a href="#g8">地圖、封面與結局</a></div></section>
-    <section class="prompt-category"><h4>🚀 發布與分享</h4><div class="prompt-category-links"><a href="#g9">GitHub Pages</a><a href="#g9b">其他部署方式</a></div></section>
+    <section class="prompt-category"><h4>🚀 發布與分享</h4><div class="prompt-category-links"><a href="#g9">GitHub 與 Sites</a><a href="#g9b">其他部署方式</a><a href="#g10">交接與驗收</a></div></section>
   </div>
 </nav>
 <h2 class="big-section-title">📝 提示詞資料庫</h2>
-<section id="g0" class="group"><h2 class="group-title">📚 先整理教材與題庫</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">2️⃣ 章節 1 · 準備題庫 · Step 2</div><div class="prompt-title">Step 2：下提示詞，讓 NBLM 整理成標準表格</div></div><button class="copybtn" data-target="pc-p-nblm-format">📋 複製</button></div><pre class="prompt-body" id="pc-p-nblm-format">請幫我把這份題庫整理成「四選一選擇題」的標準表格。
-
-格式要求：
-1. 每一列就是一題
-2. 欄位順序：題目 | A | B | C | D（總共 5 欄）
-3. A 欄位「一律放正確答案」
-   （不管原本標的是哪個選項，正解都搬到 A）
-4. B、C、D 欄位放剩下 3 個錯誤選項
-5. 不要包含題號、不要分節、不要其他說明
-6. 如果某題未滿 4 個選項，缺的格子用「空」補上
-7. 用 Markdown 表格格式輸出，方便我複製貼到 Excel</pre></div></section><section id="g1" class="group"><h2 class="group-title">🤖 課堂暖身／想再練習</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🤖 章節 4 · 暖身 ① · AI 自我介紹</div><div class="prompt-title">🤖 章節 4 · 暖身 ① · AI 自我介紹</div></div><button class="copybtn" data-target="pc-p-warm3">📋 複製</button></div><pre class="prompt-body" id="pc-p-warm3">請在桌面建一個叫「AI 能做什麼」的資料夾，
-裡面做一個 index.html，是你（Claude + Antigravity）的自我介紹。
-
-內容包含：
-1. 你是誰、結合 Antigravity 後能做什麼
-2. 列出你能做的所有事，每項至少一個老師日常教學工作的例子（出考卷、班級經營、家長聯絡、教材製作等）
-3. 推薦老師最該裝的 Antigravity 插件 / 擴充功能（含說明為什麼）
-4. 我要怎麼跟你說話，才能得到最好的回答（給 3~5 個 do / don&#x27;t）
-
-風格：友善、清楚、有條理，深色背景配溫暖重點色。
-完成後用本地瀏覽器打開給我看。</pre></div></section><section id="g2" class="group"><h2 class="group-title">🎮 先做一個基礎小遊戲</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-snake">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake">幫我在桌面建立一個叫「貪吃蛇」的資料夾，裡面做一個 index.html，是經典貪吃蛇遊戲。
-
-需求：
-- 鍵盤方向鍵控制蛇移動
-- 吃到食物 → 蛇變長 + 加 10 分
-- 撞到牆壁或自己 → 遊戲結束
-- 深色背景、蛇是亮綠色、食物是紅色
-- 右上角即時顯示分數
-- 結束時跳出「Game Over」彈窗，附「重新開始」按鈕
-- 介面簡潔、有圓角、像現代手機遊戲
-
-完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-mine">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine">幫我在桌面建立一個叫「踩地雷」的資料夾，裡面做一個 index.html，是經典踩地雷遊戲。
-
-需求：
-- 9×9 格的盤面，隨機放 10 顆地雷
-- 滑鼠左鍵翻開格子：
-  - 空格 → 顯示周圍地雷數量（1~8，每個數字用不同顏色）
-  - 地雷 → 顯示💥，遊戲結束
-- 滑鼠右鍵插旗子 🚩 標記可疑格子
-- 翻完所有「非地雷格」= 過關
-- 上方顯示：剩餘地雷數、計時器、重新開始按鈕
-- 介面要乾淨好看、深色主題
-
-完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 4 · 4-3 · 三個基礎 Prompt</div><div class="prompt-title">📝 章節 4 · 4-3 · 三個基礎 Prompt</div></div><button class="copybtn" data-target="pc-p-mole">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole">幫我在桌面建立一個叫「打地鼠」的資料夾，裡面做一個 index.html，是經典打地鼠遊戲。
-
-需求：
-- 3×3 共 9 個洞，地鼠隨機從某個洞冒出來 1.5 秒後自動縮回
-- 點到地鼠 → 加 10 分 + 地鼠立刻消失
-- 沒點到的地鼠縮回去不扣分，但點到「空洞」要扣 5 分
-- 遊戲時長 30 秒，倒數計時
-- 時間到 → 跳出最終分數 + 重新開始按鈕
-- 地鼠用 🐹，洞用咖啡色圓形
-- 卡通可愛風格、有冒出/縮回動畫
-
-完成後請用本地瀏覽器幫我打開。</pre></div></section><section id="g3" class="group"><h2 class="group-title">🎨 把作品做得更好看</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📦 章節 4 · 4-6</div><div class="prompt-title">美術升級萬用框架</div></div><button class="copybtn" data-target="pc-p-art-frame">📋 複製</button></div><pre class="prompt-body" id="pc-p-art-frame">請幫我升級剛剛做的[作品名]，加入以下美化：
-
-1. 主題：[挑一個風格]
-   選項：賽博龐克霓虹 / 馬卡龍可愛 / 日式溫暖手繪 /
-         簡約現代 Material / 復古像素 / 森林自然 / 太空科幻
-
-2. 配色：[主色 + 輔色]，例如「深藍底 + 金色重點」
-
-3. 動畫：按鈕 hover 抬升 / 操作彈跳 / 過場 fade / 得分跳大
-
-4. 粒子效果：成功撒星星 / 失敗破碎震動
-
-5. 音效（Web Audio API 合成）：操作聲、得分聲、結束聲
-
-6. 字體：Google Fonts
-   選項：&#x27;Noto Sans TC&#x27; / &#x27;Orbitron&#x27; / &#x27;Press Start 2P&#x27; / &#x27;Kosugi Maru&#x27;
-
-7. 遊戲感（Game Feel）：震動 / COMBO / 慢動作淡出
-
-請保持玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-snake-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake-a">請幫我升級剛剛做的貪吃蛇，加入以下美化：
-
-1. 主題：賽博龐克霓虹風（黑底 + 粉紅 + 藍 + 綠霓虹光）
-2. 蛇的每一節用漸層色，移動時拖一條光尾
-3. 食物會脈動發光（呼吸效果）
-4. 吃到食物時：分數跳大放大 0.2 秒 / 蛇暫時整個發光 / 撒幾顆星星粒子
-5. Game Over 時：螢幕震動 0.3 秒 + 慢動作淡出
-6. 字體：用 Google Fonts 載入 &#x27;Orbitron&#x27;
-7. 按鍵聲、吃食物聲、結束聲（用 Web Audio API 合成）
-
-請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-mine-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine-a">請幫我升級剛剛做的踩地雷，加入以下美化：
-
-1. 主題：簡約現代 Material 風（淺色乾淨 + 一個重點色）
-2. 翻開格子時加 3D 翻轉動畫（X 軸翻 180 度）
-3. 數字 1~8 各用不同馬卡龍色
-4. 插旗時旗子有小幅彈跳
-5. 點到地雷時：整個盤面瞬間翻紅 + 震動 0.5 秒
-6. 過關時：星星粒子撒落 + 簡單烟火動畫
-7. 字體：用 Google Fonts 載入 &#x27;Inter&#x27;
-8. 翻開音效、插旗音效、地雷爆炸音效、過關音效
-
-請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div><div class="prompt-title">🎨 章節 4 · 4-7 · 三個美術升級 Prompt</div></div><button class="copybtn" data-target="pc-p-mole-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole-a">請幫我升級剛剛做的打地鼠，加入以下美化：
-
-1. 主題：日式溫暖手繪風（米黃底 + 木紋洞口）
-2. 地鼠冒出時：「啵」音效 + 從洞裡彈跳出來
-3. 打中地鼠時：地鼠頭旋轉飛出 + 顯示「+10」彈出數字 / 撒可愛粒子 / 「碰」打擊音效
-4. 打到空洞時：「哎呀」音效 + 螢幕輕微抖動 + 顯示「-5」
-5. 連續打中 3 次以上 → 顯示「COMBO ×N!」+ 額外特效
-6. 倒數計時最後 5 秒會閃紅 + 滴答音效
-7. 字體：用 Google Fonts 載入 &#x27;Kosugi Maru&#x27;
-
-請保持遊戲玩法不變，只升級視覺。完成後請開本地瀏覽器給我檢查。</pre></div></section><section id="g4" class="group"><h2 class="group-title">📋 萬用 Prompt 模板</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📋 章節 5 · 5-5</div><div class="prompt-title">萬用 Prompt 模板</div></div><button class="copybtn" data-target="pc-p-template">📋 複製</button></div><pre class="prompt-body" id="pc-p-template">我是 [你的角色 / 身分]，
-我有一個 [痛點 / 問題 / 任務]，
-請幫我做一個 [作品類型]，
-給 [觀眾 / 使用情境] 用。
-
-需求：
-- [功能 1]
-- [功能 2]
-- [視覺 / 風格 / 互動]
-
-完成後請在桌面建 [資料夾名] 資料夾，用本地瀏覽器打開。</pre></div></section><section id="g5" class="group"><h2 class="group-title">🎯 參考完整示範作品</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎴 章節 6 · 示範 1 · 配對遊戲</div><div class="prompt-title">朝代配對 — 古今對對碰</div></div><button class="copybtn" data-target="pc-p-demo1">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo1">我是國中歷史老師，要做一個「朝代配對」練習網頁給學生玩。
-請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範1_朝代配對」的子資料夾，做一個 index.html。
-
-═══ 題目資料（直接寫在 JS 裡，不用外部檔案）═══
-請在 JS 裡建兩個陣列：
-- 6 個朝代（每個朝代有 id 跟名稱）
-- 15+ 個事件（每個事件有 dynasty_id 對應到朝代，可以多對一）
-- 每個朝代可以對應 1 個以上的事件（數量不一致沒關係）
-
-朝代陣列（左欄）：
-  { id: 1, name: &quot;秦&quot; }
-  { id: 2, name: &quot;漢&quot; }
-  { id: 3, name: &quot;唐&quot; }
-  { id: 4, name: &quot;宋&quot; }
-  { id: 5, name: &quot;明&quot; }
-  { id: 6, name: &quot;清&quot; }
-
-事件陣列（右欄，至少 15 個）：
-  { id: &#x27;e1&#x27;,  dynasty_id: 1, text: &quot;統一六國&quot;,     icon: &quot;⚔️&quot; }
-  { id: &#x27;e2&#x27;,  dynasty_id: 1, text: &quot;修築萬里長城&quot;, icon: &quot;🧱&quot; }
-  { id: &#x27;e3&#x27;,  dynasty_id: 1, text: &quot;焚書坑儒&quot;,     icon: &quot;🔥&quot; }
-  { id: &#x27;e4&#x27;,  dynasty_id: 2, text: &quot;張騫通西域&quot;,   icon: &quot;🐪&quot; }
-  { id: &#x27;e5&#x27;,  dynasty_id: 2, text: &quot;文景之治&quot;,     icon: &quot;📜&quot; }
-  { id: &#x27;e6&#x27;,  dynasty_id: 2, text: &quot;罷黜百家獨尊儒術&quot;, icon: &quot;📖&quot; }
-  { id: &#x27;e7&#x27;,  dynasty_id: 3, text: &quot;貞觀之治&quot;,     icon: &quot;👑&quot; }
-  { id: &#x27;e8&#x27;,  dynasty_id: 3, text: &quot;安史之亂&quot;,     icon: &quot;💥&quot; }
-  { id: &#x27;e9&#x27;,  dynasty_id: 3, text: &quot;玄奘西行取經&quot;, icon: &quot;🧘&quot; }
-  { id: &#x27;e10&#x27;, dynasty_id: 4, text: &quot;王安石變法&quot;,   icon: &quot;📜&quot; }
-  { id: &#x27;e11&#x27;, dynasty_id: 4, text: &quot;岳飛抗金&quot;,     icon: &quot;🗡️&quot; }
-  { id: &#x27;e12&#x27;, dynasty_id: 5, text: &quot;鄭和下西洋&quot;,   icon: &quot;⛵&quot; }
-  { id: &#x27;e13&#x27;, dynasty_id: 5, text: &quot;永樂大典編成&quot;, icon: &quot;📚&quot; }
-  { id: &#x27;e14&#x27;, dynasty_id: 6, text: &quot;鴉片戰爭&quot;,     icon: &quot;💣&quot; }
-  { id: &#x27;e15&#x27;, dynasty_id: 6, text: &quot;康熙盛世&quot;,     icon: &quot;🌅&quot; }
-  { id: &#x27;e16&#x27;, dynasty_id: 6, text: &quot;辛亥革命終結&quot;, icon: &quot;🏛️&quot; }
-
-═══ 遊戲核心玩法 ═══
-1. 畫面分左右兩區
-   - 左欄：6 個朝代「卡格」（朝代名在上方，下方是「掉落區」可放多張事件卡）
-   - 右欄：15+ 張事件卡，順序隨機打亂
-2. 玩家從右欄把事件卡拖曳到左欄對應的朝代格子
-3. 用 HTML5 drag-and-drop API
-4. 配對判斷：
-   - 正確（dynasty_id 相符）→ 事件卡變綠、鎖定在朝代格內（堆疊顯示）
-   - 錯誤 → 紅色閃光 0.3 秒 + 卡片彈回右欄原位
-5. 每次嘗試（不論對錯）都計數
-6. 右欄事件卡全部正確放完 → 過關畫面（金色閃光 + 顯示總嘗試次數 + 再玩一次按鈕）
-
-═══ 視覺風格 ═══
-- 古典中國風：深色底 + 金色邊框 + 紅色點綴
-- 朝代卡：金色邊框、米黃底、朝代名用大字
-- 事件卡：紅色邊框、深色底、icon + 事件名稱
-- 已配對的事件卡用較小縮圖形式堆疊在朝代格內
-- 字型「Noto Serif TC」古典襯線
-- RWD：手機改上下兩欄；事件卡區可橫向捲動
-
-═══ 技術需求 ═══
-- 單一 index.html（CSS + JS 全部塞在一個檔案裡）
-- 不依賴任何第三方套件
-- 中文 UTF-8 編碼
-- 題目資料直接寫在 JS 裡
-- 朝代格的掉落區要能容納多張事件卡
-
-完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 6 · 示範 2 · 成語填字</div><div class="prompt-title">成語填字 — 拖字卡補空格</div></div><button class="copybtn" data-target="pc-p-demo2">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo2">我是國中國文老師，要做一個「成語填字」拖曳遊戲給學生玩。
-請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範2_成語填字」的子資料夾，做一個 index.html。
-
-═══ 題庫資料來源 ═══
-不用外部 CSV，題目直接硬寫在 JS 裡，至少 10 題。
-每題格式：
-
-const QUESTIONS = [
-  { 成語: &#x27;一鳴驚人&#x27;, 缺字: [1, 2], 答案: [&#x27;鳴&#x27;, &#x27;驚&#x27;], 意思: &#x27;比喻平時默默無聞，突然有驚人表現。&#x27; },
-  { 成語: &#x27;風花雪月&#x27;, 缺字: [1, 3], 答案: [&#x27;花&#x27;, &#x27;月&#x27;], 意思: &#x27;原指四時景色，後比喻浮華空洞的詩文。&#x27; },
-  { 成語: &#x27;三番五次&#x27;, 缺字: [1, 3], 答案: [&#x27;番&#x27;, &#x27;次&#x27;], 意思: &#x27;形容次數很多。&#x27; },
-  { 成語: &#x27;一字千金&#x27;, 缺字: [1, 3], 答案: [&#x27;字&#x27;, &#x27;金&#x27;], 意思: &#x27;形容文字價值極高。&#x27; },
-  { 成語: &#x27;畫龍點睛&#x27;, 缺字: [1, 3], 答案: [&#x27;龍&#x27;, &#x27;睛&#x27;], 意思: &#x27;比喻在關鍵處點明要旨。&#x27; },
-  // …請幫我補滿至少 10 題，挑國中常見成語
-];
-
-每題的「缺字」是索引（0-3），代表要挖空的位置；答案是按缺字順序對應的字。
-
-═══ 遊戲核心玩法 ═══
-1. 一場遊戲共 5 題（從題庫隨機抽，不重複）
-2. 每題畫面：
-   - 上方大字顯示成語，缺字位置用方框「□」代替
-   - 例：「一 □ 千 □」
-   - 下方排 15 張字卡（隨機排列）：2 個正解 + 13 個干擾字
-   - 字卡順序每次都打亂
-3. 玩家把字卡用拖曳拉到上方的空格
-4. 判定：
-   - 拖對 → 字卡變綠、鎖定在空格內、播清脆鈴聲
-   - 拖錯 → 字卡彈回原位、紅光閃 0.2 秒
-5. 兩個空格都填對 → 顯示「✓ 答對！」+ 成語意思 + 下一題按鈕
-6. 5 題完成 → 顯示總成績 + 重新挑戰按鈕
-
-═══ 視覺風格 ═══
-- 古色古香、書卷字帖風
-- 背景：米黃宣紙色 + 淡淡紋理
-- 標題與成語：毛筆楷書字型（用「Noto Serif TC」）
-- 空格用紅色方框（像書法字帖的米字格）
-- 字卡用淺色木紋或淡黃底 + 黑色楷體
-- 答對時空格內字變為紅色（像紅章蓋上去）
-
-═══ 技術需求 ═══
-- 單一 index.html（CSS + JS 全部塞進去）
-- 不依賴第三方套件（字型用 Google Fonts CDN 可以）
-- 中文 UTF-8 編碼
-- 拖曳同時支援桌機滑鼠 + 平板觸控
-
-完成後請用本地瀏覽器幫我打開。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">⚔️ 章節 6 · 示範 3 · 打怪 RPG 進階版</div><div class="prompt-title">打怪 RPG 進階版 — 練題目像在打 BOSS</div></div><button class="copybtn" data-target="pc-p-demo3">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo3">我是國中老師，要做一個「打怪 RPG 進階版」練習題網頁給學生玩。
-請在我目前 IDE 打開的「我的小遊戲」資料夾裡，建一個叫「示範3_打怪RPG」的子資料夾，做一個 index.html。
-
-═══ 題庫資料來源 ═══
-請用 fetch 抓這個 Google Sheets 發布的 CSV 網址：
-
-[請貼上你的 Sheets CSV 網址]
-
-CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是錯誤選項
-（如果某欄是「空」就忽略那個選項）
-
-═══ 遊戲核心玩法 ═══
-1. 玩家固定一個角色（🧙 巫師），HP 100、初始金幣 0
-2. 一場遊戲共 5 個關卡，每關 1 隻怪（依序登場）：
-   第 1 關 🐺 野狼（HP 100）
-   第 2 關 🦂 毒蠍（HP 100）
-   第 3 關 👹 惡鬼（HP 100）
-   第 4 關 🐲 巨龍（HP 100）
-   第 5 關 👑 魔王（HP 100）
-3. 戰鬥流程：
-   - 顯示「我方 vs 怪物」+ HP 血條 + 右上角金幣總額
-   - 怪物頭上跳出一題（CSV 隨機抽，選項順序打亂）
-   - 4 個選項按鈕（A/B/C/D）
-   - 答對 → 攻擊怪物 -25 HP + 拿 5 金幣
-   - 答錯 → 怪物攻擊 -25 HP + 顯示正確答案 2 秒
-4. 怪物 HP 歸零 → 額外掉落 20-50 隨機金幣 → 進入商店
-5. 5 隻怪打完 → 通關畫面（顯示答對題數 / 剩餘金幣 / 用了幾瓶藥水）
-
-═══ 金幣系統 ═══
-- 右上角金幣計數器（💰 + 數字）
-- 答對 1 題 = +5 金幣
-- 擊敗怪物 = 額外 +20 到 +50 隨機金幣
-
-═══ 商店系統（每關之間自動進入）═══
-| 道具 | 效果 | 價格 |
-|------|------|------|
-| 🧪 紅藥水 | 補 50 HP（戰鬥中也能用） | 30 金幣 |
-| 💎 攻擊水晶 | 下一題答對暴擊：怪物 -50 HP | 40 金幣 |
-| 🛡 救命符 | HP 歸零自動復活，剩 1 滴 HP | 80 金幣 |
-
-═══ 死亡與復活 ═══
-- HP 歸零時：
-  - 有救命符 → 自動消耗 1 個，HP 回 1 繼續
-  - 沒救命符 → 重來該關，HP 設成 1（懲罰）
-  - 已 HP 1 又死且無符 → Game Over 紅底畫面 + 重新開始
-
-═══ 背包與隨時補血 ═══
-- 戰鬥畫面下方「🎒 背包」按鈕
-- 點開顯示道具與數量，可立刻用紅藥水補血
-
-═══ 視覺風格 ═══
-- 像素風或卡通可愛風，深色背景配明亮重點色
-- HP 血條：綠 → 黃（&lt;50%）→ 紅（&lt;20% 閃爍）
-- 金幣計數器：金黃色，數字變動時跳一下
-- 答對畫面閃綠 0.2s、答錯震動 0.3s
-- 暴擊時閃紅光 + 大字「CRITICAL!」
-- 商店：木紋背景 + 道具卡片
-
-═══ 技術需求 ═══
-- 單一 index.html
-- 不依賴第三方套件，用純 fetch + JavaScript
-- CSV 抓不到時用內建範例題庫 fallback
-- 開啟時自動 fetch + loading 動畫
-
-完成後請用本地瀏覽器幫我打開。</pre></div></section><section id="g6" class="group"><h2 class="group-title">💭 不知道怎麼下 Prompt？</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 6 · 補充 · 實際範例</div><div class="prompt-title">只要記住前面三個公式：角色 / 原因 / 目的</div></div><button class="copybtn" data-target="pc-p-ai-write-prompt">📋 複製</button></div><pre class="prompt-body" id="pc-p-ai-write-prompt">我是一個國小英文老師，
-我常常遇到學生背完單字考完就忘，
-我想要做一個「單字打地鼠」小遊戲，
-讓學生在遊戲的過程裡，反覆練習常見的英文單字。
-我的單字題庫已經放在 Google Sheets，網址是 [學員自己貼]。
-
-請你幫我想出一段這個小遊戲需要的提示詞（PROMPT）。</pre></div></section><section id="g7" class="group"><h2 class="group-title">🗺 進階：大冒險地圖</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🗺 章節 8 · 大冒險地圖</div><div class="prompt-title">三關連動：拿三個憑證才能開啟大門</div></div><button class="copybtn" data-target="pc-p-adventure-map">📋 複製</button></div><pre class="prompt-body" id="pc-p-adventure-map">我前面已經做好 3 個小遊戲，分別在這些資料夾：
-- 示範1_朝代配對/index.html
-- 示範2_成語填字/index.html
-- 示範3_打怪RPG/index.html
-
-請幫我做一個「大冒險地圖」入口頁，把這 3 個遊戲串成完整闖關冒險。
-
-═══ 結構 ═══
-- 在「示範作品」資料夾下，建一個新資料夾「大冒險地圖」
-- 做一個 index.html 當入口頁
-- 用相對路徑連到旁邊的 3 個遊戲資料夾
-
-═══ 入口頁畫面 ═══
-- 頂部：標題「大冒險地圖」+ 一行說明「完成 3 個關卡，拿到 3 個憑證解開大門」
-- 右上角：「🔄 清除進度」按鈕
-- 中央：3 個關卡按鈕，網格整齊排列：
-  - 大圖示 emoji
-  - 關卡名稱
-  - 狀態（未完成 / 已完成 ✓）
-  - 點擊開啟對應遊戲
-
-  關卡 1：🎴 朝代配對 → 點擊開啟 ../示範1_朝代配對/index.html
-  關卡 2：📝 成語填字 → 點擊開啟 ../示範2_成語填字/index.html
-  關卡 3：⚔️ 打怪 RPG → 點擊開啟 ../示範3_打怪RPG/index.html
-
-- 下方：「🔒 通關大門」按鈕
-  - 旁邊顯示「目前持有：X / 3」
-  - **重要：不論持有幾個憑證，這個按鈕都可以點，會跳出大門 modal**
-
-═══ 在每個遊戲頁面加上「回到大地圖」按鈕 ═══
-請同時修改 3 個遊戲的 index.html，在每個遊戲頁面的明顯位置（例如左上角或右上角）加上一個按鈕：
-  「← 回到大地圖」
-按下後跳轉到 ../大冒險地圖/index.html
-
-═══ 憑證系統（localStorage 跨頁）═══
-- 完成朝代配對 → 取得「朝代之印」
-- 完成成語填字 → 取得「成語之印」
-- 完成打怪 RPG → 取得「勇者之印」
-- localStorage 鍵：cert_dynasty / cert_idiom / cert_warrior
-- 入口頁 onload 時讀取 → 已完成的關卡按鈕變綠色 + 顯示 ✓
-
-⚠️ 3 個遊戲已經有寫 localStorage，不要動
-
-═══ 通關大門 modal（點通關大門按鈕後跳出）═══
-- 上半：3 個橫排凹槽（標籤：朝代 / 成語 / 勇者）
-- 下半：背包欄，顯示目前持有的憑證徽章
-  - 玩家拖曳憑證到對應凹槽（HTML5 drag-and-drop）
-  - 拖對 → 憑證停在凹槽 + 變綠色
-  - 拖錯 → 紅色閃 + 彈回背包
-- 如果持有的憑證不足 3 個，玩家還是可以拖目前有的進去試試看，但只有 3 個都拖對才會開門
-- 3 個都拖對 → 切換到通關畫面
-
-═══ 通關畫面 ═══
-- 標題「🏆 冒險完成！」
-- 顯示總冒險時長（從 adventure_start 到現在，格式 mm 分 ss 秒）
-- 「再次冒險」按鈕（清除所有 localStorage 重來）
-
-═══ 技術需求 ═══
-- 單一 index.html（CSS + JS 全部塞進去）
-- 用 localStorage 跨頁傳遞憑證
-- 拖曳同時支援桌機滑鼠 + 平板觸控
-- 不依賴任何第三方套件
-- 中文 UTF-8
-
-完成後請用本地瀏覽器幫我打開大地圖頁面。</pre></div></section><section id="g8" class="group"><h2 class="group-title">🎨 進階：地圖、封面與結局美術</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 8 · 美術升級 · A 段</div><div class="prompt-title">幫大地圖畫一張背景圖（請 AI 畫圖）</div></div><button class="copybtn" data-target="pc-p-map-art-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-map-art-a">請幫我畫一張橫式的「冒險地圖背景圖」（16:9 比例，給網頁當底圖用）。
-
-═══ 整體風格（從下面挑一個，把 [風格名] 換掉）═══
-[風格名]：
-- 科技風
-- 古代水墨風（中國山水畫 ， 全黑白，墨色，）
-- 童話繪本插畫風（彩色蠟筆 + 圓潤可愛）
-- 像素 8-bit RPG 風（復古遊戲地圖）
-- Q 版漫畫風(粗線條 + 鮮豔色塊)
-- 手繪羊皮紙風（古地圖 + 墨水手繪）
-
-═══ 4 個地標（請幫地點選擇符合風格的名字）═══
-
-地標 1（「朝代配對」遊戲）
-地標 2（「成語填字」遊戲）
-地標 3（「打怪 RPG」遊戲）
-地標 4（中央大門，集滿 3 印才能開）
-═══ 構圖要求 ═══
-- 4 個關卡分散在畫面 4 個區域（地標 1、2、3 環繞四周；地標 4 在正中央）
-- 4 個關卡之間用「跟所選風格相符的方式」連接（不一定要路徑或河流）
-- 4 個關卡要用名牌按鈕的方式寫上關卡名字
-- 整體色調統一
-
-═══ 輸出 ═══
-- 橫式 16:9（建議 1920×1080）
-- PNG 格式</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎬 章節 8 · 美術升級 · B 段</div><div class="prompt-title">幫遊戲畫一張封面（請 AI 畫圖）</div></div><button class="copybtn" data-target="pc-p-game-cover">📋 複製</button></div><pre class="prompt-body" id="pc-p-game-cover">請幫我畫一張遊戲封面圖（橫式 16:9，給網頁當開場畫面用）。
-
-═══ 整體風格（跟剛剛畫的地圖用同一個風格）═══
-[風格名]：
-- 科技風
-- 古代水墨風（中國山水畫 ， 全黑白，墨色，）
-- 童話繪本插畫風（彩色蠟筆 + 圓潤可愛）
-- 像素 8-bit RPG 風（復古遊戲地圖）
-- Q 版漫畫風(粗線條 + 鮮豔色塊)
-- 手繪羊皮紙風（古地圖 + 墨水手繪）
-
-═══ 內容要素 ═══
-- 史詩 RPG 感（戲劇性光影、英雄輪廓、神秘氛圍）
-- 畫面正中央：一個大大的遊戲名稱（請你幫我取一個符合風格的 RPG 感名字）
-- 副標（放在標題下方一點）：「點擊任何部位遊戲開始」
-- 背景氛圍要跟所選風格一致
-
-═══ 構圖 ═══
-- 標題與副標都置中（垂直、水平都置中）
-- 看起來像一款 RPG 遊戲的開場封面
-
-═══ 輸出 ═══
-- 橫式 16:9（建議 1920×1080）
-- PNG 格式</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎮 章節 8 · 美術升級 · C 段</div><div class="prompt-title">把大地圖跟封面放進遊戲</div></div><button class="copybtn" data-target="pc-p-cover-integrate">📋 複製</button></div><pre class="prompt-body" id="pc-p-cover-integrate">我在「大冒險地圖」資料夾放了 2 張圖：
-- cover.png（遊戲開場封面）
-- map-bg.png（大地圖，圖上已經有 4 個名牌：朝代區、成語區、怪獸區、中央大門）
-
-請幫我把它們整合到 index.html，做成完整的遊戲流程：
-
-═══ 1. 開場封面 ═══
-- 開啟頁面時先顯示 cover.png 全螢幕
-- 點任何地方 → 淡出，進入大地圖
-- 用 sessionStorage 記錄，從關卡頁回來時不再顯示封面
-- 「再次冒險」按鈕清掉所有 storage 時，下次重玩會再顯示封面
-
-═══ 2. 大地圖（保留地圖原本的視覺）═══
-- map-bg.png 完整顯示（保持比例不裁切）
-  → 用 max-width / max-height + object-fit:contain，包在 container 裡置中
-- 地圖已經有 4 個名牌（朝代、成語、怪獸、中央大門），**不要再加新按鈕疊上去**
-- 改用「透明可點區域」疊在每個名牌位置：
-  - 4 個透明 div，position:absolute，疊在名牌大概位置
-  - cursor:pointer，hover 時整個區域微微亮起（淡色光暈）
-  - 點擊 → 跳轉對應遊戲，或中央那個 → 打開大門 modal
-- 已通關的關卡 → 在對應名牌上疊一個綠色 ✓ 印章圖示（不要蓋住名牌字）
-
-═══ 3. 透明熱區位置 ═══
-請你直接打開 map-bg.png 看圖，找出 4 個名牌（朝代、成語、怪獸、中央大門）在圖上的位置，
-用百分比座標（top% / left%）把透明熱區精準疊在每個名牌上。
-如果不確定，先放好你判斷的位置，我會打開頁面回報「朝代要往右移 5%」之類的微調。
-
-═══ 4. 右上角資訊區（唯一一處）═══
-- 「持有 X / 3」
-- 「🔄 清除進度」按鈕
-- 不要在其他地方再顯示持有數
-
-═══ 5. 保留功能 ═══
-- 通關大門 modal（點中央熱區跳出）：3 凹槽 + 背包 + 拖曳
-- 通關畫面（mm 分 ss 秒）
-- 「再次冒險」按鈕（同時清 localStorage + sessionStorage）
-
-═══ 6. 技術 ═══
-- 單一 index.html
-- 拖曳支援桌機 + 平板觸控
-- 中文 UTF-8
-- 不依賴第三方
-
-完成後請打開瀏覽器給我看。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎬 章節 8 · 美術升級 · D 段</div><div class="prompt-title">幫遊戲加結局劇情（用「要提示詞的提示詞」）</div></div><button class="copybtn" data-target="pc-p-ending-meta">📋 複製</button></div><pre class="prompt-body" id="pc-p-ending-meta">═══ 我要你幫我做兩件事 ═══
-
-請根據我的上面那個遊戲風格，幫我生出下面兩段「Prompt」給我
-（不是直接做，是給我兩段我可以複製貼上的提示詞）：
-
-────────────────────
-【第一段】結局劇情 Prompt（給 Antigravity 寫進遊戲用）
-────────────────────
-要包含：
-- 結局共幾張過場圖（建議 3~5 張）
-- 每張圖的場景描述
-- 每張圖搭配的旁白或角色台詞（要符合風格，不要俗套）
-- 結局標題（4~8 個字，史詩感）
-- 玩家按一下進到下一張，最後一張按完顯示「冒險完成」
-
-────────────────────
-【第二段】每張結局圖的繪圖 Prompt（給 GPT / Midjourney 畫圖用）
-────────────────────
-針對第一段裡每一張過場圖，各給我一段獨立的繪圖 Prompt，
-讓我可以分別貼到繪圖 AI。每段要包含：
-- 場景視覺描述（光線、構圖、氛圍）
-- 風格指定（跟我遊戲風格一致）
-- 比例：16:9
-- 輸出 PNG
-
-═══ 注意 ═══
-- 你只需要「給我這兩段 Prompt 文字」，不要直接執行
-- 風格要前後一致
-- 結局要有韻味、留白，不要說教</pre></div></section><section id="g8b" class="group"><h2 class="group-title">🎰 轉蛋／獎勵設計</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎰 章節 8 · 美編 · 轉蛋小撇步</div><div class="prompt-title">學生完成任務 → 給他抽轉蛋 🎰</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.95em;line-height:1.75;white-space:normal;overflow:visible">就像 ATM 結束跳出來的轉蛋——學生只玩 1 分鐘也會 <b style="color:var(--gold-2)">印象深刻</b> ✨<br><br><b style="color:var(--accent)">① 禮物不用貴重</b>　重點是「驚喜」、意料之外<br><b style="color:var(--accent)">② 等級 = 稀有，不是貴</b>　傳說禮物可以只是「一句個人化稱讚」<br><b style="color:var(--accent)">③ 感覺勝過實物</b>　大多數人要的是「<b style="color:var(--gold-2)">抽到稀有</b>」的感覺</div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 章節 8 · 美編 · 4 步驟法</div><div class="prompt-title">想做美術升級？照這 4 步走</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.95em;line-height:1.8;white-space:normal;overflow:visible"><b style="color:var(--gold-2)">1️⃣ 請 AI 給提示詞</b>（不用自己想 prompt）<br><b style="color:var(--gold-2)">2️⃣ 複製去 AI 生圖</b>（GPT / Midjourney / Gemini）<br><b style="color:var(--gold-2)">3️⃣ 圖丟回資料夾</b>（取英文檔名，例：machine.png）<br><b style="color:var(--gold-2)">4️⃣ 告訴 AI 用這些素材</b>（AI 會自動換掉原本的 emoji）<br><br><span style="color:#fca5a5">💡 小撇步：一次貼一段，別 8 張一起要；不滿意就重畫；務必寫「去背 PNG / 透明背景」。</span></div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 8 · 美編 · Step 1</div><div class="prompt-title">Step 1：請 AI 給轉蛋機的 8 張圖像提示詞</div></div><button class="copybtn" data-target="pc-p-gacha-step1">📋 複製</button></div><pre class="prompt-body" id="pc-p-gacha-step1">我要做一個給學生用的「任務完成轉蛋機」網頁。
-請幫我寫 GPT / Midjourney / DALL-E 可以用的圖像生成 prompt，
-我需要以下 8 張圖：
-
-1. 一台「復古橘色轉蛋機」主視覺
-   - 透明圓頂裝滿彩色扭蛋
-   - 木質暖橘色機台 + 金屬把手 + 投幣孔
-   - 正面視角、去背 PNG、扁平向量插畫、暖色調
-
-2. 6 顆彩色扭蛋膠囊橫排（紅橘黃綠藍紫）
-   - 透明上半 + 彩色下半，金屬光澤
-   - 去背 PNG、6:1 橫向
-
-3-7. 5 個稀有度的禮物盒（同款不同顏色）
-   - N（普通）：白色 + 米色蝴蝶結
-   - R（不錯）：綠色 + 金色蝴蝶結
-   - SR（稀有）：藍色 + 金色蝴蝶結 + 寶石
-   - SSR（史詩）：紫色 + 金色蝴蝶結 + 閃爍星星
-   - UR（傳說）：金色 + 桂冠 + 王冠 + 大量金光
-   - 每個盒身上有對應的稀有度英文字
-   - 去背 PNG、Q 版可愛風
-
-8. 慶祝特效素材
-   - 金色彩帶 + 星星 + 爆炸光芒
-   - 透明背景 PNG、用於史詩 / 傳說中獎時
-
-風格：扁平向量、暖色調、Q 版可愛、商業級品質
-比例：每張獨立 PNG，背景透明</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📁 章節 8 · 美編 · Step 3 · 範例素材</div><div class="prompt-title">畫好的 8 張圖長這樣（範例）</div></div></div><div class="prompt-body" style="background:rgba(247,241,222,.95);padding:1em;display:grid;grid-template-columns:repeat(4,1fr);gap:.6em;white-space:normal;overflow:visible"><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/machine.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>機台</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/capsules.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>6 色膠囊</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/sparkle.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>慶祝特效</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-n.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>N 普通</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-r.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>R 不錯</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-sr.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SR 稀有</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-ssr.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SSR 史詩</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-ur.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>UR 傳說</b></p></div></div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 8 · 美編 · Step 3</div><div class="prompt-title">Step 3：把圖丟回資料夾，請 AI 升級網頁</div></div><button class="copybtn" data-target="pc-p-gacha-step3">📋 複製</button></div><pre class="prompt-body" id="pc-p-gacha-step3">我把畫好的 8 張圖放在 images/ 資料夾，請幫我升級剛剛的轉蛋機網頁：
-
-- machine.png → 機台主視覺
-- capsules.png → 6 顆扭蛋（橫排 sprite，可切割使用）
-- prize-n.png ~ prize-ur.png → 5 種稀有度的禮物盒
-- sparkle.png → SSR / UR 中獎時的慶祝特效
-
-請把這些圖替換掉原本的 emoji + CSS，動畫和遊戲邏輯都保留。
-完成後打開瀏覽器給我看。</pre></div></section><section id="g9" class="group"><h2 class="group-title">🚀 發布與分享</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🛠 章節 9 · 9-2 · 實作時間</div><div class="prompt-title">🛠 章節 9 · 9-2 · 實作時間</div></div><button class="copybtn" data-target="pc-p-github">📋 複製</button></div><pre class="prompt-body" id="pc-p-github">我的 GitHub 帳號已經登入好了（gh auth status 確認過）。
-
-請幫我做以下事情：
-1. 在 GitHub 建立一個新的【公開】倉庫，名稱叫：[請改成你想要的名字]
-2. 把目前這個資料夾的所有檔案推上去
-3. 開啟 GitHub Pages（用 main 分支根目錄）
-4. 把網站的公開連結給我，我要分享給學生或家長
-
-如果中間有任何選擇要做，請依照「最簡單、最常用」的方式處理。
-做完直接給我連結就好。</pre></div></section><section id="g9b" class="group"><h2 class="group-title">🌐 其他免費部署方式</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">💡 章節 9 · 補充 · 為什麼還要學別的？</div><div class="prompt-title">不只 GitHub Pages，這 4 個平台 AI 也會推</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.95em;line-height:1.75;white-space:normal;overflow:visible">GitHub Pages 很穩、但更新慢（30 秒 ~ 幾分鐘）。下面 4 個平台 AI 也都會用，<b style="color:var(--gold-2)">推上去幾秒就活</b>，網址也是免費自動給：<br><br><b style="color:#10b981">🏆 Netlify</b>　最像 GitHub Pages 的升級版，<b>正式個人網址用這個</b>（xxx.netlify.app）<br><b style="color:#a78bfa">▲ Vercel</b>　速度跟介面都好，跟 GitHub 整合最順<br><b style="color:#f97316">☁️ Cloudflare Pages</b>　全球 CDN 最快，免費額度<b>無限頻寬</b><br><b style="color:#22d3ee">⚡ Surge.sh</b>　<b>指令最短、最無腦</b>，課堂示範炫炸天<br><br><span style="color:#fca5a5">💡 已經用 Firebase（Part 2 教的那個）？直接 <code>firebase deploy</code> 就好，不用學新平台。</span></div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🛠 章節 9 · 補充 · 萬用提示詞</div><div class="prompt-title">叫 AI 幫你部署到任一平台（一段搞定）</div></div><button class="copybtn" data-target="pc-p-deploy">📋 複製</button></div><pre class="prompt-body" id="pc-p-deploy">我做好的網頁在這個資料夾裡。請幫我：
-
-1. 用 [Netlify / Vercel / Surge / Cloudflare Pages] 部署到網路上
-   （上面挑一個，如果不知道選哪個，預設用 Netlify）
-2. 部署完成後給我公開網址
-3. 如果需要登入或裝 CLI，請告訴我每一步要怎麼做
-   （把指令直接給我複製貼上即可）
-
-不要問細節，用最常見、最簡單的方式做完就好。
-做完直接給我連結。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📋 章節 9 · 補充 · 4 個平台對照表</div><div class="prompt-title">怎麼挑？看你想要什麼</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.92em;line-height:1.7;white-space:normal;overflow:visible"><b style="color:#10b981">🏆 想要「正式個人網址」</b> → 用 <b>Netlify</b><br><span class="muted" style="color:#a8b3a0">給 AI：「裝 netlify-cli，登入後執行 netlify deploy --prod」</span><br><br><b style="color:#a78bfa">▲ 想要「跟 GitHub 整合」</b> → 用 <b>Vercel</b><br><span class="muted" style="color:#a8b3a0">給 AI：「裝 vercel CLI，執行 vercel --prod」</span><br><br><b style="color:#f97316">☁️ 想要「速度最快 + 流量無限」</b> → 用 <b>Cloudflare Pages</b><br><span class="muted" style="color:#a8b3a0">給 AI：「用 wrangler 部署，執行 wrangler pages deploy .」</span><br><br><b style="color:#22d3ee">⚡ 想要「最快最無腦」</b> → 用 <b>Surge.sh</b><br><span class="muted" style="color:#a8b3a0">給 AI：「裝 surge，執行 surge .」（真的就一行）</span></div></div></section>
+<div class="intro-card"><p><b>2026.09.26 更新｜已同步 Codex 講義的 22 段精簡提示詞。</b></p><p>一次複製現在需要的那一段，先替換［中括號］。接續步驟留在同一個任務；沒有要設定的項目可刪除。</p><p>遊戲練習先在 Codex 開啟桌面的「我的小遊戲」。下列作品各放在自己的子資料夾，三款示範和地圖必須同層：</p><pre class="prompt-body">桌面／我的小遊戲／
+├─ AI 能做什麼／index.html
+├─ 示範1_朝代配對／index.html
+├─ 示範2_成語填字／index.html
+├─ 示範3_打怪RPG／index.html
+└─ 大冒險地圖／index.html</pre><p>貪吃蛇、踩地雷、打地鼠與轉蛋機是額外練習，也各放在「我的小遊戲」下。作品標題可以改，提示詞裡前後對應的資料夾名稱要保持一致。</p></div><section id="g-work" class="group"><h2 class="group-title">🤖 信箱、排程與 Skill</h2><p class="toc-intro">先連接信箱，再設定排程。Skill 要在流程成功後儲存，下次才用名稱呼叫。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 16 頁</div><div class="prompt-title">連接信箱與唯讀測試</div></div><button class="copybtn" data-target="pc-p-mail-connect">📋 複製</button></div><pre class="prompt-body" id="pc-p-mail-connect">請連接我的［Gmail／Outlook Email，擇一］信箱。需要安裝、登入或授權時，請引導我完成。
+連線後只讀取資料，回報帳號及今天收件匣、垃圾郵件各收到幾封；不要更動或寄送郵件。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 17 頁</div><div class="prompt-title">每日信箱整理排程</div></div><button class="copybtn" data-target="pc-p-mail-daily-automation">📋 複製</button></div><pre class="prompt-body" id="pc-p-mail-daily-automation">建立每天 20:00（台北時間）的「每日信箱整理」排程，依帳號分開，以繁體中文回報。
+
+1. 完整檢查收件匣與垃圾郵件，讀完所有分頁；先看摘要，資訊不足再讀全文。
+2. 依內容分為：緊急、待回覆／處理、重要資訊、一般參考、明確垃圾；不要因位於垃圾郵件匣就忽略。
+3. 將垃圾郵件匣內疑似重要的信移回收件匣，報告列出「從垃圾郵件救回」。
+
+4. 僅將高度確定無保留價值的詐騙、惡意或大量垃圾廣告、無行動價值的重複通知移至可復原垃圾桶。
+5. 涉及金錢、帳號安全、期限、工作／學校、合約／政府、醫療／預約、旅行、訂單／物流、會員權益、重要附件、真人來信或待回覆內容，一律保留；不確定也保留並註明。
+6. 不永久刪除、清空垃圾桶、取消訂閱、封鎖、回覆、轉寄或寄信；工具無法安全判斷或操作時，維持原狀並說明。
+
+
+建立後回報名稱與時間，將此任務釘選；無法代辦時告訴我操作方式。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 18 頁</div><div class="prompt-title">把成功流程存成 Skill</div></div><button class="copybtn" data-target="pc-p-skill-save-rules">📋 複製</button></div><pre class="prompt-body" id="pc-p-skill-save-rules">$skill-creator
+把剛才成功的流程、判斷規則與驗收標準存成 Skill，告訴我名稱與呼叫方式。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 18 頁</div><div class="prompt-title">呼叫已建立的 Skill</div></div><button class="copybtn" data-target="pc-p-skill-follow-rules">📋 複製</button></div><pre class="prompt-body" id="pc-p-skill-follow-rules">$［剛剛建立的 Skill 名稱］
+請按照流程規則執行操作。</pre></div></section><section id="g1" class="group"><h2 class="group-title">🤖 暖身與個人自訂指令</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 24 頁</div><div class="prompt-title">暖身：Codex 自我介紹網頁</div></div><button class="copybtn" data-target="pc-p-warm3">📋 複製</button></div><pre class="prompt-body" id="pc-p-warm3">在目前專案建立「AI 能做什麼/index.html」，做一頁 Codex 自我介紹。
+介紹目前可用的主要能力，包含繪圖、排程、Skills 與 Plugins；各配一個教師工作例子，再給 3～5 個溝通建議。尚未連接的功能請註明。
+風格友善清楚，深色背景配溫暖重點色。完成後用 Windows 直接開啟「AI 能做什麼/index.html」。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 28 頁</div><div class="prompt-title">個人自訂指令與美術偏好</div></div><button class="copybtn" data-target="pc-p-user-profile">📋 複製</button></div><pre class="prompt-body" id="pc-p-user-profile">【關於我與回答方式】
+我是［職業／教學對象］，常請 AI 協助［工作內容］。
+請用繁體中文，回答方式與格式偏好［例如：先說結論、步驟清楚、提供可直接使用的範例］。
+請注意或避免［例如：不要猜測資料、少用專有名詞］。
+
+
+【製作教材與作品時】
+製作教材、簡報、網頁或遊戲時，需要插圖就用繪圖模型製作，存進專案並實際套用；不以 emoji、色塊或佔位圖代替。
+預設使用［彩色鉛筆／水彩／兒童繪本，擇一］風格，整套角色、線條、材質與配色一致；風格不確定時先問我。
+短標題、圖卡文字與漫畫對白可畫進圖片，用繁體中文並檢查錯漏字；長文、常修改或需精確複製的內容保留可編輯文字，不確定時先問我。
+
+填寫提醒： 沒有要設定的項目就刪除；不要放入個資、密碼或其他機密。</pre></div></section><section id="g0" class="group"><h2 class="group-title">📚 先整理教材與題庫</h2><p class="toc-intro">RPG 題庫用 CSV 網址或專案檔案，兩種方式擇一。先確認題目與答案，再製作下方的打怪 RPG。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">用 NotebookLM 整理四選一題庫</div></div><button class="copybtn" data-target="pc-p-nblm-format">📋 複製</button></div><pre class="prompt-body" id="pc-p-nblm-format">把這份題庫整理成 Markdown 表格，每列一題，欄位固定為：題目｜A｜B｜C｜D。A 放原題的正確答案，B、C、D 放三個錯誤選項。
+不要加題號或分節。缺少選項、答案不明或讀不清楚的題目，另列待確認清單，不要猜答案或用「空」充當選項。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 36 頁</div><div class="prompt-title">題庫準備：CSV 網址</div></div><button class="copybtn" data-target="pc-p-rpg-csv">📋 複製</button></div><pre class="prompt-body" id="pc-p-rpg-csv">請讀取題庫 CSV：［貼上 CSV 網址］。
+整理題目，回報欄位、題數，以及題目、四個選項、正確答案的缺漏或錯誤。
+這一步先備妥題庫，下一步才製作「示範3_打怪RPG」；有疑義先標註，不要猜答案。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 37 頁</div><div class="prompt-title">題庫準備：專案內檔案</div></div><button class="copybtn" data-target="pc-p-rpg-file">📋 複製</button></div><pre class="prompt-body" id="pc-p-rpg-file">請讀取「我的小遊戲」專案裡的題庫：［填入檔名，含副檔名］。
+整理題目，回報欄位、題數，以及題目、四個選項、正確答案的缺漏或錯誤。
+這一步先備妥題庫，下一步才製作「示範3_打怪RPG」；有疑義先標註，不要猜答案。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 77 頁</div><div class="prompt-title">依教材製作考卷與題庫</div></div><button class="copybtn" data-target="pc-p-doc-exam">📋 複製</button></div><pre class="prompt-body" id="pc-p-doc-exam">依目前專案的「［教材檔名.pdf］」出 20 題四選一：簡單 6 題、中等 10 題、困難 4 題。
+輸出學生卷、附答案／解析／教材依據的教師卷，以及可編輯題庫試算表。
+先預覽成品，逐頁檢查排版與內容，再開啟給我驗收。</pre></div></section><section id="g2" class="group"><h2 class="group-title">🎮 先做一個基礎小遊戲</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">貪吃蛇</div></div><button class="copybtn" data-target="pc-p-snake">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake">在桌面「我的小遊戲」建立「貪吃蛇/index.html」，製作經典貪吃蛇。
+方向鍵控制移動；吃食物變長並加 10 分，撞牆或撞到自己就結束。右上角顯示分數，結束顯示最終分數與「重新開始」。手機提供觸控操作。
+採深色背景、亮綠蛇與紅色食物，介面簡潔、有圓角。用繪圖模型製作並套用一致的角色與食物素材，放在這個遊戲的 assets/images，不用 emoji 當最終美術。
+測試移動、計分、碰撞與重玩，再用 Windows 開啟作品。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">踩地雷</div></div><button class="copybtn" data-target="pc-p-mine">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine">在桌面「我的小遊戲」建立「踩地雷/index.html」。盤面 9×9，隨機放 10 顆地雷；左鍵翻格、右鍵插旗，手機也要能翻格與標記。
+翻開安全格顯示周圍地雷數量，沒有相鄰地雷就展開空白區；踩雷結束，翻完所有安全格即過關。上方顯示剩餘地雷數、計時與「重新開始」。
+採乾淨的深色介面，數字 1～8 用不同顏色。用繪圖模型製作地雷、旗幟與爆炸素材，存入這個遊戲的 assets/images 並套用，不用 emoji 當最終美術。
+測試翻格、插旗、勝負與重玩，再用 Windows 開啟作品。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">打地鼠</div></div><button class="copybtn" data-target="pc-p-mole">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole">在桌面「我的小遊戲」建立「打地鼠/index.html」。3×3 共九個洞，地鼠隨機冒出，1.5 秒後縮回；點中加 10 分並立即消失，漏打不扣分，點空洞扣 5 分。
+每局 30 秒，顯示分數與倒數，結束顯示最終分數及「重新開始」，滑鼠與手機都能玩。
+用繪圖模型製作可愛手繪地鼠與洞口，存入這個遊戲的 assets/images 並套用，加入冒出、縮回動畫，不用 emoji 當角色。
+測試計時、計分、連點與重玩，再用 Windows 開啟作品。</pre></div></section><section id="g3" class="group"><h2 class="group-title">🎨 把作品做得更好看</h2><p class="toc-intro">先完成對應的小遊戲，再使用美術升級提示詞。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">美術升級萬用提示詞</div></div><button class="copybtn" data-target="pc-p-art-frame">📋 複製</button></div><pre class="prompt-body" id="pc-p-art-frame">升級目前專案的「［作品資料夾］/index.html」，保留玩法與資料，只改善美術和操作回饋。
+風格：［填入風格］；配色：［主色＋輔色］。需要的角色、場景與圖示請用繪圖模型製作，存入作品的 assets/images 並套用，不用 emoji 當最終美術。
+統一字體、按鈕與畫面；操作、得分、成功及失敗加入適量動畫、粒子與音效，避免效果遮住內容或妨礙操作。
+測試電腦與手機，確認功能照常運作，再用 Windows 開啟作品。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">貪吃蛇：霓虹風</div></div><button class="copybtn" data-target="pc-p-snake-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-snake-a">升級桌面「我的小遊戲/貪吃蛇/index.html」，保留原有玩法和計分。
+改成賽博龐克霓虹風：黑底搭粉紅、藍、綠；蛇身漸層並有光尾，食物脈動發光。吃到食物時分數跳動、蛇身閃亮並散出星星；結束時輕震、慢慢淡出。搭配科幻字體與操作、進食、結束音效。
+需要重畫的角色或食物用繪圖模型製作，存入遊戲的 assets/images 並套用，不以 emoji 取代。測試電腦與手機操作，再用 Windows 開啟作品。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">踩地雷：簡約淺色風</div></div><button class="copybtn" data-target="pc-p-mine-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mine-a">升級桌面「我的小遊戲/踩地雷/index.html」，保留 9×9、十顆地雷及原有規則。
+改成淺色簡約介面，搭配一個重點色；數字 1～8 用不同馬卡龍色。翻格有立體翻轉、插旗輕彈，踩雷時盤面閃紅並輕震，過關灑星星與煙火；各動作搭配簡短音效。
+需要的旗幟、地雷或裝飾圖請用繪圖模型製作，存入遊戲的 assets/images 並套用，不用 emoji 當最終美術。確認動畫不擋操作，測試電腦與手機，再用 Windows 開啟作品。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">打地鼠：溫暖手繪風</div></div><button class="copybtn" data-target="pc-p-mole-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-mole-a">升級桌面「我的小遊戲/打地鼠/index.html」，保留原有時長與加減分規則。
+改成日式溫暖手繪風、米黃背景與木紋洞口；用繪圖模型製作一致的地鼠與場景，存入遊戲的 assets/images 並套用，不用 emoji 當角色。
+地鼠冒出時彈跳配「啵」聲；打中時旋轉縮回、跳出「+10」並散出粒子，點空洞顯示「-5」並輕震。連中三次以上顯示「COMBO ×N」與特效，但不改分數；最後五秒紅色提醒並有滴答聲。
+測試電腦與手機的計分、倒數及重玩，再用 Windows 開啟作品。</pre></div></section><section id="g4" class="group"><h2 class="group-title">📋 萬用 Prompt 模板</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">說清楚目標、情境、需求與完成標準</div></div><button class="copybtn" data-target="pc-p-template">📋 複製</button></div><pre class="prompt-body" id="pc-p-template">我是［身分］，想解決［問題或任務］，請做一個［作品類型］，給［對象與情境］使用。
+主要功能：［功能一］、［功能二］。
+風格與互動：［描述想要的感覺］。
+請在目前專案建立「［作品資料夾］/index.html」。需要角色、插圖或場景時，用繪圖模型製作並存入作品的 assets/images，實際套用，不用 emoji 當最終美術。
+完成後測試主要流程與電腦、手機畫面，再用 Windows 開啟給我看。</pre></div></section><section id="g5" class="group"><h2 class="group-title">🎯 三款課堂示範</h2><p class="toc-intro">三款示範完成後，才接大冒險地圖。打怪 RPG 使用前面已確認的題庫。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 34 頁</div><div class="prompt-title">示範一：朝代配對</div></div><button class="copybtn" data-target="pc-p-demo1">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo1">在「我的小遊戲」專案建立「示範1_朝代配對/index.html」，做給國中生玩的「古今對對碰」。
+
+左側是秦、漢、唐、宋、明、清；每朝準備 2～3 個正確的代表事件，右側事件卡隨機排列。把事件拖到朝代：答對鎖定並蓋紅章，答錯提示並退回；全配對後顯示過關，可重新開始。
+
+用繪圖模型製作彩鉛淡水彩的古代中國地圖背景、六朝插圖與標題牌；事件卡像小卷軸。圖片放在這個遊戲的 assets/images 並實際套用，整套畫風一致；繁體中文字清楚、正確。
+
+測試電腦與手機拖曳，再用 Windows 直接開啟「示範1_朝代配對/index.html」。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 35 頁</div><div class="prompt-title">示範二：成語填字</div></div><button class="copybtn" data-target="pc-p-demo2">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo2">在「我的小遊戲」專案建立「示範2_成語填字/index.html」，做給國中生玩的「成語填字」。
+
+準備 10 個常見成語，每題挖空兩字，搭配隨機排列的正解與干擾字卡。拖字填空：答對鎖定並蓋紅章，答錯提示並退回；填完顯示完整成語與解釋。每次抽 5 題，結束顯示成績，可重新開始。
+
+用繪圖模型製作彩鉛淡水彩的古代書齋背景、文房四寶、卷軸、印章與標題牌。字卡像手寫紙片、空格像米字格；圖片放在這個遊戲的 assets/images 並實際套用，畫風一致，繁體中文正確。
+
+測試電腦與手機拖曳，再用 Windows 直接開啟「示範2_成語填字/index.html」。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 38 頁</div><div class="prompt-title">示範三：打怪 RPG</div></div><button class="copybtn" data-target="pc-p-demo3">📋 複製</button></div><pre class="prompt-body" id="pc-p-demo3">在「我的小遊戲」專案建立「示範3_打怪RPG/index.html」，用剛才確認的題庫做國中生的「勇者試煉」。至少 20 題四選一；若來源未提供、題數不足或答案不明，先告訴我，不要自行補題。
+
+玩家是 100 HP 的魔法師，依序挑戰野狼、毒蠍、惡鬼、巨龍、魔王。答對攻擊並賺金幣，答錯扣血並顯示正解；每關後可到商店買回血藥水、攻擊水晶、復活符。五關後顯示成績，失敗可重試。
+
+用繪圖模型先定角色設定，再做同套彩鉛奇幻風的魔法師、五隻怪物、森林、木造商店、三種道具與標題牌，可愛不血腥。
+素材存入這個遊戲的 assets：去背角色放 characters、場景放 backgrounds、道具放 items，並實際套用；題目與數值保留可編輯文字，繁體中文正確。
+
+測試電腦與手機操作，再用 Windows 直接開啟「示範3_打怪RPG/index.html」。</pre></div></section><section id="g6" class="group"><h2 class="group-title">💭 請 AI 幫你整理提示詞</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 41 頁</div><div class="prompt-title">請 AI 先整理遊戲提示詞</div></div><button class="copybtn" data-target="pc-p-ai-write-prompt">📋 複製</button></div><pre class="prompt-body" id="pc-p-ai-write-prompt">我是國小英文老師，想做「單字冒險挑戰」，讓學生反覆練習容易忘記的單字。
+題庫在目前專案的「［題庫檔名］」。請幫我寫一段簡短、可直接製作的提示詞，說清楚玩法、畫風與完成標準；先讓我看提示詞。</pre></div></section><section id="g7" class="group"><h2 class="group-title">🗺 進階：大冒險地圖</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 56 頁</div><div class="prompt-title">串接大冒險地圖</div></div><button class="copybtn" data-target="pc-p-adventure-map">📋 複製</button></div><pre class="prompt-body" id="pc-p-adventure-map">在「我的小遊戲」專案建立「大冒險地圖/index.html」，串起同層的三款遊戲：
+- 示範1_朝代配對/index.html → 朝代之印
+- 示範2_成語填字/index.html → 成語之印
+- 示範3_打怪RPG/index.html → 勇者之印
+
+地圖顯示關卡名稱、完成狀態、持有 X／3 印與「清除進度」，三款遊戲都加「回到大地圖」。先檢查各遊戲的通關紀錄，缺少就補上；只有真的過關才給印，返回或重新整理仍保留進度。
+
+「通關大門」隨時可開：上方有朝代、成語、勇者三個凹槽，下方是持有的印章。拖對鎖定變綠，拖錯提示並退回；三印全放對才通關。通關顯示從冒險開始計算的總時間與「再次冒險」。清除或重玩只重設本冒險的進度、計時與封面紀錄。
+
+入口用單一 HTML，不依賴外部套件；沿用現有美術。測試電腦與手機拖曳、三關往返與跨頁存檔。用同一個本機網站預覽整套作品，再用 Windows 在外部瀏覽器開啟地圖。</pre></div></section><section id="g8" class="group"><h2 class="group-title">🎨 地圖、封面與五幕結局</h2><p class="toc-intro">依序完成地圖美術、封面、結局規劃；確認規劃後，才貼「製作結局」。新版前兩段已包含圖片套用，不需要再貼舊版整合指令。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 57 頁</div><div class="prompt-title">升級地圖美術</div></div><button class="copybtn" data-target="pc-p-map-art-a">📋 複製</button></div><pre class="prompt-body" id="pc-p-map-art-a">在「我的小遊戲」專案修改「大冒險地圖/index.html」，升級地圖美術，保留原有玩法。
+
+用繪圖模型畫橫式 16:9 地圖，風格為［填入一種風格，例如：彩鉛水彩繪本］，存成「大冒險地圖/map-bg.png」。
+四周放朝代配對、成語填字、打怪 RPG 三個地標，中央是三印大門；地標以符合畫風的路線連接，各取合適地名並畫上繁體中文名牌。
+
+底圖完整顯示、不裁切。依圖片名牌位置設定可點區域與滑過亮起效果，連到原有三關和大門；不要重疊兩套按鈕。完成標記不遮字，右上角只留一組持有印章數與清除進度。
+
+確認手機縮放後仍點得到正確地點，原有背包拖印、開門、通關與重玩都正常，再用 Windows 在外部瀏覽器開啟本機地圖。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 58 頁</div><div class="prompt-title">製作遊戲封面</div></div><button class="copybtn" data-target="pc-p-game-cover">📋 複製</button></div><pre class="prompt-body" id="pc-p-game-cover">在「我的小遊戲」專案修改「大冒險地圖/index.html」，加入開場封面。
+用繪圖模型沿用 map-bg.png 的畫風，畫橫式 16:9、具英雄輪廓與神秘冒險感的封面，存成「大冒險地圖/cover.png」。取一個符合世界觀的故事名稱，畫在中央，副標是「點擊任何部位遊戲開始」；檢查繁體中文字，不更改資料夾名稱。
+
+首次開啟或重新整理時全螢幕顯示封面，點擊任意位置淡出到地圖；從關卡返回時直接回地圖。「再次冒險」只重設本冒險的紀錄並重播封面，保留既有玩法。
+
+測試電腦與手機的封面、闖關、返回與重玩，再用 Windows 在外部瀏覽器開啟本機地圖。</pre></div><span id="pc-p-cover-integrate"></span><span id="pc-p-ending-meta"></span><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 59 頁</div><div class="prompt-title">先規劃五幕結局</div></div><button class="copybtn" data-target="pc-p-ending-plan">📋 複製</button></div><pre class="prompt-body" id="pc-p-ending-plan">閱讀「我的小遊戲」中的大冒險地圖與三款遊戲，規劃三印開門後的五幕結局。
+先只交規劃表，不改程式、不生圖、不建素材，等我確認再做。
+
+表格列出每幕的劇情作用、畫面與構圖、角色動作表情、旁白／對白、檔名。故事要承接通關、有起承轉合；沿用角色與畫風，沒有時再建議手繪風格。
+固定五張 16:9 圖，預定存為「大冒險地圖/ending-01.png」～「ending-05.png」。繁體中文簡短、有韻味、不說教；要畫進圖片的文字請逐字列出。
+
+表格後用一句話摘要結局，簡述五幕如何串連，以及角色、服裝、道具、線條、材質、配色的一致設定。確認後請用繪圖模型製作並接上結局。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 60 頁</div><div class="prompt-title">確認規劃後製作結局</div></div><button class="copybtn" data-target="pc-p-ending-build">📋 複製</button></div><pre class="prompt-body" id="pc-p-ending-build">規劃沒問題，請製作五張圖並接上大冒險地圖的結局，測試後開啟給我看。</pre></div></section><section id="g8b" class="group"><h2 class="group-title">🎰 轉蛋／獎勵設計</h2><p class="toc-intro">這段用來升級既有轉蛋機。先備妥「我的小遊戲／轉蛋機／index.html」，再準備圖片並套入；三款課堂示範不會自動變成轉蛋機。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎰 章節 8 · 美編 · 轉蛋小撇步</div><div class="prompt-title">學生完成任務 → 給他抽轉蛋 🎰</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.95em;line-height:1.75;white-space:normal;overflow:visible">就像 ATM 結束跳出來的轉蛋——學生只玩 1 分鐘也會 <b style="color:var(--gold-2)">印象深刻</b> ✨<br><br><b style="color:var(--accent)">① 禮物不用貴重</b>　重點是「驚喜」、意料之外<br><b style="color:var(--accent)">② 等級 = 稀有，不是貴</b>　傳說禮物可以只是「一句個人化稱讚」<br><b style="color:var(--accent)">③ 感覺勝過實物</b>　大多數人要的是「<b style="color:var(--gold-2)">抽到稀有</b>」的感覺</div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">🎨 延伸練習 · 兩步升級</div><div class="prompt-title">兩步完成：製作素材，再套入遊戲</div></div></div><div class="prompt-body" style="background:transparent;color:#e8ddb5;font-family:inherit;font-size:.95em;line-height:1.8;white-space:normal;overflow:visible"><b style="color:var(--gold-2)">1️⃣ 製作圖片</b>：請 AI 依下方規格生圖並存入轉蛋機的 images 資料夾。<br><b style="color:var(--gold-2)">2️⃣ 套入遊戲</b>：確認八張圖片齊全後，請 AI 更新既有轉蛋機。<br><br><span style="color:#fca5a5">💡 若目前 AI 已能生圖，可接著請它依規格製作八張獨立圖片，存到「轉蛋機/images」。不能生圖時，再把提示詞交給繪圖工具。</span></div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 章節 8 · 美編 · Step 1</div><div class="prompt-title">Step 1：製作轉蛋機的八張素材</div></div><button class="copybtn" data-target="pc-p-gacha-step1">📋 複製</button></div><pre class="prompt-body" id="pc-p-gacha-step1">我要升級桌面「我的小遊戲/轉蛋機/index.html」的既有轉蛋遊戲，請用繪圖模型製作以下八張素材，先不改程式。若還沒有這款遊戲，先告訴我需準備既有轉蛋機作品。
+八張圖都用一致的暖色、Q 版扁平插畫風，獨立透明背景 PNG，存入「轉蛋機/images」：
+1. machine.png：正面復古橘色機台，透明圓頂裝滿膠囊、木質機身、金屬把手與投幣孔。
+2. capsules.png：紅橘黃綠藍紫六顆膠囊橫排，透明上半、彩色下半，6:1。
+3. prize-n.png：白色禮物盒、米色蝴蝶結，標示 N。
+4. prize-r.png：綠色禮物盒、金色蝴蝶結，標示 R。
+5. prize-sr.png：藍色禮物盒、金色蝴蝶結與寶石，標示 SR。
+6. prize-ssr.png：紫色禮物盒、金色蝴蝶結與星光，標示 SSR。
+7. prize-ur.png：金色禮物盒、桂冠、王冠與金光，標示 UR。
+8. sparkle.png：金色彩帶、星星與慶祝光芒，供 SSR／UR 中獎使用。
+五個禮物盒保持同款造型。檢查檔名、透明背景與盒身文字；目前無法生圖時，再提供可交給繪圖工具的八段提示詞。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📁 延伸練習 · Step 2 · 範例素材</div><div class="prompt-title">畫好的 8 張圖長這樣（範例）</div></div></div><div class="prompt-body" style="background:rgba(247,241,222,.95);padding:1em;display:grid;grid-template-columns:repeat(4,1fr);gap:.6em;white-space:normal;overflow:visible"><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/machine.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>機台</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/capsules.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>6 色膠囊</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/sparkle.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>慶祝特效</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-n.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>N 普通</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-r.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>R 不錯</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-sr.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SR 稀有</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-ssr.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>SSR 史詩</b></p></div><div style="text-align:center"><img src="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/%E7%A4%BA%E7%AF%84%E4%BD%9C%E5%93%81/%E8%BD%89%E8%9B%8B%E6%A9%9F_%E5%AE%8C%E6%88%90%E7%89%88/images/prize-ur.png" style="width:100%;max-height:80px;object-fit:contain"><p style="margin:.2em 0;color:#3b3424;font-size:.75em"><b>UR 傳說</b></p></div></div></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">📝 延伸練習 · Step 2</div><div class="prompt-title">Step 2：確認素材後，升級轉蛋機網頁</div></div><button class="copybtn" data-target="pc-p-gacha-step3">📋 複製</button></div><pre class="prompt-body" id="pc-p-gacha-step3">請修改桌面「我的小遊戲/轉蛋機/index.html」的既有轉蛋遊戲；若遊戲或素材缺少，先列出缺項。
+八張透明 PNG 已放在「轉蛋機/images」：machine.png 是機台；capsules.png 是橫排六色膠囊；prize-n.png、prize-r.png、prize-sr.png、prize-ssr.png、prize-ur.png 是五級禮物；sparkle.png 用於 SSR／UR 慶祝。
+將圖片實際套入機台、膠囊、獎品與特效，不用 emoji 當最終美術。保留抽獎規則、機率與動畫，確認透明背景及各稀有度顯示正確，測試電腦與手機，再用 Windows 開啟作品。</pre></div></section><section id="g9" class="group"><h2 class="group-title">🚀 GitHub 與 Sites</h2><p class="toc-intro">唯讀查問題和發布作品是不同任務。GitHub Pages 與 Sites 發布方式擇一，按自己的分享需求使用。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 64 頁</div><div class="prompt-title">GitHub 外掛：唯讀整理問題</div></div><button class="copybtn" data-target="pc-p-github-plugin-simple">📋 複製</button></div><pre class="prompt-body" id="pc-p-github-plugin-simple">請用 GitHub 外掛查看［Repository 網址］，整理最近需要我處理的問題，先不要修改或留言。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 65 頁</div><div class="prompt-title">發佈至 GitHub Pages</div></div><button class="copybtn" data-target="pc-p-github">📋 複製</button></div><pre class="prompt-body" id="pc-p-github">先檢查 GitHub CLI 登入與權限，不可用就告訴我。
+確認可用後，把「我的小遊戲」內的大冒險地圖、三款遊戲及必要素材一起發佈到新的公開 Repository「［英文小寫名稱］」，啟用 GitHub Pages，以大冒險地圖為首頁。
+保留四個資料夾的相對連結，只上傳作品必要且可公開的檔案，排除密碼、API key 與個資。
+測試首頁、圖片、三關往返、憑證與結局，再給我公開網址。</pre></div><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 66 頁</div><div class="prompt-title">用 Sites 部署並驗收</div></div><button class="copybtn" data-target="pc-p-sites-deploy">📋 複製</button></div><pre class="prompt-body" id="pc-p-sites-deploy">用 Sites 部署「我的小遊戲」中的大冒險地圖、三款遊戲及必要素材，以地圖為首頁，保留四個資料夾的相對連結。
+先檢查相容性並完成必要調整，只上傳作品必要且可公開的檔案，排除個資與機密。
+先設為只有我能存取，測試首頁、圖片、三關往返、憑證與結局後給我網址；等我驗收確認，才開放分享。</pre></div></section><section id="g9b" class="group"><h2 class="group-title">🌐 其他部署方式</h2><p class="toc-intro">也可指定 Netlify、Vercel、Cloudflare Pages 或 Surge。請 AI 依網站需求確認相容性、當前方案與費用，再發布；不要把整個工作資料夾直接公開。</p><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">小禮包 · 延伸練習</div><div class="prompt-title">部署到指定平台</div></div><button class="copybtn" data-target="pc-p-deploy">📋 複製</button></div><pre class="prompt-body" id="pc-p-deploy">請將「［作品資料夾］」部署到［Netlify／Vercel／Surge／Cloudflare Pages，擇一］，未指定時使用 Netlify。
+先檢查網站入口、必要檔案與登入權限；需要我登入或授權時，清楚告訴我下一步。只上傳作品所需且可公開的內容，排除密碼、API key、個資、作業與正式成績。
+保留必要的子資料夾和相對連結，部署後測試首頁、圖片與主要互動，再給我可使用的公開網址。</pre></div></section><section id="g10" class="group"><h2 class="group-title">✅ 工作交接與成品驗收</h2><div class="prompt-card"><div class="prompt-head"><div><div class="prompt-tag">Codex 講義 · 第 81 頁</div><div class="prompt-title">工作交接與成品驗收</div></div><button class="copybtn" data-target="pc-p-handoff">📋 複製</button></div><pre class="prompt-body" id="pc-p-handoff">請整理本次交接：完成內容、成品位置與修改檔案、未完成事項與風險、下一步。
+最後用 Windows 直接開啟成品給我驗收。</pre></div></section>
 </div><!-- /#tab1 -->
 
 <div class="tab-pane" id="tab2">
@@ -1287,7 +887,7 @@ CSV 格式：第一列是表頭「題目,A,B,C,D」，A 欄是正解、B/C/D 是
       </div>
       <button class="copybtn" data-target="firebase-one-line-prompt">📋 複製提示詞</button>
     </div>
-    <pre class="backend-auto-prompt" id="firebase-one-line-prompt">請先檢查目前資料夾裡的網頁遊戲，再直接幫我設定成 Firebase「全班共用的公開娛樂排行榜」：使用 Firestore 正式模式與匿名登入，只儲存公開暱稱、分數、挑戰次數、建立時間和 UID，建立限制欄位與權限的 Security Rules，確認未登入不能寫入、登入者只能新增自己的資料且不能更新或刪除，完成程式串接與測試後打開網頁給我確認；若遇到 Firebase 登入、建立專案或必須由我親自按下的畫面，再停下來用一句話告訴我該按哪裡。</pre>
+    <pre class="backend-auto-prompt" id="firebase-one-line-prompt">檢查目前專案的網頁遊戲，接上 Firebase 公開娛樂排行榜：使用 Firestore 正式模式與匿名登入，只存 nickname、score、attempts、createdAt、uid；nickname 只用公開暱稱，uid 必須等於登入者。排行榜可公開讀取，只准玩家新增自己的資料，不准從前端更新或刪除；驗證欄位、型別、暱稱長度及合理數值。不要收集真名、班級、座號、Email、作業或正式成績；若需要這些資料，另做具身分與權限驗證的私人功能。完成程式與 Security Rules，測試未登入、匿名新增、非法欄位、冒用 uid、更新及刪除，再開啟作品；需要我親自登入或授權時，告訴我下一步。</pre>
     <p class="backend-auto-note">貼上後先讓 Codex 執行；只有登入、帳號授權或必要確認畫面需要你親自操作。</p>
   </section>
 </section>
@@ -1428,18 +1028,11 @@ Analytics 是用來分析使用者行為的工具，課程教學用不到，關�
   <li>測試三件事：未登入不能寫入、匿名玩家能新增自己的分數、玩家不能更新或刪除資料。</li>
 </ol>
 <div class="warn">⚠️ 沒有一段能通吃所有作品的「萬用規則」。設定時只留公開暱稱、分數、挑戰次數與 UID；不要收集真名、班級、座號、Email、作業或成績。</div>
-<div class="rule-code"><div class="rule-head"><span>📋 交給 Codex 的安全設定提示詞</span><button class="copybtn" data-target="firebase-security-prompt">📋 複製</button></div><pre id="firebase-security-prompt">我的網頁遊戲要用 Firestore 做「公開娛樂排行榜」。
-請先幫我啟用匿名登入，再把排行榜接進程式。
-
-資料只允許有：nickname、score、attempts、createdAt、uid。
-nickname 是公開暱稱，不可放真名、班級、座號、Email、作業內容或正式成績。
-請寫出符合這些欄位的 Firestore Security Rules：
-1. 排行榜可以公開讀取。
-2. 只有已登入（含匿名登入）的玩家能新增自己的資料。
-3. 玩家不可從前端更新或刪除資料。
-4. 限制欄位、型別、分數範圍與暱稱長度。
-5. 不要給任何人可任意讀寫整個資料庫的規則。
-最後告訴我如何測試未登入、匿名新增、更新與刪除四種情況。</pre></div>
+<div class="rule-code"><div class="rule-head"><span>📋 交給 Codex 的安全設定提示詞</span><button class="copybtn" data-target="firebase-security-prompt">📋 複製</button></div><pre id="firebase-security-prompt">為目前遊戲的 Firestore 公開娛樂排行榜啟用匿名登入、串接程式並設定 Security Rules。
+只允許 nickname、score、attempts、createdAt、uid；驗證欄位與型別、暱稱長度、合理分數範圍及非負整數挑戰次數。新增資料的 uid 必須等於登入者 UID。
+排行榜可公開讀取；未登入不能寫入，登入者只能新增自己的資料，不能從前端更新或刪除。其他資料預設拒絕存取，不要開放整個資料庫。
+只用公開暱稱，不收真名、班級、座號、Email、作業內容或正式成績；這些資料只能放在另有身分與權限驗證的私人功能。
+測試公開讀取、未登入寫入、匿名新增、冒用 uid、非法欄位或數值、更新與刪除，回報結果及必要修正。</pre></div>
 </div></div></div><div class="fb-step"><div class="fb-head"><span class="fb-code">Step 4.1</span><span class="fb-title">回到專案首頁，點「+ 新增應用程式」</span></div><div class="fb-body-grid"><div class="fb-text">
 <p><b>📋 操作步驟</b></p>
 <ol>
@@ -1543,7 +1136,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
       <div class="gift-section-title">⚠️ 注意事項</div>
       <div class="gift-note">
         <ol>
-          <li>此提示詞<b>只能給 Codex (GPT) 使用</b>。<br>Claude 無法畫圖、Gemini 目前的畫圖能力與程式算力不足。</li>
+          <li>請使用<b>具備程式與繪圖工具的 AI</b>。<br>若目前工具不能生圖，可依下方替代流程先準備圖片，再完成程式。</li>
           <li>做出來的程式會需要<b>測試微調</b>，可以自己跟 AI 溝通慢慢調整。</li>
           <li>提示詞<b>沒有做手機優化</b>，只適合平板跟電腦。<br>可以做出來後請 AI 幫你做手機優化。<br><span style="display:block;margin-top:.4em;color:var(--gold-2);font-style:italic;text-align:center">「AI 並不會一次做到好，必須有耐心與他微調。」</span></li>
         </ol>
@@ -1560,7 +1153,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
 
       <div class="gift-section-title">🎨 替代玩法 · 沒 Codex 或想省額度</div>
       <div class="gift-alt">
-        <p>這份任務把<b>繪圖 + 程式</b>都包在同一份指令裡，<b>只適合 Codex</b>，而且會比較燒額度。如果你沒有 Codex 或想省一點，可以用「<b>圖文分離</b>」做：</p>
+        <p>這份任務包含<b>繪圖與程式</b>。若目前使用的 AI 工具無法同時完成兩者，可以用「<b>圖文分離</b>」流程：先準備圖片，再製作程式。</p>
         <ol>
           <li><b>請 AI 只列出繪圖提示詞</b><br>
               丟給你的 AI（Claude / Gemini 都可以）：「請閱讀 <code>任務.docx</code>，<b>只把所有要畫的圖片提示詞單獨列出來給我</b>，先不要執行任何程式。」</li>
@@ -1569,7 +1162,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
           <li><b>圖檔放回資料夾，請 AI 接著跑程式</b><br>
               依命名放進專案的 <code>assets/</code> 資料夾，然後告訴 AI：「<b>圖檔我已放進 assets/，請檢查檔名是否齊全，接著執行任務.docx 剩下的程式部分</b>」。</li>
         </ol>
-        <p style="color:var(--muted);font-size:.92em">💡 把繪圖外包給網頁版 GPT，<b>程式部分用 Claude / Gemini 跑就便宜很多</b>。</p>
+        <p style="color:var(--muted);font-size:.92em">💡 圖片可以由另一個繪圖工具製作；接著交給程式 AI，沿用任務指定的檔名與資料夾。</p>
       </div>
 
       <div style="display:flex;flex-wrap:wrap;gap:.6em;margin-top:.4em">
@@ -1577,7 +1170,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
           <span class="icon">📥</span>
           <span>下載「任務.docx」<br><span style="font-size:.85em;opacity:.85">前篇</span></span>
         </a>
-        <a class="download-btn" href="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/assets/%E6%A1%83%E8%8A%B1%E6%BA%90%E8%A8%98/%E4%BB%BB%E5%8B%99_%E5%BE%8C%E7%AF%87.docx" download="桃花源記後篇任務單・桃花村施工.docx" style="flex:1 1 240px">
+        <a class="download-btn" href="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/assets/%E6%A1%83%E8%8A%B1%E6%BA%90%E8%A8%98/%E4%BB%BB%E5%8B%99_%E5%BE%8C%E7%AF%87.docx" download="任務_後篇.docx" style="flex:1 1 240px">
           <span class="icon">📥</span>
           <span>下載「任務_後篇.docx」<br><span style="font-size:.85em;opacity:.85">後篇 · 桃花村施工</span></span>
         </a>
@@ -1614,7 +1207,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
       <div class="gift-section-title">⚠️ 注意事項</div>
       <div class="gift-note">
         <ol>
-          <li>此提示詞為 <b>Codex (GPT) 限定</b>。<br>如果使用 <b>Claude</b>，畫圖能力不足，<b>圖片需要另外用別的 AI 繪製</b>（例如 GPT / Midjourney / Gemini）再放進 <code>assets/</code> 資料夾。</li>
+          <li>請使用<b>具備程式與繪圖工具的 AI</b>；若目前工具不能生圖，先用繪圖工具製作，依任務指定名稱放進 <code>assets/</code>。</li>
           <li>做出來的程式會需要<b>測試微調</b>，可以自己跟 AI 溝通慢慢調整。</li>
           <li>提示詞<b>沒有做手機優化</b>，只適合平板跟電腦。<br>可以做出來後請 AI 幫你做手機優化。<br><span style="display:block;margin-top:.4em;color:var(--gold-2);font-style:italic;text-align:center">「AI 並不會一次做到好，必須有耐心與他微調。」</span></li>
         </ol>
@@ -1631,16 +1224,16 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
 
       <div class="gift-section-title">🎨 替代玩法 · 沒 Codex 或想省額度</div>
       <div class="gift-alt">
-        <p>這份任務把<b>繪圖 + 程式</b>都包在同一份指令裡，<b>只適合 Codex</b>，而且會比較燒額度。如果你沒有 Codex 或想省一點，可以用「<b>圖文分離</b>」做：</p>
+        <p>這份任務包含<b>繪圖與程式</b>。若目前使用的 AI 工具無法同時完成兩者，可以用「<b>圖文分離</b>」流程：先準備圖片，再製作程式。</p>
         <ol>
           <li><b>請 AI 只列出繪圖提示詞</b><br>
               丟給你的 AI（Claude / Gemini 都可以）：「請閱讀 <code>鴻門宴_任務.md</code>，<b>只把所有要畫的圖片提示詞單獨列出來給我</b>，先不要執行任何程式。」</li>
           <li><b>把提示詞貼到網頁版 GPT 自己畫</b><br>
               一張張貼到 <a href="https://chatgpt.com" target="_blank" rel="noopener">網頁版 ChatGPT</a> 或 <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>，請它幫你畫圖、下載下來。</li>
           <li><b>圖檔放回資料夾，請 AI 接著跑程式</b><br>
-              依命名放進專案的 <code>assets/</code> 資料夾，然後告訴 AI：「<b>圖檔我已放進 assets/，請檢查檔名是否齊全，接著執行任務.md 剩下的程式部分</b>」。</li>
+              依命名放進專案的 <code>assets/</code> 資料夾，然後告訴 AI：「<b>圖檔我已放進 assets/，請檢查檔名是否齊全，接著執行鴻門宴_任務.md 剩下的程式部分</b>」。</li>
         </ol>
-        <p style="color:var(--muted);font-size:.92em">💡 把繪圖外包給網頁版 GPT，<b>程式部分用 Claude / Gemini 跑就便宜很多</b>。</p>
+        <p style="color:var(--muted);font-size:.92em">💡 圖片可以由另一個繪圖工具製作；接著交給程式 AI，沿用任務指定的檔名與資料夾。</p>
       </div>
 
       <a class="download-btn" href="https://raw.githubusercontent.com/YOYO700702ai/ai-accounting-course/main/assets/%E9%B4%BB%E9%96%80%E5%AE%B4/%E4%BB%BB%E5%8B%99.md" download="鴻門宴_任務.md">
@@ -1684,7 +1277,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
       <div class="gift-section-title">⚠️ 注意事項</div>
       <div class="gift-note">
         <ol>
-          <li>此提示詞為 <b>Codex (GPT) 限定</b>。<br>如果使用 <b>Claude / Gemini</b>，請走下方「替代玩法」把畫圖與程式分開做。</li>
+          <li>請使用<b>具備程式與繪圖工具的 AI</b>；若目前工具不能生圖，請依下方「替代玩法」分別準備圖片與程式。</li>
           <li>做出來的程式會需要<b>測試微調</b>，可以自己跟 AI 溝通慢慢調整。</li>
           <li>線上試玩版已做<b>手機、平板與電腦的等比縮放</b>；若你用任務包自行重製，仍要請 AI 實機測試文字、按鈕與橫向畫面。</li>
         </ol>
@@ -1693,7 +1286,7 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
       <div class="gift-section-title">📥 下載後的使用步驟</div>
       <div class="gift-steps">
         <ol>
-          <li>下載 <code>任務.md</code>，放進你的燭之武專案資料夾</li>
+          <li>下載 <code>燭之武退秦師_任務.md</code>，放進你的燭之武專案資料夾</li>
           <li>開啟 <b>Codex（或 Antigravity）</b>，打開上面的專案資料夾</li>
           <li>請 AI <b>閱讀並執行</b>資料夾裡面的「任務」</li>
         </ol>
@@ -1701,16 +1294,16 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
 
       <div class="gift-section-title">🎨 替代玩法 · 沒 Codex 或想省額度</div>
       <div class="gift-alt">
-        <p>這份任務把<b>繪圖 + 程式</b>都包在同一份指令裡，<b>只適合 Codex</b>，而且會比較燒額度。如果你沒有 Codex 或想省一點，可以用「<b>圖文分離</b>」做：</p>
+        <p>這份任務包含<b>繪圖與程式</b>。若目前使用的 AI 工具無法同時完成兩者，可以用「<b>圖文分離</b>」流程：先準備圖片，再製作程式。</p>
         <ol>
           <li><b>請 AI 只列出繪圖提示詞</b><br>
-              丟給你的 AI（Claude / Gemini 都可以）：「請閱讀 <code>任務.md</code>，<b>只把所有要畫的圖片提示詞單獨列出來給我</b>，先不要執行任何程式。」</li>
+              丟給你的 AI（Claude / Gemini 都可以）：「請閱讀 <code>燭之武退秦師_任務.md</code>，<b>只把所有要畫的圖片提示詞單獨列出來給我</b>，先不要執行任何程式。」</li>
           <li><b>把提示詞貼到網頁版 GPT 自己畫</b><br>
               一張張貼到 <a href="https://chatgpt.com" target="_blank" rel="noopener">網頁版 ChatGPT</a> 或 <a href="https://gemini.google.com" target="_blank" rel="noopener">Gemini</a>，請它幫你畫圖、下載下來。</li>
           <li><b>圖檔放回資料夾，請 AI 接著跑程式</b><br>
-              依命名放進專案的 <code>assets/</code> 資料夾，然後告訴 AI：「<b>圖檔我已放進 assets/，請檢查檔名是否齊全，接著執行任務.md 剩下的程式部分</b>」。</li>
+              依命名放進專案的 <code>assets/</code> 資料夾，然後告訴 AI：「<b>圖檔我已放進 assets/，請檢查檔名是否齊全，接著執行燭之武退秦師_任務.md 剩下的程式部分</b>」。</li>
         </ol>
-        <p style="color:var(--muted);font-size:.92em">💡 把繪圖外包給網頁版 GPT，<b>程式部分用 Claude / Gemini 跑就便宜很多</b>。</p>
+        <p style="color:var(--muted);font-size:.92em">💡 圖片可以由另一個繪圖工具製作；接著交給程式 AI，沿用任務指定的檔名與資料夾。</p>
       </div>
 
       <a class="download-btn" href="assets/燭之武退秦師/任務.md" download="燭之武退秦師_任務.md">
@@ -1775,7 +1368,9 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
   <h2 class="big-section-title">💬 安裝後，這樣跟 Codex 說</h2>
   <p>打開一個有課程資料的資料夾，開新任務，貼上這段即可：</p>
   <div class="skill-code">
-    <pre id="skill-start-prompt">請使用 $build-visual-web-ppt，把這個資料夾裡的課程資料做成以 index.html 為入口、含 assets/images 的圖文動態網頁簡報資料夾。請預設使用繁體中文，依內容選擇最適合的配色，重要概念用動態說明，需要的插圖直接使用繪圖模型製作。完成後請先做快速靜態檢查，再用本機網頁預覽並檢查桌面與手機畫面。</pre>
+    <pre id="skill-start-prompt">請使用 $build-visual-web-ppt，把目前資料夾的課程資料做成圖文動態網頁簡報，以 index.html 為入口，圖片放 assets/images。
+使用繁體中文，依內容選配色；用動畫解說重要概念，需要的插圖直接用繪圖模型製作並套用。
+完成後做靜態檢查，再以本機網站預覽，檢查桌面與手機畫面、翻頁與互動。</pre>
     <button class="copybtn" data-target="skill-start-prompt">📋 複製</button>
   </div>
   <div class="tip">✅ 確認安裝成功：在 Codex 輸入 <code>$build-visual-web-ppt</code>。若能選到「圖文動態網頁簡報」，就已經安裝成功。</div>

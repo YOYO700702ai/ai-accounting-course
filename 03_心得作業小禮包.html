@@ -688,6 +688,14 @@
     .tools-collage { min-height:190px; }
     .tool-points { grid-template-columns:1fr; }
   }
+
+/* Copy-first Skill handoff */
+#tab4 .install-steps{grid-template-columns:repeat(3,minmax(0,1fr))}
+.skill-copy-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:24px 0}
+.skill-copy-actions .copybtn{position:static;white-space:normal;font-size:1.05rem;padding:16px 20px}
+#skill-save-prompt{max-height:420px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word}
+.skill-text-download a{color:var(--gold-2)}
+@media(max-width:600px){#tab4 .install-steps{grid-template-columns:1fr}.skill-copy-actions .copybtn{width:100%}}
 </style>
 </head>
 <body>
@@ -1319,38 +1327,327 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
 
 <div class="tab-pane" id="tab4">
   <section class="skill-hero">
-    <div class="skill-kicker">CODEX STUDENT SKILL · 一百分遊戲教育</div>
-    <h2>把課程資料變成會動的圖文故事</h2>
-    <p>只要把上課資料、講義、筆記或簡單大綱交給 Codex，它會先整理故事線，再製作配色一致、圖文並茂、可用左右鍵播放的網頁 PPT。</p>
-    <span class="skill-badge">🎁 學員限定 · Windows 一鍵安裝包</span>
+    <div class="skill-kicker">可複製的 AI 工作說明書 · 一百分遊戲教育</div>
+    <h2>複製給 Agent，存成你的簡報 Skill</h2>
+    <p>Skill 的核心就是一份文字規則。這裡已把故事編排、美術與驗收規則整理成完整文字，讓你的 AI 幫你保存，下次就能再用。</p>
+    <span class="skill-badge">不用下載 ZIP、不用解壓縮、不用執行安裝程式</span>
   </section>
-
-  <div class="skill-req">
-    <strong>⚠️ 使用前請注意｜要拿到理想效果，請照下面設定</strong>
-    <ul>
-      <li>AI 工具限定使用 <b>Codex</b>（其他 AI 工具無法呼叫這個 Skill）</li>
-      <li>模型請選 <b>GPT-5.5 高</b>（不要用低階或其他模型）</li>
-    </ul>
-    <span class="why">為什麼：這個 Skill 需要模型有<b>穩定的繪圖能力</b>與<b>設計文字的技巧</b>，才能把課程內容做成配色一致、圖文並茂的網頁簡報。用其他模型或較低階版本會出現配色亂、文字歪、插圖不合主題等問題。</span>
-  </div>
-
-  <h2 class="big-section-title">⚡ 最簡單安裝 · 四步完成</h2>
+  <h2 class="big-section-title">三步完成：複製 → 貼給 Agent → 確認保存</h2>
   <div class="install-steps">
-    <article class="install-step"><span class="step-no">1</span><h3>下載安裝包</h3><p>按下方金色按鈕，下載 ZIP 到電腦。</p></article>
-    <article class="install-step"><span class="step-no">2</span><h3>解除封鎖＋解壓縮</h3><p>在 ZIP 上按右鍵 →「內容」→ 勾「<b>解除封鎖</b>」→ 確定，再按右鍵選「全部解壓縮」。不要直接在 ZIP 裡執行。</p></article>
-    <article class="install-step"><span class="step-no">3</span><h3>雙擊安裝</h3><p>雙擊 <code>install-web-ppt-skill.cmd</code>，看到 <b>Skill files copied successfully</b> 代表檔案已複製。</p></article>
-    <article class="install-step"><span class="step-no">4</span><h3>回 Codex 驗證</h3><p>若 Codex 原本已開著，先重新開啟；輸入 <code>$build-visual-web-ppt</code>，能選到「圖文動態網頁簡報」才算安裝完成。</p></article>
+    <article class="install-step"><span class="step-no">1</span><h3>複製完整內容</h3><p>按下方按鈕，一次複製「儲存指令＋完整技能文字」。</p></article>
+    <article class="install-step"><span class="step-no">2</span><h3>貼給自己的 Agent</h3><p>整段貼進對話送出，讓 Agent 幫你存成 Skill。</p></article>
+    <article class="install-step"><span class="step-no">3</span><h3>確認真的存好了</h3><p>讓 AI 回報檔案位置、讀回內容與呼叫方式。只回答「我記住了」不算完成。</p></article>
   </div>
+  <div class="skill-copy-actions"><button class="copybtn" data-target="skill-save-prompt">📋 複製儲存指令＋完整 Skill</button><span role="status" id="skill-copy-help">複製後，直接貼給你的 Agent。</span></div>
+  <details class="manual-install"><summary>查看這次會複製的完整文字（也可以手動全選複製）</summary><div class="manual-body"><pre class="prompt-body" id="skill-save-prompt">請把下方「技能內容開始」到「技能內容結束」之間的完整文字，存成「圖文動態網頁簡報」Skill，名稱為 build-visual-web-ppt。這次只儲存技能，不要開始製作簡報。
 
-  <div class="tip">🛡️ 雙擊時跳出藍色「<b>Windows 已保護您的電腦</b>」或「安全性警告」？這是 Windows 對網路下載檔案的正常提醒，不是中毒。點「<b>其他資訊</b>」→「<b>仍要執行</b>」（或按「執行」）就能繼續安裝。如果步驟 2 有先勾「解除封鎖」，通常就不會跳出這個畫面。</div>
+請依你目前使用的 Agent 所支援的技能格式與位置，建立 SKILL.md，保留名稱、用途和完整規則。若已有同名 Skill，先說明差異並問我是否更新，不要直接覆蓋。
 
-  <div class="skill-download">
-    <a class="download-btn" href="assets/skills/visual-web-ppt-skill-student-pack.zip" download="visual-web-ppt-skill-student-pack.zip">
-      <span class="icon">📥</span><span>下載「圖文動態網頁簡報 Skill」安裝包</span>
-    </a>
-    <div class="skill-download-note">本課程 Windows Codex Desktop 會安裝到 <code>%USERPROFILE%\.codex\skills\build-visual-web-ppt</code>。檔案複製後請回到 Codex 實際輸入 <code>$build-visual-web-ppt</code> 驗證。</div>
-  </div>
+完成後讀回檔案，確認內容完整，再告訴我儲存位置及下次怎麼呼叫；若需要重新開啟或開新任務才能載入，也一併告訴我。
 
+技能內容開始
+---
+name: build-visual-web-ppt
+description: 把簡單、零散或完整的上課資料整理成好看、吸引人、圖文並茂且可互動播放的單一入口網頁簡報資料夾。用於製作課程簡報、講座投影片、教學型網頁、成果分享或故事化教材；需要內容編排、視覺主題、動態說明、AI 繪圖、情境背景、原生圖像文字、漫畫對白或瀏覽器成品驗證時使用。
+---
+
+# 圖文動態網頁簡報
+
+## 目標
+
+把使用者提供的課程資料做成以 `index.html` 為單一入口、可直接播放的網頁簡報資料夾。先把內容說清楚，再用顏色、圖片、節奏與動態提高理解力。不要把講義逐段貼上投影片，也不要用特效掩飾沒有結構的內容。
+
+## 開工方式
+
+1. 讀完使用者提供的文字、文件、圖片與連結；列出主題、受眾、場合、時間、必留資料與可刪細節。
+2. 若資料很少，依現有內容補出合理的開場、例子、應用與收束，不要虛構專有數字、研究結論或使用者經歷。
+3. 除非答案會大幅改變成品，否則不要先問一串問題。可自行判斷時直接製作，並在交付時說明採用的定位。
+4. 建立獨立成品資料夾，至少包含 `index.html` 與 `assets/`；圖片集中放在 `assets/images/`，使用相對路徑。
+5. 這是自足的純文字版 Skill，不需要另下載模板或腳本。請依本文件自行建立 HTML、CSS 與 JavaScript，實作導航、進度、鍵盤、觸控、全螢幕與減少動態支援。
+
+## 預設語言
+
+- 預設用繁體中文（台灣用語）製作可見介面、標題、按鈕、圖說與講者備忘稿。
+- 使用者指定英文、雙語或其他語言時，同步調整文字、HTML 的 `lang` 屬性與閱讀方向。
+- 程式碼、檔名、指令與必要的產品專有名詞可保留原文；不要為了全中文而改壞可執行內容。
+
+## 先做故事線
+
+開始排版前，先在工作筆記中整理 6 個角色：
+
+- 鉤子：為什麼現在值得看。
+- 問題：學員卡在哪裡。
+- 關鍵：這堂課真正要帶走什麼。
+- 解法：用步驟、對照、示範或案例說明。
+- 轉變：學會前後有何差別。
+- 行動：下一步可以立刻做什麼。
+
+通常做 7–15 頁；材料少可做 5–8 頁，材料多則拆章。每頁只負責一個主要訊息，標題要能單獨說明該頁結論。更細的敘事與動態選擇見本文件後半段。
+
+## 視覺優先順序
+
+1. 先選定一套色彩情緒與一種插畫語言，再做全份簡報。
+2. 以「主色 60%、輔色 30%、強調色 10%」控制畫面；一頁通常只保留一個高彩度焦點。
+3. 封面與章節頁可使用完整情境背景；內容頁優先用留白、卡片、流程、對照與局部插圖。
+4. 使用者明確表示顏色最重要時，把配色一致、對比與閱讀性列為最高驗收條件。
+5. 圖片必須解釋概念、建立情境或推進故事。純裝飾圖片要少。
+6. 網頁文字可用 CSS 字體正常排版；「不要壓系統字體」專指不要把系統字體後製到圖片上。
+
+完整配色與版型判斷見本文件後半段。
+
+## 使用繪圖模型
+
+需要插圖、場景、圖解、封面背景、漫畫或原生設計字時，使用可用的圖片生成／編輯能力，不限定特定工具或模型名稱。若目前沒有繪圖能力，先說明並請使用者提供圖片或選擇可用的繪圖工具；不得假裝已生圖，也不要把佔位圖當成完成品。生成後把正式圖檔放進成品的 `assets/images/`，使用穩定且有順序的檔名，並在瀏覽器確認實際載入。
+
+每張圖先寫清楚：
+
+- 這張圖要解釋哪一件事。
+- 圖在頁面中的比例與裁切方向。
+- 主體、場景、鏡位、光線、色盤、畫風。
+- 必須出現與不得出現的元素。
+- 是否要讓繪圖模型直接畫入短標題或對白。
+
+### 圖中文字決策
+
+- 封面主標、章節短句、金句、招牌字：只有在美感明顯受益且文字短時，才讓繪圖模型把字體直接設計進圖裡。
+- 原生圖中文字以 2–10 個中文字最穩；漫畫對白盡量一個氣泡一句短話。
+- 步驟、數據、課程資訊、姓名、日期、網址與必須逐字正確的長句：保留為 HTML 文字，不要畫入圖片。
+- 若原生字有錯，重新生成或改用純圖搭配獨立的網頁文字區塊。
+- 禁止用 PIL、Canvas、SVG、HTML 截圖或任何系統字體在生成圖上補字，除非使用者明確要求後製排字。
+- 不要先生成空白圖，再把系統字體疊上去假裝是設計字。
+
+### 漫畫與對白
+
+- 用 1–3 格短漫畫呈現錯誤情境、人物轉變、學員常見疑問或抽象概念。
+- 保持角色外觀、色盤與線條一致。
+- 對白很短且容錯時，可讓繪圖模型原生畫入；對白很長或必須精準時，改成「漫畫圖＋旁邊的 HTML 對話卡」，不要把系統字硬壓在漫畫上。
+
+## 素材授權與隱私
+
+- 只使用自己製作、已取得授權、可依授權條款使用或由使用者明確提供可用的圖片、字型、音樂與其他素材；保留來源或授權資訊。
+- 不要直接上傳或嵌入可辨識的學生、家長、同事照片，以及姓名、聯絡方式、成績、健康／家庭資訊、帳號、定位、QR code 或其他個資。
+- 需要真人案例時，先確認本人或監護人已明確同意；不確定時改用去識別化素材、已授權素材或 AI 生成的示意角色。
+- 公開前逐張檢查圖片來源、人物同意與可識別資訊；不要把網路搜尋到的圖片視為自動可用。
+
+## 動態說明
+
+- 只讓動態負責「先後、因果、比較、拆解、聚焦」；沒有解釋功能就不要動。
+- 使用 `.fragment` 做逐步揭露，最多連續 4 個步驟。
+- 一次只讓一個焦點進場，動畫以 180–500ms 為主。
+- 保留 `prefers-reduced-motion`，不可讓使用者只能靠動畫取得資訊。
+- 不做自動播放、背景亂飄、持續閃爍或會干擾閱讀的循環動畫。
+
+## 版面選擇
+
+| 內容 | 優先版型 |
+|---|---|
+| 開場、章節、核心主張 | 情境背景＋短標題 |
+| 三個重點 | 三卡片或三段階梯 |
+| 前後差異、錯誤與正確 | 左右對照 |
+| 操作與因果 | 流程＋逐步揭露 |
+| 抽象概念 | AI 圖解＋一句解釋 |
+| 常見問題、人物轉變 | 漫畫或對話場景 |
+| 數據 | 大數字＋最少必要圖表 |
+| 收束 | 一句記憶點＋一個行動 |
+
+## 成品要求
+
+- 預設輸出單一入口的網頁簡報資料夾：從 `index.html` 開啟；圖片與其他素材用相對路徑放在 `assets/`，主要圖片放在 `assets/images/`。分享、搬移或部署時保留整個資料夾。
+- 支援左右鍵、空白鍵、點擊按鈕、觸控滑動、Home／End、全螢幕與頁碼。
+- 封面、內容頁與結尾的視覺語言一致。
+- 所有 `&lt;img&gt;` 都有正確 `alt`，重要文字不可只存在圖片裡。
+- 不依賴登入、CDN 或網路字型才能正常播放；若使用線上資源，要有合理的本地備援。
+- 不修改禮包中原有的 `簡報模板_講者版.html`、`簡報模板_閱讀版.html` 或其 CSS。
+
+## 驗證與交付
+
+1. 使用目前可用的工具檢查 HTML 結構、重複 ID、圖片與連結路徑，以及必要的導航控制。本純文字版沒有附驗證腳本，不要呼叫不存在的檔案。靜態檢查不能代替實際操作。
+2. 用本機 HTTP 預覽，不要只用 `file://`；依序檢查封面、圖最多的一頁、動態最多的一頁與結尾。
+3. 至少檢查 16:9 桌面尺寸與窄螢幕；確認沒有裁切、橫向捲軸、破圖、低對比或按鈕遮住文字。
+4. 實際按鍵測試下一頁、上一頁、逐步揭露、Home、End、全螢幕與觸控替代按鈕。
+5. 瀏覽器控制可用時，另外自動點擊前後頁與逐步揭露，並在桌機與手機尺寸各截圖至少一張；若某項無法驗證，要在交付時說明。
+6. 交付時列出成品入口、圖片資料夾、頁數、採用的視覺主題與已完成的靜態／瀏覽器驗證；若仍有暫用素材或未驗證項目，要明確指出。
+
+
+# 故事線與動態選擇
+
+## 目錄
+
+1. 從資料變成頁面
+2. 常用故事骨架
+3. 動態的解釋功能
+4. 內容密度
+5. 講者版與自讀版
+
+## 從資料變成頁面
+
+先做「訊息卡」，不要直接做版面。每張卡只寫：
+
+- 這頁的結論標題。
+- 學員看完要理解什麼。
+- 最適合的證據：例子、步驟、圖、對照或數字。
+- 是否需要動態；需要的原因。
+
+把可有可無的補充移到講者備忘稿、摺疊區或刪除。若標題只是「第一章」「功能介紹」「注意事項」，改成可獨立理解的結論句。
+
+## 常用故事骨架
+
+### 教學課
+
+1. 熟悉的痛點
+2. 今天會得到的改變
+3. 核心觀念
+4. 錯誤示範
+5. 正確做法
+6. 實際案例
+7. 動手練習
+8. 重點回收
+
+### 工具課
+
+1. 完成品先亮相
+2. 為什麼值得學
+3. 三個必要元件
+4. 逐步操作
+5. 常見卡關
+6. 前後成果對照
+7. 下一個可自行挑戰的任務
+
+### 觀念或研究課
+
+1. 反直覺問題
+2. 情境故事
+3. 現象或證據
+4. 核心機制
+5. 圖解拆解
+6. 真實應用
+7. 限制與誤用
+8. 可帶走的一句話
+
+## 動態的解釋功能
+
+| 要解釋的關係 | 動態做法 |
+|---|---|
+| 先後順序 | 逐步揭露流程節點 |
+| 因果 | 先原因，再顯示箭頭與結果 |
+| 比較 | 先基準，再切換差異項 |
+| 組成 | 從整體圖聚焦到 2–4 個局部 |
+| 決策 | 逐一出現條件，最後高亮選擇 |
+| 故事轉折 | 先情境，再角色反應，最後結論 |
+
+不用動畫的情況：整頁資訊需要同時比較、單純裝飾、讀者可能列印、動畫會讓內容變慢或引發暈動。
+
+## 內容密度
+
+- 封面：主標 1 句、副標 1 句、識別資訊最多 2 行。
+- 一般頁：標題 1 句、主要訊息 1 組、補充最多 2 組。
+- 卡片：每張卡 1 個小標＋1–3 行。
+- 流程：一頁 3–5 步；更多就拆頁。
+- 漫畫：一頁 1–3 格；每格只承擔一個動作或反應。
+- 背景圖上若已有原生設計字，網頁層不要重複同一句標題。
+
+## 講者版與自讀版
+
+有真人講解時，把完整口語內容放進 `&lt;aside class=&quot;notes&quot;&gt;`，畫面只留記憶點。自讀版要把原因、做法與圖說寫完整，不要假設旁邊有人補充。若使用者未指定，課程現場或講座預設講者版；要傳給別人自己看的教材預設自讀版。
+
+
+# 視覺、配色與 AI 圖像指引
+
+## 目錄
+
+1. 選色
+2. 選圖
+3. 圖像提示詞
+4. 原生設計字
+5. 漫畫對白
+6. 品質檢查
+
+## 選色
+
+先用內容情緒選一套，不要先挑喜歡的顏色再硬套：
+
+| 情緒 | 主色 | 輔色 | 強調色 | 適合內容 |
+|---|---|---|---|---|
+| 沉穩可信 | 深墨綠 `#173D35` | 米白 `#F4EEDC` | 暖金 `#D7A84A` | 專業課、方法論 |
+| 清楚科技 | 深海藍 `#102A43` | 霧藍 `#D9EAF2` | 珊瑚橘 `#FF7A59` | AI、工具、流程 |
+| 活潑故事 | 紫暮 `#2C2146` | 薰衣草 `#E8DDF5` | 杏橘 `#FFB66E` | 遊戲、創意、敘事 |
+| 溫暖手作 | 焦茶 `#4B2E24` | 紙米 `#F6E7CE` | 苔綠 `#718355` | 人文、生活、反思 |
+
+同一份簡報最多使用兩個高彩度強調色。深色背景配淺字，淺色卡片配深字；不要用淡灰小字放在彩色圖片上。背景圖上有文字時，使用漸層遮罩或留出天然負空間，不要把標題塞在複雜紋理上。
+
+## 選圖
+
+按說明價值排序：
+
+1. 核心機制圖解。
+2. 前後差異或錯誤／正確對照。
+3. 角色情境與故事轉折。
+4. 章節氛圍背景。
+5. 純裝飾。
+
+每 2–4 頁至少有一次視覺節奏變化，但不代表每頁都要大圖。圖與圖之間要維持同一畫風、光線、色盤與角色設定。
+
+## 圖像提示詞
+
+依固定順序寫，避免只寫「畫一張好看的圖」：
+
+```text
+用途與畫面比例：16:9 網頁簡報封面背景，主體偏右，左側保留乾淨負空間。
+場景：……
+主體與動作：……
+構圖與鏡位：……
+光線與情緒：……
+色盤：主色……、輔色……、強調色……
+畫風與材質：……
+文字：是否需要；若需要，逐字指定短句與位置。
+必須保留：……
+避免：浮水印、品牌標誌、雜亂背景、錯誤手指、無關文字、外框。
+```
+
+常用比例：
+
+- 封面與滿版場景：16:9。
+- 半頁插圖：4:5 或 3:4。
+- 橫向流程圖：2:1。
+- 三格漫畫：3:1 或三張一致的 4:5 單格圖。
+
+## 原生設計字
+
+適合交給繪圖模型：2–10 字的主標、章節字、單一金句、擬聲詞、短招牌。提示詞要逐字寫出內容、語言、位置、字體氣質、對比與「不要出現其他文字」。
+
+不適合交給繪圖模型：日期、網址、價格、姓名、課表、公式、數據、長段落、需要無誤的操作文字。這些使用 HTML 排版。
+
+若模型無法穩定畫對字：
+
+1. 先減少字數。
+2. 改成純圖，把精確文字放在圖片旁邊的獨立網頁區塊。
+3. 重新構圖，讓圖片本身傳達主題。
+4. 不准用系統字體回壓圖片當作預設補救。
+
+## 漫畫對白
+
+先寫故事節拍，再生圖：
+
+- 第 1 格：人物遇到具體問題。
+- 第 2 格：錯誤直覺或衝突加深。
+- 第 3 格：使用課程方法後產生可見轉變。
+
+每格 1 個動作、1 個表情、最多 1 個短對白。重要角色要固定服裝、髮型、年齡、配件與主色。對白可讓繪圖模型直接畫入，但要短；長對話改成漫畫旁的 HTML 對話卡，不疊在圖上。
+
+## 品質檢查
+
+- 色調是否和整份簡報一致。
+- 焦點是否一眼可辨。
+- 圖片是否真的幫助理解。
+- 人物、物件與因果是否正確。
+- 原生圖中文字是否逐字正確。
+- 是否有無關文字、浮水印、品牌或奇怪符號。
+- 裁切後主體與對白是否仍完整。
+- 手機窄畫面是否仍看得到重要部分。
+
+技能內容結束</pre></div></details>
+  <div class="tip"><strong>儲存位置交給 Agent 處理。</strong>你不需要找資料夾或操作終端機；貼上完整內容後，依 Agent 回報的方式呼叫技能即可。</div>
+  <p class="skill-text-download"><a href="assets/skills/build-visual-web-ppt-copy.txt" download="build-visual-web-ppt-SKILL.txt">另存純文字檔（選用）</a>：這份文字已含全部規則，不需要額外模板、腳本或安裝包。</p>
   <h2 class="big-section-title">✨ 這個 Skill 會替你做什麼</h2>
   <div class="skill-feature-grid">
     <article class="skill-feature"><span class="icon">🧭</span><h3>先整理故事線</h3><p>把零散資料變成開場、問題、解法、轉變與行動。</p></article>
@@ -1365,46 +1662,21 @@ npm 是給前端開發者裝套件用的，AI 幫你寫的網頁是「純 HTML�
   <div class="tip"><strong>📁 成品是一個資料夾：</strong>Skill 會建立「單一入口的網頁簡報資料夾」；從 <code>index.html</code> 開啟，插圖和背景放在 <code>assets/images/</code>。分享、上傳或部署時請整個資料夾一起保留。</div>
   <div class="tip"><strong>🛡️ 圖片與隱私：</strong>只使用自己創作、已取得授權或明確可用的素材。不要直接上傳可辨識的學生、家長或同事照片，以及姓名、聯絡方式、成績或其他個資；需要人物情境時，先取得同意，或改用去識別化／AI 生成示意圖。</div>
 
-  <h2 class="big-section-title">💬 安裝後，這樣跟 Codex 說</h2>
-  <p>打開一個有課程資料的資料夾，開新任務，貼上這段即可：</p>
-  <div class="skill-code">
-    <pre id="skill-start-prompt">請使用 $build-visual-web-ppt，把目前資料夾的課程資料做成圖文動態網頁簡報，以 index.html 為入口，圖片放 assets/images。
-使用繁體中文，依內容選配色；用動畫解說重要概念，需要的插圖直接用繪圖模型製作並套用。
-完成後做靜態檢查，再以本機網站預覽，檢查桌面與手機畫面、翻頁與互動。</pre>
-    <button class="copybtn" data-target="skill-start-prompt">📋 複製</button>
-  </div>
-  <div class="tip">✅ 確認安裝成功：在 Codex 輸入 <code>$build-visual-web-ppt</code>。若能選到「圖文動態網頁簡報」，就已經安裝成功。</div>
 
-  <div class="skill-req">
-    <strong>📌 使用與驗收提醒</strong>
-    <ul>
-      <li><b>一次不要做太多頁</b>：建議單次建立不要超過 <b>15 頁</b>。內容多的課程請分章節生產，一章做完確認滿意，再請它接著做下一章。</li>
-      <li><b>美術風格直接講、或貼圖給它看</b>：有喜歡的風格或配色，直接在指令裡說清楚（例如「粉彩水彩風、米白底」），或把參考圖貼給它照著做，成品會更接近你要的。</li>
-      <li><b>網頁版 PPT 不能像 PowerPoint 那樣手動改</b>：成品是網頁，沒辦法自己拖拉文字改版面。想改哪一頁、哪個字、哪張圖，就直接跟 AI 說，耐心來回溝通調整。</li>
-      <li><b>驗證器不等於成品保證</b>：它只做快速靜態檢查，不能確認動畫、左右鍵、版面、背景圖或離線播放。請一定用本機 HTTP 實際操作；可用瀏覽器自動點擊與截圖時，再多做一層驗收。</li>
-    </ul>
-  </div>
-
-  <h2 class="big-section-title">🖥️ 模板動態預覽</h2>
-  <p>點預覽裡的左右箭頭，或先點進預覽後使用鍵盤左右鍵。正式製作時，Codex 會依你的課程重做內容、配色與圖片。</p>
+  <h2 class="big-section-title">存好後，這樣請 AI 做簡報</h2>
+  <p>提供課程資料，貼上這段；若工具有自己的 Skill 選單，也可以依它剛才提供的方式選取：</p>
+  <div class="skill-code"><pre id="skill-start-prompt">請使用「圖文動態網頁簡報」Skill（build-visual-web-ppt），把我提供的課程資料做成網頁簡報。
+使用繁體中文，先整理故事線與配色；用動態解說重要概念，需要的插圖用繪圖模型製作並套用。
+成品以 index.html 為入口，圖片放 assets/images。先做不超過 15 頁，完成後檢查電腦與手機的畫面、翻頁及互動，再開啟給我看。
+如果你尚未載入這個 Skill，請先告訴我，不要假裝已使用。</pre><button class="copybtn" data-target="skill-start-prompt">📋 複製製作簡報指令</button></div>
+  <div class="tip"><strong>小提醒：</strong>喜歡的畫風可以直接描述或提供參考圖；內容多就分章製作。成品是網頁，想改文字、版面或圖片，直接告訴 AI 要改哪一頁。若目前 AI 無法繪圖或開啟成品，請它說明還需要哪些協助。</div>
+  <h2 class="big-section-title">🖥️ 成品效果參考</h2>
+  <p>點預覽裡的左右箭頭，或先點進預覽後使用鍵盤左右鍵。這是效果示範，不是必須下載的模板；你的 AI 會依技能文字與課程內容建立簡報。</p>
   <div class="skill-preview">
     <div class="skill-preview-head"><span>圖文動態網頁簡報 · 內建示範</span><a href="assets/skills/build-visual-web-ppt/assets/web-ppt-template.html" target="_blank" rel="noopener" style="color:var(--gold-2)">另開完整預覽 ↗</a></div>
     <iframe src="assets/skills/build-visual-web-ppt/assets/web-ppt-template.html" title="圖文動態網頁簡報模板預覽" loading="lazy"></iframe>
   </div>
 
-  <details class="manual-install">
-    <summary>🛠 雙擊安裝沒有反應？展開手動安裝備援</summary>
-    <div class="manual-body">
-      <p>先確認：雙擊時如果跳出藍色「Windows 已保護您的電腦」，點「其他資訊」→「仍要執行」通常就能裝好，不用手動安裝。真的不行再照下面做：</p>
-      <ol>
-        <li>打開解壓縮後的資料夾，找到 <code>build-visual-web-ppt</code>。</li>
-        <li>在檔案總管網址列輸入 <code>%USERPROFILE%\.codex\skills</code> 並按 Enter。</li>
-        <li>把整個 <code>build-visual-web-ppt</code> 資料夾複製進去。</li>
-        <li>重新開啟 Codex，再輸入 <code>$build-visual-web-ppt</code> 確認。</li>
-      </ol>
-      <p><b>本課程 Windows Codex Desktop 的安裝位置：</b><code>%USERPROFILE%\.codex\skills</code>。不同 Codex 版本的資料夾位置可能不同；最後一律以 <code>$build-visual-web-ppt</code> 能否在 Codex 中被選到為準。</p>
-    </div>
-  </details>
 </div><!-- /#tab4 -->
 
 <div class="tab-pane" id="tab5">
@@ -1569,7 +1841,7 @@ document.querySelectorAll('.copybtn').forEach(btn => {
     const targetId = btn.dataset.target;
     const el = document.getElementById(targetId);
     if (!el) return;
-    const text = el.innerText;
+    const text = el.tagName === 'PRE' ? el.textContent : el.innerText;
     try { await navigator.clipboard.writeText(text); }
     catch (e) {
       const ta = document.createElement('textarea');
